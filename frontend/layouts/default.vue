@@ -1,5 +1,5 @@
 <template>
-    <div class="page-transition">
+    <div class="page-transition layout-transition">
         <header></header>
 
         <slot></slot>

@@ -18,9 +18,7 @@ export const useAuthStore = defineStore('auth', {
         getAuthToken: (state) => state.authToken,
     },
     actions: {
-        async login({ email, password }: UserInterface) {
-            this.authenticated = true;
-
+        async login(email: string, password: string) {
             // !TODO: Implement login
 
             this.user = {
@@ -29,6 +27,8 @@ export const useAuthStore = defineStore('auth', {
                 phone: '+1234567890',
                 password,
             };
+
+            this.authenticated = true;
         },
         async register({ name, email, phone, password }: UserInterface) {
             // !TODO: Implement register
@@ -43,8 +43,6 @@ export const useAuthStore = defineStore('auth', {
             this.authenticated = true;
         },
         async logout() {
-            this.authenticated = false;
-
             // !TODO: Implement logout
 
             this.user = {
@@ -53,6 +51,8 @@ export const useAuthStore = defineStore('auth', {
                 phone: '',
                 password: '',
             };
+
+            this.authenticated = false;
         },
     },
 });

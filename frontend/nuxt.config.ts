@@ -26,6 +26,7 @@ export default defineNuxtConfig({
             ],
         },
         pageTransition: { name: 'page', mode: 'out-in' },
+        layoutTransition: { name: 'layout', mode: 'out-in' },
     },
     alias: {
         '@': fileURLToPath(new URL('./', import.meta.url)),
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
         public: {
             baseUrl: process.env.APP_URL || 'http://localhost:3000',
             appName: process.env.APP_NAME || 'PageCraft',
+            apiUrl: (process.env.API_URL || 'http://localhost:8080') + '/api',
         },
     },
     googleFonts: {

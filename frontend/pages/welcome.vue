@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen gap-6">
-        <img src="@img/logo.png" alt="" class="animate-glowing-pulse" />
+        <img src="@img/logo.png" :alt="appName" class="animate-glowing-pulse" />
         <span
             style="font-family: 'Merriweather'; font-weight: 700"
             class="text-4xl text-white"
