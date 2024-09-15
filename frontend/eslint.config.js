@@ -5,7 +5,7 @@ export default withNuxt({
     rules: {
         'vue/no-unused-vars': 'error',
         'vue/no-unused-components': 'error',
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-debugger': process.env.APP_ENV === 'production' ? 'error' : 'off',
         'vue/html-self-closing': [
             'warn',
             {

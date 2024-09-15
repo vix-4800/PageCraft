@@ -8,10 +8,15 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@vueuse/nuxt',
         '@nuxtjs/color-mode',
+        '@formkit/auto-animate',
+        '@nuxt/image',
+        '@nuxt/icon',
+        '@nuxt/fonts',
+        '@nuxtjs/google-fonts',
     ],
     app: {
         head: {
-            title: 'PageCraft',
+            title: process.env.APP_NAME || 'PageCraft',
             meta: [
                 {
                     name: 'viewport',
@@ -23,11 +28,26 @@ export default defineNuxtConfig({
     },
     alias: {
         '@': fileURLToPath(new URL('./', import.meta.url)),
+        '@img': fileURLToPath(new URL('./assets/img', import.meta.url)),
+        '@css': fileURLToPath(new URL('./assets/css', import.meta.url)),
     },
-    css: ['@/assets/css/app.css'],
+    css: ['@css/app.css'],
     colorMode: {
         preference: 'system',
         fallback: 'dark',
         storage: 'localStorage',
+    },
+    runtimeConfig: {
+        public: {
+            baseUrl: process.env.APP_URL || 'http://localhost:3000',
+            appName: process.env.APP_NAME || 'PageCraft',
+        },
+    },
+    googleFonts: {
+        families: {
+            Merriweather: {
+                wght: [400, 700],
+            },
+        },
     },
 });
