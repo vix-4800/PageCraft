@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     modules: [
         '@nuxt/eslint',
-        '@nuxtjs/tailwindcss',
         '@vueuse/nuxt',
         '@nuxtjs/color-mode',
         '@formkit/auto-animate',
@@ -14,6 +13,7 @@ export default defineNuxtConfig({
         '@nuxt/fonts',
         '@nuxtjs/google-fonts',
         '@pinia/nuxt',
+        '@nuxt/ui',
     ],
     app: {
         head: {
