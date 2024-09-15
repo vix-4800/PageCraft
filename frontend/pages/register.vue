@@ -1,5 +1,9 @@
 <template>
-    <div></div>
+    <div class="h-screen"></div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+definePageMeta({
+    layout: 'empty',
+});
+</script>
