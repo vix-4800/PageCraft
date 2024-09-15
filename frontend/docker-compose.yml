@@ -1,0 +1,17 @@
+services:
+    node:
+        image: node:22-alpine
+        container_name: frontend
+        working_dir: /var/www/html
+        ports:
+            - "${APP_PORT:-3000}:3000"
+        volumes:
+            - .:/var/www/html
+        command: ["/bin/sh", "-c", "npm install && npm run dev"]
+        networks:
+            - frontend_network
+
+networks:
+    frontend_network:
+        name: frontend_network
+        driver: bridge

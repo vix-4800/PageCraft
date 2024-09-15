@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page-transition {
+    @apply transition ease-in-out duration-300;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}
