@@ -12,7 +12,7 @@ docker compose up -d
 npm install && npm run dev
 ```
 
-**Адрес приложения по умолчанию: [localhost:3000](http://localhost:3000)**
+**Стартовая страница приложения по умолчанию: [welcome](http://localhost:3000/welcome)**
 
 Порт фронтенда можно отредактировать в файле `.env` (в `.env.example` - пример конфигурации)
 

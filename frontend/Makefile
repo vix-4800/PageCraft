@@ -8,7 +8,7 @@ include .env
 start:
 	@echo "\nStarting Frontend..."
 	@docker compose up -d
-	@echo "\nYou can access your app at http://localhost:${APP_PORT}"
+	@echo "\nYou can access your app at http://localhost:${APP_PORT}/welcome"
 
 stop:
 	@echo "\nStopping Frontend..."
