@@ -13,6 +13,7 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxt/fonts',
         '@nuxtjs/google-fonts',
+        '@pinia/nuxt',
     ],
     app: {
         head: {
