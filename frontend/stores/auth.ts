@@ -49,6 +49,30 @@ export const useAuthStore = defineStore('auth', {
 
         //     this.authenticated = true;
         // },
+        async logout() {
+            const config = useRuntimeConfig();
+            const apiUrl = config.public.apiUrl;
+
+            await useFetch(`${apiUrl}/auth/logout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.authToken}`,
+                },
+            })
+                .then(() => {
+                    this.authenticated = false;
+                    this.authToken = '';
+
+                    this.user = {
+                        name: '',
+                        email: '',
+                        phone: '',
+                    };
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
         async fetchUser() {
             const config = useRuntimeConfig();
