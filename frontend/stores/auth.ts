@@ -8,7 +8,6 @@ export const useAuthStore = defineStore('auth', {
             name: '',
             email: '',
             phone: '',
-            password: '',
         } as UserInterface,
         authToken: '',
     }),
@@ -19,40 +18,61 @@ export const useAuthStore = defineStore('auth', {
     },
     actions: {
         async login(email: string, password: string) {
-            // !TODO: Implement login
+            const config = useRuntimeConfig();
+            const apiUrl = config.public.apiUrl;
 
-            this.user = {
-                name: 'Test User',
-                email: email,
-                phone: '+1234567890',
-                password,
-            };
+            await useFetch(`${apiUrl}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+                .then((response) => {
+                    this.authToken = response.data.value.data.token;
 
-            this.authenticated = true;
+                    this.fetchUser();
+
+                    this.authenticated = true;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
-        async register({ name, email, phone, password }: UserInterface) {
-            // !TODO: Implement register
+        // async register({ name: string, email, phone, password }) {
+        //     this.user = {
+        //         name: name,
+        //         email: email,
+        //         phone: phone,
+        //         password: password,
+        //     };
 
-            this.user = {
-                name: name,
-                email: email,
-                phone: phone,
-                password: password,
-            };
-
-            this.authenticated = true;
+        //     this.authenticated = true;
+        // },
         },
-        async logout() {
-            // !TODO: Implement logout
+        async fetchUser() {
+            const config = useRuntimeConfig();
+            const apiUrl = config.public.apiUrl;
 
-            this.user = {
-                name: '',
-                email: '',
-                phone: '',
-                password: '',
-            };
-
-            this.authenticated = false;
+            await useFetch(`${apiUrl}/v1/user`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.authToken}`,
+                },
+            })
+                .then((response) => {
+                    const user = response.data.value.data;
+                    this.user = {
+                        name: user.name,
+                        email: user.email,
+                        phone: user.phone,
+                    };
+                    console.log(this.user);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
     },
 });
