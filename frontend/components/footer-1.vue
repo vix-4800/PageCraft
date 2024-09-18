@@ -4,12 +4,16 @@
     >
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:flex lg:items-center">
-                <nuxt-link to="/">
+                <nuxt-link to="/" class="flex items-center gap-4">
                     <img
-                        src="https://readymadeui.com/readymadeui-light.svg"
-                        alt="logo"
-                        class="w-52"
+                        src="@img/logo.png"
+                        alt=""
+                        width="40px"
+                        height="40px"
                     />
+                    <span class="text-2xl font-bold text-white">
+                        {{ appName }}
+                    </span>
                 </nuxt-link>
             </div>
 
@@ -128,9 +132,12 @@
         </div>
 
         <p class="mt-10 text-sm text-gray-300">
-            © ReadymadeUI. All rights reserved.
+            ©{{ appName }}. All rights reserved.
         </p>
     </footer>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const config = useRuntimeConfig();
+const appName = config.public.appName;
+</script>
