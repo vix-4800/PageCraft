@@ -146,7 +146,7 @@
             </button>
 
             <ul
-                class="lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-[#333] min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50"
+                class="lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-gradient-to-br from-gray-900 to-gray-700 min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50"
             >
                 <li class="hidden mb-6 max-lg:block">
                     <a href="javascript:void(0)">
