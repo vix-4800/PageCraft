@@ -66,6 +66,8 @@ export const useAuthStore = defineStore('auth', {
                         email: '',
                         phone: '',
                     };
+
+                    return navigateTo('/');
                 })
                 .catch((error) => {
                     console.error(error);

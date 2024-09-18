@@ -80,9 +80,9 @@
                             <button
                                 v-else
                                 class="px-4 py-2 text-sm font-semibold text-white bg-transparent border-2 border-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900"
-                                @click="logout"
+                                @click="dashboard"
                             >
-                                Sign Out
+                                Dashboard
                             </button>
                         </li>
                         <li class="lg:hidden" @click="toggleMenu">
@@ -238,8 +238,8 @@ const login = () => {
     navigateTo('/login');
 };
 
-const logout = () => {
-    authStore.logout();
+const dashboard = () => {
+    navigateTo('/dashboard');
 };
 
 const isCollapseMenuVisible = ref(false);
