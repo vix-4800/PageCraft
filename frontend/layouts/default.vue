@@ -1,6 +1,6 @@
 <template>
     <div class="page-transition layout-transition">
-        <header></header>
+        <Header-1 />
 
         <slot></slot>
 
