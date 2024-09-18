@@ -3,19 +3,13 @@ import type { UserInterface } from '@/types/user';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        authenticated: false,
-        user: {
-            name: '',
-            email: '',
-            phone: '',
-        } as UserInterface,
-        authToken: '',
+        authenticated: !!useCookie('AUTH_TOKEN').value,
+        user: {} as UserInterface,
+        authToken: useCookie('AUTH_TOKEN', {
+            sameSite: 'strict',
+            secure: true,
+        }),
     }),
-    getters: {
-        isAuthenticated: (state) => state.authenticated,
-        getUser: (state) => state.user,
-        getAuthToken: (state) => state.authToken,
-    },
     actions: {
         async login(email: string, password: string) {
             const config = useRuntimeConfig();
@@ -29,11 +23,14 @@ export const useAuthStore = defineStore('auth', {
                 body: JSON.stringify({ email, password }),
             })
                 .then((response) => {
-                    this.authToken = response.data.value.data.token;
+                    useCookie('AUTH_TOKEN').value =
+                        response.data.value.data.token;
 
                     this.fetchUser();
 
                     this.authenticated = true;
+
+                    return navigateTo('/dashboard');
                 })
                 .catch((error) => {
                     console.error(error);
@@ -62,7 +59,7 @@ export const useAuthStore = defineStore('auth', {
             })
                 .then(() => {
                     this.authenticated = false;
-                    this.authToken = '';
+                    useCookie('AUTH_TOKEN').value = '';
 
                     this.user = {
                         name: '',
@@ -92,7 +89,6 @@ export const useAuthStore = defineStore('auth', {
                         email: user.email,
                         phone: user.phone,
                     };
-                    console.log(this.user);
                 })
                 .catch((error) => {
                     console.error(error);

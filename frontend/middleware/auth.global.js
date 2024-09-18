@@ -1,7 +1,7 @@
 import { useAuthStore } from '../stores/auth';
 
 export default defineNuxtRouteMiddleware((to) => {
-    const isAuthenticated = useAuthStore().isAuthenticated;
+    const isAuthenticated = useAuthStore().authenticated;
 
     if (to.path.startsWith('/dashboard') && !isAuthenticated) {
         return navigateTo('/login');
