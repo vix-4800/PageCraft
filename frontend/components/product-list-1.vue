@@ -7,7 +7,8 @@
         </h2>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div
+            <nuxt-link
+                to="/products/ads"
                 class="bg-gray-200 rounded-xl cursor-pointer hover:scale-[1.03] transition-all relative overflow-hidden"
             >
                 <div class="p-6">
@@ -67,7 +68,7 @@
                         Add to cart
                     </button>
                 </div>
-            </div>
+            </nuxt-link>
 
             <div
                 class="bg-gray-200 rounded-xl cursor-pointer hover:scale-[1.03] transition-all relative overflow-hidden"
