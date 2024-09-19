@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', {
 
                     this.authenticated = true;
 
-                    return navigateTo('/dashboard');
+                    navigateTo('/dashboard');
                 })
                 .catch((error) => {
                     console.error(error);
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', {
                         phone: '',
                     };
 
-                    return navigateTo('/');
+                    navigateTo('/');
                 })
                 .catch((error) => {
                     console.error(error);
