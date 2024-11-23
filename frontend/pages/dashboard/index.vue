@@ -10,6 +10,7 @@
                 </dd>
             </dl>
         </div>
+
         <div
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
@@ -18,6 +19,7 @@
                 <dd class="text-sm font-medium text-slate-500">Sales today</dd>
             </dl>
         </div>
+
         <div
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
@@ -26,6 +28,7 @@
                 <dd class="text-sm font-medium text-slate-500">Open Tickets</dd>
             </dl>
         </div>
+
         <div
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
@@ -36,6 +39,7 @@
                 </dd>
             </dl>
         </div>
+
         <div
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
         >
@@ -59,6 +63,7 @@
                 </svg>
             </div>
         </div>
+
         <div
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
         >
@@ -81,6 +86,7 @@
                 </svg>
             </div>
         </div>
+
         <div
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
         >
