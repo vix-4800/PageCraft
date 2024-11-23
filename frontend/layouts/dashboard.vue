@@ -13,7 +13,7 @@
                 >
                     <div class="container p-4 mx-auto lg:p-8 xl:max-w-7xl">
                         <div class="grid grid-cols-1 md:gap-20 lg:grid-cols-12">
-                            <DashboardNav />
+                            <DashboardSidebar />
 
                             <main class="lg:col-span-9">
                                 <slot></slot>
