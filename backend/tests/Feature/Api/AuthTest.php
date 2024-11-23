@@ -74,12 +74,12 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $user->createToken($user->email);
 
-        $this->assertTrue($user->tokens()->get()->count() === 1);
+        $this->assertTrue($user->tokens()->get()->isNotEmpty());
 
         $this->actingAs($user)
             ->postJson(route('api.logout'))
             ->assertNoContent();
 
-        $this->assertTrue($user->tokens()->get()->count() === 0);
+        $this->assertTrue($user->tokens()->get()->isEmpty());
     }
 }

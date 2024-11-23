@@ -7,7 +7,6 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserAuthException extends Exception
 {
@@ -16,7 +15,7 @@ class UserAuthException extends Exception
      */
     public function render(Request $request): JsonResponse
     {
-        return response()->json([
+        return new JsonResponse([
             'data' => [],
             'error' => true,
             'message' => $this->message,

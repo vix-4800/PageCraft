@@ -25,7 +25,7 @@ Route::get('email/verify/{id}', [AuthController::class, 'verify'])->name('verifi
 Route::post('email/resend', [AuthController::class, 'resend'])->name('verification.resend');
 
 Route::fallback(function (): JsonResponse {
-    return response()->json([
+    return new JsonResponse([
         'error' => true,
         'message' => 'Not Found',
         'code' => 404,

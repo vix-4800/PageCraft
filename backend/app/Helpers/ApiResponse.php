@@ -17,7 +17,7 @@ class ApiResponse extends JsonResponse
      */
     public static function error(string $message = 'Something went wrong', int $code = 500): JsonResponse
     {
-        return response()->json([
+        return new JsonResponse([
             'data' => [],
             'error' => true,
             'message' => $message,
@@ -41,6 +41,6 @@ class ApiResponse extends JsonResponse
      */
     public static function response(array $data = [], int $status = 200): JsonResponse
     {
-        return response()->json(['data' => $data], $status);
+        return new JsonResponse(['data' => $data], $status);
     }
 }
