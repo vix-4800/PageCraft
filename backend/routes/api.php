@@ -10,20 +10,27 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         // User
-        Route::get('user', [UserController::class, 'view'])->middleware('auth:sanctum')->name('user.view');
-        Route::get('users', [UserController::class, 'index'])->name('user.index');
+        Route::middleware('auth:sanctum')->group(function (): void {
+            Route::name('user.')->group(function (): void {
+                Route::get('user', [UserController::class, 'view'])->name('view');
+                Route::get('users', [UserController::class, 'index'])->name('index');
+            });
+        });
     });
 
     // Auth
     Route::controller(AuthController::class)->prefix('auth')->group(function (): void {
         Route::post('register', 'register')->name('register');
         Route::post('login', 'login')->name('login');
-        Route::post('logout', 'logout')->name('logout')->middleware('auth:sanctum');
+        Route::post('logout', 'logout')->middleware('auth:sanctum')->name('logout');
     });
 });
 
-Route::get('email/verify/{id}', [AuthController::class, 'verify'])->name('verification.verify');
-Route::post('email/resend', [AuthController::class, 'resend'])->name('verification.resend');
+// Verification
+Route::prefix('email')->name('verification.')->group(function (): void {
+    Route::get('verify/{id}', [AuthController::class, 'verify'])->name('verify');
+    Route::post('resend', [AuthController::class, 'resend'])->name('resend');
+});
 
 Route::fallback(function (): JsonResponse {
     return new JsonResponse([
