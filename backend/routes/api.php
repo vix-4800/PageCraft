@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         // User
-        Route::get('user', [UserController::class, 'index'])->middleware('auth:sanctum')->name('user.index');
+        Route::get('user', [UserController::class, 'view'])->middleware('auth:sanctum')->name('user.view');
+        Route::get('users', [UserController::class, 'index'])->name('user.index');
     });
 
     // Auth

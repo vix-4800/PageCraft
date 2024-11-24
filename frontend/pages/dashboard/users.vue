@@ -1,5 +1,6 @@
 <template>
     <div
+        v-if="users"
         class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
     >
         <div class="px-6 pt-6">
@@ -15,6 +16,11 @@
                                 class="px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700"
                             >
                                 id
+                            </th>
+                            <th
+                                class="hidden px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700 md:table-cell"
+                            >
+                                Name
                             </th>
                             <th
                                 class="hidden px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700 md:table-cell"
@@ -47,6 +53,9 @@
                             <td class="hidden p-3 text-slate-600 md:table-cell">
                                 {{ user.email }}
                             </td>
+                            <td class="hidden p-3 text-slate-600 md:table-cell">
+                                {{ user.name }}
+                            </td>
                             <td class="hidden p-3 text-start md:table-cell">
                                 <div
                                     class="inline-block px-2 py-1 text-xs font-semibold leading-4 text-orange-700 border border-orange-200 rounded-full bg-orange-50"
@@ -70,12 +79,8 @@ definePageMeta({
     layout: 'dashboard',
 });
 
-const users = [
-    {
-        id: 1,
-        email: 'g.taylor@example.com',
-        status: 'Pending',
-        phone: '1234567890',
-    },
-];
+const config = useRuntimeConfig();
+const apiUrl = config.public.apiUrl;
+
+const { data: users } = await useFetch(apiUrl + '/v1/users');
 </script>
