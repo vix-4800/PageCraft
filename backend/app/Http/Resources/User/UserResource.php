@@ -24,6 +24,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
+            'is_email_verified' => $this->hasVerifiedEmail(),
+            'registered_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }

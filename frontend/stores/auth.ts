@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import type { UserInterface } from '@/types/user';
+import type { User } from '~/types/user';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         authenticated: !!useCookie('AUTH_TOKEN').value,
-        user: {} as UserInterface,
+        user: {} as User,
         authToken: useCookie('AUTH_TOKEN', {
             sameSite: 'strict',
             secure: true,

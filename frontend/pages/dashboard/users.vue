@@ -37,6 +37,11 @@
                             >
                                 Phone
                             </th>
+                            <th
+                                class="px-3 py-2 text-sm font-semibold tracking-wider uppercase text-end text-slate-700"
+                            >
+                                Registered At
+                            </th>
                         </tr>
                     </thead>
 
@@ -58,13 +63,26 @@
                             </td>
                             <td class="hidden p-3 text-start md:table-cell">
                                 <div
-                                    class="inline-block px-2 py-1 text-xs font-semibold leading-4 text-orange-700 border border-orange-200 rounded-full bg-orange-50"
+                                    class="inline-block px-2 py-1 text-xs font-semibold leading-4 border rounded-full"
+                                    :class="{
+                                        'text-orange-700 border-orange-200 bg-orange-50':
+                                            !user.is_email_verified,
+                                        'text-green-700 border-green-200 bg-green-50':
+                                            user.is_email_verified,
+                                    }"
                                 >
-                                    {{ user.status }}
+                                    {{
+                                        user.is_email_verified
+                                            ? 'Verified'
+                                            : 'Not Verified'
+                                    }}
                                 </div>
                             </td>
                             <td class="p-3 font-medium text-end">
                                 {{ user.phone }}
+                            </td>
+                            <td class="p-3 font-medium text-end">
+                                {{ user.registered_at }}
                             </td>
                         </tr>
                     </tbody>
@@ -75,12 +93,18 @@
 </template>
 
 <script lang="ts" setup>
+import type { User } from '~/types/user';
 definePageMeta({
     layout: 'dashboard',
 });
 
-const config = useRuntimeConfig();
-const apiUrl = config.public.apiUrl;
+const apiUrl = useRuntimeConfig().public.apiUrl;
 
-const { data: users } = await useFetch(apiUrl + '/v1/users');
+let users: User[] = [];
+
+await useFetch(apiUrl + '/v1/users', {
+    onResponse: ({ response }) => {
+        users = response._data.data;
+    },
+});
 </script>
