@@ -7,8 +7,6 @@ namespace App\Services;
 use App\Events\UserRegistered;
 use App\Exceptions\UserAuthException;
 use App\Models\User;
-use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 final class AuthService
@@ -22,10 +20,11 @@ final class AuthService
      */
     public function login(array $credentials): string
     {
+        /** @var User $user */
         $user = User::whereEmail($credentials['email'])->first();
 
         throw_unless(
-            $user && Hash::check($credentials['password'], $user->password),
+            isset($user) && Hash::check($credentials['password'], $user->password),
             new UserAuthException('Invalid credentials', 422)
         );
 
@@ -43,21 +42,14 @@ final class AuthService
      */
     public function register(array $data): string
     {
-        try {
-            DB::beginTransaction();
+        /** @var User $user */
+        $user = User::create($data);
 
-            /** @var User $user */
-            $user = User::create($data);
+        throw_unless(isset($user), new UserAuthException('Registration failed, please try again', 422));
 
-            DB::commit();
+        event(new UserRegistered($user));
 
-            event(new UserRegistered($user));
-
-            return $user->createToken($user->email)->plainTextToken;
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw new UserAuthException('Registration failed, please try again', 500, $e);
-        }
+        return $user->createToken($user->email)->plainTextToken;
     }
 
     /**
