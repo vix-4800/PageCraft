@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         $token = $this->authService->login($request->validated());
 
-        return ApiResponse::response([
+        return ApiResponse::create([
             'token' => $token,
         ]);
     }
@@ -39,7 +39,7 @@ class AuthController extends Controller
     {
         $token = $this->authService->register($request->validated());
 
-        return ApiResponse::response([
+        return ApiResponse::create([
             'token' => $token,
         ]);
     }
@@ -65,7 +65,7 @@ class AuthController extends Controller
 
         if ($request->wantsJson()) {
             if ($success) {
-                return ApiResponse::response([
+                return ApiResponse::create([
                     'message' => 'Email address verified',
                 ]);
             } else {

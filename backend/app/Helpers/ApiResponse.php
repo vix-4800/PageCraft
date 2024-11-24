@@ -39,7 +39,7 @@ class ApiResponse extends JsonResponse
      * @param  array<string, mixed>  $data  The response data.
      * @param  int  $status  The HTTP status code.
      */
-    public static function response(array $data = [], int $status = 200): JsonResponse
+    public static function create(array $data = [], int $status = 200): JsonResponse
     {
         return new JsonResponse(['data' => $data], $status);
     }
