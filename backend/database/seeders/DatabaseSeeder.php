@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $seeders = [
             UserSeeder::class,
+            PageConfigurationSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {
