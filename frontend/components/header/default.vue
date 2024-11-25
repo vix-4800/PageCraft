@@ -229,10 +229,10 @@
 
 <script lang="ts" setup>
 const config = useRuntimeConfig();
-const appName = config.public.appName;
+const appName: string = config.public.appName;
 
 const authStore = useAuthStore();
-const isAuthenticated = authStore.authenticated;
+const isAuthenticated: boolean = authStore.authenticated;
 
 const login = () => {
     navigateTo('/login');

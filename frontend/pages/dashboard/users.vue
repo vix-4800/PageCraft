@@ -98,7 +98,7 @@ definePageMeta({
     layout: 'dashboard',
 });
 
-const apiUrl = useRuntimeConfig().public.apiUrl;
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 let users: User[] = [];
 
