@@ -10,13 +10,13 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue';
-const header: string = 'default';
-const footer: string = 'default';
 
+const header: string = 'default';
 const headerComponent = computed(() =>
     defineAsyncComponent(() => import(`@/components/header/${header}.vue`))
 );
 
+const footer: string = 'default';
 const footerComponent = computed(() =>
     defineAsyncComponent(() => import(`@/components/footer/${footer}.vue`))
 );
