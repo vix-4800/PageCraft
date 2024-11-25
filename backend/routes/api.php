@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageConfigurationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,12 @@ Route::name('api.')->group(function (): void {
                 Route::get('user', [UserController::class, 'view'])->name('view');
                 Route::get('users', [UserController::class, 'index'])->name('index');
             });
+        });
+
+        // Page Configuration
+        Route::prefix('page-configuration')->name('page-configuration.')->group(function (): void {
+            Route::get('/', [PageConfigurationController::class, 'show'])->name('show');
+            Route::put('/', [PageConfigurationController::class, 'update'])->name('update');
         });
     });
 
