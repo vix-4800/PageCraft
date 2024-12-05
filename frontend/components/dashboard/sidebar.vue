@@ -32,6 +32,9 @@
                         />
                     </svg>
                 </DashboardNavLink>
+
+                <DashboardNavLink to="products" label="Products" helper="150">
+                </DashboardNavLink>
             </div>
 
             <hr class="h-5 border-0" />
