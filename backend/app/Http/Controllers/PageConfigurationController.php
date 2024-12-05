@@ -22,9 +22,13 @@ class PageConfigurationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePageConfigurationRequest $request)
+    public function update(UpdatePageConfigurationRequest $request): JsonResource
     {
         /** @var PageConfiguration $configuration */
         $configuration = PageConfiguration::first();
+
+        $configuration->update($request->validated());
+
+        return PageConfigurationResource::make($configuration);
     }
 }

@@ -99,12 +99,20 @@ definePageMeta({
 });
 
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
+const authStore = useAuthStore();
 
-let users: User[] = [];
+const users = ref([]);
 
-await useFetch(apiUrl + '/v1/users', {
-    onResponse: ({ response }) => {
-        users = response._data.data;
-    },
+onMounted(async () => {
+    const response = await $fetch(`${apiUrl}/v1/users`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer 1|305I9TDEIVXPiy2i431UQ7rylsczdKei0o1pPzameea2b90a`,
+        },
+    }).catch((error) => error.data);
+
+    users.value = response.data;
 });
 </script>

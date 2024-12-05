@@ -135,8 +135,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006578</a
                                     >
+                                        order_0006578
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"
@@ -159,8 +160,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006577</a
                                     >
+                                        order_0006577
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"
@@ -183,8 +185,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006576</a
                                     >
+                                        order_0006576
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"
@@ -207,8 +210,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006575</a
                                     >
+                                        order_0006575
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"
@@ -231,8 +235,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006574</a
                                     >
+                                        order_0006574
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"
@@ -255,8 +260,9 @@
                                     <a
                                         class="font-medium text-indigo-500 hover:text-indigo-700"
                                         href="javascript:void(0)"
-                                        >order_0006573</a
                                     >
+                                        order_0006573
+                                    </a>
                                 </td>
                                 <td
                                     class="hidden p-3 text-slate-600 md:table-cell"

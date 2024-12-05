@@ -24,7 +24,18 @@ class UpdatePageConfigurationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'header_template' => ['nullable', 'string'],
+            'product_list_template' => ['nullable', 'string'],
+            'footer_template' => ['nullable', 'string'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'header_template' => $this->filled('header') ? $this->input('header') : 'default',
+            'product_list_template' => $this->filled('product_list') ? $this->input('product_list') : 'default',
+            'footer_template' => $this->filled('footer') ? $this->input('footer') : 'default',
+        ]);
     }
 }

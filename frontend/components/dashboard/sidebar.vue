@@ -50,6 +50,12 @@
                         />
                     </svg>
                 </DashboardNavLink>
+
+                <DashboardNavLink
+                    to="page-configuration"
+                    label="Page Configuration"
+                >
+                </DashboardNavLink>
             </div>
 
             <hr class="h-5 border-0" />

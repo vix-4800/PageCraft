@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(email: string, password: string) {
             const config = useRuntimeConfig();
-            const apiUrl = config.public.apiUrl;
+            const apiUrl: string = config.public.apiUrl;
 
             await useFetch(`${apiUrl}/auth/login`, {
                 method: 'POST',
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
         // },
         async logout() {
             const config = useRuntimeConfig();
-            const apiUrl = config.public.apiUrl;
+            const apiUrl: string = config.public.apiUrl;
 
             await useFetch(`${apiUrl}/auth/logout`, {
                 method: 'POST',
@@ -75,7 +75,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async fetchUser() {
             const config = useRuntimeConfig();
-            const apiUrl = config.public.apiUrl;
+            const apiUrl: string = config.public.apiUrl;
 
             await useFetch(`${apiUrl}/v1/user`, {
                 method: 'GET',
@@ -85,7 +85,8 @@ export const useAuthStore = defineStore('auth', {
                 },
             })
                 .then((response) => {
-                    const user = response.data.value.data;
+                    const user: User = response.data.value.data;
+
                     this.user = {
                         name: user.name,
                         email: user.email,
