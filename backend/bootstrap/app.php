@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Helpers\ApiResponse;
+use App\Exceptions\ApiNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,10 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->renderable(function (Exception $exception, Request $request) {
-            if ($request->wantsJson() && ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException)) {
-                return ApiResponse::error('Not Found', 404);
-            }
+        $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
+            throw_if($request->wantsJson(), new ApiNotFoundException);
+        });
+
+        $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
+            throw_if($request->wantsJson(), new ApiNotFoundException);
         });
     })
     ->create();

@@ -10,22 +10,6 @@ use Illuminate\Http\Response;
 class ApiResponse extends JsonResponse
 {
     /**
-     * Return an error response.
-     *
-     * @param  string  $message  The error message.
-     * @param  int  $code  The HTTP status code.
-     */
-    public static function error(string $message = 'Something went wrong', int $code = 500): JsonResponse
-    {
-        return new JsonResponse([
-            'data' => [],
-            'error' => true,
-            'message' => $message,
-            'code' => $code,
-        ], $code);
-    }
-
-    /**
      * Return an empty response.
      */
     public static function empty(): Response
