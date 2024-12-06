@@ -62,10 +62,10 @@ class AuthController extends Controller
      *
      * @throws ApiException
      */
-    public function verify(Request $request, User $id): JsonResponse|RedirectResponse
+    public function verify(Request $request, User $user): JsonResponse|RedirectResponse
     {
         if ($request->wantsJson()) {
-            throw_unless($this->authService->verify($id), new ApiException('Email address already verified', 409));
+            throw_unless($this->authService->verify($user), new ApiException('Email address already verified', 409));
 
             return ApiResponse::create([
                 'message' => 'Email address verified',

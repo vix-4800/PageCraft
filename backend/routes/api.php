@@ -35,7 +35,7 @@ Route::name('api.')->group(function (): void {
 
 // Verification
 Route::prefix('email')->name('verification.')->group(function (): void {
-    Route::get('verify/{id}', [AuthController::class, 'verify'])->name('verify');
+    Route::get('verify/{user}', [AuthController::class, 'verify'])->name('verify');
     Route::post('resend', [AuthController::class, 'resend'])->name('resend');
 });
 
