@@ -13,6 +13,7 @@ export const useCartStore = defineStore('cart', {
             const existingProduct = this.items.find(
                 (p) => p.product.sku === product.sku
             );
+
             if (existingProduct) {
                 existingProduct.quantity++;
             } else {
@@ -23,6 +24,7 @@ export const useCartStore = defineStore('cart', {
             const index = this.items.findIndex(
                 (p) => p.product.sku === product.sku
             );
+
             if (index !== -1) {
                 const existingProduct = this.items[index];
                 if (existingProduct.quantity > 1) {
@@ -34,6 +36,7 @@ export const useCartStore = defineStore('cart', {
             const index = this.items.findIndex(
                 (p) => p.product.sku === product.sku
             );
+
             if (index !== -1) {
                 this.items.splice(index, 1);
             }

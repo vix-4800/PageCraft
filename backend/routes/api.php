@@ -26,6 +26,7 @@ Route::name('api.')->group(function (): void {
         });
 
         Route::apiResource('products', ProductController::class);
+        Route::get('product-by-slug/{slug}', [ProductController::class, 'showBySlug'])->name('product-by-slug');
     });
 
     // Auth

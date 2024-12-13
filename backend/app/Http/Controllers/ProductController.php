@@ -42,6 +42,18 @@ class ProductController extends Controller
     }
 
     /**
+     * Display the specified resource by slug.
+     */
+    public function showBySlug(string $slug): JsonResource
+    {
+        $product = Product::active()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return ProductResource::make($product->load('variations.productVariationAttributes'));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * TODO Update logic

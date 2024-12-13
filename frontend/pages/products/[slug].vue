@@ -3,51 +3,28 @@
         <div class="max-w-xl p-4 mx-auto font-sans lg:max-w-7xl">
             <div class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5">
                 <div
-                    class="min-h-[500px] lg:col-span-3 bg-gradient-to-tr from-[#F8C794] via-[#FFE0B5] to-[#FFF2D7] rounded-lg w-full lg:sticky top-0 text-center p-6"
+                    class="min-h-[500px] bg-gray-100 border border-orange-300 lg:col-span-3 rounded-lg w-full lg:sticky top-0 text-center p-6"
                 >
-                    <img
-                        src="https://readymadeui.com/images/coffee8.webp"
-                        alt="Product"
-                        class="object-cover w-3/5 py-6 mx-auto rounded"
-                    />
+                    <div
+                        class="flex items-center justify-center bg-white rounded-xl"
+                    >
+                        <img
+                            :src="product.image"
+                            alt="Product"
+                            class="object-cover w-3/5 py-6 rounded"
+                        />
+                    </div>
 
-                    <hr class="my-6 border border-white" />
+                    <hr class="my-6 border border-orange-300" />
 
                     <div
                         class="flex flex-wrap justify-center mx-auto gap-x-4 gap-y-6"
                     >
                         <div
-                            class="w-20 h-20 max-lg:w-16 max-lg:h-16 bg-[#fff2c9] p-3 rounded-lg"
+                            class="w-20 h-20 p-3 bg-white rounded-lg max-lg:w-16 max-lg:h-16"
                         >
                             <img
                                 src="https://readymadeui.com/images/coffee6.webp"
-                                alt="Product1"
-                                class="w-full h-full cursor-pointer"
-                            />
-                        </div>
-                        <div
-                            class="w-20 h-20 max-lg:w-16 max-lg:h-16 bg-[#fff2c9] p-3 rounded-lg"
-                        >
-                            <img
-                                src="https://readymadeui.com/images/coffee3.webp"
-                                alt="Product1"
-                                class="w-full h-full cursor-pointer"
-                            />
-                        </div>
-                        <div
-                            class="w-20 h-20 max-lg:w-16 max-lg:h-16 bg-[#fff2c9] p-3 rounded-lg"
-                        >
-                            <img
-                                src="https://readymadeui.com/images/coffee4.webp"
-                                alt="Product1"
-                                class="w-full h-full cursor-pointer"
-                            />
-                        </div>
-                        <div
-                            class="w-20 h-20 max-lg:w-16 max-lg:h-16 bg-[#fff2c9] p-3 rounded-lg"
-                        >
-                            <img
-                                src="https://readymadeui.com/images/coffee5.webp"
                                 alt="Product1"
                                 class="w-full h-full cursor-pointer"
                             />
@@ -57,15 +34,8 @@
 
                 <div class="lg:col-span-2">
                     <h2 class="text-2xl font-bold text-gray-800">
-                        Espresso Elegante | Coffee
+                        {{ product.name }}
                     </h2>
-                    <div class="flex flex-wrap gap-4 mt-4">
-                        <p class="text-xl font-bold text-gray-800">$12</p>
-                        <p class="text-xl text-gray-400">
-                            <strike>$16</strike>
-                            <span class="ml-1 text-sm">Tax included</span>
-                        </p>
-                    </div>
 
                     <div class="flex mt-4 space-x-2">
                         <svg
@@ -122,36 +92,48 @@
 
                     <div class="mt-8">
                         <h3 class="text-xl font-bold text-gray-800">
-                            About the coffee
+                            About the Product
                         </h3>
                         <ul
-                            class="pl-4 mt-4 space-y-3 text-sm text-gray-800 list-disc"
+                            class="mt-4 space-y-3 text-sm text-gray-800 list-disc"
                         >
-                            <li>
-                                A cup of coffee is a beverage essential because
-                                of its timeless appeal
-                            </li>
-                            <li>
-                                Easy to prepare. It can be brewed using various
-                                methods, from drip machines to manual
-                                pour-overs.
-                            </li>
-                            <li>
-                                Available in various sizes, from a standard
-                                espresso shot to a large Americano, catering to
-                                different preferences.
-                            </li>
-                            <li>
-                                You can customize your coffee by adding cream,
-                                sugar, or flavorings to suit your taste
-                                preferences.
-                            </li>
+                            {{
+                                product.description
+                            }}
                         </ul>
+                    </div>
+
+                    <div
+                        class="flex flex-wrap justify-center mx-auto mt-6 gap-x-4"
+                    >
+                        <div
+                            v-for="variation in variations"
+                            :key="variation.sku"
+                            class="p-2 bg-white border-2 border-gray-200 rounded-lg"
+                            :class="
+                                variation.sku === selectedVariation.sku
+                                    ? 'border-orange-400'
+                                    : ''
+                            "
+                        >
+                            <button
+                                type="button"
+                                class="w-12 h-12"
+                                @click="selectVariant(variation)"
+                            >
+                                <img
+                                    src="https://readymadeui.com/images/coffee6.webp"
+                                    alt="Product1"
+                                    class="w-full h-full"
+                                />
+                            </button>
+                        </div>
                     </div>
 
                     <button
                         type="button"
-                        class="w-full px-6 py-3 mt-8 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
+                        class="w-full px-6 py-3 mt-6 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
+                        :disabled="selectedVariation === null"
                         @click="addToCard"
                     >
                         Add to cart
@@ -377,17 +359,33 @@
 </template>
 
 <script lang="ts" setup>
-const temp: ProductVariant = {
-    sku: '123',
-    price: 10,
-    attributes: [
-        { name: 'Color', value: 'Red' },
-        { name: 'Size', value: 'M' },
-    ],
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
+const product = ref<Product>({});
+const variations = ref<ProductVariant[]>([]);
+const selectedVariation = ref<ProductVariant>(null);
+onMounted(async () => {
+    const response = await $fetch<{ data: Product[] }>(
+        `${apiUrl}/v1/product-by-slug/${useRoute().params.slug}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        }
+    ).catch((error) => error.data);
+
+    product.value = response.data;
+    variations.value = product.value.variations;
+    selectedVariation.value = variations.value[0];
+});
+
+const selectVariant = (variant: ProductVariant) => {
+    selectedVariation.value = variant;
 };
 
-const cardStore = useCartStore();
 const addToCard = () => {
-    cardStore.increaseProductQuantity(temp);
+    useCartStore().increaseProductQuantity(selectedVariation.value);
 };
 </script>
