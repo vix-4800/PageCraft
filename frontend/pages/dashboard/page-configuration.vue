@@ -10,27 +10,34 @@
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
-                <form class="space-y-4">
-                    <div>
-                        <label
-                            for="header-styles"
-                            class="block w-full text-sm font-medium text-gray-600"
-                        >
-                            Header
-                        </label>
-                        <select
-                            id="header-styles"
-                            v-model="headerStylesSelect"
-                            class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
-                        >
-                            <option
-                                v-for="option in headerStylesOptions"
-                                :key="option.value"
-                                :value="option.value"
+                <form class="flex flex-col gap-2 px-1">
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label
+                                for="header-styles"
+                                class="block w-full text-sm font-medium text-gray-600"
                             >
-                                {{ option.label }}
-                            </option>
-                        </select>
+                                Header
+                            </label>
+                            <u-select
+                                id="header-styles"
+                                v-model="headerStylesSelect"
+                                :options="headerStylesOptions"
+                            />
+                        </div>
+                        <div class="w-1/2">
+                            <label
+                                for="footer-styles"
+                                class="block w-full text-sm font-medium text-gray-600"
+                            >
+                                Footer
+                            </label>
+                            <u-select
+                                id="footer-styles"
+                                v-model="footerStylesSelect"
+                                :options="footerStylesOptions"
+                            />
+                        </div>
                     </div>
 
                     <div>
@@ -40,50 +47,25 @@
                         >
                             Product List
                         </label>
-                        <select
+                        <u-select
                             id="product-list-styles"
                             v-model="productListStylesSelect"
-                            class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
-                        >
-                            <option
-                                v-for="option in productListStylesOptions"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
+                            :options="productListStylesOptions"
+                        />
                     </div>
 
-                    <div>
-                        <label
-                            for="footer-styles"
-                            class="block w-full text-sm font-medium text-gray-600"
-                        >
-                            Footer
-                        </label>
-                        <select
-                            id="footer-styles"
-                            v-model="footerStylesSelect"
-                            class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
-                        >
-                            <option
-                                v-for="option in footerStylesOptions"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <button
+                    <u-button
+                        icon="material-symbols:save"
                         type="submit"
-                        class="h-10 px-2 py-1 border rounded-lg border-emerald-200 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 hover:text-emerald-800"
+                        size="sm"
+                        color="primary"
+                        class="mt-2 border w-min"
+                        :loading="loading"
+                        :disabled="loading"
                         @click="saveConfiguration"
                     >
                         Save
-                    </button>
+                    </u-button>
                 </form>
             </div>
         </div>
@@ -116,21 +98,27 @@ const footerStylesOptions = [
     { value: 'minimalistic', label: 'Minimalistic' },
 ];
 
+const loading = ref(false);
 onMounted(async () => {
+    loading.value = true;
     await pageStore.getConfig();
 
     headerStylesSelect.value = pageStore.header;
     productListStylesSelect.value = pageStore.product_list;
     footerStylesSelect.value = pageStore.footer;
+    loading.value = false;
 });
 
-const saveConfiguration = (e: { preventDefault: () => void }) => {
+const saveConfiguration = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    pageStore.saveConfiguration({
+    loading.value = true;
+    await pageStore.saveConfiguration({
         header: headerStylesSelect.value,
         product_list: productListStylesSelect.value,
         footer: footerStylesSelect.value,
     });
+
+    loading.value = false;
 };
 </script>
