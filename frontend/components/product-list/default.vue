@@ -3,14 +3,14 @@
         class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
     >
         <h2 class="mb-12 text-4xl font-extrabold text-gray-800">
-            Coffee store
+            Our Products
         </h2>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div
                 v-for="product in products"
-                :key="product.id"
-                class="bg-gray-200 rounded-xl hover:scale-[1.03] transition-all relative overflow-hidden"
+                :key="product.slug"
+                class="bg-gray-200 rounded-xl flex flex-col hover:scale-[1.03] transition-all relative overflow-hidden"
             >
                 <div class="p-6">
                     <div
@@ -42,23 +42,19 @@
                     </div>
                 </div>
 
-                <div class="p-6 text-center bg-gray-100">
-                    <h3 class="text-lg font-bold text-gray-800">
+                <div
+                    class="flex flex-col gap-3 p-6 text-center bg-gray-100 h-1/2"
+                >
+                    <h3 class="text-xl font-bold text-gray-800">
                         {{ product.name }}
                     </h3>
-                    <h4 class="mt-6 text-lg font-bold text-gray-800">
-                        ${{ product.price }}
-                        <strike
-                            v-if="product.discount"
-                            class="ml-2 font-medium text-gray-400"
-                        >
-                            ${{ product.discount }}
-                        </strike>
-                    </h4>
+                    <p class="text-gray-600 text-md">
+                        {{ product.description }}
+                    </p>
 
                     <button
                         type="button"
-                        class="flex items-center justify-center w-full gap-3 px-6 py-3 mt-6 text-base font-semibold text-gray-800 bg-yellow-400 rounded-xl"
+                        class="flex items-center justify-center w-full gap-3 px-6 py-3 mt-auto text-base font-semibold text-gray-800 bg-yellow-400 rounded-xl"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -80,26 +76,12 @@
 </template>
 
 <script lang="ts" setup>
-const products = [
-    {
-        id: 1,
-        name: 'Espresso Elegante',
-        slug: 'espresso-elegante',
-        price: 10,
-        discount: 15,
-        image: 'https://readymadeui.com/images/coffee1.webp',
-    },
-    {
-        id: 2,
-        name: 'Espresso Elegante',
-        slug: 'espresso-elegante-2',
-        price: 20,
-        discount: 15,
-        image: 'https://readymadeui.com/images/coffee2.webp',
-    },
-];
+import type { Product } from '~/types/product';
 
-onMounted(() => {
-    console.log(products);
+defineProps({
+    products: {
+        type: Array as () => Product[],
+        required: true,
+    },
 });
 </script>
