@@ -38,7 +38,7 @@ class ProductController extends Controller
      */
     public function show(Product $product): JsonResource
     {
-        return ProductResource::make($product);
+        return ProductResource::make($product->load('variations.productVariationAttributes'));
     }
 
     /**

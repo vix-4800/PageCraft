@@ -26,17 +26,30 @@ class ProductSeeder extends Seeder
             'description' => 'A basic T-Shirt',
         ]);
 
-        /** @var ProductVariation $variation */
-        $variation = $product->variations()->create([
-            'sku' => (new GenerateSku(ProductVariation::class))->handle(),
-            'price' => random_int(1000, 2500),
-            'stock' => random_int(0, 100),
+        $variations = $product->variations()->createMany([
+            [
+                'sku' => (new GenerateSku(ProductVariation::class))->handle(),
+                'price' => random_int(1000, 2500),
+                'stock' => random_int(0, 100),
+            ],
+            [
+                'sku' => (new GenerateSku(ProductVariation::class))->handle(),
+                'price' => random_int(1000, 2500),
+                'stock' => random_int(0, 100),
+            ],
+            [
+                'sku' => (new GenerateSku(ProductVariation::class))->handle(),
+                'price' => random_int(1000, 2500),
+                'stock' => random_int(0, 100),
+            ],
         ]);
 
-        $variation->productVariationAttributes()->createMany([
-            ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'red')->id],
-            ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'm')->id],
-            ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'cotton')->id],
-        ]);
+        $variations->each(function (ProductVariation $variation): void {
+            $variation->productVariationAttributes()->createMany([
+                ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'red')->id],
+                ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'm')->id],
+                ['product_attribute_value_id' => ProductAttributeValue::firstWhere('value', 'cotton')->id],
+            ]);
+        });
     }
 }

@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Observers\ProductVariationObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[ObservedBy(ProductVariationObserver::class)]
 /**
  * @property int $id
  * @property int $product_id
  * @property string $sku
- * @property string $price
+ * @property float $price
  * @property int $stock
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Product $product
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariationAttribute> $productVariationAttributes
+ * @property-read \App\Models\Product $product
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductVariationAttribute> $productVariationAttributes
  * @property-read int|null $product_variation_attributes_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation newModelQuery()
@@ -58,5 +56,13 @@ class ProductVariation extends Model
     public function productVariationAttributes(): HasMany
     {
         return $this->hasMany(ProductVariationAttribute::class);
+    }
+
+    public function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int|float $value): float => round($value / 100, 2),
+            set: fn (int|float $value): float|int => $value * 100,
+        );
     }
 }

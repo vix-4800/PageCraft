@@ -7,7 +7,10 @@ namespace App\Http\Resources\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShowProductResource extends JsonResource
+/**
+ * @mixin \App\Models\ProductVariationAttribute
+ */
+class ProductVariationAttributeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +19,9 @@ class ShowProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->productAttributeValue?->productAttribute->name,
+            'value' => $this->productAttributeValue?->value,
+        ];
     }
 }
