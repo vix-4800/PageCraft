@@ -5,7 +5,7 @@
                 ? '/' + to
                 : '/dashboard/' + to
         "
-        class="group flex items-center justify-between gap-2 rounded-md border border-transparent px-2.5 py-2 text-sm text-slate-900 font-semibold active:border-indigo-200"
+        class="group flex items-center bg-indigo-50 justify-between gap-2 rounded-md px-2.5 py-2 text-sm text-slate-900 font-semibold"
     >
         <slot>
             <!-- Icon slot -->

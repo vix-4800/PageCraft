@@ -37,60 +37,35 @@
                         {{ product.name }}
                     </h2>
 
-                    <div class="flex mt-4 space-x-2">
-                        <svg
-                            class="w-5 fill-orange-400"
-                            viewBox="0 0 14 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                            />
-                        </svg>
-                        <svg
-                            class="w-5 fill-orange-400"
-                            viewBox="0 0 14 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                            />
-                        </svg>
-                        <svg
-                            class="w-5 fill-orange-400"
-                            viewBox="0 0 14 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                            />
-                        </svg>
-                        <svg
-                            class="w-5 fill-orange-400"
-                            viewBox="0 0 14 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                            />
-                        </svg>
-                        <svg
-                            class="w-5 fill-[#CED5D8]"
-                            viewBox="0 0 14 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                            />
-                        </svg>
+                    <div class="flex mt-2">
+                        <u-icon
+                            name="material-symbols:star"
+                            size="30"
+                            class="bg-orange-400"
+                        />
+                        <u-icon
+                            name="material-symbols:star"
+                            size="30"
+                            class="bg-orange-400"
+                        />
+                        <u-icon
+                            name="material-symbols:star"
+                            size="30"
+                            class="bg-orange-400"
+                        />
+                        <u-icon
+                            name="material-symbols:star"
+                            size="30"
+                            class="bg-orange-400"
+                        />
+                        <u-icon
+                            name="material-symbols:star"
+                            size="30"
+                            class="bg-gray-400"
+                        />
                     </div>
 
-                    <div class="mt-8">
+                    <div class="mt-6">
                         <h3 class="text-xl font-bold text-gray-800">
                             About the Product
                         </h3>
@@ -106,170 +81,137 @@
                     <div
                         class="flex flex-wrap justify-center mx-auto mt-6 gap-x-4"
                     >
-                        <div
+                        <button
                             v-for="variation in variations"
                             :key="variation.sku"
+                            type="button"
                             class="p-2 bg-white border-2 border-gray-200 rounded-lg"
                             :class="
                                 variation.sku === selectedVariation.sku
                                     ? 'border-orange-400'
                                     : ''
                             "
+                            @click="selectVariant(variation)"
                         >
-                            <button
-                                type="button"
-                                class="w-12 h-12"
-                                @click="selectVariant(variation)"
-                            >
+                            <div class="w-12 h-12">
                                 <img
                                     :src="variation.image"
                                     alt="Product1"
                                     class="w-full h-full"
                                 />
-                            </button>
-                        </div>
+                            </div>
+                        </button>
                     </div>
 
                     <button
                         type="button"
-                        class="w-full px-6 py-3 mt-6 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
+                        class="flex items-center justify-center w-full gap-2 px-6 py-3 mt-6 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
                         :disabled="selectedVariation === null"
                         @click="addToCart"
                     >
+                        <u-icon
+                            name="material-symbols:add-shopping-cart-sharp"
+                            size="20"
+                        />
                         Add to cart
                     </button>
 
                     <div class="mt-8">
                         <h3 class="text-xl font-bold text-gray-800">
-                            Reviews(10)
+                            Reviews (10)
                         </h3>
                         <div class="mt-4 space-y-3">
-                            <div class="flex items-center">
+                            <div class="flex items-center gap-2">
                                 <p class="text-sm font-bold text-gray-800">
                                     5.0
                                 </p>
-                                <svg
-                                    class="w-5 ml-1 fill-orange-400"
-                                    viewBox="0 0 14 13"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                    />
-                                </svg>
-                                <div
-                                    class="w-full h-2 ml-3 bg-gray-300 rounded"
-                                >
+                                <u-icon
+                                    name="material-symbols:star"
+                                    size="20"
+                                    class="bg-orange-400"
+                                />
+                                <div class="w-full h-2 bg-gray-300 rounded">
                                     <div
                                         class="w-2/3 h-full bg-orange-400 rounded"
                                     ></div>
                                 </div>
-                                <p class="ml-3 text-sm font-bold text-gray-800">
+                                <p class="text-sm font-bold text-gray-800">
                                     66%
                                 </p>
                             </div>
 
-                            <div class="flex items-center">
+                            <div class="flex items-center gap-2">
                                 <p class="text-sm font-bold text-gray-800">
                                     4.0
                                 </p>
-                                <svg
-                                    class="w-5 ml-1 fill-orange-400"
-                                    viewBox="0 0 14 13"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                    />
-                                </svg>
-                                <div
-                                    class="w-full h-2 ml-3 bg-gray-300 rounded"
-                                >
+                                <u-icon
+                                    name="material-symbols:star"
+                                    size="20"
+                                    class="bg-orange-400"
+                                />
+                                <div class="w-full h-2 bg-gray-300 rounded">
                                     <div
                                         class="w-1/3 h-full bg-orange-400 rounded"
                                     ></div>
                                 </div>
-                                <p class="ml-3 text-sm font-bold text-gray-800">
+                                <p class="text-sm font-bold text-gray-800">
                                     33%
                                 </p>
                             </div>
 
-                            <div class="flex items-center">
+                            <div class="flex items-center gap-2">
                                 <p class="text-sm font-bold text-gray-800">
                                     3.0
                                 </p>
-                                <svg
-                                    class="w-5 ml-1 fill-orange-400"
-                                    viewBox="0 0 14 13"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                    />
-                                </svg>
-                                <div
-                                    class="w-full h-2 ml-3 bg-gray-300 rounded"
-                                >
+                                <u-icon
+                                    name="material-symbols:star"
+                                    size="20"
+                                    class="bg-orange-400"
+                                />
+                                <div class="w-full h-2 bg-gray-300 rounded">
                                     <div
                                         class="w-1/6 h-full bg-orange-400 rounded"
                                     ></div>
                                 </div>
-                                <p class="ml-3 text-sm font-bold text-gray-800">
+                                <p class="text-sm font-bold text-gray-800">
                                     16%
                                 </p>
                             </div>
 
-                            <div class="flex items-center">
+                            <div class="flex items-center gap-2">
                                 <p class="text-sm font-bold text-gray-800">
                                     2.0
                                 </p>
-                                <svg
-                                    class="w-5 ml-1 fill-orange-400"
-                                    viewBox="0 0 14 13"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                    />
-                                </svg>
-                                <div
-                                    class="w-full h-2 ml-3 bg-gray-300 rounded"
-                                >
+                                <u-icon
+                                    name="material-symbols:star"
+                                    size="20"
+                                    class="bg-orange-400"
+                                />
+                                <div class="w-full h-2 bg-gray-300 rounded">
                                     <div
                                         class="w-1/12 h-full bg-orange-400 rounded"
                                     ></div>
                                 </div>
-                                <p class="ml-3 text-sm font-bold text-gray-800">
+                                <p class="text-sm font-bold text-gray-800">
                                     8%
                                 </p>
                             </div>
 
-                            <div class="flex items-center">
+                            <div class="flex items-center gap-2">
                                 <p class="text-sm font-bold text-gray-800">
                                     1.0
                                 </p>
-                                <svg
-                                    class="w-5 ml-1 fill-orange-400"
-                                    viewBox="0 0 14 13"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                    />
-                                </svg>
-                                <div
-                                    class="w-full h-2 ml-3 bg-gray-300 rounded"
-                                >
+                                <u-icon
+                                    name="material-symbols:star"
+                                    size="20"
+                                    class="bg-orange-400"
+                                />
+                                <div class="w-full h-2 bg-gray-300 rounded">
                                     <div
                                         class="w-[6%] h-full rounded bg-orange-400"
                                     ></div>
                                 </div>
-                                <p class="ml-3 text-sm font-bold text-gray-800">
+                                <p class="text-sm font-bold text-gray-800">
                                     6%
                                 </p>
                             </div>
@@ -282,57 +224,32 @@
                             />
                             <div class="ml-3">
                                 <h4 class="text-sm font-bold">John Doe</h4>
-                                <div class="flex mt-1 space-x-1">
-                                    <svg
-                                        class="w-4 fill-orange-400"
-                                        viewBox="0 0 14 13"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 fill-orange-400"
-                                        viewBox="0 0 14 13"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 fill-orange-400"
-                                        viewBox="0 0 14 13"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 fill-[#CED5D8]"
-                                        viewBox="0 0 14 13"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 fill-[#CED5D8]"
-                                        viewBox="0 0 14 13"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                        />
-                                    </svg>
+                                <div class="flex items-center mt-1">
+                                    <u-icon
+                                        name="material-symbols:star"
+                                        size="20"
+                                        class="bg-orange-400"
+                                    />
+                                    <u-icon
+                                        name="material-symbols:star"
+                                        size="20"
+                                        class="bg-orange-400"
+                                    />
+                                    <u-icon
+                                        name="material-symbols:star"
+                                        size="20"
+                                        class="bg-orange-400"
+                                    />
+                                    <u-icon
+                                        name="material-symbols:star"
+                                        size="20"
+                                        class="bg-orange-400"
+                                    />
+                                    <u-icon
+                                        name="material-symbols:star"
+                                        size="20"
+                                        class="bg-orange-400"
+                                    />
                                     <p class="text-xs !ml-2 font-semibold">
                                         2 mins ago
                                     </p>

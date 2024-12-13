@@ -63,7 +63,7 @@
                             </td>
                             <td class="hidden p-3 text-start md:table-cell">
                                 <div
-                                    class="inline-block px-2 py-1 text-xs font-semibold leading-4 border rounded-full"
+                                    class="flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold leading-4 border rounded-full w-max"
                                     :class="{
                                         'text-orange-700 border-orange-200 bg-orange-50':
                                             !user.is_email_verified,
@@ -71,6 +71,14 @@
                                             user.is_email_verified,
                                     }"
                                 >
+                                    <u-icon
+                                        :name="
+                                            user.is_email_verified
+                                                ? 'material-symbols:check'
+                                                : 'material-symbols:close'
+                                        "
+                                        size="15"
+                                    />
                                     {{
                                         user.is_email_verified
                                             ? 'Verified'
