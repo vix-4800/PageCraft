@@ -36,12 +36,7 @@ class ProductAttributeSeeder extends Seeder
     private function createAttributeValues(): void
     {
         /** @var ProductAttribute $colorAttribute */
-        $colorAttribute = ProductAttribute::firstWhere('name', 'color');
-        $colorAttribute->values()->createMany([
-            ['value' => 'red'],
-            ['value' => 'blue'],
-            ['value' => 'green'],
-        ]);
+        ProductAttribute::firstWhere('name', 'color');
 
         /** @var ProductAttribute $sizeAttribute */
         $sizeAttribute = ProductAttribute::firstWhere('name', 'size');
@@ -54,11 +49,6 @@ class ProductAttributeSeeder extends Seeder
         ]);
 
         /** @var ProductAttribute $materialAttribute */
-        $materialAttribute = ProductAttribute::firstWhere('name', 'material');
-        $materialAttribute->values()->createMany([
-            ['value' => 'cotton'],
-            ['value' => 'leather'],
-            ['value' => 'polyester'],
-        ]);
+        ProductAttribute::firstWhere('name', 'material');
     }
 }

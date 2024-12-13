@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $sku
  * @property float $price
  * @property int $stock
+ * @property string|null $image
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product $product
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereSku($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereStock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -46,6 +48,7 @@ class ProductVariation extends Model
         'sku',
         'price',
         'stock',
+        'image',
     ];
 
     public function product(): BelongsTo

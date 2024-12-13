@@ -94,24 +94,26 @@
 
 <script lang="ts" setup>
 import type { User } from '~/types/user';
+
 definePageMeta({
     layout: 'dashboard',
 });
 
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
-const authStore = useAuthStore();
 
-const users = ref([]);
-
+const users = ref<User[]>([]);
 onMounted(async () => {
-    const response = await $fetch(`${apiUrl}/v1/users`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer 1|305I9TDEIVXPiy2i431UQ7rylsczdKei0o1pPzameea2b90a`,
-        },
-    }).catch((error) => error.data);
+    const response: { data: User[] } = await $fetch<{ data: User[] }>(
+        `${apiUrl}/v1/users`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer 1|hNyKEQRimoRPVECPU7jhaQYTzkJFNFO6DLtRTavyc13477d3`,
+            },
+        }
+    ).catch((error) => error.data);
 
     users.value = response.data;
 });

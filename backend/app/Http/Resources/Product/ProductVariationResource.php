@@ -23,6 +23,7 @@ class ProductVariationResource extends JsonResource
             'sku' => $this->sku,
             'price' => $this->price,
             'stock' => $this->stock,
+            'image' => $this->image,
             'attributes' => ProductVariationAttributeResource::collection($this->whenLoaded('productVariationAttributes')),
         ];
     }

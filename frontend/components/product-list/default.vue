@@ -10,7 +10,7 @@
                 :key="product.slug"
                 class="bg-gray-200 rounded-xl flex flex-col hover:scale-[1.03] transition-all relative overflow-hidden"
             >
-                <div class="p-5">
+                <div class="p-3">
                     <div
                         class="absolute flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full cursor-pointer top-4 right-4"
                     >
@@ -27,22 +27,19 @@
                         </svg>
                     </div>
 
-                    <div
-                        class="h-[220px] rounded-lg p-3 overflow-hidden mx-auto cursor-pointer bg-white"
+                    <nuxt-link
+                        :to="`/products/${product.slug}`"
+                        class="block p-3 h-[220px] rounded-lg overflow-hidden mx-auto cursor-pointer bg-white"
                     >
-                        <nuxt-link :to="`/products/${product.slug}`">
-                            <img
-                                :src="product.image"
-                                :alt="product.name"
-                                class="object-contain w-full h-full"
-                            />
-                        </nuxt-link>
-                    </div>
+                        <img
+                            :src="product.image"
+                            :alt="product.name"
+                            class="object-contain w-full h-full"
+                        />
+                    </nuxt-link>
                 </div>
 
-                <div
-                    class="flex flex-col gap-3 p-6 text-center bg-gray-100 h-1/2"
-                >
+                <div class="flex flex-col gap-3 p-6 text-center h-1/2">
                     <h3 class="text-xl font-bold text-gray-800">
                         {{ product.name }}
                     </h3>

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->string('sku')->unique();
+            $table->string('image')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
             $table->timestamps();

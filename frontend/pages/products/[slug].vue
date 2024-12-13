@@ -122,7 +122,7 @@
                                 @click="selectVariant(variation)"
                             >
                                 <img
-                                    src="https://readymadeui.com/images/coffee6.webp"
+                                    :src="variation.image"
                                     alt="Product1"
                                     class="w-full h-full"
                                 />
@@ -134,7 +134,7 @@
                         type="button"
                         class="w-full px-6 py-3 mt-6 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
                         :disabled="selectedVariation === null"
-                        @click="addToCard"
+                        @click="addToCart"
                     >
                         Add to cart
                     </button>
@@ -359,13 +359,16 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product } from '~/types/product';
+import type { ProductVariant } from '~/types/product_variant';
+
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product>({});
 const variations = ref<ProductVariant[]>([]);
-const selectedVariation = ref<ProductVariant>(null);
+const selectedVariation = ref<ProductVariant>({});
 onMounted(async () => {
-    const response = await $fetch<{ data: Product[] }>(
+    const response: { data: Product } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/product-by-slug/${useRoute().params.slug}`,
         {
             method: 'GET',
@@ -385,7 +388,7 @@ const selectVariant = (variant: ProductVariant) => {
     selectedVariation.value = variant;
 };
 
-const addToCard = () => {
+const addToCart = () => {
     useCartStore().increaseProductQuantity(selectedVariation.value);
 };
 </script>
