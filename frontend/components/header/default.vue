@@ -39,7 +39,7 @@
                                     <span
                                         class="absolute left-auto px-1 py-0 -ml-1 text-xs text-gray-900 bg-yellow-500 rounded-full -top-1"
                                     >
-                                        0
+                                        {{ cartCount }}
                                     </span>
                                 </span>
                             </nuxt-link>
@@ -169,6 +169,9 @@ const categories = ref([
     { name: 'Home', href: '/' },
     { name: 'Trending', href: '/trending' },
 ]);
+
+const cartStore = useCartStore();
+const cartCount = computed(() => cartStore.totalItems);
 </script>
 
 <style scoped>

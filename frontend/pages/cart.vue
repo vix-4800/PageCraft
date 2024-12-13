@@ -7,8 +7,8 @@
         <div class="grid gap-8 mt-16 md:grid-cols-3">
             <div class="space-y-4 md:col-span-2">
                 <div
-                    v-for="(product, index) in products"
-                    :key="product.slug"
+                    v-for="item in items"
+                    :key="item.product.slug"
                     class="grid items-start grid-cols-3 gap-4 pb-4 border-b border-gray-300"
                 >
                     <div class="flex items-start col-span-2 gap-4">
@@ -23,10 +23,10 @@
 
                         <div class="flex flex-col">
                             <h3 class="text-base font-bold text-gray-800">
-                                {{ product.name }}
+                                {{ item.product.name }}
                             </h3>
                             <p
-                                v-for="attribute in product.attributes"
+                                v-for="attribute in item.product.attributes"
                                 :key="attribute.name"
                                 class="text-xs font-semibold text-gray-500 mt-0.5"
                             >
@@ -36,7 +36,7 @@
                             <button
                                 type="button"
                                 class="flex items-center gap-1 mt-6 text-xs font-semibold text-red-500 shrink-0"
-                                @click="removeProduct(index)"
+                                @click="removeProduct(item.product)"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@
                         <h4
                             class="text-lg font-bold text-gray-800 max-sm:text-base"
                         >
-                            ${{ product.price }}
+                            ${{ item.product.price }}
                         </h4>
 
                         <div
@@ -70,7 +70,7 @@
                             <button
                                 class="p-2"
                                 type="button"
-                                @click="decrementQuantity(index)"
+                                @click="decrementQuantity(item.product)"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -85,13 +85,13 @@
                             </button>
 
                             <span class="font-bold">
-                                {{ product.quantity }}
+                                {{ item.quantity }}
                             </span>
 
                             <button
                                 class="p-2"
                                 type="button"
-                                @click="incrementQuantity(index)"
+                                @click="incrementQuantity(item.product)"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@
                                 <input
                                     type="text"
                                     placeholder="Full Name"
-                                    :disabled="products.length === 0"
+                                    :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 rounded-md w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
                                 <svg
@@ -153,7 +153,7 @@
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    :disabled="products.length === 0"
+                                    :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
                                 <svg
@@ -197,7 +197,7 @@
                                 <input
                                     type="number"
                                     placeholder="Phone No."
-                                    :disabled="products.length === 0"
+                                    :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
                                 <svg
@@ -238,15 +238,16 @@
                 <div class="mt-6 space-y-3">
                     <button
                         type="button"
-                        :disabled="products.length === 0"
-                        class="text-sm px-4 py-2.5 w-full font-semibold disabled:opacity-75 tracking-wide bg-yellow-500 text-gray-800 rounded-md border-2 border-yellow-500"
+                        :disabled="store.totalItems === 0"
+                        class="text-sm px-4 py-2.5 w-full font-semibold disabled:opacity-75 tracking-wide bg-yellow-500 disabled:hover:bg-yellow-500 disabled:hover:border-yellow-500 hover:bg-orange-400 text-gray-800 rounded-md border-2 border-yellow-500 hover:border-orange-400"
                     >
                         Checkout
                     </button>
+
                     <nuxt-link
                         to="/"
                         type="button"
-                        class="block text-center text-sm px-4 py-2.5 w-full border-2 font-semibold tracking-wide bg-transparent text-gray-800 border-yellow-500 rounded-md hover:bg-yellow-500"
+                        class="block text-center text-sm px-4 py-2.5 w-full border-2 font-semibold tracking-wide bg-transparent text-gray-800 border-yellow-500 rounded-md hover:bg-orange-400 hover:border-orange-400"
                     >
                         Continue Shopping
                     </nuxt-link>
@@ -261,58 +262,32 @@ onMounted(() => {
     calculateOrder();
 });
 
-const products = ref([
-    {
-        name: 'Product 1',
-        slug: 'product-1',
-        price: 10,
-        quantity: 1,
-        attributes: [
-            { name: 'Color', value: 'Red' },
-            { name: 'Size', value: 'M' },
-        ],
-    },
-    {
-        name: 'Product 2',
-        slug: 'product-2',
-        price: 22,
-        quantity: 3,
-        attributes: [
-            { name: 'Color', value: 'Blue' },
-            { name: 'Size', value: 'L' },
-        ],
-    },
-]);
+const store = useCartStore();
+
+const items = ref(store.items);
 
 const subTotal = ref(0);
 const shipping = ref(0);
 const tax = ref(0);
 const total = ref(0);
 
-const incrementQuantity = (index: number) => {
-    products.value[index].quantity++;
-
+const incrementQuantity = (item: ProductVariant) => {
+    store.increaseProductQuantity(item);
     calculateOrder();
 };
 
-const decrementQuantity = (index: number) => {
-    if (products.value[index].quantity > 1) {
-        products.value[index].quantity--;
-
-        calculateOrder();
-    }
+const decrementQuantity = (item: ProductVariant) => {
+    store.decreaseProductQuantity(item);
+    calculateOrder();
 };
 
-const removeProduct = (index: number) => {
-    products.value.splice(index, 1);
-
+const removeProduct = (item: ProductVariant) => {
+    store.removeProduct(item);
     calculateOrder();
 };
 
 const calculateOrder = () => {
-    subTotal.value = products.value.reduce((acc, product) => {
-        return acc + product.price * product.quantity;
-    }, 0);
+    subTotal.value = store.totalPrice;
 
     shipping.value = Math.round(0.05 * subTotal.value * 100) / 100;
     tax.value = Math.round(0.1 * subTotal.value * 100) / 100;

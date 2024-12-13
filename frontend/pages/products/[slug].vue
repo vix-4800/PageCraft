@@ -152,6 +152,7 @@
                     <button
                         type="button"
                         class="w-full px-6 py-3 mt-8 text-sm font-semibold text-white bg-orange-400 rounded-md hover:bg-orange-500"
+                        @click="addToCard"
                     >
                         Add to cart
                     </button>
@@ -375,4 +376,18 @@
     </main>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const temp: ProductVariant = {
+    sku: '123',
+    price: 10,
+    attributes: [
+        { name: 'Color', value: 'Red' },
+        { name: 'Size', value: 'M' },
+    ],
+};
+
+const cardStore = useCartStore();
+const addToCard = () => {
+    cardStore.increaseProductQuantity(temp);
+};
+</script>
