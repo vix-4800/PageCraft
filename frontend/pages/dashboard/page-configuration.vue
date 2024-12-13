@@ -20,11 +20,16 @@
                         </label>
                         <select
                             id="header-styles"
-                            v-model="headerStyles"
+                            v-model="headerStylesSelect"
                             class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
                         >
-                            <option value="default">Default</option>
-                            <option value="minimalistic">Minimalistic</option>
+                            <option
+                                v-for="option in headerStylesOptions"
+                                :key="option.value"
+                                :value="option.value"
+                            >
+                                {{ option.label }}
+                            </option>
                         </select>
                     </div>
 
@@ -37,11 +42,16 @@
                         </label>
                         <select
                             id="product-list-styles"
-                            v-model="productListStyles"
+                            v-model="productListStylesSelect"
                             class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
                         >
-                            <option value="default">Default</option>
-                            <option value="minimalistic">Minimalistic</option>
+                            <option
+                                v-for="option in productListStylesOptions"
+                                :key="option.value"
+                                :value="option.value"
+                            >
+                                {{ option.label }}
+                            </option>
                         </select>
                     </div>
 
@@ -54,11 +64,16 @@
                         </label>
                         <select
                             id="footer-styles"
-                            v-model="footerStyles"
+                            v-model="footerStylesSelect"
                             class="block w-full h-10 px-2 py-1 text-base text-gray-600 border border-gray-300 rounded-lg focus:outline-none"
                         >
-                            <option value="default">Default</option>
-                            <option value="minimalistic">Minimalistic</option>
+                            <option
+                                v-for="option in footerStylesOptions"
+                                :key="option.value"
+                                :value="option.value"
+                            >
+                                {{ option.label }}
+                            </option>
                         </select>
                     </div>
 
@@ -82,25 +97,40 @@ definePageMeta({
 
 const pageStore = usePageConfigurationStore();
 
-const headerStyles = ref(pageStore.header);
-const productListStyles = ref(pageStore.product_list);
-const footerStyles = ref(pageStore.footer);
+const headerStylesSelect = ref(pageStore.header);
+const productListStylesSelect = ref(pageStore.product_list);
+const footerStylesSelect = ref(pageStore.footer);
+
+const headerStylesOptions = [
+    { value: 'default', label: 'Default' },
+    { value: 'minimalistic', label: 'Minimalistic' },
+];
+
+const productListStylesOptions = [
+    { value: 'default', label: 'Default' },
+    { value: 'minimalistic', label: 'Minimalistic' },
+];
+
+const footerStylesOptions = [
+    { value: 'default', label: 'Default' },
+    { value: 'minimalistic', label: 'Minimalistic' },
+];
 
 onMounted(async () => {
     await pageStore.getConfig();
 
-    headerStyles.value = pageStore.header;
-    productListStyles.value = pageStore.product_list;
-    footerStyles.value = pageStore.footer;
+    headerStylesSelect.value = pageStore.header;
+    productListStylesSelect.value = pageStore.product_list;
+    footerStylesSelect.value = pageStore.footer;
 });
 
 const saveConfiguration = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     pageStore.saveConfiguration({
-        header: headerStyles.value,
-        product_list: productListStyles.value,
-        footer: footerStyles.value,
+        header: headerStylesSelect.value,
+        product_list: productListStylesSelect.value,
+        footer: footerStylesSelect.value,
     });
 };
 </script>

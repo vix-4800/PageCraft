@@ -5,12 +5,8 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
-
 const product_list: string = 'default';
-const productListComponent = computed(() =>
-    defineAsyncComponent(
-        () => import(`@/components/product-list/${product_list}.vue`)
-    )
+const productListComponent = defineAsyncComponent(
+    () => import(`@/components/product-list/${product_list}.vue`)
 );
 </script>

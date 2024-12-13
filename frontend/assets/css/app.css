@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@nuxt/ui";
-
 /* Alpine JS */
 [x-cloak] {
     display: none !important;
