@@ -2,9 +2,7 @@
     <div
         class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
     >
-        <h2 class="mb-12 text-4xl font-extrabold text-gray-800">
-            Our Products
-        </h2>
+        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">Our Products</h2>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div
