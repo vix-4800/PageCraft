@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $seeders = [
             UserSeeder::class,
             PageConfigurationSeeder::class,
+            ProductAttributeSeeder::class,
             ProductSeeder::class,
         ];
 

@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(): JsonResource
     {
-        return ProductResource::collection(Product::all());
+        return ProductResource::collection(Product::active()->get());
     }
 
     /**
