@@ -22,6 +22,7 @@ class ProductSeeder extends Seeder
         $product = Product::create([
             'name' => 'T-Shirt',
             'slug' => Str::slug('T-Shirt'),
+            'image' => 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.etsystatic.com%2F18117093%2Fr%2Fil%2Fc13d1b%2F3096741212%2Fil_fullxfull.3096741212_pl8x.jpg&f=1&nofb=1&ipt=3062431b8bc48e02e1999c98d41dd79cf50065da467c3c040209a0e641d22a6e&ipo=images',
             'description' => 'A basic T-Shirt',
         ]);
 
