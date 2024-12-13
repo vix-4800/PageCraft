@@ -1,100 +1,23 @@
 <template>
     <div
-        v-if="users"
         class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
     >
         <div class="px-6 pt-6">
             <h2 class="text-2xl font-bold">Registered Users</h2>
-            <!-- <h3 class="text-sm font-medium text-slate-500"></h3> -->
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
-                <table class="min-w-full text-sm align-middle">
-                    <thead>
-                        <tr class="border-b-2 border-slate-100">
-                            <th
-                                class="px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700"
-                            >
-                                id
-                            </th>
-                            <th
-                                class="hidden px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700 md:table-cell"
-                            >
-                                Name
-                            </th>
-                            <th
-                                class="hidden px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700 md:table-cell"
-                            >
-                                Email
-                            </th>
-                            <th
-                                class="hidden px-3 py-2 text-sm font-semibold tracking-wider uppercase text-start text-slate-700 md:table-cell"
-                            >
-                                Status
-                            </th>
-                            <th
-                                class="px-3 py-2 text-sm font-semibold tracking-wider uppercase text-end text-slate-700"
-                            >
-                                Phone
-                            </th>
-                            <th
-                                class="px-3 py-2 text-sm font-semibold tracking-wider uppercase text-end text-slate-700"
-                            >
-                                Registered At
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr v-for="user in users" :key="user.id">
-                            <td class="p-3 text-start">
-                                <a
-                                    class="font-medium text-indigo-500 hover:text-indigo-700"
-                                    href="javascript:void(0)"
-                                >
-                                    {{ user.id }}
-                                </a>
-                            </td>
-                            <td class="hidden p-3 text-slate-600 md:table-cell">
-                                {{ user.email }}
-                            </td>
-                            <td class="hidden p-3 text-slate-600 md:table-cell">
-                                {{ user.name }}
-                            </td>
-                            <td class="hidden p-3 text-start md:table-cell">
-                                <div
-                                    class="flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold leading-4 border rounded-full w-max"
-                                    :class="{
-                                        'text-orange-700 border-orange-200 bg-orange-50':
-                                            !user.is_email_verified,
-                                        'text-green-700 border-green-200 bg-green-50':
-                                            user.is_email_verified,
-                                    }"
-                                >
-                                    <u-icon
-                                        :name="
-                                            user.is_email_verified
-                                                ? 'material-symbols:check'
-                                                : 'material-symbols:close'
-                                        "
-                                        size="15"
-                                    />
-                                    {{
-                                        user.is_email_verified
-                                            ? 'Verified'
-                                            : 'Not Verified'
-                                    }}
-                                </div>
-                            </td>
-                            <td class="p-3 font-medium text-end">
-                                {{ user.phone }}
-                            </td>
-                            <td class="p-3 font-medium text-end">
-                                {{ user.registered_at }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <u-table
+                    :columns="columns"
+                    :rows="users"
+                    :loading="status === 'pending' || status === 'idle'"
+                    :loading-state="{
+                        icon: 'i-heroicons-arrow-path-20-solid',
+                        label: 'Loading...',
+                    }"
+                    :progress="{ color: 'primary', animation: 'carousel' }"
+                    class="w-full"
+                />
             </div>
         </div>
     </div>
@@ -107,9 +30,41 @@ definePageMeta({
     layout: 'dashboard',
 });
 
+const columns = [
+    {
+        key: 'id',
+        label: 'ID',
+        sortable: true,
+    },
+    {
+        key: 'name',
+        label: 'Name',
+        sortable: true,
+    },
+    {
+        key: 'email',
+        label: 'Email',
+        sortable: true,
+    },
+    {
+        key: 'phone',
+        label: 'Phone',
+    },
+    {
+        key: 'is_email_verified',
+        label: 'Is Verified',
+        sortable: true,
+    },
+    {
+        key: 'registered_at',
+        label: 'Registered At',
+    },
+];
+
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const users = ref<User[]>([]);
+const status = ref('idle');
 onMounted(async () => {
     const response: { data: User[] } = await $fetch<{ data: User[] }>(
         `${apiUrl}/v1/users`,
@@ -119,6 +74,12 @@ onMounted(async () => {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: `Bearer 1|hNyKEQRimoRPVECPU7jhaQYTzkJFNFO6DLtRTavyc13477d3`,
+            },
+            onRequest() {
+                status.value = 'pending';
+            },
+            onResponse() {
+                status.value = 'success';
             },
         }
     ).catch((error) => error.data);
