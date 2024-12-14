@@ -8,27 +8,27 @@ export const useAuthStore = defineStore('auth', {
         authToken: useCookie('AUTH_TOKEN', {
             sameSite: 'strict',
             secure: true,
+            maxAge: 60 * 60 * 24 * 5, // 5 days
         }),
     }),
     actions: {
         async login(email: string, password: string) {
-            const config = useRuntimeConfig();
-            const apiUrl: string = config.public.apiUrl;
+            const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
             await useFetch(`${apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
             })
                 .then((response) => {
                     useCookie('AUTH_TOKEN').value =
                         response.data.value.data.token;
+                    this.authenticated = true;
 
                     this.fetchUser();
-
-                    this.authenticated = true;
 
                     navigateTo('/dashboard');
                 })
@@ -47,13 +47,13 @@ export const useAuthStore = defineStore('auth', {
         //     this.authenticated = true;
         // },
         async logout() {
-            const config = useRuntimeConfig();
-            const apiUrl: string = config.public.apiUrl;
+            const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
             await useFetch(`${apiUrl}/auth/logout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                     Authorization: `Bearer ${this.authToken}`,
                 },
             })
@@ -74,28 +74,18 @@ export const useAuthStore = defineStore('auth', {
                 });
         },
         async fetchUser() {
-            const config = useRuntimeConfig();
-            const apiUrl: string = config.public.apiUrl;
+            const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-            await useFetch(`${apiUrl}/v1/user`, {
+            const response = await $fetch<{ data: User }>(`${apiUrl}/v1/user`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                     Authorization: `Bearer ${this.authToken}`,
                 },
-            })
-                .then((response) => {
-                    const user: User = response.data.value.data;
+            });
 
-                    this.user = {
-                        name: user.name,
-                        email: user.email,
-                        phone: user.phone,
-                    };
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            this.user = response.data;
         },
     },
 });

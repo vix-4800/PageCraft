@@ -42,12 +42,15 @@
                     <u-icon name="material-symbols:account-circle" size="20" />
                 </DashboardNavLink>
 
-                <DashboardNavLink to="logout" label="Logout">
+                <button
+                    class="flex w-full bg-indigo-50 gap-2 rounded-md px-2.5 py-2 text-sm text-slate-900 font-semibold"
+                    type="button"
+                    @click="useAuthStore().logout"
+                >
                     <u-icon name="material-symbols:logout" size="20" />
-                </DashboardNavLink>
+                    <span>Logout</span>
+                </button>
             </div>
         </nav>
     </aside>
 </template>
-
-<script lang="ts" setup></script>

@@ -57,7 +57,7 @@ onMounted(async () => {
 async function submitForm() {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await $fetch(`${apiUrl}/v1/products`, {
+    await $fetch(`${apiUrl}/v1/users`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
