@@ -7,7 +7,7 @@
         <div class="grid gap-8 mt-16 md:grid-cols-3">
             <div class="space-y-4 md:col-span-2">
                 <div
-                    v-for="item in items"
+                    v-for="item in store.items"
                     :key="item.product.slug"
                     class="grid items-start grid-cols-3 gap-4 pb-4 border-b border-gray-300"
                 >
@@ -43,22 +43,12 @@
                             <button
                                 type="button"
                                 class="flex items-center gap-1 mt-6 text-xs font-semibold text-red-500 shrink-0"
-                                @click="removeProduct(item.product)"
+                                @click="store.removeProduct(item.product)"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="inline w-4 fill-current"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                        data-original="#000000"
-                                    />
-                                    <path
-                                        d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                        data-original="#000000"
-                                    />
-                                </svg>
+                                <u-icon
+                                    name="material-symbols:delete-outline"
+                                    size="20"
+                                />
                                 REMOVE
                             </button>
                         </div>
@@ -77,7 +67,9 @@
                             <button
                                 class="p-2"
                                 type="button"
-                                @click="decrementQuantity(item.product)"
+                                @click="
+                                    store.decreaseProductQuantity(item.product)
+                                "
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +90,9 @@
                             <button
                                 class="p-2"
                                 type="button"
-                                @click="incrementQuantity(item.product)"
+                                @click="
+                                    store.increaseProductQuantity(item.product)
+                                "
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -131,92 +125,47 @@
                         <div class="space-y-3">
                             <div class="relative flex items-center">
                                 <input
+                                    v-model="name"
                                     type="text"
                                     placeholder="Full Name"
                                     :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 rounded-md w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="#bbb"
-                                    stroke="#bbb"
-                                    class="absolute w-4 h-4 right-4"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle
-                                        cx="10"
-                                        cy="7"
-                                        r="6"
-                                        data-original="#000000"
-                                    />
-                                    <path
-                                        d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
-                                        data-original="#000000"
-                                    />
-                                </svg>
+                                <u-icon
+                                    name="material-symbols:person"
+                                    size="20"
+                                    class="absolute right-4"
+                                />
                             </div>
 
                             <div class="relative flex items-center">
                                 <input
+                                    v-model="email"
                                     type="email"
                                     placeholder="Email"
                                     :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="#bbb"
-                                    stroke="#bbb"
-                                    class="absolute w-4 h-4 right-4"
-                                    viewBox="0 0 682.667 682.667"
-                                >
-                                    <defs>
-                                        <clipPath
-                                            id="a"
-                                            clipPathUnits="userSpaceOnUse"
-                                        >
-                                            <path
-                                                d="M0 512h512V0H0Z"
-                                                data-original="#000000"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                    <g
-                                        clip-path="url(#a)"
-                                        transform="matrix(1.33 0 0 -1.33 0 682.667)"
-                                    >
-                                        <path
-                                            fill="none"
-                                            stroke-miterlimit="10"
-                                            stroke-width="40"
-                                            d="M452 444H60c-22.091 0-40-17.909-40-40v-39.446l212.127-157.782c14.17-10.54 33.576-10.54 47.746 0L492 364.554V404c0 22.091-17.909 40-40 40Z"
-                                            data-original="#000000"
-                                        />
-                                        <path
-                                            d="M472 274.9V107.999c0-11.027-8.972-20-20-20H60c-11.028 0-20 8.973-20 20V274.9L0 304.652V107.999c0-33.084 26.916-60 60-60h392c33.084 0 60 26.916 60 60v196.653Z"
-                                            data-original="#000000"
-                                        />
-                                    </g>
-                                </svg>
+                                <u-icon
+                                    name="material-symbols:mail"
+                                    size="20"
+                                    class="absolute right-4"
+                                />
                             </div>
 
                             <div class="relative flex items-center">
                                 <input
-                                    type="number"
+                                    v-model="phone"
+                                    type="text"
                                     placeholder="Phone No."
                                     :disabled="store.totalItems === 0"
                                     class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
                                 />
-                                <svg
-                                    fill="#bbb"
-                                    class="absolute w-4 h-4 right-4"
-                                    viewBox="0 0 64 64"
-                                >
-                                    <path
-                                        d="m52.148 42.678-6.479-4.527a5 5 0 0 0-6.963 1.238l-1.504 2.156c-2.52-1.69-5.333-4.05-8.014-6.732-2.68-2.68-5.04-5.493-6.73-8.013l2.154-1.504a4.96 4.96 0 0 0 2.064-3.225 4.98 4.98 0 0 0-.826-3.739l-4.525-6.478C20.378 10.5 18.85 9.69 17.24 9.69a4.69 4.69 0 0 0-1.628.291 8.97 8.97 0 0 0-1.685.828l-.895.63a6.782 6.782 0 0 0-.63.563c-1.092 1.09-1.866 2.472-2.303 4.104-1.865 6.99 2.754 17.561 11.495 26.301 7.34 7.34 16.157 11.9 23.011 11.9 1.175 0 2.281-.136 3.29-.406 1.633-.436 3.014-1.21 4.105-2.302.199-.199.388-.407.591-.67l.63-.899a9.007 9.007 0 0 0 .798-1.64c.763-2.06-.007-4.41-1.871-5.713z"
-                                        data-original="#000000"
-                                    />
-                                </svg>
+                                <u-icon
+                                    name="material-symbols:phone-enabled"
+                                    size="20"
+                                    class="absolute right-4"
+                                />
                             </div>
                         </div>
                     </div>
@@ -243,19 +192,26 @@
                 </ul>
 
                 <div class="mt-6 space-y-3">
-                    <button
+                    <u-button
                         type="button"
+                        color="orange"
                         :disabled="store.totalItems === 0"
-                        class="text-sm px-4 py-2.5 w-full font-semibold disabled:opacity-75 tracking-wide bg-yellow-500 disabled:hover:bg-yellow-500 disabled:hover:border-yellow-500 hover:bg-orange-400 text-gray-800 rounded-md border-2 border-yellow-500 hover:border-orange-400"
+                        class="text-sm flex justify-center gap-1 px-4 py-2.5 w-full font-semibold disabled:opacity-75 tracking-wide text-gray-800 rounded-md"
+                        @click="checkout"
                     >
+                        <u-icon
+                            name="material-symbols:shopping-cart"
+                            size="20"
+                        />
                         Checkout
-                    </button>
+                    </u-button>
 
                     <nuxt-link
                         to="/"
                         type="button"
-                        class="block text-center text-sm px-4 py-2.5 w-full border-2 font-semibold tracking-wide bg-transparent text-gray-800 border-yellow-500 rounded-md hover:bg-orange-400 hover:border-orange-400"
+                        class="flex justify-center text-center text-sm px-4 py-2.5 w-full border-2 font-semibold tracking-wide bg-transparent text-gray-800 border-yellow-500 rounded-md hover:bg-orange-400 hover:border-orange-400"
                     >
+                        <u-icon name="ic:round-keyboard-arrow-left" size="20" />
                         Continue Shopping
                     </nuxt-link>
                 </div>
@@ -265,35 +221,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { ProductVariant } from '~/types/product_variant';
-
 onMounted(() => {
     calculateOrder();
 });
 
 const store = useCartStore();
 
-const items = ref(store.items);
+const name = ref('');
+const email = ref('');
+const phone = ref('');
 
 const subTotal = ref(0);
 const shipping = ref(0);
 const tax = ref(0);
 const total = ref(0);
-
-const incrementQuantity = (item: ProductVariant) => {
-    store.increaseProductQuantity(item);
-    calculateOrder();
-};
-
-const decrementQuantity = (item: ProductVariant) => {
-    store.decreaseProductQuantity(item);
-    calculateOrder();
-};
-
-const removeProduct = (item: ProductVariant) => {
-    store.removeProduct(item);
-    calculateOrder();
-};
 
 const calculateOrder = () => {
     subTotal.value = store.totalPrice;
@@ -302,5 +243,37 @@ const calculateOrder = () => {
     tax.value = Math.round(0.1 * subTotal.value * 100) / 100;
     total.value =
         Math.round((subTotal.value + shipping.value + tax.value) * 100) / 100;
+};
+
+watch(store.items, () => {
+    calculateOrder();
+});
+
+const checkout = async () => {
+    if (name.value === '' || email.value === '' || phone.value === '') {
+        alert('Please fill all fields');
+        return;
+    }
+
+    const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
+    await $fetch(`${apiUrl}/v1/orders`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        body: {
+            products: store.items,
+            total: total.value,
+            details: {
+                name: name.value,
+                email: email.value,
+                phone: phone.value,
+            },
+        },
+    });
+
+    store.clearCart();
 };
 </script>

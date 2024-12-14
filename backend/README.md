@@ -38,3 +38,9 @@ docker exec -it backend php artisan ide-helper:meta && \
 docker exec -it backend php artisan ide-helper:models -W && \
 ./vendor/bin/pint
 ```
+
+### Генерация токена для тестирования
+
+```php
+\App\Models\User::first()->createToken('auth')->plainTextToken;
+```

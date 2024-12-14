@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiNotFoundException;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageConfigurationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatisticsController;
@@ -27,6 +28,8 @@ Route::name('api.')->group(function (): void {
         });
 
         Route::get('statistics', [StatisticsController::class, 'index'])->name('statistics.index')->middleware('auth:sanctum');
+
+        Route::apiResource('orders', OrderController::class);
 
         Route::apiResource('products', ProductController::class);
         Route::get('product-by-slug/{slug}', [ProductController::class, 'showBySlug'])->name('product-by-slug');

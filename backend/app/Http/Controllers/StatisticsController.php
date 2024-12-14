@@ -23,14 +23,14 @@ class StatisticsController extends Controller
                 'total' => 0,
                 'today' => 0,
                 'this_week' => 0,
-                'this_month' => 0
+                'this_month' => 0,
             ],
             'earnings' => [
                 'total' => 0,
                 'today' => 0,
                 'this_week' => 0,
-                'this_month' => 0
-            ]
+                'this_month' => 0,
+            ],
         ]);
     }
 }
