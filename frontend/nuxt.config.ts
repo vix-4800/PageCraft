@@ -41,7 +41,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            baseUrl: process.env.APP_URL || 'http://localhost:3000',
+            baseUrl: process.env.APP_URL || 'http://localhost:80',
             appName: process.env.APP_NAME || 'PageCraft',
             apiUrl: (process.env.API_URL || 'http://localhost:8080') + '/api',
         },

@@ -17,7 +17,7 @@ restart: restart_frontend restart_backend
 start_frontend:
 	@echo "\nStarting Frontend..."
 	@docker compose -f $(FRONDEND_DOCKER_FILE) up -d
-	@echo "\nFrontend can be accessed at http://localhost:3000"
+	@echo "\nFrontend can be accessed at http://localhost:80"
 stop_frontend:
 	@echo "\nStopping Frontend..."
 	@docker compose -f $(FRONDEND_DOCKER_FILE) down
