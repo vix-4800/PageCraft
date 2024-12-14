@@ -82,7 +82,7 @@ onMounted(async () => {
                 status.value = 'success';
             },
         }
-    ).catch((error) => error.data);
+    );
 
     users.value = response.data;
 });
