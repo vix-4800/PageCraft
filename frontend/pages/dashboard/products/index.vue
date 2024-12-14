@@ -145,6 +145,10 @@ async function submitCreateForm() {
 
     await $fetch(`${apiUrl}/v1/products`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
         body: {
             name: state.name,
             slug: state.slug,

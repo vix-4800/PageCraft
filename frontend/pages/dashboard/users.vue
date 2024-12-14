@@ -61,6 +61,7 @@ const columns = [
     },
 ];
 
+const authStore = useAuthStore();
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const users = ref<User[]>([]);
@@ -73,7 +74,7 @@ onMounted(async () => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                Authorization: `Bearer 1|hNyKEQRimoRPVECPU7jhaQYTzkJFNFO6DLtRTavyc13477d3`,
+                Authorization: `Bearer ${authStore.authToken}`,
             },
             onRequest() {
                 status.value = 'pending';
