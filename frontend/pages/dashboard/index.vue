@@ -4,10 +4,8 @@
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
             <dl>
-                <dt class="text-2xl font-bold">63</dt>
-                <dd class="text-sm font-medium text-slate-500">
-                    Accounts today
-                </dd>
+                <dt class="text-2xl font-bold">{{ statistics.users.today }}</dt>
+                <dd class="text-sm font-medium text-slate-500">Users today</dd>
             </dl>
         </div>
 
@@ -15,7 +13,16 @@
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
             <dl>
-                <dt class="text-2xl font-bold">6</dt>
+                <dt class="text-2xl font-bold">{{ statistics.users.total }}</dt>
+                <dd class="text-sm font-medium text-slate-500">Users total</dd>
+            </dl>
+        </div>
+
+        <div
+            class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
+        >
+            <dl>
+                <dt class="text-2xl font-bold">{{ statistics.sales.today }}</dt>
                 <dd class="text-sm font-medium text-slate-500">Sales today</dd>
             </dl>
         </div>
@@ -24,19 +31,8 @@
             class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
         >
             <dl>
-                <dt class="text-2xl font-bold">5</dt>
-                <dd class="text-sm font-medium text-slate-500">Open Tickets</dd>
-            </dl>
-        </div>
-
-        <div
-            class="p-6 bg-white border rounded-lg border-slate-200 sm:col-span-6 xl:col-span-3"
-        >
-            <dl>
-                <dt class="text-2xl font-bold">10</dt>
-                <dd class="text-sm font-medium text-slate-500">
-                    Pending Invoices
-                </dd>
+                <dt class="text-2xl font-bold">{{ statistics.sales.total }}</dt>
+                <dd class="text-sm font-medium text-slate-500">Sales total</dd>
             </dl>
         </div>
 
@@ -44,7 +40,9 @@
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
         >
             <dl class="px-6 pt-6">
-                <dt class="text-2xl font-bold">$168,682</dt>
+                <dt class="text-2xl font-bold">
+                    ${{ statistics.earnings.total }}
+                </dt>
                 <dd class="text-sm font-medium text-slate-500">
                     Total Earnings
                 </dd>
@@ -68,7 +66,9 @@
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
         >
             <dl class="px-6 pt-6">
-                <dt class="text-2xl font-bold">768,541</dt>
+                <dt class="text-2xl font-bold">
+                    {{ statistics.pageviews.total }}
+                </dt>
                 <dd class="text-sm font-medium text-slate-500">
                     Total Pageviews
                 </dd>
@@ -97,11 +97,8 @@
                 </h3>
             </div>
             <div class="p-6">
-                <!-- Responsive Table Container -->
                 <div class="min-w-full overflow-x-auto rounded">
-                    <!-- Alternate Responsive Table -->
                     <table class="min-w-full text-sm align-middle">
-                        <!-- Table Header -->
                         <thead>
                             <tr class="border-b-2 border-slate-100">
                                 <th
@@ -126,9 +123,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <!-- END Table Header -->
 
-                        <!-- Table Body -->
                         <tbody>
                             <tr>
                                 <td class="p-3 text-start">
@@ -281,11 +276,8 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <!-- END Table Body -->
                     </table>
-                    <!-- END Alternate Responsive Table -->
                 </div>
-                <!-- END Responsive Table Container -->
             </div>
         </div>
     </div>
@@ -294,5 +286,50 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'dashboard',
+});
+
+const statistics = reactive({
+    users: {
+        today: 0,
+        total: 0,
+    },
+    sales: {
+        today: 0,
+        total: 0,
+    },
+    orders: {
+        today: 0,
+        total: 0,
+    },
+    earnings: {
+        today: 0,
+        total: 0,
+    },
+    pageviews: {
+        today: 0,
+        total: 0,
+    },
+});
+
+onMounted(async () => {
+    const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
+    const response = await $fetch(`${apiUrl}/v1/statistics`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
+        },
+    });
+
+    statistics.users.today = response.data.users.today;
+    statistics.users.total = response.data.users.total;
+
+    statistics.sales.today = response.data.sales.today;
+    statistics.sales.total = response.data.sales.total;
+
+    statistics.earnings.today = response.data.earnings.today;
+    statistics.earnings.total = response.data.earnings.total;
 });
 </script>

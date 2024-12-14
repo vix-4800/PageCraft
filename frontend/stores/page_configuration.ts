@@ -9,12 +9,15 @@ export const usePageConfigurationStore = defineStore('page_configuration', {
     }),
     actions: {
         async getConfig() {
-            const config = useRuntimeConfig();
-            const apiUrl: string = config.public.apiUrl;
+            const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-            const response = await $fetch(
-                `${apiUrl}/v1/page-configuration`
-            ).catch((error) => error.data);
+            const response = await $fetch(`${apiUrl}/v1/page-configuration`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }).catch((error) => error.data);
 
             const pageConfig: PageConfiguration = response.data;
 
@@ -27,11 +30,15 @@ export const usePageConfigurationStore = defineStore('page_configuration', {
             footer,
             product_list,
         }: PageConfiguration) {
-            const config = useRuntimeConfig();
-            const apiUrl: string = config.public.apiUrl;
+            const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
             await $fetch(`${apiUrl}/v1/page-configuration`, {
                 method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${useAuthStore().authToken}`,
+                },
                 body: {
                     header: header,
                     footer: footer,
