@@ -176,15 +176,19 @@
                         Subtotal
                         <span class="ml-auto font-bold">${{ subTotal }}</span>
                     </li>
+
                     <li class="flex flex-wrap gap-4 text-sm">
                         Shipping
                         <span class="ml-auto font-bold">${{ shipping }}</span>
                     </li>
+
                     <li class="flex flex-wrap gap-4 text-sm">
                         Tax
                         <span class="ml-auto font-bold">${{ tax }}</span>
                     </li>
+
                     <hr class="border-gray-300" />
+
                     <li class="flex flex-wrap gap-4 text-sm font-bold">
                         Total
                         <span class="ml-auto">${{ total }}</span>
@@ -236,28 +240,35 @@ const shipping = ref(0);
 const tax = ref(0);
 const total = ref(0);
 
-const calculateOrder = () => {
+function calculateOrder() {
     subTotal.value = store.totalPrice;
 
     shipping.value = Math.round(0.05 * subTotal.value * 100) / 100;
     tax.value = Math.round(0.1 * subTotal.value * 100) / 100;
     total.value =
         Math.round((subTotal.value + shipping.value + tax.value) * 100) / 100;
-};
+}
+
+function clearDetails() {
+    name.value = '';
+    email.value = '';
+    phone.value = '';
+}
 
 watch(store.items, () => {
     calculateOrder();
 });
 
+const { $notify } = useNuxtApp();
 const checkout = async () => {
     if (name.value === '' || email.value === '' || phone.value === '') {
-        alert('Please fill all fields');
+        $notify('Please fill all the details', 'warning');
         return;
     }
 
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await $fetch(`${apiUrl}/v1/orders`, {
+    await useFetch(`${apiUrl}/v1/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -272,8 +283,17 @@ const checkout = async () => {
                 phone: phone.value,
             },
         },
-    });
+    }).then((result) => {
+        if (result.error) {
+            $notify('Something went wrong', 'error');
+            return;
+        }
 
-    store.clearCart();
+        store.clearCart();
+        calculateOrder();
+        clearDetails();
+
+        $notify('Order Placed Successfully');
+    });
 };
 </script>

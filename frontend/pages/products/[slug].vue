@@ -29,7 +29,7 @@
                         <u-icon
                             v-for="i in averageRating"
                             :key="i"
-                            name="material-symbols:star"
+                            name="line-md:star-alt-filled"
                             size="30"
                             class="bg-orange-400"
                         />
@@ -37,7 +37,7 @@
                         <u-icon
                             v-for="i in 5 - averageRating"
                             :key="i"
-                            name="material-symbols:star"
+                            name="line-md:star-alt-filled"
                             size="30"
                             class="bg-gray-400"
                         />
@@ -240,14 +240,14 @@
                                 <u-icon
                                     v-for="i in review.rating"
                                     :key="i"
-                                    name="material-symbols:star"
+                                    name="line-md:star-alt-filled"
                                     size="20"
                                     class="bg-orange-400"
                                 />
                                 <u-icon
                                     v-for="i in 5 - review.rating"
                                     :key="i"
-                                    name="material-symbols:star"
+                                    name="line-md:star-alt-filled"
                                     size="20"
                                     class="bg-gray-400"
                                 />
@@ -288,25 +288,21 @@ const reviews = ref([
         },
     },
 ]);
-const fiveStarReviews = computed(() => {
-    return reviews.value.filter((review) => review.rating === 5).length;
-});
+const reviewRatings = computed(() =>
+    reviews.value.reduce(
+        (acc, review) => {
+            acc[review.rating] = (acc[review.rating] || 0) + 1;
+            return acc;
+        },
+        { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+    )
+);
 
-const fourStarReviews = computed(() => {
-    return reviews.value.filter((review) => review.rating === 4).length;
-});
-
-const threeStarReviews = computed(() => {
-    return reviews.value.filter((review) => review.rating === 3).length;
-});
-
-const twoStarReviews = computed(() => {
-    return reviews.value.filter((review) => review.rating === 2).length;
-});
-
-const oneStarReviews = computed(() => {
-    return reviews.value.filter((review) => review.rating === 1).length;
-});
+const fiveStarReviews = computed(() => reviewRatings.value[5]);
+const fourStarReviews = computed(() => reviewRatings.value[4]);
+const threeStarReviews = computed(() => reviewRatings.value[3]);
+const twoStarReviews = computed(() => reviewRatings.value[2]);
+const oneStarReviews = computed(() => reviewRatings.value[1]);
 
 const averageRating = computed(() => {
     return Math.round(
@@ -335,7 +331,7 @@ onMounted(async () => {
                 Accept: 'application/json',
             },
         }
-    ).catch((error) => error.data);
+    );
 
     product.value = response.data;
     variations.value = product.value.variations;
@@ -356,7 +352,10 @@ const selectVariant = (variant: ProductVariant) => {
     selectedVariation.value = variant;
 };
 
+const { $notify } = useNuxtApp();
 const addToCart = () => {
     useCartStore().increaseProductQuantity(selectedVariation.value);
+
+    $notify(`${product.value.name} added to cart`, 'info');
 };
 </script>

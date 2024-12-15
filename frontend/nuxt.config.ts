@@ -15,6 +15,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxt/ui',
     ],
+    plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
         head: {
             title: process.env.APP_NAME || 'PageCraft',
@@ -33,7 +34,7 @@ export default defineNuxtConfig({
         '@img': fileURLToPath(new URL('./assets/img', import.meta.url)),
         '@css': fileURLToPath(new URL('./assets/css', import.meta.url)),
     },
-    css: ['@css/app.css'],
+    css: ['@css/app.css', 'notyf/notyf.min.css'],
     colorMode: {
         preference: 'system',
         fallback: 'dark',

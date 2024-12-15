@@ -47,17 +47,18 @@ const state = reactive({
 });
 
 onMounted(async () => {
-    authStore.fetchUser();
+    await authStore.fetchUser();
 
     state.name = authStore.user?.name;
     state.email = authStore.user?.email;
     state.phone = authStore.user?.phone;
 });
 
+const { $notify } = useNuxtApp();
 async function submitForm() {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await $fetch(`${apiUrl}/v1/users`, {
+    await useFetch(`${apiUrl}/v1/users`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -70,12 +71,19 @@ async function submitForm() {
             phone: state.phone,
             password: state.password,
         },
+    }).then(async (result) => {
+        if (result.error) {
+            $notify('Something went wrong', 'error');
+            return;
+        }
+
+        await authStore.fetchUser();
+
+        state.name = authStore.user?.name;
+        state.email = authStore.user?.email;
+        state.phone = authStore.user?.phone;
+
+        $notify('Account updated successfully', 'success');
     });
-
-    await authStore.fetchUser();
-
-    state.name = authStore.user?.name;
-    state.email = authStore.user?.email;
-    state.phone = authStore.user?.phone;
 }
 </script>

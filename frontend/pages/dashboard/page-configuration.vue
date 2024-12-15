@@ -109,6 +109,7 @@ onMounted(async () => {
     loading.value = false;
 });
 
+const { $notify } = useNuxtApp();
 const saveConfiguration = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -120,5 +121,6 @@ const saveConfiguration = async (e: { preventDefault: () => void }) => {
     });
 
     loading.value = false;
+    $notify('Configuration saved successfully', 'success');
 };
 </script>
