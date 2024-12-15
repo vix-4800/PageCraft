@@ -161,6 +161,7 @@ services:
         volumes:
             - "./:/var/www/html"
             - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
+        restart: unless-stopped
         networks:
             - backend_network
 

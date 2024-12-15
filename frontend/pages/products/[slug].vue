@@ -78,7 +78,7 @@
                                             ? 'border-orange-400'
                                             : ''
                                     "
-                                    @click="selectVariant(variation)"
+                                    @click="selectedVariation.value = variation"
                                 >
                                     <div class="w-12 h-12">
                                         <img
@@ -151,7 +151,11 @@
                             class="bg-orange-600"
                         />
                         <u-meter
-                            :value="(fiveStarReviews / reviews.length) * 100"
+                            :value="
+                                reviews.length > 0
+                                    ? (fiveStarReviews / reviews.length) * 100
+                                    : 0
+                            "
                             color="orange"
                         />
                         <p class="text-sm font-bold text-gray-800">
@@ -167,7 +171,11 @@
                             class="bg-orange-600"
                         />
                         <u-meter
-                            :value="(fourStarReviews / reviews.length) * 100"
+                            :value="
+                                reviews.length > 0
+                                    ? (fourStarReviews / reviews.length) * 100
+                                    : 0
+                            "
                             color="orange"
                         />
                         <p class="text-sm font-bold text-gray-800">
@@ -183,7 +191,11 @@
                             class="bg-orange-600"
                         />
                         <u-meter
-                            :value="(threeStarReviews / reviews.length) * 100"
+                            :value="
+                                reviews.length > 0
+                                    ? (threeStarReviews / reviews.length) * 100
+                                    : 0
+                            "
                             color="orange"
                         />
                         <p class="text-sm font-bold text-gray-800">
@@ -199,7 +211,11 @@
                             class="bg-orange-600"
                         />
                         <u-meter
-                            :value="(twoStarReviews / reviews.length) * 100"
+                            :value="
+                                reviews.length > 0
+                                    ? (twoStarReviews / reviews.length) * 100
+                                    : 0
+                            "
                             color="orange"
                         />
                         <p class="text-sm font-bold text-gray-800">
@@ -215,7 +231,11 @@
                             class="bg-orange-600"
                         />
                         <u-meter
-                            :value="(oneStarReviews / reviews.length) * 100"
+                            :value="
+                                reviews.length > 0
+                                    ? (oneStarReviews / reviews.length) * 100
+                                    : 0
+                            "
                             color="orange"
                         />
                         <p class="text-sm font-bold text-gray-800">
@@ -231,11 +251,13 @@
                         class="flex"
                     >
                         <img
-                            :src="review.user.image"
+                            :src="review.user?.image"
                             class="w-12 h-12 border-2 border-white rounded-full"
                         />
                         <div class="ml-3">
-                            <h4 class="text-sm font-bold">John Doe</h4>
+                            <h4 class="text-sm font-bold">
+                                {{ review.user?.name }}
+                            </h4>
                             <div class="flex items-center mt-1">
                                 <u-icon
                                     v-for="i in review.rating"
@@ -252,11 +274,11 @@
                                     class="bg-gray-400"
                                 />
                                 <p class="text-xs !ml-2 font-semibold">
-                                    {{ review.date }}
+                                    {{ review.created_at }}
                                 </p>
                             </div>
                             <p class="mt-2 text-xs">
-                                {{ review.review }}
+                                {{ review.text }}
                             </p>
                         </div>
                     </div>
@@ -275,50 +297,14 @@ const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const product = ref<Product>({});
 const variations = ref<ProductVariant[]>([]);
 const selectedVariation = ref<ProductVariant>({});
+const reviews = ref([]);
 
-const reviews = ref([
-    {
-        id: 1,
-        name: 'John Doe',
-        rating: 3,
-        review: 'The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt. ',
-        date: '2 mins ago',
-        user: {
-            image: 'https://readymadeui.com/team-2.webp',
-        },
-    },
-]);
-
-const reviewRatings = computed(() =>
-    reviews.value.reduce(
-        (acc, review) => {
-            acc[review.rating] = (acc[review.rating] || 0) + 1;
-            return acc;
-        },
-        { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
-    )
-);
-
-const fiveStarReviews = computed(() => reviewRatings.value[5]);
-const fourStarReviews = computed(() => reviewRatings.value[4]);
-const threeStarReviews = computed(() => reviewRatings.value[3]);
-const twoStarReviews = computed(() => reviewRatings.value[2]);
-const oneStarReviews = computed(() => reviewRatings.value[1]);
-
-const averageRating = computed(() => {
-    return Math.round(
-        (fiveStarReviews.value * 5 +
-            fourStarReviews.value * 4 +
-            threeStarReviews.value * 3 +
-            twoStarReviews.value * 2 +
-            oneStarReviews.value * 1) /
-            (fiveStarReviews.value +
-                fourStarReviews.value +
-                threeStarReviews.value +
-                twoStarReviews.value +
-                oneStarReviews.value)
-    );
-});
+const fiveStarReviews = ref(0);
+const fourStarReviews = ref(0);
+const threeStarReviews = ref(0);
+const twoStarReviews = ref(0);
+const oneStarReviews = ref(0);
+const averageRating = ref(0);
 
 const carouselRef = ref();
 
@@ -346,7 +332,7 @@ onMounted(async () => {
     variations.value = product.value.variations;
     selectedVariation.value = variations.value[0];
 
-    const response2 = await $fetch<{ data: Product[] }>(
+    const response2 = await $fetch(
         `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
         {
             headers: {
@@ -355,11 +341,29 @@ onMounted(async () => {
             },
         }
     );
-});
 
-const selectVariant = (variant: ProductVariant) => {
-    selectedVariation.value = variant;
-};
+    reviews.value = response2.data;
+
+    reviews.value.forEach((review) => {
+        if (review.rating === 5) fiveStarReviews.value++;
+        if (review.rating === 4) fourStarReviews.value++;
+        if (review.rating === 3) threeStarReviews.value++;
+        if (review.rating === 2) twoStarReviews.value++;
+        if (review.rating === 1) oneStarReviews.value++;
+    });
+
+    averageRating.value =
+        (fiveStarReviews.value +
+            fourStarReviews.value * 4 +
+            threeStarReviews.value * 3 +
+            twoStarReviews.value * 2 +
+            oneStarReviews.value) /
+        (fiveStarReviews.value +
+            fourStarReviews.value +
+            threeStarReviews.value +
+            twoStarReviews.value +
+            oneStarReviews.value);
+});
 
 const { $notify } = useNuxtApp();
 const addToCart = () => {
