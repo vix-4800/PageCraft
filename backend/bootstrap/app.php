@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\ApiException;
 use App\Exceptions\ApiNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
             throw_if($request->wantsJson(), new ApiNotFoundException);
+        });
+
+        $exceptions->render(function (Exception $exception, Request $request): void {
+            throw_if($request->wantsJson(), new ApiException);
         });
     })
     ->create();
