@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PageConfigurationSeeder::class,
             ProductAttributeSeeder::class,
             ProductSeeder::class,
+            ProductReviewSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {

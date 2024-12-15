@@ -7,6 +7,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $order_id
+ * @property int $product_variation_id
+ * @property int $quantity
+ * @property-read Order $order
+ * @property-read ProductVariation $productVariation
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereProductVariationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereQuantity($value)
+ *
+ * @mixin \Eloquent
+ */
 class OrderItem extends Model
 {
     public $timestamps = false;

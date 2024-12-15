@@ -6,12 +6,11 @@ namespace App\Enums;
 
 use App\Traits\EnumWithValues;
 
-enum OrderStatus: string
+enum ReviewStatus: string
 {
     use EnumWithValues;
 
     case PENDING = 'pending';
-    case PROCESSING = 'processing';
-    case DELIVERED = 'delivered';
-    case CANCELLED = 'cancelled';
+    case APPROVED = 'approved';
+    case REJECTED = 'rejected';
 }

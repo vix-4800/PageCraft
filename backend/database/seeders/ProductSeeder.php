@@ -9,7 +9,9 @@ use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
 use App\Models\ProductVariation;
+use App\Models\ProductVariationAttribute;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Str;
 
 class ProductSeeder extends Seeder
@@ -28,7 +30,7 @@ class ProductSeeder extends Seeder
         /** @var ProductAttribute $materialAttribute */
         $materialAttribute = ProductAttribute::where('name', 'material')->with('values')->first();
 
-        $products = [
+        $productsData = [
             [
                 'name' => 'T-Shirt',
                 'description' => 'A basic T-Shirt made from 100% cotton, offering a comfortable fit and available in various colors and sizes.',
@@ -104,25 +106,45 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        foreach ($products as $productData) {
-            /** @var Product $product */
-            $product = Product::create([
-                'name' => $productData['name'],
-                'slug' => Str::slug($productData['name']),
-                'image' => $productData['image'],
-                'description' => $productData['description'],
-            ]);
+        foreach ($productsData as $productData) {
+            $product = $this->createProduct($productData);
 
-            $variations = $product->variations()->createMany(collect($productData['variations'])->map(fn ($variation): array => [
-                'sku' => $variation['sku'],
-                'price' => $variation['price'],
-                'stock' => $variation['stock'],
-                'image' => $variation['image'],
-            ])->toArray());
+            $variations = $this->createProductVariations($product, collect($productData['variations']));
 
             $variations->each(function (ProductVariation $variation, int $index) use ($productData): void {
-                $variation->productVariationAttributes()->createMany($productData['variations'][$index]['attributes']);
+                $this->createVariationAttributes($variation, $productData['variations'][$index]['attributes']);
             });
         }
+    }
+
+    private function createProduct(array $data): Product
+    {
+        return Product::create([
+            'name' => $data['name'],
+            'slug' => Str::slug($data['name']),
+            'image' => $data['image'],
+            'description' => $data['description'],
+        ]);
+    }
+
+    /**
+     * @return Collection<int, ProductVariation>
+     */
+    private function createProductVariations(Product $product, Collection $variations): Collection
+    {
+        return $product->variations()->createMany($variations->map(fn ($variation): array => [
+            'sku' => $variation['sku'],
+            'price' => $variation['price'],
+            'stock' => $variation['stock'],
+            'image' => $variation['image'],
+        ])->toArray());
+    }
+
+    /**
+     * @return Collection<int, ProductVariationAttribute>
+     */
+    private function createVariationAttributes(ProductVariation $variation, array $attributes): Collection
+    {
+        return $variation->productVariationAttributes()->createMany($attributes);
     }
 }

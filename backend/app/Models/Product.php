@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariation> $variations
  * @property-read int|null $variations_count
  *
@@ -67,5 +69,10 @@ class Product extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_archived', false);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
     }
 }
