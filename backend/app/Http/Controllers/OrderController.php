@@ -9,11 +9,22 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\ProductVariation;
 use App\Models\User;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Str;
 
 class OrderController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['store']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
-    public function index(Request $request): JsonResource
+    public function index(): JsonResource
     {
         return UserResource::collection(User::all());
     }

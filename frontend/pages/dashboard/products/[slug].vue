@@ -103,7 +103,7 @@ const status = ref('idle');
 
 onMounted(async () => {
     const response: { data: Product } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/product-by-slug/${useRoute().params.slug}`,
+        `${apiUrl}/v1/products/${useRoute().params.slug}`,
         {
             method: 'GET',
             headers: {

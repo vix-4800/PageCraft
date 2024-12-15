@@ -76,14 +76,17 @@ export const useAuthStore = defineStore('auth', {
         async fetchUser() {
             const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-            const response = await $fetch<{ data: User }>(`${apiUrl}/v1/user`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.authToken}`,
-                },
-            });
+            const response = await $fetch<{ data: User }>(
+                `${apiUrl}/v1/users`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${this.authToken}`,
+                    },
+                }
+            );
 
             this.user = response.data;
         },

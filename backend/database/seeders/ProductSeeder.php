@@ -132,7 +132,7 @@ class ProductSeeder extends Seeder
      */
     private function createProductVariations(Product $product, Collection $variations): Collection
     {
-        return $product->variations()->createMany($variations->map(fn ($variation): array => [
+        return $product->variations()->createMany($variations->map(fn (array $variation): array => [
             'sku' => $variation['sku'],
             'price' => $variation['price'],
             'stock' => $variation['stock'],

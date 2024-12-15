@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class StatisticsController extends Controller
 {
-    public function index(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         return ApiResponse::create([
             'users' => [

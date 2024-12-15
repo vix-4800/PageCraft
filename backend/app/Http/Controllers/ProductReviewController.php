@@ -7,9 +7,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductReviewRequest;
 use App\Http\Requests\UpdateProductReviewRequest;
 use App\Models\ProductReview;
+use Illuminate\Routing\Controllers\Middleware;
 
 class ProductReviewController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['index', 'store']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -19,33 +30,9 @@ class ProductReviewController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductReviewRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProductReview $productReview)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProductReview $productReview)
     {
         //
     }

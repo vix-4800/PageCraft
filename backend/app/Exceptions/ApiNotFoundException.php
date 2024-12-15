@@ -6,8 +6,8 @@ namespace App\Exceptions;
 
 final class ApiNotFoundException extends ApiException
 {
-    public function __construct(string $message = 'Not Found', ?\Throwable $previous = null)
+    public function __construct(string $message = 'Not Found')
     {
-        parent::__construct($message, 404, $previous);
+        parent::__construct($message, 404);
     }
 }

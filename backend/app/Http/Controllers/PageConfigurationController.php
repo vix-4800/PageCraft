@@ -8,9 +8,20 @@ use App\Http\Requests\UpdatePageConfigurationRequest;
 use App\Http\Resources\PageConfigurationResource;
 use App\Models\PageConfiguration;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Routing\Controllers\Middleware;
 
 class PageConfigurationController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['show']),
+        ];
+    }
+
     /**
      * Display the specified resource.
      */

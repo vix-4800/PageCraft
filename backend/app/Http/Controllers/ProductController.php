@@ -25,8 +25,6 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * TODO Creation logic
      */
     public function store(StoreProductRequest $request): JsonResource
     {
@@ -38,18 +36,6 @@ class ProductController extends Controller
      */
     public function show(Product $product): JsonResource
     {
-        return ProductResource::make($product->load('variations.productVariationAttributes'));
-    }
-
-    /**
-     * Display the specified resource by slug.
-     */
-    public function showBySlug(string $slug): JsonResource
-    {
-        $product = Product::active()
-            ->where('slug', $slug)
-            ->firstOrFail();
-
         return ProductResource::make($product->load('variations.productVariationAttributes'));
     }
 
