@@ -344,25 +344,24 @@ onMounted(async () => {
 
     reviews.value = response2.data;
 
-    reviews.value.forEach((review) => {
-        if (review.rating === 5) fiveStarReviews.value++;
-        if (review.rating === 4) fourStarReviews.value++;
-        if (review.rating === 3) threeStarReviews.value++;
-        if (review.rating === 2) twoStarReviews.value++;
-        if (review.rating === 1) oneStarReviews.value++;
-    });
+    if (reviews.value.length > 0) {
+        reviews.value.forEach((review) => {
+            if (review.rating === 5) fiveStarReviews.value++;
+            if (review.rating === 4) fourStarReviews.value++;
+            if (review.rating === 3) threeStarReviews.value++;
+            if (review.rating === 2) twoStarReviews.value++;
+            if (review.rating === 1) oneStarReviews.value++;
+        });
 
-    averageRating.value =
-        (fiveStarReviews.value +
-            fourStarReviews.value * 4 +
-            threeStarReviews.value * 3 +
-            twoStarReviews.value * 2 +
-            oneStarReviews.value) /
-        (fiveStarReviews.value +
-            fourStarReviews.value +
-            threeStarReviews.value +
-            twoStarReviews.value +
-            oneStarReviews.value);
+        averageRating.value = Math.round(
+            (fiveStarReviews.value * 5 +
+                fourStarReviews.value * 4 +
+                threeStarReviews.value * 3 +
+                twoStarReviews.value * 2 +
+                oneStarReviews.value) /
+                reviews.value.length
+        );
+    }
 });
 
 const { $notify } = useNuxtApp();
