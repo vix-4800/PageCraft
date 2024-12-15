@@ -88,6 +88,7 @@ services:
             - "${REDIS_PORT:-6379}:6379"
         volumes:
             - "redis_volume:/data"
+        restart: unless-stopped
         networks:
             - backend_network
         healthcheck:
@@ -101,7 +102,6 @@ services:
     redisinsight:
         container_name: redisinsight
         image: redislabs/redisinsight:latest
-        restart: always
         ports:
             - "${REDISINSIGHT_PORT:-5540}:5540"
         networks:
@@ -147,7 +147,6 @@ services:
     mailhog:
         container_name: mailhog
         image: mailhog/mailhog
-        restart: unless-stopped
         ports:
             - "1025:1025"
             - "${MAILHOG_PORT:-8025}:8025"
@@ -162,7 +161,6 @@ services:
         volumes:
             - "./:/var/www/html"
             - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
-        restart: unless-stopped
         networks:
             - backend_network
 
