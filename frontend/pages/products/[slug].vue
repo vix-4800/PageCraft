@@ -288,6 +288,7 @@ const reviews = ref([
         },
     },
 ]);
+
 const reviewRatings = computed(() =>
     reviews.value.reduce(
         (acc, review) => {
@@ -322,10 +323,18 @@ const averageRating = computed(() => {
 const carouselRef = ref();
 
 onMounted(async () => {
+    setInterval(() => {
+        if (!carouselRef.value) return;
+
+        if (carouselRef.value.page === carouselRef.value.pages)
+            return carouselRef.value.select(0);
+
+        carouselRef.value.next();
+    }, 3000);
+
     const response: { data: Product } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products/${useRoute().params.slug}`,
         {
-            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -337,15 +346,15 @@ onMounted(async () => {
     variations.value = product.value.variations;
     selectedVariation.value = variations.value[0];
 
-    setInterval(() => {
-        if (!carouselRef.value) return;
-
-        if (carouselRef.value.page === carouselRef.value.pages) {
-            return carouselRef.value.select(0);
+    const response2 = await $fetch<{ data: Product[] }>(
+        `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
         }
-
-        carouselRef.value.next();
-    }, 3000);
+    );
 });
 
 const selectVariant = (variant: ProductVariant) => {
