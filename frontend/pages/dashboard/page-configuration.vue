@@ -23,6 +23,7 @@
                                 id="header-styles"
                                 v-model="headerStylesSelect"
                                 :options="headerStylesOptions"
+                                size="lg"
                             />
                         </div>
                         <div class="w-1/2">
@@ -36,6 +37,7 @@
                                 id="footer-styles"
                                 v-model="footerStylesSelect"
                                 :options="footerStylesOptions"
+                                size="lg"
                             />
                         </div>
                     </div>
@@ -51,13 +53,14 @@
                             id="product-list-styles"
                             v-model="productListStylesSelect"
                             :options="productListStylesOptions"
+                            size="lg"
                         />
                     </div>
 
                     <u-button
                         icon="material-symbols:save"
                         type="submit"
-                        size="sm"
+                        size="md"
                         color="primary"
                         class="mt-2 border w-min"
                         :loading="loading"

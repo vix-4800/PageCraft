@@ -1,7 +1,7 @@
 <template>
     <header
         id="page-header"
-        x-data="{ userDropdownOpen: false, mobileNavOpen: false }"
+        x-data="{ mobileNavOpen: false }"
         class="flex items-center flex-none z-1 bg-gradient-to-br from-gray-900 to-gray-700"
     >
         <div class="container px-4 mx-auto lg:px-8 xl:max-w-7xl">
@@ -25,27 +25,22 @@
 
                 <div class="flex items-center gap-1 lg:gap-5">
                     <nav class="flex items-center gap-2">
-                        <a
-                            href="javascript:void(0)"
-                            class="group flex items-center justify-between rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-slate-900 hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100 sm:gap-2"
+                        <button
+                            type="button"
+                            class="group flex items-center group justify-between rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-slate-900 hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100 sm:gap-2"
+                            @click="isNotificationSlideOverOpen = true"
                         >
-                            <svg
-                                class="inline-block w-5 h-5 hi-mini hi-flag text-slate-300 group-hover:text-indigo-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z"
-                                />
-                            </svg>
+                            <u-icon
+                                name="ic:baseline-notifications"
+                                size="27"
+                                class="bg-white group-hover:bg-indigo-600"
+                            />
                             <span
-                                class="inline-flex items-center justify-center w-6 h-6 text-indigo-900 border border-indigo-200 rounded-full bg-indigo-50"
+                                class="inline-flex items-center justify-center w-6 h-6 text-indigo-900 border border-indigo-200 rounded-full bg-indigo-50 group-hover:bg-indigo-100 group-hover:text-indigo-600"
                             >
-                                3
+                                {{ notificationCount }}
                             </span>
-                        </a>
+                        </button>
                     </nav>
 
                     <div class="relative inline-block">
@@ -54,130 +49,61 @@
                             type="button"
                             class="group flex items-center justify-between rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-white hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100 sm:gap-2"
                             aria-haspopup="true"
-                            x-bind:aria-expanded="userDropdownOpen"
-                            x-on:click="userDropdownOpen = true"
+                            @click="userDropdownOpen = !userDropdownOpen"
                         >
                             <span class="sm:hidden">JD</span>
                             <span class="hidden sm:inline-block">
                                 {{ userName }}
                             </span>
-                            <svg
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="inline-block w-5 h-5 hi-solid hi-chevron-down text-slate-400"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
+                            <u-icon
+                                :name="
+                                    userDropdownOpen
+                                        ? 'heroicons-outline:chevron-up'
+                                        : 'heroicons-outline:chevron-down'
+                                "
+                                size="20"
+                                class="text-slate-400 group-hover:text-indigo-500"
+                            />
                         </button>
-                        <!-- END Dropdown Toggle Button -->
 
-                        <!-- Dropdown -->
                         <div
-                            x-cloak
-                            x-show="userDropdownOpen"
-                            x-transition:enter="transition ease-out duration-150"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            x-on:click.outside="userDropdownOpen = false"
+                            ref="userDropdown"
+                            v-if="userDropdownOpen"
                             role="menu"
                             aria-labelledby="tk-dropdown-layouts-user"
-                            class="absolute w-48 mt-2 rounded shadow-xl end-0 shadow-slate-200 ltr:origin-top-right rtl:origin-top-left"
+                            class="absolute z-50 w-48 mt-2 rounded shadow-xl end-0 shadow-slate-200 ltr:origin-top-right rtl:origin-top-left"
                         >
                             <div
                                 class="bg-white divide-y rounded divide-slate-100 ring-1 ring-slate-900/5"
                             >
                                 <div class="p-2 space-y-1">
-                                    <a
+                                    <nuxt-link
+                                        to="/dashboard/account"
                                         role="menuitem"
-                                        href="javascript:void(0)"
                                         class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded group text-slate-900 hover:bg-slate-100 hover:text-slate-700"
                                     >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            aria-hidden="true"
-                                            class="inline-block w-5 h-5 hi-mini hi-beaker text-slate-300 group-hover:text-indigo-500"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M8.5 3.528v4.644c0 .729-.29 1.428-.805 1.944l-1.217 1.216a8.75 8.75 0 013.55.621l.502.201a7.25 7.25 0 004.178.365l-2.403-2.403a2.75 2.75 0 01-.805-1.944V3.528a40.205 40.205 0 00-3 0zm4.5.084l.19.015a.75.75 0 10.12-1.495 41.364 41.364 0 00-6.62 0 .75.75 0 00.12 1.495L7 3.612v4.56c0 .331-.132.649-.366.883L2.6 13.09c-1.496 1.496-.817 4.15 1.403 4.475C5.961 17.852 7.963 18 10 18s4.039-.148 5.997-.436c2.22-.325 2.9-2.979 1.403-4.475l-4.034-4.034A1.25 1.25 0 0113 8.172v-4.56z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                        <span>Lab</span>
-                                    </a>
-                                    <a
-                                        role="menuitem"
-                                        href="javascript:void(0)"
-                                        class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded group text-slate-900 hover:bg-slate-100 hover:text-slate-700"
-                                    >
-                                        <svg
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="inline-block w-5 h-5 hi-solid hi-inbox text-slate-300 group-hover:text-indigo-500"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                        <span>Inbox</span>
-                                    </a>
-                                </div>
-                                <div class="p-2 space-y-1">
-                                    <a
-                                        role="menuitem"
-                                        href="javascript:void(0)"
-                                        class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded group text-slate-900 hover:bg-slate-100 hover:text-slate-700"
-                                    >
-                                        <svg
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="inline-block w-5 h-5 hi-solid hi-user-circle text-slate-300 group-hover:text-indigo-500"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
+                                        <u-icon
+                                            name="material-symbols:account-circle"
+                                            size="20"
+                                            class="text-slate-400 group-hover:text-indigo-500"
+                                        />
                                         <span>Account</span>
-                                    </a>
+                                    </nuxt-link>
                                 </div>
                                 <div class="p-2 space-y-1">
-                                    <form onsubmit="return false;">
-                                        <button
-                                            type="submit"
-                                            role="menuitem"
-                                            class="flex items-center w-full gap-2 px-3 py-2 text-sm font-medium rounded group text-slate-900 hover:bg-slate-100 hover:text-slate-700"
-                                        >
-                                            <svg
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="inline-block w-5 h-5 hi-solid hi-lock-closed text-slate-300 group-hover:text-indigo-500"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                                    clip-rule="evenodd"
-                                                />
-                                            </svg>
-                                            <span>Logout</span>
-                                        </button>
-                                    </form>
+                                    <button
+                                        type="submit"
+                                        role="menuitem"
+                                        @click="authStore.logout()"
+                                        class="flex items-center w-full gap-2 px-3 py-2 text-sm font-medium rounded group text-slate-900 hover:bg-slate-100 hover:text-slate-700"
+                                    >
+                                        <u-icon
+                                            name="material-symbols:logout-rounded"
+                                            size="20"
+                                            class="text-slate-400 group-hover:text-indigo-500"
+                                        />
+                                        <span>Logout</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -350,11 +276,56 @@
             </nav>
         </div>
     </header>
+
+    <u-slideover v-model="isNotificationSlideOverOpen" :overlay="false">
+        <div class="flex-1 p-4">
+            <UButton
+                color="gray"
+                variant="ghost"
+                size="sm"
+                icon="i-heroicons-x-mark-20-solid"
+                class="absolute z-10 flex sm:hidden end-5 top-5"
+                square
+                padded
+                @click="isNotificationSlideOverOpen = false"
+            />
+
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-semibold">Notifications</h3>
+                    <p
+                        class="text-gray-600 text-md"
+                        v-if="notificationCount > 0"
+                    >
+                        You have
+                        <span class="font-semibold">
+                            {{ notificationCount }}
+                        </span>
+                        unread notifications
+                    </p>
+                    <p class="text-gray-600 text-md" v-else>
+                        You don't have any new notifications
+                    </p>
+                </div>
+            </div>
+        </div>
+    </u-slideover>
 </template>
 
 <script lang="ts" setup>
+import { onClickOutside } from '@vueuse/core';
+
 const appName: string = useRuntimeConfig().public.appName;
 
 const authStore = useAuthStore();
 const userName: string = authStore.user?.name || 'User';
+
+const isNotificationSlideOverOpen = ref(false);
+const notificationCount = ref(0);
+
+const userDropdown = ref(null);
+const userDropdownOpen = ref(false);
+onClickOutside(userDropdown, (event) => {
+    // userDropdownOpen.value = false;
+});
 </script>

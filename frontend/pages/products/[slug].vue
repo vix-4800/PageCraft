@@ -113,8 +113,9 @@
                     </ul>
                 </div>
 
-                <div class="flex gap-4">
+                <div class="flex justify-between">
                     <u-button
+                        v-if="!cartStore.isProductInCart(selectedVariation)"
                         type="button"
                         color="orange"
                         icon="material-symbols:add-shopping-cart-sharp"
@@ -126,6 +127,16 @@
                         "
                         @click="addToCart"
                     />
+                    <nuxt-link to="/cart" class="w-1/2" v-else>
+                        <u-button
+                            type="button"
+                            color="cyan"
+                            icon="material-symbols:shopping-cart"
+                            class="justify-center w-full px-6 py-3 font-semibold"
+                            label="Go to cart"
+                        />
+                    </nuxt-link>
+
                     <u-button
                         type="button"
                         :color="
@@ -372,8 +383,10 @@ function selectVariation(variation: ProductVariant) {
 }
 
 const { $notify } = useNuxtApp();
+
+const cartStore = useCartStore();
 const addToCart = () => {
-    useCartStore().increaseProductQuantity(selectedVariation.value);
+    cartStore.increaseProductQuantity(selectedVariation.value);
 
     $notify(`${product.value.name} added to cart`, 'info');
 };

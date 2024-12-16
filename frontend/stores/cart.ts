@@ -44,6 +44,12 @@ export const useCartStore = defineStore('cart', {
         clearCart() {
             this.items = [];
         },
+        isProductInCart(product: ProductVariant): boolean {
+            return (
+                this.items.find((p) => p.product.sku === product.sku) !==
+                undefined
+            );
+        },
     },
     getters: {
         totalItems(): number {

@@ -77,7 +77,7 @@ export const useAuthStore = defineStore('auth', {
             const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
             const response = await $fetch<{ data: User }>(
-                `${apiUrl}/v1/users`,
+                `${apiUrl}/v1/users/me`,
                 {
                     method: 'GET',
                     headers: {

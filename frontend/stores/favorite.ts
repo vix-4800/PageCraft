@@ -15,15 +15,13 @@ export const useFavoriteStore = defineStore('favorite', {
                 this.items.push(product);
             }
         },
+        isFavorite(product: Product): boolean {
+            return this.items.some((p) => p.slug === product.slug);
+        },
     },
     getters: {
         totalItemsCount(): number {
             return this.items.length;
-        },
-        isFavorite(): (product: Product) => boolean {
-            return (product: Product) => {
-                return this.items.some((p) => p.slug === product.slug);
-            };
         },
     },
 });
