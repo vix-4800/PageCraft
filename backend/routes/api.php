@@ -21,7 +21,14 @@ Route::name('api.')->group(function (): void {
 
         Route::apiSingleton('page-configuration', PageConfigurationController::class);
 
-        Route::get('statistics', StatisticsController::class)->name('statistics.index')->middleware('auth:sanctum');
+        Route::controller(StatisticsController::class)
+            ->prefix('statistics')
+            ->name('statistics.')
+            ->middleware('auth:sanctum')
+            ->group(function (): void {
+                Route::get('overview', [StatisticsController::class, 'overview'])->name('overview');
+                Route::get('sales/last-week', [StatisticsController::class, 'salesForLastSevenDays'])->name('sales.lastSevenDays');
+            });
 
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('orders', OrderController::class);

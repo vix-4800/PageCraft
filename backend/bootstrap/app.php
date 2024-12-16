@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiException;
 use App\Exceptions\ApiNotFoundException;
-use App\Exceptions\ApiUnauthenticatedException;
+use App\Exceptions\ApiUnauthorizedException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (AuthenticationException $exception, Request $request): void {
-            throw_if($request->wantsJson(), new ApiUnauthenticatedException);
+            throw_if($request->wantsJson(), new ApiUnauthorizedException);
         });
 
         $exceptions->render(function (Exception $exception, Request $request): void {

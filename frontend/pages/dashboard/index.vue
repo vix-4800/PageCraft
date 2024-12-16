@@ -47,7 +47,7 @@
                     Total Earnings
                 </dd>
             </dl>
-            <div class="h-64">
+            <div class="h-64 px-4">
                 <v-chart :option="earningsOption" :loading="earningsLoading" />
             </div>
         </div>
@@ -297,8 +297,8 @@ const statistics = reactive({
 const earningsLoading = ref(true);
 const earningsOption = ref({
     xAxis: {
-        type: 'category',
         data: [],
+        type: 'category',
     },
     yAxis: {
         type: 'value',
@@ -331,7 +331,7 @@ const pageviewsOption = ref({
 onMounted(async () => {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    const response = await $fetch(`${apiUrl}/v1/statistics`, {
+    const response1 = await $fetch(`${apiUrl}/v1/statistics/overview`, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -339,20 +339,24 @@ onMounted(async () => {
         },
     });
 
-    statistics.users.today = response.data.users.today;
-    statistics.users.total = response.data.users.total;
+    statistics.users.today = response1.data.users.today;
+    statistics.users.total = response1.data.users.total;
 
-    statistics.sales.today = response.data.sales.today;
-    statistics.sales.total = response.data.sales.total;
-    earningsOption.value.xAxis.data = Object.keys(
-        response.data.sales.last_seven_days
-    );
-    earningsOption.value.series[0].data = Object.values(
-        response.data.sales.last_seven_days
-    );
+    statistics.sales.today = response1.data.sales.today;
+    statistics.sales.total = response1.data.sales.total;
+
+    statistics.earnings.today = response1.data.earnings.today;
+    statistics.earnings.total = response1.data.earnings.total;
+
+    const response2 = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
+        },
+    });
+    earningsOption.value.xAxis.data = Object.keys(response2.data);
+    earningsOption.value.series[0].data = Object.values(response2.data);
     earningsLoading.value = false;
-
-    statistics.earnings.today = response.data.earnings.today;
-    statistics.earnings.total = response.data.earnings.total;
 });
 </script>
