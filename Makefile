@@ -5,7 +5,7 @@
 	start_backend stop_backend restart_backend shell_backend logs_backend \
 	start stop ps restart
 
-FRONDEND_DOCKER_FILE=frontend/docker-compose.yml
+FRONTEND_DOCKER_FILE=frontend/docker-compose.yml
 BACKEND_DOCKER_FILE=backend/docker-compose.yml
 
 # General
@@ -16,14 +16,14 @@ restart: restart_frontend restart_backend
 # Frontend
 start_frontend:
 	@echo "\nStarting Frontend..."
-	@docker compose -f $(FRONDEND_DOCKER_FILE) up -d
+	@docker compose -f $(FRONTEND_DOCKER_FILE) up -d
 	@echo "\nFrontend can be accessed at http://localhost:80"
 stop_frontend:
 	@echo "\nStopping Frontend..."
-	@docker compose -f $(FRONDEND_DOCKER_FILE) down
+	@docker compose -f $(FRONTEND_DOCKER_FILE) down
 restart_frontend:
 	@echo "\nRestarting Frontend..."
-	@docker compose -f $(FRONDEND_DOCKER_FILE) restart
+	@docker compose -f $(FRONTEND_DOCKER_FILE) restart
 shell_frontend:
 	@echo "\nEntering the Running Frontend Container..."
 	@docker exec -it frontend sh
