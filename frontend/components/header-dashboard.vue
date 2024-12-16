@@ -11,9 +11,9 @@
                         to="/"
                         class="inline-flex items-center gap-1 font-bold tracking-wide text-md group text-slate-700 hover:text-indigo-600 active:text-slate-700 sm:text-lg"
                     >
-                        <img
-                            src="@img/logo.png"
-                            alt=""
+                        <nuxt-img
+                            src="/logo.png"
+                            :alt="appName"
                             width="40px"
                             height="40px"
                         />
@@ -353,8 +353,7 @@
 </template>
 
 <script lang="ts" setup>
-const config = useRuntimeConfig();
-const appName: string = config.public.appName;
+const appName: string = useRuntimeConfig().public.appName;
 
 const authStore = useAuthStore();
 const userName: string = authStore.user?.name || 'User';

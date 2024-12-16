@@ -1,6 +1,10 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen gap-6">
-        <img src="@img/logo.png" :alt="appName" class="animate-glowing-pulse" />
+        <nuxt-img
+            src="/logo.png"
+            :alt="appName"
+            class="animate-glowing-pulse"
+        />
         <span
             style="font-family: 'Merriweather'; font-weight: 700"
             class="text-4xl text-white"
@@ -42,6 +46,5 @@ definePageMeta({
     layout: 'empty',
 });
 
-const config = useRuntimeConfig();
-const appName: string = config.public.appName;
+const appName: string = useRuntimeConfig().public.appName;
 </script>

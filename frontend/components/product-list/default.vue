@@ -35,10 +35,11 @@
                         :to="`/products/${product.slug}`"
                         class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-white"
                     >
-                        <img
+                        <nuxt-img
                             :src="product.image"
                             :alt="product.name"
-                            class="object-contain w-full h-full hover:scale-[1.03] ease-in-out transition-all"
+                            class="object-contain w-full h-full hover:scale-[1.03] ease-in-out transition-all rounded-lg"
+                            placeholder="/placeholder.png"
                         />
                     </nuxt-link>
                 </div>

@@ -15,7 +15,11 @@
                             :items="[product.image]"
                             :ui="{ item: 'basis-full' }"
                         >
-                            <img :src="item" class="w-full" draggable="false" />
+                            <nuxt-img
+                                :src="item"
+                                class="w-full"
+                                draggable="false"
+                            />
                         </UCarousel>
                     </div>
                 </div>
@@ -78,13 +82,16 @@
                                             ? 'border-orange-400'
                                             : ''
                                     "
-                                    @click="selectedVariation.value = variation"
+                                    @click="selectVariation(variation)"
                                 >
                                     <div class="w-12 h-12">
-                                        <img
+                                        <nuxt-img
                                             :src="variation.image"
                                             alt="Product1"
-                                            class="w-full h-full"
+                                            class="w-full h-full rounded-lg"
+                                            width="48px"
+                                            height="48px"
+                                            placeholder="/placeholder.png"
                                         />
                                     </div>
                                 </button>
@@ -250,9 +257,10 @@
                         :key="review.id"
                         class="flex"
                     >
-                        <img
+                        <nuxt-img
                             :src="review.user?.image"
                             class="w-12 h-12 border-2 border-white rounded-full"
+                            loading="lazy"
                         />
                         <div class="ml-3">
                             <h4 class="text-sm font-bold">
@@ -274,7 +282,11 @@
                                     class="bg-gray-400"
                                 />
                                 <p class="text-xs !ml-2 font-semibold">
-                                    {{ review.created_at }}
+                                    {{
+                                        new Date(
+                                            review.created_at
+                                        ).toLocaleString()
+                                    }}
                                 </p>
                             </div>
                             <p class="mt-2 text-xs">
@@ -363,6 +375,10 @@ onMounted(async () => {
         );
     }
 });
+
+function selectVariation(variation: ProductVariant) {
+    selectedVariation.value = variation;
+}
 
 const { $notify } = useNuxtApp();
 const addToCart = () => {

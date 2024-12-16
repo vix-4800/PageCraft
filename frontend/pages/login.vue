@@ -8,7 +8,10 @@
                     to="/"
                     class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
                 >
-                    <img src="@img/logo.png" :alt="config.public.appName" />
+                    <nuxt-img
+                        src="/logo.png"
+                        :alt="useRuntimeConfig().public.appName"
+                    />
                 </nuxt-link>
             </div>
 
@@ -68,8 +71,6 @@
 definePageMeta({
     layout: 'empty',
 });
-
-const config = useRuntimeConfig();
 const store = useAuthStore();
 
 const state = reactive({

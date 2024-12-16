@@ -5,9 +5,9 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:flex lg:items-center">
                 <nuxt-link to="/" class="flex items-center gap-4">
-                    <img
-                        src="@img/logo.png"
-                        alt=""
+                    <nuxt-img
+                        src="/logo.png"
+                        :alt="appName"
                         width="40px"
                         height="40px"
                     />
@@ -138,6 +138,5 @@
 </template>
 
 <script lang="ts" setup>
-const config = useRuntimeConfig();
-const appName: string = config.public.appName;
+const appName: string = useRuntimeConfig().public.appName;
 </script>

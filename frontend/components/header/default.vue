@@ -7,7 +7,12 @@
                 to="/"
                 class="flex items-center gap-4 max-sm:w-full max-sm:mb-3 shrink-0"
             >
-                <img src="@img/logo.png" alt="" width="40px" height="40px" />
+                <nuxt-img
+                    src="/logo.png"
+                    :alt="appName"
+                    width="40px"
+                    height="40px"
+                />
                 <span class="text-2xl font-bold text-white">
                     {{ appName }}
                 </span>
@@ -114,9 +119,9 @@
                         to="/"
                         class="flex items-center gap-4 max-sm:w-full max-sm:mb-3 shrink-0"
                     >
-                        <img
-                            src="@img/logo.png"
-                            alt=""
+                        <nuxt-img
+                            src="/logo.png"
+                            :alt="appName"
                             width="40px"
                             height="40px"
                         />
@@ -143,8 +148,7 @@
 </template>
 
 <script lang="ts" setup>
-const config = useRuntimeConfig();
-const appName: string = config.public.appName;
+const appName: string = useRuntimeConfig().public.appName;
 
 const authStore = useAuthStore();
 const isAuthenticated: boolean = authStore.authenticated;
