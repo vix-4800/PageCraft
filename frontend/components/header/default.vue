@@ -25,8 +25,25 @@
                     class="xl:w-96 max-lg:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4 bg-gray-100 border-2 border-gray-300 bg-transparent focus:ring-0 text-gray-200 px-6 rounded h-11 outline-[#333] text-sm transition-all"
                 />
                 <div class="ml-auto max-lg:mt-4">
-                    <ul class="flex items-center">
-                        <li class="px-3 cursor-pointer max-lg:py-2">
+                    <ul class="flex items-center space-x-4">
+                        <li class="cursor-pointer max-lg:py-2">
+                            <nuxt-link to="/favorites">
+                                <span class="relative">
+                                    <u-icon
+                                        name="material-symbols:favorite-outline"
+                                        size="23"
+                                        class="text-gray-200"
+                                    />
+                                    <span
+                                        class="absolute left-auto px-1 py-0 -ml-1 text-xs text-gray-900 bg-yellow-500 rounded-full -top-3"
+                                    >
+                                        {{ useFavoriteStore().totalItemsCount }}
+                                    </span>
+                                </span>
+                            </nuxt-link>
+                        </li>
+
+                        <li class="cursor-pointer max-lg:py-2">
                             <nuxt-link to="/cart">
                                 <span class="relative">
                                     <u-icon
@@ -37,36 +54,38 @@
                                     <span
                                         class="absolute left-auto px-1 py-0 -ml-1 text-xs text-gray-900 bg-yellow-500 rounded-full -top-3"
                                     >
-                                        {{ cartCount }}
+                                        {{ useCartStore().totalItems }}
                                     </span>
                                 </span>
                             </nuxt-link>
                         </li>
+
                         <li
-                            class="flex text-[15px] max-lg:py-2 px-3 hover:text-yellow-500 hover:fill-yellow-500"
+                            class="flex text-[15px] max-lg:py-2 hover:text-yellow-500 hover:fill-yellow-500"
                         >
-                            <button
+                            <nuxt-link
+                                to="/login"
                                 v-if="!isAuthenticated"
                                 class="px-4 py-2 text-sm font-semibold text-white bg-transparent border-2 border-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900"
-                                @click="login"
                             >
                                 Sign In
-                            </button>
+                            </nuxt-link>
 
-                            <button
+                            <nuxt-link
                                 v-else
                                 class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-transparent border-2 border-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900"
-                                @click="dashboard"
+                                to="/dashboard"
                             >
                                 <u-icon
                                     name="material-symbols:account-circle"
                                     size="20"
                                 />
                                 Dashboard
-                            </button>
+                            </nuxt-link>
                         </li>
-                        <li class="lg:hidden" @click="toggleMenu">
-                            <button>
+
+                        <li class="lg:hidden">
+                            <button @click="toggleMenu">
                                 <svg
                                     class="w-7 h-7"
                                     fill="#333"
@@ -149,17 +168,7 @@
 
 <script lang="ts" setup>
 const appName: string = useRuntimeConfig().public.appName;
-
-const authStore = useAuthStore();
-const isAuthenticated: boolean = authStore.authenticated;
-
-const login = () => {
-    navigateTo('/login');
-};
-
-const dashboard = () => {
-    navigateTo('/dashboard');
-};
+const isAuthenticated: boolean = useAuthStore().authenticated;
 
 const isCollapseMenuVisible = ref(false);
 const toggleMenu = () => {
@@ -170,9 +179,6 @@ const categories = ref([
     { name: 'Home', href: '/' },
     { name: 'Trending', href: '/trending' },
 ]);
-
-const cartStore = useCartStore();
-const cartCount = computed(() => cartStore.totalItems);
 </script>
 
 <style scoped>

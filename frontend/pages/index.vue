@@ -1,7 +1,9 @@
 <template>
-    <main>
-        <component :is="productListComponent" :products="products" />
-    </main>
+    <component
+        :is="productListComponent"
+        :products="products"
+        title="Our Products"
+    />
 </template>
 
 <script lang="ts" setup>
