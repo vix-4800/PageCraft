@@ -20,6 +20,7 @@
         "alpinejs": "^3.14.1",
         "notyf": "^3.10.0",
         "nuxt": "^3.13.0",
+        "nuxt-echarts": "^0.2.4",
         "pinia": "^2.2.2",
         "vue": "latest",
         "vue-router": "latest"

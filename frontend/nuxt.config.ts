@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         '@nuxtjs/google-fonts',
         '@pinia/nuxt',
         '@nuxt/ui',
+        'nuxt-echarts',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
@@ -53,5 +54,20 @@ export default defineNuxtConfig({
                 wght: [400, 700],
             },
         },
+    },
+    echarts: {
+        ssr: true,
+        renderer: ['canvas'],
+        charts: ['PieChart', 'LineChart'],
+        components: [
+            'TitleComponent',
+            'DatasetComponent',
+            'GridComponent',
+            'TooltipComponent',
+            'ToolboxComponent',
+            'GeoComponent',
+            'VisualMapComponent',
+            'LegendComponent',
+        ],
     },
 });

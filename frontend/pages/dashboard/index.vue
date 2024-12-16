@@ -47,18 +47,8 @@
                     Total Earnings
                 </dd>
             </dl>
-            <div class="-m-2">
-                <svg
-                    class="w-auto text-indigo-100"
-                    fill="currentColor"
-                    viewBox="0 0 1000 500"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M 0,493.9109719606716 C 14.200000000000001,490.40802978683513 42.60000000000001,487.5791262811064 71,476.39626109148924 C 99.4,465.21339590187205 113.6,453.15974467495977 142,437.99664601258576 C 170.4,422.8335473502118 184.6,406.98651600999744 213,400.58076777961935 C 241.4,394.17501954924126 255.6,416.4756240849917 284,405.9679048606953 C 312.4,395.46018563639893 326.6,358.32287941899733 355,348.0421716581375 C 383.4,337.7614638972776 397.6,368.4679124832968 426,354.5643660563959 C 454.4,340.660819629495 468.6,300.30672545627453 497,278.5244395236329 C 525.4,256.7421535909913 539.6,252.0730672209553 568,245.65293639318784 C 596.4,239.23280556542042 610.6,231.89211788080013 639,246.42378538479574 C 667.4,260.95545288879134 681.6,336.33567203932097 710,318.3112739131659 C 738.4,300.28687578701084 752.6,166.6854990107404 781,156.30179475402042 C 809.4,145.91809049730045 823.6,289.85843160308036 852,266.3927526295661 C 880.4,242.92707365605182 894.6,59.99402379966443 923,38.9733998864491 C 951.4,17.952775973233773 979.8,136.82638642808135 994,161.28963306348942,L 1000 500,L 0 500Z"
-                        fill="#E0E7FF"
-                    />
-                </svg>
+            <div class="h-64">
+                <v-chart :option="earningsOption" :loading="earningsLoading" />
             </div>
         </div>
 
@@ -73,17 +63,11 @@
                     Total Pageviews
                 </dd>
             </dl>
-            <div class="-m-2">
-                <svg
-                    class="w-auto text-indigo-100"
-                    fill="currentColor"
-                    viewBox="0 0 1000 500"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M 0,491.97664735392186 C 14.2,487.6342321000262 42.599999999999994,479.4664419168693 71,470.26457108444356 C 99.4,461.0627002520178 113.6,460.88088046251244 142,445.967293191793 C 170.4,431.0537059210735 184.6,401.92769317557264 213,395.6966347308462 C 241.4,389.46557628611976 255.6,425.8825606617139 284,414.8120009681609 C 312.4,403.74144127460784 326.6,363.99447099184636 355,340.343836263081 C 383.4,316.6932015343157 397.6,303.4354664839433 426,296.5588273243342 C 454.4,289.68218816472506 468.6,313.94896637638396 497,305.96064046503545 C 525.4,297.97231455368694 539.6,258.86629470075934 568,256.61719776759156 C 596.4,254.36810083442379 610.6,314.6658746403039 639,294.7151557991966 C 667.4,274.76443695808933 681.6,173.183035720006 710,156.863603562055 C 738.4,140.54417140410402 752.6,214.65802978224644 781,213.11799500944176 C 809.4,211.57796023663707 823.6,150.70388385188858 852,149.16342969803156 C 880.4,147.62297554417455 894.6,213.57548048920893 923,205.4157242401567 C 951.4,197.25596799110446 979.8,127.77486361024759 994,108.36464845277033,L 1000 500,L 0 500Z"
-                    />
-                </svg>
+            <div class="h-64">
+                <v-chart
+                    :option="pageviewsOption"
+                    :loading="pageviewsLoading"
+                />
             </div>
         </div>
 
@@ -93,7 +77,10 @@
             <div class="px-6 pt-6">
                 <h2 class="text-2xl font-bold">Latest Sales</h2>
                 <h3 class="text-sm font-medium text-slate-500">
-                    You have 6 new sales today, keep it up!
+                    You have {{ statistics.sales.today }} new sale{{
+                        statistics.sales.today > 1 ? 's' : ''
+                    }}
+                    today!
                 </h3>
             </div>
             <div class="p-6">
@@ -297,10 +284,6 @@ const statistics = reactive({
         today: 0,
         total: 0,
     },
-    orders: {
-        today: 0,
-        total: 0,
-    },
     earnings: {
         today: 0,
         total: 0,
@@ -311,11 +294,44 @@ const statistics = reactive({
     },
 });
 
+const earningsLoading = ref(true);
+const earningsOption = ref({
+    xAxis: {
+        type: 'category',
+        data: [],
+    },
+    yAxis: {
+        type: 'value',
+    },
+    series: [
+        {
+            data: [],
+            type: 'line',
+        },
+    ],
+});
+
+const pageviewsLoading = ref(true);
+const pageviewsOption = ref({
+    xAxis: {
+        type: 'category',
+        data: [0, 0, 0],
+    },
+    yAxis: {
+        type: 'value',
+    },
+    series: [
+        {
+            data: ['2024-01-01', '2024-01-02', '2024-01-03'],
+            type: 'line',
+        },
+    ],
+});
+
 onMounted(async () => {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
     const response = await $fetch(`${apiUrl}/v1/statistics`, {
-        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -328,6 +344,13 @@ onMounted(async () => {
 
     statistics.sales.today = response.data.sales.today;
     statistics.sales.total = response.data.sales.total;
+    earningsOption.value.xAxis.data = Object.keys(
+        response.data.sales.last_seven_days
+    );
+    earningsOption.value.series[0].data = Object.values(
+        response.data.sales.last_seven_days
+    );
+    earningsLoading.value = false;
 
     statistics.earnings.today = response.data.earnings.today;
     statistics.earnings.total = response.data.earnings.total;
