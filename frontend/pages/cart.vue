@@ -257,7 +257,7 @@ const checkout = async () => {
 
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await useFetch(`${apiUrl}/v1/orders`, {
+    const { data, error } = await useFetch(`${apiUrl}/v1/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -272,17 +272,19 @@ const checkout = async () => {
                 phone: phone.value,
             },
         },
-    }).then((result) => {
-        if (result.error) {
-            $notify('Something went wrong', 'error');
-            return;
-        }
-
-        store.clearCart();
-        calculateOrder();
-        clearDetails();
-
-        $notify('Order Placed Successfully');
     });
+
+    console.log(data, error);
+
+    if (!data.value) {
+        $notify('Something went wrong', 'error');
+        return;
+    }
+
+    store.clearCart();
+    calculateOrder();
+    clearDetails();
+
+    $notify('Order Placed Successfully');
 };
 </script>

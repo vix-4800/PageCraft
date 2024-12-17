@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariation;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Str;
@@ -36,11 +39,13 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request): void
+    public function store(StoreOrderRequest $request): JsonResource
     {
         $validated = $request->validated();
 
-        DB::transaction(function () use ($validated): void {
+        try {
+            DB::beginTransaction();
+
             /** @var User $user */
             $user = User::firstOrCreate(
                 ['email' => $validated['details']['email']],
@@ -67,7 +72,15 @@ class OrderController extends Controller
 
                 $productVariation->decrement('stock', $product['quantity']);
             });
-        });
+
+            DB::commit();
+
+            return OrderResource::make($order->load(['items', 'user']));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            throw new ApiException('Order could not be created.', 500);
+        }
     }
 
     /**
