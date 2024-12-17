@@ -288,7 +288,7 @@
                 }"
             >
                 <template #header>
-                    <UButton
+                    <u-button
                         color="gray"
                         variant="ghost"
                         size="sm"

@@ -7,26 +7,31 @@
         </div>
         <div class="p-6">
             <div class="min-w-full px-1 overflow-x-auto rounded">
-                <UForm :state="state" class="space-y-4" @submit="submitForm">
-                    <UFormGroup label="Name" name="name">
-                        <UInput v-model="state.name" />
-                    </UFormGroup>
-                    <UFormGroup label="Email" name="email">
-                        <UInput v-model="state.email" />
-                    </UFormGroup>
+                <u-form class="space-y-4" @submit="submitForm">
+                    <u-form-group label="Name" name="name">
+                        <u-input color="blue" size="lg" v-model="user.name" />
+                    </u-form-group>
+                    <u-form-group label="Email" name="email">
+                        <u-input color="blue" size="lg" v-model="user.email" />
+                    </u-form-group>
 
-                    <UFormGroup label="Phone" name="phone">
-                        <UInput v-model="state.phone" />
-                    </UFormGroup>
+                    <u-form-group label="Phone" name="phone">
+                        <u-input color="blue" size="lg" v-model="user.phone" />
+                    </u-form-group>
 
-                    <UFormGroup label="Password" name="password">
-                        <UInput v-model="state.password" type="password" />
-                    </UFormGroup>
+                    <u-form-group label="Password" name="password">
+                        <u-input
+                            color="blue"
+                            size="lg"
+                            v-model="user.password"
+                            type="password"
+                        />
+                    </u-form-group>
 
-                    <div class="flex gap-2">
-                        <UButton type="submit">Submit</UButton>
-                    </div>
-                </UForm>
+                    <u-button color="blue" size="md" type="submit">
+                        Submit
+                    </u-button>
+                </u-form>
             </div>
         </div>
     </div>
@@ -39,7 +44,7 @@ definePageMeta({
 
 const authStore = useAuthStore();
 
-const state = reactive({
+const user = reactive({
     name: undefined,
     email: undefined,
     phone: undefined,
@@ -49,16 +54,16 @@ const state = reactive({
 onMounted(async () => {
     await authStore.fetchUser();
 
-    state.name = authStore.user?.name;
-    state.email = authStore.user?.email;
-    state.phone = authStore.user?.phone;
+    user.name = authStore.user?.name;
+    user.email = authStore.user?.email;
+    user.phone = authStore.user?.phone;
 });
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await useFetch(`${apiUrl}/v1/users`, {
+    await useFetch(`${apiUrl}/v1/users/me`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -66,10 +71,10 @@ async function submitForm() {
             Authorization: `Bearer ${authStore.authToken}`,
         },
         body: {
-            name: state.name,
-            email: state.email,
-            phone: state.phone,
-            password: state.password,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            password: user.password,
         },
     }).then(async (result) => {
         if (result.error) {
@@ -79,9 +84,9 @@ async function submitForm() {
 
         await authStore.fetchUser();
 
-        state.name = authStore.user?.name;
-        state.email = authStore.user?.email;
-        state.phone = authStore.user?.phone;
+        user.name = authStore.user?.name;
+        user.email = authStore.user?.email;
+        user.phone = authStore.user?.phone;
 
         $notify('Account updated successfully', 'success');
     });

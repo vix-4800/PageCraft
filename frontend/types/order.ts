@@ -1,10 +1,10 @@
-import type { ProductVariant } from './product_variant';
+import type { ProductVariation } from './product';
 import type { User } from './user';
 
 export interface Order {
     user: User;
     status: OrderStatus;
-    items: ProductVariant[];
+    items: ProductVariation[];
     total: number;
     created_at: Date;
 }

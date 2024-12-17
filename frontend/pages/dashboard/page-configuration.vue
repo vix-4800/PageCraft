@@ -20,6 +20,7 @@
                                 Header
                             </label>
                             <u-select
+                                color="blue"
                                 id="header-styles"
                                 v-model="headerStylesSelect"
                                 :options="headerStylesOptions"
@@ -34,6 +35,7 @@
                                 Footer
                             </label>
                             <u-select
+                                color="blue"
                                 id="footer-styles"
                                 v-model="footerStylesSelect"
                                 :options="footerStylesOptions"
@@ -50,6 +52,7 @@
                             Product List
                         </label>
                         <u-select
+                            color="blue"
                             id="product-list-styles"
                             v-model="productListStylesSelect"
                             :options="productListStylesOptions"
@@ -61,7 +64,7 @@
                         icon="material-symbols:save"
                         type="submit"
                         size="md"
-                        color="primary"
+                        color="blue"
                         class="mt-2 border w-min"
                         :loading="loading"
                         :disabled="loading"

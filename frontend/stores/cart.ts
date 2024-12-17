@@ -1,15 +1,14 @@
 import { defineStore } from 'pinia';
-import type { ProductVariant } from '~/types/product_variant';
+import type { ProductVariation } from '~/types/product';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: useLocalStorage<{ product: ProductVariant; quantity: number }[]>(
-            'cart',
-            []
-        ),
+        items: useLocalStorage<
+            { product: ProductVariation; quantity: number }[]
+        >('cart', []),
     }),
     actions: {
-        increaseProductQuantity(product: ProductVariant) {
+        increaseProductQuantity(product: ProductVariation) {
             const existingProduct = this.items.find(
                 (p) => p.product.sku === product.sku
             );
@@ -20,7 +19,7 @@ export const useCartStore = defineStore('cart', {
                 this.items.push({ product, quantity: 1 });
             }
         },
-        decreaseProductQuantity(product: ProductVariant) {
+        decreaseProductQuantity(product: ProductVariation) {
             const index = this.items.findIndex(
                 (p) => p.product.sku === product.sku
             );
@@ -32,7 +31,7 @@ export const useCartStore = defineStore('cart', {
                 }
             }
         },
-        removeProduct(product: ProductVariant) {
+        removeProduct(product: ProductVariation) {
             const index = this.items.findIndex(
                 (p) => p.product.sku === product.sku
             );
@@ -44,7 +43,7 @@ export const useCartStore = defineStore('cart', {
         clearCart() {
             this.items = [];
         },
-        isProductInCart(product: ProductVariant): boolean {
+        isProductInCart(product: ProductVariation): boolean {
             return (
                 this.items.find((p) => p.product.sku === product.sku) !==
                 undefined

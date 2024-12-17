@@ -6,7 +6,7 @@
             <div
                 class="flex items-center justify-center p-2 bg-white rounded-xl"
             >
-                <UCarousel
+                <u-carousel
                     ref="carouselRef"
                     v-slot="{ item }"
                     class="overflow-hidden rounded-lg"
@@ -14,7 +14,7 @@
                     :ui="{ item: 'basis-full' }"
                 >
                     <nuxt-img :src="item" class="w-full" draggable="false" />
-                </UCarousel>
+                </u-carousel>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
                 </h3>
 
                 <div class="flex flex-wrap justify-center mx-auto gap-x-4">
-                    <UChip
+                    <u-chip
                         v-for="variation in variations"
                         :key="variation.sku"
                         :text="variation.stock"
@@ -85,7 +85,7 @@
                                 />
                             </div>
                         </button>
-                    </UChip>
+                    </u-chip>
                 </div>
 
                 <div>
@@ -303,14 +303,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { Product } from '~/types/product';
-import type { ProductVariant } from '~/types/product_variant';
-
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product>({});
-const variations = ref<ProductVariant[]>([]);
-const selectedVariation = ref<ProductVariant>({});
+const variations = ref<ProductVariation[]>([]);
+const selectedVariation = ref<ProductVariation>({});
 const reviews = ref([]);
 
 const fiveStarReviews = ref(0);
@@ -344,7 +341,10 @@ onMounted(async () => {
 
     product.value = response.data;
     variations.value = product.value.variations;
-    selectedVariation.value = variations.value[0];
+
+    if (variations.value.length > 0) {
+        selectedVariation.value = variations.value[0];
+    }
 
     const response2 = await $fetch(
         `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
@@ -378,7 +378,7 @@ onMounted(async () => {
     }
 });
 
-function selectVariation(variation: ProductVariant) {
+function selectVariation(variation: ProductVariation) {
     selectedVariation.value = variation;
 }
 
@@ -386,6 +386,8 @@ const { $notify } = useNuxtApp();
 
 const cartStore = useCartStore();
 const addToCart = () => {
+    if (Object.keys(selectedVariation.value).length === 0) return;
+
     cartStore.increaseProductQuantity(selectedVariation.value);
 
     $notify(`${product.value.name} added to cart`, 'info');

@@ -9,63 +9,14 @@
             <div class="min-w-full overflow-x-auto rounded">
                 <div class="w-full px-1">
                     <u-button
-                        v-if="!createFormVisible"
-                        color="primary"
+                        color="blue"
                         block
+                        size="md"
                         type="button"
-                        @click="toggleCreateForm"
+                        @click="navigateTo('/dashboard/products/create')"
                     >
                         Add Product
                     </u-button>
-
-                    <div v-else>
-                        <UForm
-                            :state="state"
-                            class="space-y-4"
-                            @submit="submitCreateForm"
-                        >
-                            <div class="flex gap-2">
-                                <UFormGroup
-                                    label="Name"
-                                    name="name"
-                                    class="w-1/2"
-                                >
-                                    <UInput
-                                        v-model="state.name"
-                                        placeholder="Name"
-                                    />
-                                </UFormGroup>
-                                <UFormGroup
-                                    label="Slug"
-                                    name="slug"
-                                    class="w-1/2"
-                                >
-                                    <UInput
-                                        v-model="state.slug"
-                                        placeholder="Slug"
-                                    />
-                                </UFormGroup>
-                            </div>
-
-                            <UFormGroup label="Description" name="description">
-                                <UInput
-                                    v-model="state.description"
-                                    placeholder="Description"
-                                />
-                            </UFormGroup>
-
-                            <div class="flex gap-2">
-                                <UButton type="submit">Submit</UButton>
-                                <UButton
-                                    type="button"
-                                    color="red"
-                                    @click="toggleCreateForm"
-                                >
-                                    Cancel
-                                </UButton>
-                            </div>
-                        </UForm>
-                    </div>
                 </div>
 
                 <hr class="my-4 border-gray-300" />
@@ -88,8 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { Product } from '~/types/product';
-
 definePageMeta({
     layout: 'dashboard',
 });
@@ -147,49 +96,5 @@ async function getProducts() {
 
 function select(row: Product) {
     return navigateTo('/dashboard/products/' + row.slug);
-}
-
-const createFormVisible = ref(false);
-
-function toggleCreateForm() {
-    createFormVisible.value = !createFormVisible.value;
-}
-
-const state = reactive({
-    name: undefined,
-    slug: undefined,
-    description: undefined,
-});
-
-const { $notify } = useNuxtApp();
-async function submitCreateForm() {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    await useFetch(`${apiUrl}/v1/products`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: {
-            name: state.name,
-            slug: state.slug,
-            description: state.description,
-        },
-    }).then(async (result) => {
-        if (result.error) {
-            $notify('Something went wrong', 'error');
-            return;
-        }
-
-        await getProducts();
-
-        state.name = undefined;
-        state.slug = undefined;
-        state.description = undefined;
-        createFormVisible.value = false;
-
-        $notify('Product created successfully', 'success');
-    });
 }
 </script>
