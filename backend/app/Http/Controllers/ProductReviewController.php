@@ -9,9 +9,10 @@ use App\Http\Requests\UpdateProductReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\ProductReview;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class ProductReviewController extends Controller
+class ProductReviewController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.

@@ -13,11 +13,12 @@ use App\Models\ProductVariation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Str;
 
-class OrderController extends Controller
+class OrderController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.

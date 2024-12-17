@@ -8,9 +8,10 @@ use App\Http\Requests\UpdatePageConfigurationRequest;
 use App\Http\Resources\PageConfigurationResource;
 use App\Models\PageConfiguration;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class PageConfigurationController extends Controller
+class PageConfigurationController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.

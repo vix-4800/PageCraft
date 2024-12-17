@@ -50,9 +50,19 @@
                     </u-button>
                 </div>
 
-                <u-button class="w-min" color="blue" size="md" type="submit">
-                    Submit
-                </u-button>
+                <div class="flex gap-2">
+                    <u-button color="blue" size="md" type="submit">
+                        Submit
+                    </u-button>
+                    <u-button
+                        color="red"
+                        @click="deleteProduct"
+                        size="md"
+                        type="button"
+                    >
+                        Delete
+                    </u-button>
+                </div>
             </u-form>
         </div>
     </div>
@@ -67,6 +77,8 @@ const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product>({});
 const variations = ref<ProductVariant[]>([]);
+
+const { $notify } = useNuxtApp();
 
 onMounted(async () => {
     const response: { data: Product } = await $fetch<{ data: Product[] }>(
@@ -96,5 +108,19 @@ const submitForm = async () => {
             body: product.value,
         }
     );
+};
+
+const deleteProduct = async () => {
+    await $fetch(`${apiUrl}/v1/products/${useRoute().params.slug}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
+        },
+    });
+
+    navigateTo(`/dashboard/products`);
+    $notify('Product created successfully', 'success');
 };
 </script>
