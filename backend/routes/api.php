@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         Route::middleware('auth:sanctum')->group(function (): void {
-            Route::prefix('users')
-                ->group(function (): void {
-                    Route::get('me', [UserController::class, 'view'])->name('user.view');
-                    Route::apiResource('/', UserController::class)->except('view');
+            Route::prefix('users')->group(function (): void {
+                Route::get('me', [UserController::class, 'view'])->name('user.view');
+                Route::apiResource('/', UserController::class)->except('view');
 
-                    Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
-                });
+                Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
+                Route::patch('me/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
+            });
 
             Route::controller(StatisticsController::class)
                 ->prefix('statistics')

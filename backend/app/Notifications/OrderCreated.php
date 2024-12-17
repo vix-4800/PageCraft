@@ -41,6 +41,7 @@ class OrderCreated extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
+            'message' => 'New order created.',
             'order' => OrderResource::make($this->order),
         ];
     }

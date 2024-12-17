@@ -95,6 +95,7 @@
                         }"
                         :progress="{ color: 'primary', animation: 'carousel' }"
                         class="w-full"
+                        @select="select"
                     />
                 </div>
             </div>
@@ -227,7 +228,7 @@ const salesColumns = [
         sortable: true,
     },
 ];
-const sales = ref([]);
+const sales = ref<Order[]>([]);
 const latestSalesLoading = ref(true);
 async function getLatestSales() {
     const endDate = new Date();
@@ -249,5 +250,9 @@ async function getLatestSales() {
     sales.value.forEach((sale) => {
         sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
     });
+}
+
+function select(row: Order) {
+    return navigateTo('/dashboard/sales/' + row.id);
 }
 </script>

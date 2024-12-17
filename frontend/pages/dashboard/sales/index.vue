@@ -17,6 +17,7 @@
                     }"
                     :progress="{ color: 'primary', animation: 'carousel' }"
                     class="w-full"
+                    @select="select"
                 />
             </div>
         </div>
@@ -74,4 +75,8 @@ onMounted(async () => {
         sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
     });
 });
+
+function select(row: Order) {
+    return navigateTo('/dashboard/sales/' + row.id);
+}
 </script>

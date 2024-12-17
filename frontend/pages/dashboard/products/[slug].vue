@@ -8,9 +8,7 @@
         <div class="p-6">
             <div class="flex flex-col min-w-full gap-6 overflow-x-auto rounded">
                 <div>
-                    <h3 class="text-xl font-bold text-gray-800">
-                        Product Details
-                    </h3>
+                    <h3 class="text-xl font-bold text-gray-800">Details</h3>
 
                     <ul>
                         <li>
@@ -29,9 +27,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-xl font-bold text-gray-800">
-                        Product Variations
-                    </h3>
+                    <h3 class="text-xl font-bold text-gray-800">Variations</h3>
 
                     <u-table
                         :columns="columns"
