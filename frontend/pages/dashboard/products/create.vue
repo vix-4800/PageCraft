@@ -62,13 +62,13 @@
 
                 <div class="space-y-3">
                     <h3 class="text-xl font-bold text-gray-800">
-                        Variations ({{ variations.length }})
+                        Variations ({{ product.variations.length }})
                     </h3>
 
                     <div class="px-1 space-y-2">
                         <u-card
                             class="bg-slate-100"
-                            v-for="(variation, index) in variations"
+                            v-for="(variation, index) in product.variations"
                             :key="index"
                         >
                             <template #header>
@@ -225,7 +225,7 @@
                             Add Variation
                         </u-button>
                         <u-button
-                            v-if="variations.length > 0"
+                            v-if="product.variations.length > 0"
                             color="red"
                             size="md"
                             type="button"
@@ -238,7 +238,7 @@
 
                 <u-button
                     class="w-min"
-                    :disabled="variations.length === 0"
+                    :disabled="product.variations.length === 0"
                     color="blue"
                     size="md"
                     type="submit"
@@ -262,6 +262,7 @@ const product = reactive({
     slug: undefined,
     description: undefined,
     image: undefined,
+    variations: [] as ProductVariation[],
 });
 
 const { $notify } = useNuxtApp();
@@ -271,14 +272,9 @@ async function submitForm() {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
         },
-        body: {
-            name: product.name,
-            slug: product.slug,
-            description: product.description,
-            image: product.image,
-            variations: variations.value,
-        },
+        body: JSON.stringify(product),
     });
 
     if (!data.value) {
@@ -308,9 +304,8 @@ onMounted(async () => {
     // selectedAttr.value = attributeNames.value[0];
 });
 
-const variations = ref<ProductVariation[]>([]);
 function addVariation() {
-    variations.value.push({
+    product.variations.push({
         sku: undefined,
         price: undefined,
         stock: undefined,
@@ -320,7 +315,7 @@ function addVariation() {
 }
 
 function removeVariation() {
-    variations.value.pop();
+    product.variations.pop();
 }
 
 function addAttribute(variation: ProductVariation) {
