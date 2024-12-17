@@ -35,7 +35,7 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function index(Request $request): JsonResource
     {
-        $query = Order::query();
+        $query = Order::orderBy('created_at', 'desc');
 
         if ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
