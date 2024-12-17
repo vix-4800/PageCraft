@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiNotFoundException;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageConfigurationController;
 use App\Http\Controllers\ProductController;
@@ -15,20 +16,24 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         Route::middleware('auth:sanctum')->group(function (): void {
-            Route::get('users/me', [UserController::class, 'view'])->name('user.view');
-            Route::apiResource('users', UserController::class)->except('view');
+            Route::prefix('users')
+                ->group(function (): void {
+                    Route::get('me', [UserController::class, 'view'])->name('user.view');
+                    Route::apiResource('/', UserController::class)->except('view');
+
+                    Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
+                });
+
+            Route::controller(StatisticsController::class)
+                ->prefix('statistics')
+                ->name('statistics.')
+                ->group(function (): void {
+                    Route::get('overview', 'overview')->name('overview');
+                    Route::get('sales/last-week', 'salesForLastSevenDays')->name('sales.lastSevenDays');
+                });
         });
 
         Route::apiSingleton('page-configuration', PageConfigurationController::class);
-
-        Route::controller(StatisticsController::class)
-            ->prefix('statistics')
-            ->name('statistics.')
-            ->middleware('auth:sanctum')
-            ->group(function (): void {
-                Route::get('overview', [StatisticsController::class, 'overview'])->name('overview');
-                Route::get('sales/last-week', [StatisticsController::class, 'salesForLastSevenDays'])->name('sales.lastSevenDays');
-            });
 
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);

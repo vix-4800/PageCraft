@@ -6,6 +6,8 @@ namespace App\Observers;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\User;
+use App\Notifications\OrderCreated;
 
 class OrderObserver
 {
@@ -16,6 +18,8 @@ class OrderObserver
     {
         $order->status = OrderStatus::CREATED;
         $order->saveQuietly();
+
+        User::first()->notify(new OrderCreated($order));
     }
 
     /**
