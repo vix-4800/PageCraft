@@ -9,18 +9,34 @@
             <div class="min-w-full px-1 overflow-x-auto rounded">
                 <u-form class="space-y-4" @submit="submitForm">
                     <u-form-group label="Name" name="name">
-                        <u-input color="blue" size="lg" v-model="user.name" />
+                        <u-input
+                            color="blue"
+                            size="lg"
+                            v-model="user.name"
+                            required
+                        />
                     </u-form-group>
                     <u-form-group label="Email" name="email">
-                        <u-input color="blue" size="lg" v-model="user.email" />
+                        <u-input
+                            color="blue"
+                            size="lg"
+                            v-model="user.email"
+                            required
+                        />
                     </u-form-group>
 
                     <u-form-group label="Phone" name="phone">
-                        <u-input color="blue" size="lg" v-model="user.phone" />
+                        <u-input
+                            color="blue"
+                            size="lg"
+                            v-model="user.phone"
+                            required
+                        />
                     </u-form-group>
 
                     <u-form-group label="Password" name="password">
                         <u-input
+                            required
                             color="blue"
                             size="lg"
                             v-model="user.password"

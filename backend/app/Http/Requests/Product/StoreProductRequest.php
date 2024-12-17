@@ -20,6 +20,14 @@ class StoreProductRequest extends FormRequest
             'slug' => ['required', 'string', 'min:3', 'max:255', 'unique:products,slug'],
             'description' => ['required', 'string', 'min:3'],
             'image' => ['nullable', 'string', 'min:3', 'max:255'],
+
+            'variations' => ['required', 'array'],
+            'variations.*.sku' => ['required', 'string', 'min:3', 'max:255'],
+            'variations.*.price' => ['required', 'numeric', 'min:0'],
+            'variations.*.stock' => ['required', 'integer', 'min:0'],
+            'variations.*.attributes' => ['required', 'array'],
+            'variations.*.attributes.*.name' => ['required', 'string', 'min:3', 'max:255'],
+            'variations.*.attributes.*.value' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 }

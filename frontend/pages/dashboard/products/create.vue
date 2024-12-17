@@ -15,16 +15,25 @@
 
                     <div class="flex w-full gap-2">
                         <u-form-group label="Name" class="w-1/2" name="name">
-                            <u-input color="blue" v-model="product.name" />
+                            <u-input
+                                color="blue"
+                                v-model="product.name"
+                                required
+                            />
                         </u-form-group>
 
                         <u-form-group label="Slug" class="w-1/2" name="slug">
-                            <u-input color="blue" v-model="product.slug" />
+                            <u-input
+                                color="blue"
+                                v-model="product.slug"
+                                required
+                            />
                         </u-form-group>
                     </div>
 
                     <u-form-group label="Description" name="description">
                         <u-textarea
+                            required
                             color="blue"
                             v-model="product.description"
                         />
@@ -74,6 +83,7 @@
                                         <u-input
                                             color="blue"
                                             v-model="variation.sku"
+                                            required
                                         />
                                     </u-form-group>
 
@@ -81,6 +91,7 @@
                                         <u-input
                                             color="blue"
                                             v-model="variation.price"
+                                            required
                                         />
                                     </u-form-group>
 
@@ -91,6 +102,7 @@
                                         <u-input
                                             color="blue"
                                             v-model="variation.stock"
+                                            required
                                         />
                                     </u-form-group>
                                 </div>
@@ -118,21 +130,62 @@
                                 </u-form-group>
 
                                 <div class="flex flex-col gap-2">
+                                    <h3 class="text-lg font-bold">
+                                        Attributes ({{
+                                            variation.attributes.length
+                                        }})
+                                    </h3>
                                     <div
                                         class="flex gap-2"
                                         v-for="attribute in variation.attributes"
                                         :key="attribute.name"
                                     >
-                                        <u-select
+                                        <u-form-group
+                                            label="Name"
+                                            class="w-1/2"
+                                            name="attribute.name"
+                                        >
+                                            <u-input
+                                                color="blue"
+                                                v-model="attribute.name"
+                                                required
+                                            />
+                                        </u-form-group>
+
+                                        <u-form-group
+                                            label="Value"
+                                            class="w-1/2"
+                                            name="attribute.value"
+                                        >
+                                            <u-input
+                                                color="blue"
+                                                v-model="attribute.value"
+                                                required
+                                            />
+                                        </u-form-group>
+
+                                        <!-- <u-select
+                                            v-model="attribute.name"
                                             color="blue"
                                             size="lg"
                                             class="w-1/2"
+                                            :options="attributeNames"
+                                            placeholder="Select Attribute"
+                                            @change="selectedAttr = attribute"
                                         />
+
                                         <u-select
+                                            v-model="attribute.value"
                                             color="blue"
                                             size="lg"
                                             class="w-1/2"
-                                        />
+                                            :options="
+                                                availableAttributes[
+                                                    selectedAttr.name
+                                                ]
+                                            "
+                                            placeholder="Select Value"
+                                        /> -->
                                     </div>
 
                                     <div class="flex gap-2">
@@ -213,7 +266,7 @@ const product = reactive({
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    await useFetch(`${apiUrl}/v1/products`, {
+    const { data } = await useFetch(`${apiUrl}/v1/products`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -226,19 +279,34 @@ async function submitForm() {
             image: product.image,
             variations: variations.value,
         },
-    }).then(async (result) => {
-        if (result.error) {
-            $notify('Something went wrong', 'error');
-            return;
-        }
-
-        state.name = undefined;
-        state.slug = undefined;
-        state.description = undefined;
-
-        $notify('Product created successfully', 'success');
     });
+
+    if (!data.value) {
+        $notify('Something went wrong', 'error');
+        return;
+    }
+
+    navigateTo(`/dashboard/products`);
+    $notify('Product created successfully', 'success');
 }
+
+const availableAttributes = ref<ProductVariantAttribute[]>([]);
+const attributeNames = ref<string[]>([]);
+const selectedAttr = ref<string | null>(null);
+onMounted(async () => {
+    // const { data } = await $fetch(`${apiUrl}/v1/productAttributes`, {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         Accept: 'application/json',
+    //     },
+    // });
+    // data.forEach((attribute) => {
+    //     const [key, values] = Object.entries(attribute)[0];
+    //     availableAttributes.value[key] = values;
+    // });
+    // attributeNames.value = Object.keys(availableAttributes.value);
+    // selectedAttr.value = attributeNames.value[0];
+});
 
 const variations = ref<ProductVariation[]>([]);
 function addVariation() {

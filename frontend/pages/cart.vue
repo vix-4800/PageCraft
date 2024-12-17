@@ -120,6 +120,7 @@
                             <input
                                 v-model="name"
                                 type="text"
+                                required
                                 placeholder="Full Name"
                                 :disabled="store.totalItems === 0"
                                 class="px-4 py-2.5 bg-white text-gray-800 disabled:bg-gray-200 disabled:text-gray-400 rounded-md w-full text-sm border-b focus:border-yellow-500 outline-none"
@@ -135,6 +136,7 @@
                             <input
                                 v-model="email"
                                 type="email"
+                                required
                                 placeholder="Email"
                                 :disabled="store.totalItems === 0"
                                 class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
@@ -150,6 +152,7 @@
                             <input
                                 v-model="phone"
                                 type="text"
+                                required
                                 placeholder="Phone No."
                                 :disabled="store.totalItems === 0"
                                 class="px-4 py-2.5 bg-white text-gray-800 rounded-md disabled:bg-gray-200 disabled:text-gray-400 w-full text-sm border-b focus:border-yellow-500 outline-none"
@@ -257,7 +260,7 @@ const checkout = async () => {
 
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    const { data, error } = await useFetch(`${apiUrl}/v1/orders`, {
+    const { data } = await useFetch(`${apiUrl}/v1/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

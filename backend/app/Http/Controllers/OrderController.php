@@ -86,7 +86,7 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            throw new ApiException('Order could not be created.', 500);
+            throw new ApiException;
         }
     }
 
