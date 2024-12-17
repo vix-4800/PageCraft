@@ -14,7 +14,7 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $order->status = OrderStatus::PENDING;
+        $order->status = OrderStatus::CREATED;
         $order->saveQuietly();
     }
 

@@ -10,7 +10,8 @@ enum OrderStatus: string
 {
     use EnumWithValues;
 
-    case PENDING = 'pending';
+    case CREATED = 'created';
+    case PAID = 'paid';
     case PROCESSING = 'processing';
     case DELIVERED = 'delivered';
     case CANCELLED = 'cancelled';

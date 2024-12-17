@@ -70,8 +70,8 @@ onMounted(async () => {
 
     orders.value = response.data;
     ordersLoading.value = false;
-    sales.value.forEach((sale) => {
-        sale['class'] = sale.status === 'pending' ? 'bg-yellow-50' : '';
+    orders.value.forEach((sale) => {
+        sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
     });
 });
 </script>

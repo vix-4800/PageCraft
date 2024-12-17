@@ -21,7 +21,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->enum('status', OrderStatus::values())->default(OrderStatus::PENDING);
+            $table->enum('status', OrderStatus::values())->default(OrderStatus::CREATED);
             $table->decimal('total', 8, 2);
 
             $table->timestamps();

@@ -247,7 +247,7 @@ async function getLatestSales() {
     sales.value = response.data;
     latestSalesLoading.value = false;
     sales.value.forEach((sale) => {
-        sale['class'] = sale.status === 'pending' ? 'bg-yellow-50' : '';
+        sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
     });
 }
 </script>
