@@ -274,8 +274,6 @@ const checkout = async () => {
         },
     });
 
-    console.log(data, error);
-
     if (!data.value) {
         $notify('Something went wrong', 'error');
         return;

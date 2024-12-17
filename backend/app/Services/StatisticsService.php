@@ -13,9 +13,9 @@ class StatisticsService
     {
         return [
             'total' => $query->{$operation}($column),
-            'today' => $query->whereDate('created_at', '>=', today())->{$operation}($column),
-            'this_week' => $query->whereDate('created_at', '>=', today()->subWeek())->{$operation}($column),
-            'this_month' => $query->whereDate('created_at', '>=', today()->subMonth())->{$operation}($column),
+            'today' => $query->where('created_at', '>=', today())->{$operation}($column),
+            'this_week' => $query->where('created_at', '>=', today()->subWeek())->{$operation}($column),
+            'this_month' => $query->where('created_at', '>=', today()->subMonth())->{$operation}($column),
         ];
     }
 
@@ -27,7 +27,7 @@ class StatisticsService
 
         return $query
             ->selectRaw("DATE(created_at) as date, $operation($column) as total")
-            ->whereDate('created_at', '>=', now()->subDays($days))
+            ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
             ->pluck('total', 'date')
             ->toArray();

@@ -31,8 +31,9 @@ Route::name('api.')->group(function (): void {
             });
 
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
-        Route::apiResource('orders', OrderController::class);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
+
+        Route::apiResource('orders', OrderController::class);
     });
 
     // Auth

@@ -77,8 +77,8 @@
             <div class="px-6 pt-6">
                 <h2 class="text-2xl font-bold">Latest Sales</h2>
                 <h3 class="text-sm font-medium text-slate-500">
-                    You have {{ statistics.sales.today }} new sale{{
-                        statistics.sales.today > 1 ? 's' : ''
+                    You have {{ sales.length }} new sale{{
+                        sales.length > 1 ? 's' : ''
                     }}
                     today!
                 </h3>
@@ -88,7 +88,7 @@
                     <u-table
                         :columns="salesColumns"
                         :rows="sales"
-                        :loading="true"
+                        :loading="latestSalesLoading"
                         :loading-state="{
                             icon: 'i-heroicons-arrow-path-20-solid',
                             label: 'Loading...',
@@ -106,6 +106,8 @@
 definePageMeta({
     layout: 'dashboard',
 });
+
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const statistics = reactive({
     users: {
@@ -160,6 +162,45 @@ const pageviewsOption = ref({
     ],
 });
 
+onMounted(async () => {
+    await getStatisticsOverview();
+    await getWeekSales();
+    // await getWeekPageviews();
+    await getLatestSales();
+});
+
+async function getStatisticsOverview() {
+    const response = await $fetch(`${apiUrl}/v1/statistics/overview`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
+        },
+    });
+
+    statistics.users.today = response.data.users.today;
+    statistics.users.total = response.data.users.total;
+
+    statistics.sales.today = response.data.sales.today;
+    statistics.sales.total = response.data.sales.total;
+
+    statistics.earnings.today = response.data.earnings.today;
+    statistics.earnings.total = response.data.earnings.total;
+}
+
+async function getWeekSales() {
+    const response = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${useAuthStore().authToken}`,
+        },
+    });
+    earningsOption.value.xAxis.data = Object.keys(response.data);
+    earningsOption.value.series[0].data = Object.values(response.data);
+    earningsLoading.value = false;
+}
+
 const salesColumns = [
     {
         key: 'id',
@@ -167,7 +208,7 @@ const salesColumns = [
         sortable: true,
     },
     {
-        key: 'email',
+        key: 'user.email',
         label: 'Email',
     },
     {
@@ -180,38 +221,33 @@ const salesColumns = [
         label: 'Total',
         sortable: true,
     },
+    {
+        key: 'created_at',
+        label: 'Date',
+        sortable: true,
+    },
 ];
 const sales = ref([]);
+const latestSalesLoading = ref(true);
+async function getLatestSales() {
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - 1000 * 60 * 60 * 24);
 
-onMounted(async () => {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
+    const response = await $fetch<{ data: Order[] }>(
+        `${apiUrl}/v1/orders?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${useAuthStore().authToken}`,
+            },
+        }
+    );
 
-    const response1 = await $fetch(`${apiUrl}/v1/statistics/overview`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
+    sales.value = response.data;
+    latestSalesLoading.value = false;
+    sales.value.forEach((sale) => {
+        sale['class'] = sale.status === 'pending' ? 'bg-yellow-50' : '';
     });
-
-    statistics.users.today = response1.data.users.today;
-    statistics.users.total = response1.data.users.total;
-
-    statistics.sales.today = response1.data.sales.today;
-    statistics.sales.total = response1.data.sales.total;
-
-    statistics.earnings.today = response1.data.earnings.today;
-    statistics.earnings.total = response1.data.earnings.total;
-
-    const response2 = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
-    });
-    earningsOption.value.xAxis.data = Object.keys(response2.data);
-    earningsOption.value.series[0].data = Object.values(response2.data);
-    earningsLoading.value = false;
-});
+}
 </script>

@@ -11,6 +11,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariation;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +32,15 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResource
     {
-        //
+        $query = Order::query();
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
+        }
+
+        return OrderResource::collection($query->get()->load('user'));
     }
 
     /**

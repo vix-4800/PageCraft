@@ -5,6 +5,8 @@ export interface Order {
     user: User;
     status: OrderStatus;
     items: ProductVariant[];
+    total: number;
+    created_at: Date;
 }
 
 export enum OrderStatus {
