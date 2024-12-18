@@ -7,7 +7,7 @@
                 <div class="flex items-center">
                     <nuxt-link
                         to="/"
-                        class="inline-flex items-center gap-1 font-bold tracking-wide text-md group text-slate-700 hover:text-indigo-600 active:text-slate-700 sm:text-lg"
+                        class="inline-flex items-center gap-1 font-bold tracking-wide group text-md text-slate-700 hover:text-indigo-600 active:text-slate-700 sm:text-lg"
                     >
                         <nuxt-img
                             src="/logo.png"
@@ -15,7 +15,9 @@
                             width="40px"
                             height="40px"
                         />
-                        <span class="text-2xl font-bold text-white">
+                        <span
+                            class="text-2xl font-bold text-white group-hover:text-indigo-300"
+                        >
                             {{ appName }}
                         </span>
                     </nuxt-link>

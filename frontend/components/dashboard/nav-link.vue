@@ -14,7 +14,7 @@
             </slot>
         </div>
 
-        <span class="grow">
+        <span class="grow group-hover:text-indigo-500">
             {{ label }}
         </span>
 

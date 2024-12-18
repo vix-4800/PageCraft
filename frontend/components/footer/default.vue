@@ -4,14 +4,16 @@
     >
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:flex lg:items-center">
-                <nuxt-link to="/" class="flex items-center gap-4">
+                <nuxt-link to="/" class="flex items-center gap-4 group">
                     <nuxt-img
                         src="/logo.png"
                         :alt="appName"
                         width="40px"
                         height="40px"
                     />
-                    <span class="text-2xl font-bold text-white">
+                    <span
+                        class="text-2xl font-bold text-white group-hover:text-yellow-500"
+                    >
                         {{ appName }}
                     </span>
                 </nuxt-link>
@@ -24,7 +26,7 @@
                             to="/"
                             size="lg"
                             icon="mdi:instagram"
-                            class="bg-transparent hover:bg-transparent hover:text-slate-300"
+                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
                         />
                     </li>
                     <li>
@@ -32,7 +34,7 @@
                             to="/"
                             size="lg"
                             icon="mdi:facebook"
-                            class="bg-transparent hover:bg-transparent hover:text-slate-300"
+                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
                         />
                     </li>
                     <li>
@@ -40,7 +42,7 @@
                             to="/"
                             size="lg"
                             icon="mdi:twitter"
-                            class="bg-transparent hover:bg-transparent hover:text-slate-300"
+                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
                         />
                     </li>
                 </ul>
@@ -54,7 +56,7 @@
                     <li>
                         <a
                             href="mailto:test@example.com"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Email
                         </a>
@@ -62,7 +64,7 @@
                     <li>
                         <a
                             href="javascript:void(0)"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Phone
                         </a>
@@ -70,7 +72,7 @@
                     <li>
                         <a
                             href="javascript:void(0)"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Address
                         </a>
@@ -86,7 +88,7 @@
                     <li>
                         <a
                             href="javascript:void(0)"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             About Us
                         </a>
@@ -94,7 +96,7 @@
                     <li>
                         <a
                             href="javascript:void(0)"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Terms &amp; Conditions
                         </a>
@@ -102,7 +104,7 @@
                     <li>
                         <a
                             href="javascript:void(0)"
-                            class="text-sm text-gray-300 hover:text-white"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Privacy Policy
                         </a>
