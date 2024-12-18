@@ -77,8 +77,8 @@
             <div class="px-6 pt-6">
                 <h2 class="text-2xl font-bold">Latest Sales</h2>
                 <h3 class="text-sm font-medium text-slate-500">
-                    You have {{ sales.length }} new sale{{
-                        sales.length > 1 ? 's' : ''
+                    You have {{ statistics.sales.today }} new sale{{
+                        statistics.sales.today > 1 ? 's' : ''
                     }}
                     today!
                 </h3>
@@ -93,7 +93,7 @@
                             icon: 'i-heroicons-arrow-path-20-solid',
                             label: 'Loading...',
                         }"
-                        :progress="{ color: 'primary', animation: 'carousel' }"
+                        :progress="{ color: 'blue', animation: 'carousel' }"
                         class="w-full"
                         @select="select"
                     />
@@ -248,7 +248,17 @@ async function getLatestSales() {
     sales.value = response.data;
     latestSalesLoading.value = false;
     sales.value.forEach((sale) => {
-        sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
+        sale['class'] = `bg-${
+            sale.status === 'created'
+                ? 'yellow'
+                : sale.status === 'cancelled'
+                ? 'red'
+                : sale.status === 'delivered'
+                ? 'green'
+                : sale.status === 'processing'
+                ? 'blue'
+                : ''
+        }-50`;
     });
 }
 

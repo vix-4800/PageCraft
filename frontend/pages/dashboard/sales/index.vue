@@ -15,7 +15,7 @@
                         icon: 'i-heroicons-arrow-path-20-solid',
                         label: 'Loading...',
                     }"
-                    :progress="{ color: 'primary', animation: 'carousel' }"
+                    :progress="{ color: 'blue', animation: 'carousel' }"
                     class="w-full"
                     @select="select"
                 />
@@ -72,7 +72,17 @@ onMounted(async () => {
     orders.value = response.data;
     ordersLoading.value = false;
     orders.value.forEach((sale) => {
-        sale['class'] = sale.status === 'created' ? 'bg-yellow-50' : '';
+        sale['class'] = `bg-${
+            sale.status === 'created'
+                ? 'yellow'
+                : sale.status === 'cancelled'
+                ? 'red'
+                : sale.status === 'delivered'
+                ? 'green'
+                : sale.status === 'processing'
+                ? 'blue'
+                : ''
+        }-50`;
     });
 });
 

@@ -15,7 +15,7 @@
                         icon: 'i-heroicons-arrow-path-20-solid',
                         label: 'Loading...',
                     }"
-                    :progress="{ color: 'primary', animation: 'carousel' }"
+                    :progress="{ color: 'blue', animation: 'carousel' }"
                     class="w-full"
                 />
             </div>
