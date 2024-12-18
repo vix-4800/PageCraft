@@ -22,13 +22,17 @@
 
             <div class="flex flex-wrap items-center w-full">
                 <u-input-menu
-                    v-model="search"
+                    v-model="selected"
                     placeholder="Search"
                     size="md"
                     color="yellow"
+                    option-attribute="name"
                     class="bg-white rounded-md lg:w-96 max-md:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4"
-                    :options="searchOptions"
-                    :popper="false"
+                    :loading="loadingSearch"
+                    :search="onSearchChange"
+                    trailing
+                    :debounce="700"
+                    :searchLazy="true"
                 />
 
                 <div class="ml-auto max-lg:mt-4">
@@ -172,6 +176,33 @@ const pages = ref([
     },
 ]);
 
-const search = ref('');
-const searchOptions = ref(['All', 'Products', 'Users', 'Orders', 'Sales']);
+const selected = ref();
+const loadingSearch = ref(false);
+async function onSearchChange(q: string) {
+    loadingSearch.value = true;
+
+    const products: Product[] = await $fetch<{ data: Product[] }>(
+        `${useRuntimeConfig().public.apiUrl}/v1/products/search`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            params: {
+                q,
+            },
+        }
+    );
+
+    loadingSearch.value = false;
+    return products.data;
+}
+
+watch(selected, () => {
+    if (selected.value) {
+        navigateTo(`/products/${selected.value.slug}`);
+
+        selected.value = undefined;
+    }
+});
 </script>

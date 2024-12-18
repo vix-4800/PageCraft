@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 /**
  * @property int $id
@@ -39,6 +40,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Product extends Model
 {
+    use Searchable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -74,5 +77,26 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->getKey(),
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return ! $this->is_archived;
     }
 }

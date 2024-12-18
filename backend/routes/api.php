@@ -40,6 +40,7 @@ Route::name('api.')->group(function (): void {
 
         Route::apiSingleton('page-configuration', PageConfigurationController::class);
 
+        Route::get('products/search', [ProductController::class, 'search'])->name('search');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku']);

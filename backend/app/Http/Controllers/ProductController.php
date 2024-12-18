@@ -9,6 +9,7 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -22,7 +23,7 @@ class ProductController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', except: ['index', 'show']),
+            new Middleware('auth:sanctum', only: ['store', 'update', 'destroy']),
         ];
     }
 
@@ -40,6 +41,20 @@ class ProductController extends Controller implements HasMiddleware
     public function index(): JsonResource
     {
         return ProductResource::collection(Product::active()->get());
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * TODO Add filter by active products
+     */
+    public function search(Request $request): JsonResource
+    {
+        return ProductResource::collection(
+            Product::search(
+                trim($request->get('q') ?? '')
+            )->get()
+        );
     }
 
     /**
@@ -67,7 +82,9 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make($this->service->updateProduct($validated, $product));
+        return ProductResource::make(
+            $this->service->updateProduct($validated, $product)
+        );
     }
 
     /**
