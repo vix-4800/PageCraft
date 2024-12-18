@@ -11,6 +11,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -35,13 +36,17 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function index(Request $request): JsonResource
     {
-        $query = Order::orderBy('created_at', 'desc');
+        $query = Order::with('user')->orderBy('created_at', 'desc');
 
-        if ($request->has('start_date') && $request->has('end_date')) {
+        $query->when($request->filled(['start_date', 'end_date']), function (Builder $query) use ($request): void {
             $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
-        }
+        });
 
-        return OrderResource::collection($query->get()->load('user'));
+        $query->when($request->filled('limit'), function (Builder $query) use ($request): void {
+            $query->limit($request->input('limit'));
+        });
+
+        return OrderResource::collection($query->get());
     }
 
     /**

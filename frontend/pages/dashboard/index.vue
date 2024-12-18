@@ -75,7 +75,7 @@
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
         >
             <div class="px-6 pt-6">
-                <h2 class="text-2xl font-bold">Latest Sales</h2>
+                <h2 class="text-2xl font-bold">7 Latest Sales</h2>
                 <h3 class="text-sm font-medium text-slate-500">
                     You have {{ statistics.sales.today }} new sale{{
                         statistics.sales.today > 1 ? 's' : ''
@@ -235,7 +235,7 @@ async function getLatestSales() {
     const startDate = new Date(endDate.getTime() - 1000 * 60 * 60 * 24);
 
     const response = await $fetch<{ data: Order[] }>(
-        `${apiUrl}/v1/orders?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}`,
+        `${apiUrl}/v1/orders?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}&limit=7`,
         {
             headers: {
                 'Content-Type': 'application/json',

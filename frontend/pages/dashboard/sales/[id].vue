@@ -83,7 +83,7 @@
                                 order.status !== 'delivered'
                             "
                         >
-                            Cancel
+                            Cancel Order
                         </u-button>
                     </div>
                 </div>
@@ -119,6 +119,13 @@ onMounted(async () => {
 });
 
 const updateOrderStatus = async (status: string) => {
+    const allowedStatuses = ['processing', 'delivered', 'cancelled'];
+
+    if (!allowedStatuses.includes(status)) {
+        console.error('Invalid status:', status);
+        return;
+    }
+
     const { data } = await $fetch(`${apiUrl}/v1/orders/${route.params.id}`, {
         method: 'PUT',
         headers: {
