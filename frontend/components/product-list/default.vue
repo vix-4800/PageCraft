@@ -4,7 +4,17 @@
     >
         <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
 
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            v-if="loading"
+        >
+            <USkeleton class="h-96 rounded-xl" v-for="i in 3" />
+        </div>
+
+        <div
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            v-else
+        >
             <div
                 v-for="product in products"
                 :key="product.slug"
@@ -69,6 +79,10 @@ defineProps({
     title: {
         type: String,
         required: true,
+    },
+    loading: {
+        type: Boolean,
+        default: false,
     },
 });
 

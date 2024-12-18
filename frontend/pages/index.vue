@@ -3,6 +3,7 @@
         :is="productListComponent"
         :products="products"
         title="Our Best Products"
+        :loading="productsLoading"
     />
 
     <hr class="my-10" />
@@ -44,6 +45,7 @@ const productListComponent = defineAsyncComponent({
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const products = ref<Product[]>([]);
+const productsLoading = ref(true);
 onMounted(async () => {
     const { data } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products`,
@@ -57,5 +59,6 @@ onMounted(async () => {
     );
 
     products.value = data;
+    productsLoading.value = false;
 });
 </script>
