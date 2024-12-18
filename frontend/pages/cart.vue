@@ -4,7 +4,7 @@
     <div class="grid gap-8 mt-16 md:grid-cols-3">
         <div class="space-y-4 md:col-span-2">
             <div
-                v-for="item in store.items"
+                v-for="item in cartItems"
                 :key="item.product.slug"
                 class="grid items-start grid-cols-3 gap-4 pb-4 border-b border-gray-300"
             >
@@ -12,10 +12,12 @@
                     <div
                         class="p-2 bg-white border-2 border-gray-300 rounded-md w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0"
                     >
-                        <nuxt-img
-                            :src="item.product.image"
-                            class="object-contain w-full h-full"
-                        />
+                        <nuxt-link :to="`/products/${item.product.slug}`">
+                            <nuxt-img
+                                :src="item.product.image"
+                                class="object-contain w-full h-full"
+                            />
+                        </nuxt-link>
                     </div>
 
                     <div class="flex flex-col">
@@ -23,7 +25,7 @@
                             {{ item.product.name }}
                         </h3>
                         <p
-                            v-for="attribute in item.product.attributes"
+                            v-for="attribute in item.attributes"
                             :key="attribute.name"
                             class="text-xs font-semibold text-gray-500 mt-0.5"
                         >
@@ -40,7 +42,7 @@
                         <button
                             type="button"
                             class="flex items-center gap-1 mt-6 text-xs font-semibold text-red-500 shrink-0"
-                            @click="store.removeProduct(item.product)"
+                            @click="removeProductFromCart(item)"
                         >
                             <u-icon
                                 name="material-symbols:delete-outline"
@@ -55,7 +57,7 @@
                     <h4
                         class="text-lg font-bold text-gray-800 max-sm:text-base"
                     >
-                        ${{ item.product.price }}
+                        ${{ item.price }}
                     </h4>
 
                     <div
@@ -64,7 +66,7 @@
                         <button
                             class="p-2"
                             type="button"
-                            @click="store.decreaseProductQuantity(item.product)"
+                            @click="store.decreaseProductQuantity(item)"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -79,13 +81,13 @@
                         </button>
 
                         <span class="font-bold">
-                            {{ item.quantity }}
+                            {{ store.getQuantity(item) }}
                         </span>
 
                         <button
                             class="p-2"
                             type="button"
-                            @click="store.increaseProductQuantity(item.product)"
+                            @click="store.increaseProductQuantity(item)"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -217,11 +219,32 @@
 </template>
 
 <script lang="ts" setup>
-onMounted(() => {
+const store = useCartStore();
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
+const cartItems = ref<ProductVariation[]>([]);
+onMounted(async () => {
+    const skus = store.items.map((item) => item.sku);
+
+    const { data } = await $fetch<{ data: ProductVariation[] }>(
+        `${apiUrl}/v1/variations?skus=${skus.join(',')}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        }
+    );
+
+    cartItems.value = data;
+
     calculateOrder();
 });
 
-const store = useCartStore();
+watch(store.items, () => {
+    calculateOrder();
+});
 
 const name = ref('');
 const email = ref('');
@@ -233,7 +256,10 @@ const tax = ref(0);
 const total = ref(0);
 
 function calculateOrder() {
-    subTotal.value = store.totalPrice;
+    subTotal.value = cartItems.value.reduce(
+        (acc, item) => acc + item.price * store.getQuantity(item),
+        0
+    );
 
     shipping.value = Math.round(0.05 * subTotal.value * 100) / 100;
     tax.value = Math.round(0.1 * subTotal.value * 100) / 100;
@@ -247,9 +273,12 @@ function clearDetails() {
     phone.value = '';
 }
 
-watch(store.items, () => {
-    calculateOrder();
-});
+function removeProductFromCart(item: ProductVariation) {
+    store.removeProduct(item);
+    cartItems.value = cartItems.value.filter(
+        (cartItem) => cartItem.sku !== item.sku
+    );
+}
 
 const { $notify } = useNuxtApp();
 const checkout = async () => {
@@ -267,7 +296,10 @@ const checkout = async () => {
             Accept: 'application/json',
         },
         body: {
-            products: store.items,
+            products: cartItems.value.map((item) => ({
+                sku: item.sku,
+                quantity: store.getQuantity(item),
+            })),
             total: total.value,
             details: {
                 name: name.value,
@@ -285,6 +317,7 @@ const checkout = async () => {
     store.clearCart();
     calculateOrder();
     clearDetails();
+    cartItems.value = [];
 
     $notify('Order Placed Successfully');
 };

@@ -22,19 +22,14 @@ export const useAuthStore = defineStore('auth', {
                     Accept: 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-            })
-                .then((response) => {
-                    useCookie('AUTH_TOKEN').value =
-                        response.data.value.data.token;
-                    this.authenticated = true;
+            }).then((response) => {
+                useCookie('AUTH_TOKEN').value = response.data.value.data.token;
+                this.authenticated = true;
 
-                    this.fetchUser();
+                this.fetchUser();
 
-                    navigateTo('/dashboard');
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+                navigateTo('/dashboard');
+            });
         },
         // async register({ name: string, email, phone, password }) {
         //     this.user = {

@@ -23,7 +23,7 @@ const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const products = ref<Product[]>([]);
 onMounted(async () => {
-    const response = await $fetch<{ data: Product[] }>(
+    const { data } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products`,
         {
             method: 'GET',
@@ -32,8 +32,8 @@ onMounted(async () => {
                 Accept: 'application/json',
             },
         }
-    ).catch((error) => error.data);
+    );
 
-    products.value = response.data;
+    products.value = data;
 });
 </script>

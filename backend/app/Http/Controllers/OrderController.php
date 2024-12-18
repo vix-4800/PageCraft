@@ -71,7 +71,7 @@ class OrderController extends Controller implements HasMiddleware
 
             $products->each(function (array $product) use ($order): void {
                 /** @var ProductVariation $productVariation */
-                $productVariation = ProductVariation::firstWhere('sku', $product['product']['sku']);
+                $productVariation = ProductVariation::firstWhere('sku', $product['sku']);
 
                 $order->items()->create([
                     'quantity' => $product['quantity'],

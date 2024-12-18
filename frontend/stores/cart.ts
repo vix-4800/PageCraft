@@ -3,26 +3,22 @@ import type { ProductVariation } from '~/types/product';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: useLocalStorage<
-            { product: ProductVariation; quantity: number }[]
-        >('cart', []),
+        items: useLocalStorage<{ sku: string; quantity: number }[]>('cart', []),
     }),
     actions: {
         increaseProductQuantity(product: ProductVariation) {
             const existingProduct = this.items.find(
-                (p) => p.product.sku === product.sku
+                (p) => p.sku === product.sku
             );
 
             if (existingProduct) {
                 existingProduct.quantity++;
             } else {
-                this.items.push({ product, quantity: 1 });
+                this.items.push({ sku: product.sku, quantity: 1 });
             }
         },
         decreaseProductQuantity(product: ProductVariation) {
-            const index = this.items.findIndex(
-                (p) => p.product.sku === product.sku
-            );
+            const index = this.items.findIndex((p) => p.sku === product.sku);
 
             if (index !== -1) {
                 const existingProduct = this.items[index];
@@ -32,9 +28,7 @@ export const useCartStore = defineStore('cart', {
             }
         },
         removeProduct(product: ProductVariation) {
-            const index = this.items.findIndex(
-                (p) => p.product.sku === product.sku
-            );
+            const index = this.items.findIndex((p) => p.sku === product.sku);
 
             if (index !== -1) {
                 this.items.splice(index, 1);
@@ -44,21 +38,16 @@ export const useCartStore = defineStore('cart', {
             this.items = [];
         },
         isProductInCart(product: ProductVariation): boolean {
-            return (
-                this.items.find((p) => p.product.sku === product.sku) !==
-                undefined
-            );
+            return this.items.some((p) => p.sku === product.sku);
+        },
+        getQuantity(product: ProductVariation): number {
+            const item = this.items.find((p) => p.sku === product.sku);
+            return item ? item.quantity : 0;
         },
     },
     getters: {
         totalItems(): number {
             return this.items.reduce((total, p) => total + p.quantity, 0);
-        },
-        totalPrice(): number {
-            return this.items.reduce(
-                (total, p) => total + p.product.price * p.quantity,
-                0
-            );
         },
     },
 });
