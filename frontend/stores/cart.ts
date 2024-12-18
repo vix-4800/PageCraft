@@ -3,7 +3,10 @@ import type { ProductVariation } from '~/types/product';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: useLocalStorage<{ sku: string; quantity: number }[]>('cart', []),
+        items: useCookie<{ sku: string; quantity: number }[]>('cart', {
+            default: () => [],
+            maxAge: 60 * 60 * 24 * 30, // 30 дней
+        }),
     }),
     actions: {
         increaseProductQuantity(product: ProductVariation) {
@@ -16,6 +19,8 @@ export const useCartStore = defineStore('cart', {
             } else {
                 this.items.push({ sku: product.sku, quantity: 1 });
             }
+
+            this.syncCookies();
         },
         decreaseProductQuantity(product: ProductVariation) {
             const index = this.items.findIndex((p) => p.sku === product.sku);
@@ -26,6 +31,8 @@ export const useCartStore = defineStore('cart', {
                     existingProduct.quantity--;
                 }
             }
+
+            this.syncCookies();
         },
         removeProduct(product: ProductVariation) {
             const index = this.items.findIndex((p) => p.sku === product.sku);
@@ -33,9 +40,13 @@ export const useCartStore = defineStore('cart', {
             if (index !== -1) {
                 this.items.splice(index, 1);
             }
+
+            this.syncCookies();
         },
         clearCart() {
             this.items = [];
+
+            this.syncCookies();
         },
         isProductInCart(product: ProductVariation): boolean {
             return this.items.some((p) => p.sku === product.sku);
@@ -43,6 +54,9 @@ export const useCartStore = defineStore('cart', {
         getQuantity(product: ProductVariation): number {
             const item = this.items.find((p) => p.sku === product.sku);
             return item ? item.quantity : 0;
+        },
+        syncCookies() {
+            useCookie('cart').value = this.items;
         },
     },
     getters: {

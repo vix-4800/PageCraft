@@ -226,20 +226,22 @@ const cartItems = ref<ProductVariation[]>([]);
 onMounted(async () => {
     const skus = store.items.map((item) => item.sku);
 
-    const { data } = await $fetch<{ data: ProductVariation[] }>(
-        `${apiUrl}/v1/variations?skus=${skus.join(',')}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        }
-    );
+    if (skus.length > 0) {
+        const { data } = await $fetch<{ data: ProductVariation[] }>(
+            `${apiUrl}/v1/variations?skus=${skus.join(',')}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            }
+        );
 
-    cartItems.value = data;
+        cartItems.value = data;
 
-    calculateOrder();
+        calculateOrder();
+    }
 });
 
 watch(store.items, () => {
