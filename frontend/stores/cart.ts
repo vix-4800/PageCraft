@@ -18,6 +18,8 @@ export const useCartStore = defineStore('cart', {
                 existingProduct.quantity++;
             } else {
                 this.items.push({ sku: product.sku, quantity: 1 });
+
+                useNuxtApp().$notify(`${product.sku} added to cart`, 'success');
             }
 
             this.syncCookies();
@@ -39,9 +41,14 @@ export const useCartStore = defineStore('cart', {
 
             if (index !== -1) {
                 this.items.splice(index, 1);
-            }
 
-            this.syncCookies();
+                useNuxtApp().$notify(
+                    `${product.sku} removed from cart`,
+                    'error'
+                );
+
+                this.syncCookies();
+            }
         },
         clearCart() {
             this.items = [];

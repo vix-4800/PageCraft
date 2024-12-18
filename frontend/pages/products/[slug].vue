@@ -158,7 +158,7 @@
                                 ? 'Remove from favorites'
                                 : 'Add to favorites'
                         "
-                        @click="toggleFavorite"
+                        @click="favoriteStore.toggleFavorite(product.value)"
                     />
                 </div>
             </div>
@@ -408,27 +408,12 @@ function selectVariation(variation: ProductVariation) {
     selectedVariation.value = variation;
 }
 
-const { $notify } = useNuxtApp();
-
 const cartStore = useCartStore();
 const addToCart = () => {
     if (Object.keys(selectedVariation.value).length === 0) return;
 
     cartStore.increaseProductQuantity(selectedVariation.value);
-
-    $notify(`${product.value.name} added to cart`, 'info');
 };
 
 const favoriteStore = useFavoriteStore();
-const toggleFavorite = () => {
-    const isFavorite = favoriteStore.isFavorite(product.value);
-
-    favoriteStore.toggleFavorite(product.value);
-
-    if (isFavorite) {
-        $notify(`${product.value.name} removed from favorites`, 'error');
-    } else {
-        $notify(`${product.value.name} added to favorites`, 'info');
-    }
-};
 </script>

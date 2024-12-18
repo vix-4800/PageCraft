@@ -11,8 +11,18 @@ export const useFavoriteStore = defineStore('favorite', {
 
             if (index !== -1) {
                 this.items.splice(index, 1);
+
+                useNuxtApp().$notify(
+                    `${product.name} removed from favorites`,
+                    'error'
+                );
             } else {
                 this.items.push(product);
+
+                useNuxtApp().$notify(
+                    `${product.name} added to favorites`,
+                    'success'
+                );
             }
         },
         isFavorite(product: Product): boolean {
