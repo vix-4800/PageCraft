@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ApiException;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
-use App\Models\ProductAttribute;
-use App\Models\ProductAttributeValue;
-use App\Models\ProductVariation;
-use App\Models\ProductVariationAttribute;
+use App\Services\ProductService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\DB;
-use Str;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -30,6 +24,12 @@ class ProductController extends Controller implements HasMiddleware
         return [
             new Middleware('auth:sanctum', except: ['index', 'show']),
         ];
+    }
+
+    public function __construct(
+        private readonly ProductService $service
+    ) {
+        //
     }
 
     /**
@@ -49,49 +49,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        try {
-            DB::beginTransaction();
-
-            /** @var Product $product */
-            $product = Product::create([
-                'name' => $validated['name'],
-                'slug' => Str::slug($validated['name']),
-                'description' => $validated['description'],
-                'image' => $validated['image'] ?? null,
-            ]);
-
-            collect($validated['variations'])->each(function (array $variation) use ($product): void {
-                /** @var ProductVariation $createdVariation */
-                $createdVariation = $product->variations()->create([
-                    'sku' => $variation['sku'],
-                    'price' => $variation['price'],
-                    'stock' => $variation['stock'],
-                    'image' => $variation['image'] ?? null,
-                ]);
-
-                collect($variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
-                    /** @var ProductAttribute $attributeFromDb */
-                    $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
-
-                    /** @var ProductAttributeValue $attributeValueFromDb */
-                    $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
-
-                    ProductVariationAttribute::insert([
-                        'product_variation_id' => $createdVariation->id,
-                        'product_attribute_value_id' => $attributeValueFromDb->id,
-                    ]);
-                });
-            });
-
-            DB::commit();
-
-            return ProductResource::make($product);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            // throw $th;
-            throw new ApiException;
-        }
+        return ProductResource::make($this->service->storeProduct($validated));
     }
 
     /**
@@ -109,50 +67,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        try {
-            DB::beginTransaction();
-
-            $product->update([
-                'name' => $validated['name'],
-                'slug' => Str::slug($validated['name']),
-                'description' => $validated['description'],
-                'image' => $validated['image'] ?? null,
-            ]);
-
-            $product->variations()->delete();
-
-            collect($validated['variations'])->each(function (array $variation) use ($product): void {
-                /** @var ProductVariation $createdVariation */
-                $createdVariation = $product->variations()->create([
-                    'sku' => $variation['sku'],
-                    'price' => $variation['price'],
-                    'stock' => $variation['stock'],
-                    'image' => $variation['image'] ?? null,
-                ]);
-
-                collect($variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
-                    /** @var ProductAttribute $attributeFromDb */
-                    $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
-
-                    /** @var ProductAttributeValue $attributeValueFromDb */
-                    $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
-
-                    ProductVariationAttribute::insert([
-                        'product_variation_id' => $createdVariation->id,
-                        'product_attribute_value_id' => $attributeValueFromDb->id,
-                    ]);
-                });
-            });
-
-            DB::commit();
-
-            return ProductResource::make($product);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            // throw $th;
-            throw new ApiException;
-        }
+        return ProductResource::make($this->service->updateProduct($validated, $product));
     }
 
     /**
