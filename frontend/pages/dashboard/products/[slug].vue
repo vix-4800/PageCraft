@@ -148,11 +148,9 @@
                                         <u-button
                                             color="orange"
                                             size="md"
-                                            type="button"
+                                            label="Add Attribute"
                                             @click="addAttribute(variation)"
-                                        >
-                                            Add Attribute
-                                        </u-button>
+                                        />
 
                                         <u-button
                                             v-if="
@@ -160,11 +158,9 @@
                                             "
                                             color="red"
                                             size="md"
-                                            type="button"
+                                            label="Remove Attribute"
                                             @click="removeAttribute(variation)"
-                                        >
-                                            Remove Attribute
-                                        </u-button>
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -175,35 +171,32 @@
                         <u-button
                             color="orange"
                             size="md"
-                            type="button"
+                            label="Add Variation"
                             @click="addVariation"
-                        >
-                            Add Variation
-                        </u-button>
+                        />
                         <u-button
                             v-if="variations.length > 0"
                             color="red"
                             size="md"
-                            type="button"
+                            label="Remove Variation"
                             @click="removeVariation"
-                        >
-                            Remove Variation
-                        </u-button>
+                        />
                     </div>
                 </div>
 
                 <div class="flex gap-2">
-                    <u-button color="blue" size="md" type="submit">
-                        Submit
-                    </u-button>
+                    <u-button
+                        color="blue"
+                        size="md"
+                        label="Save"
+                        type="submit"
+                    />
                     <u-button
                         color="red"
                         @click="deleteProduct"
                         size="md"
-                        type="button"
-                    >
-                        Delete
-                    </u-button>
+                        label="Delete"
+                    />
                 </div>
             </u-form>
         </div>

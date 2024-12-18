@@ -19,11 +19,13 @@
             </nuxt-link>
 
             <div class="flex flex-wrap items-center w-full">
-                <input
+                <u-input
                     type="text"
-                    placeholder="Search something..."
-                    class="xl:w-96 max-lg:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4 bg-gray-100 border-2 border-gray-300 bg-transparent focus:ring-0 text-gray-200 px-6 rounded h-11 outline-[#333] text-sm transition-all"
+                    placeholder="Search"
+                    size="md"
+                    class="lg:w-96 max-md:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4"
                 />
+
                 <div class="ml-auto max-lg:mt-4">
                     <ul class="flex items-center space-x-4">
                         <li class="cursor-pointer max-lg:py-2">
@@ -63,25 +65,20 @@
                         <li
                             class="flex text-[15px] max-lg:py-2 hover:text-yellow-500 hover:fill-yellow-500"
                         >
-                            <nuxt-link
-                                to="/login"
+                            <u-button
                                 v-if="!isAuthenticated"
-                                class="px-4 py-2 text-sm font-semibold text-white bg-transparent border-2 border-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900"
-                            >
-                                Sign In
-                            </nuxt-link>
+                                to="/login"
+                                label="Sign In"
+                                class="px-4 py-2 text-sm font-semibold text-white bg-transparent hover:bg-yellow-500 hover:text-gray-900"
+                            />
 
-                            <nuxt-link
+                            <u-button
                                 v-else
-                                class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-transparent border-2 border-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900"
                                 to="/dashboard"
-                            >
-                                <u-icon
-                                    name="material-symbols:account-circle"
-                                    size="20"
-                                />
-                                Dashboard
-                            </nuxt-link>
+                                class="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
+                                icon="material-symbols:account-circle"
+                                label="Dashboard"
+                            />
                         </li>
 
                         <li class="lg:hidden">
@@ -154,12 +151,18 @@
                     :key="category.name"
                     class="px-3 max-lg:border-b max-lg:py-3"
                 >
-                    <nuxt-link
+                    <u-link
                         :to="category.href"
-                        class="hover:text-yellow-300 text-white text-[15px] font-medium block"
+                        class="flex items-center gap-1 text-sm"
+                        active-class="text-orange-400"
+                        inactive-class="text-white"
                     >
+                        <u-icon
+                            :name="category.icon"
+                            class="inline-block w-5 h-5"
+                        />
                         {{ category.name }}
-                    </nuxt-link>
+                    </u-link>
                 </li>
             </ul>
         </div>
@@ -176,13 +179,11 @@ const toggleMenu = () => {
 };
 
 const categories = ref([
-    { name: 'Home', href: '/' },
-    { name: 'Trending', href: '/trending' },
+    { name: 'Home', href: '/', icon: 'material-symbols:home' },
+    {
+        name: 'Products',
+        href: '/products',
+        icon: 'material-symbols:storefront',
+    },
 ]);
 </script>
-
-<style scoped>
-.router-link-exact-active {
-    @apply text-yellow-300;
-}
-</style>

@@ -2,30 +2,8 @@
     <component
         :is="productListComponent"
         :products="products"
-        title="Our Best Products"
+        title="Our Products"
     />
-
-    <hr class="my-10" />
-
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">New Arrivals</h2>
-        <p class="text-2xl font-bold text-center text-gray-800">
-            Coming soon...
-        </p>
-    </div>
-
-    <hr class="my-10" />
-
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">Latest News</h2>
-        <p class="text-2xl font-bold text-center text-gray-800">
-            Coming soon...
-        </p>
-    </div>
 </template>
 
 <script lang="ts" setup>

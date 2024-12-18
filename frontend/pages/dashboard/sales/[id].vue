@@ -57,34 +57,29 @@
                         <u-button
                             color="green"
                             size="md"
-                            type="button"
                             v-if="order.status === 'processing'"
+                            label="Deliver"
                             @click="updateOrderStatus('delivered')"
-                        >
-                            Deliver
-                        </u-button>
+                        />
+
                         <u-button
                             color="blue"
                             size="md"
-                            type="button"
                             v-else-if="order.status === 'created'"
+                            label="Process"
                             @click="updateOrderStatus('processing')"
-                        >
-                            Process
-                        </u-button>
+                        />
 
                         <u-button
                             color="red"
                             size="md"
-                            type="button"
+                            label="Cancel Order"
                             @click="updateOrderStatus('cancelled')"
                             v-if="
                                 order.status !== 'cancelled' &&
                                 order.status !== 'delivered'
                             "
-                        >
-                            Cancel Order
-                        </u-button>
+                        />
                     </div>
                 </div>
             </div>

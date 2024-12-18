@@ -7,20 +7,6 @@
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
-                <div class="w-full px-1">
-                    <u-button
-                        color="blue"
-                        block
-                        size="md"
-                        type="button"
-                        @click="navigateTo('/dashboard/products/create')"
-                    >
-                        Add Product
-                    </u-button>
-                </div>
-
-                <hr class="my-4 border-gray-300" />
-
                 <u-table
                     :columns="columns"
                     :rows="products"
@@ -33,6 +19,18 @@
                     class="w-full"
                     @select="select"
                 />
+
+                <div class="w-full px-1 mt-4">
+                    <u-button
+                        color="blue"
+                        block
+                        size="md"
+                        :loading="status === 'pending' || status === 'idle'"
+                        type="button"
+                        label="Add Product"
+                        @click="navigateTo('/dashboard/products/create')"
+                    />
+                </div>
             </div>
         </div>
     </div>

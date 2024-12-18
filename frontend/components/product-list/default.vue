@@ -11,25 +11,17 @@
                 class="relative flex flex-col overflow-hidden bg-gray-200 rounded-xl"
             >
                 <div class="p-4">
-                    <button
-                        type="button"
-                        class="absolute flex items-center justify-center w-10 h-10 transition-colors bg-gray-100 border rounded-full cursor-pointer top-1 right-1"
+                    <u-button
+                        :ui="{ rounded: 'rounded-full' }"
+                        class="absolute flex items-center justify-center w-10 h-10 top-1 right-1"
                         :class="{
-                            'border-red-300 bg-red-100':
-                                favoriteStore.isFavorite(product),
+                            'bg-red-500': favoriteStore.isFavorite(product),
+                            'bg-gray-400': !favoriteStore.isFavorite(product),
                         }"
                         @click="toggleFavorite(product)"
-                    >
-                        <u-icon
-                            name="heroicons-solid:heart"
-                            size="25"
-                            class="text-black transition-all ease-in-out hover:scale-110"
-                            :class="{
-                                'text-red-500 hover:text-red-600':
-                                    favoriteStore.isFavorite(product),
-                            }"
-                        />
-                    </button>
+                        color="red"
+                        icon="heroicons-solid:heart"
+                    />
 
                     <nuxt-link
                         :to="`/products/${product.slug}`"
@@ -52,12 +44,14 @@
                         {{ product.description }}
                     </p>
 
-                    <nuxt-link
+                    <u-button
                         :to="`/products/${product.slug}`"
-                        class="flex items-center justify-center w-full gap-3 px-6 py-3 mt-auto text-base font-semibold text-gray-800 bg-yellow-400 rounded-xl"
-                    >
-                        View
-                    </nuxt-link>
+                        block
+                        size="lg"
+                        color="orange"
+                        class="mt-auto font-semibold"
+                        label="View"
+                    />
                 </div>
             </div>
         </div>

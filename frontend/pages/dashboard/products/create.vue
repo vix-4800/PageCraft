@@ -163,40 +163,15 @@
                                                 required
                                             />
                                         </u-form-group>
-
-                                        <!-- <u-select
-                                            v-model="attribute.name"
-                                            color="blue"
-                                            size="lg"
-                                            class="w-1/2"
-                                            :options="attributeNames"
-                                            placeholder="Select Attribute"
-                                            @change="selectedAttr = attribute"
-                                        />
-
-                                        <u-select
-                                            v-model="attribute.value"
-                                            color="blue"
-                                            size="lg"
-                                            class="w-1/2"
-                                            :options="
-                                                availableAttributes[
-                                                    selectedAttr.name
-                                                ]
-                                            "
-                                            placeholder="Select Value"
-                                        /> -->
                                     </div>
 
                                     <div class="flex gap-2">
                                         <u-button
                                             color="orange"
                                             size="md"
-                                            type="button"
+                                            label="Add Attribute"
                                             @click="addAttribute(variation)"
-                                        >
-                                            Add Attribute
-                                        </u-button>
+                                        />
 
                                         <u-button
                                             v-if="
@@ -204,11 +179,9 @@
                                             "
                                             color="red"
                                             size="md"
-                                            type="button"
+                                            label="Remove Attribute"
                                             @click="removeAttribute(variation)"
-                                        >
-                                            Remove Attribute
-                                        </u-button>
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -219,20 +192,16 @@
                         <u-button
                             color="orange"
                             size="md"
-                            type="button"
+                            label="Add Variation"
                             @click="addVariation"
-                        >
-                            Add Variation
-                        </u-button>
+                        />
                         <u-button
                             v-if="product.variations.length > 0"
                             color="red"
                             size="md"
-                            type="button"
+                            label="Remove Variation"
                             @click="removeVariation"
-                        >
-                            Remove Variation
-                        </u-button>
+                        />
                     </div>
                 </div>
 
@@ -241,10 +210,9 @@
                     :disabled="product.variations.length === 0"
                     color="blue"
                     size="md"
+                    label="Submit"
                     type="submit"
-                >
-                    Submit
-                </u-button>
+                />
             </u-form>
         </div>
     </div>
@@ -285,24 +253,6 @@ async function submitForm() {
     navigateTo(`/dashboard/products`);
     $notify('Product created successfully', 'success');
 }
-
-const availableAttributes = ref<ProductVariantAttribute[]>([]);
-const attributeNames = ref<string[]>([]);
-const selectedAttr = ref<string | null>(null);
-onMounted(async () => {
-    // const { data } = await $fetch(`${apiUrl}/v1/productAttributes`, {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         Accept: 'application/json',
-    //     },
-    // });
-    // data.forEach((attribute) => {
-    //     const [key, values] = Object.entries(attribute)[0];
-    //     availableAttributes.value[key] = values;
-    // });
-    // attributeNames.value = Object.keys(availableAttributes.value);
-    // selectedAttr.value = attributeNames.value[0];
-});
 
 function addVariation() {
     product.variations.push({

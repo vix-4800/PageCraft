@@ -4,9 +4,6 @@
     >
         <div class="px-6 pt-6">
             <h2 class="text-2xl font-bold">Page Configuration</h2>
-            <h3 class="text-sm font-medium text-slate-500">
-                Select page block templates
-            </h3>
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
@@ -65,13 +62,12 @@
                         type="submit"
                         size="md"
                         color="blue"
-                        class="mt-2 border w-min"
+                        class="mt-2 w-min"
+                        label="Save"
                         :loading="loading"
                         :disabled="loading"
                         @click="saveConfiguration"
-                    >
-                        Save
-                    </u-button>
+                    />
                 </form>
             </div>
         </div>

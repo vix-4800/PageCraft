@@ -44,9 +44,12 @@
                         />
                     </u-form-group>
 
-                    <u-button color="blue" size="md" type="submit">
-                        Submit
-                    </u-button>
+                    <u-button
+                        color="blue"
+                        size="md"
+                        label="Submit"
+                        type="submit"
+                    />
                 </u-form>
             </div>
         </div>
@@ -96,6 +99,8 @@ async function submitForm() {
 
     await authStore.fetchUser();
     authStore.user = data;
+
+    user.password = '';
 
     $notify('Account updated successfully', 'success');
 }

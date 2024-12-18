@@ -19,6 +19,13 @@
         </div>
 
         <div class="lg:col-span-2">
+            <u-breadcrumb
+                :ui="{ active: 'text-orange-500' }"
+                :links="breadcrumbLinks"
+                divider="/"
+                class="mb-4"
+            />
+
             <h2 class="text-2xl font-bold text-gray-800">
                 {{ product.name }}
             </h2>
@@ -64,27 +71,26 @@
                         :text="variation.stock"
                         size="2xl"
                     >
-                        <button
+                        <u-button
                             type="button"
-                            class="p-2 bg-white border-2 border-gray-200 rounded-lg"
+                            class="p-2 bg-transparent border-2 border-gray-200 rounded-lg hover:bg-transparent"
                             :class="
                                 variation.sku === selectedVariation.sku
                                     ? 'border-orange-400'
                                     : ''
                             "
+                            :disabled="variation.stock === 0"
                             @click="selectVariation(variation)"
                         >
-                            <div class="w-12 h-12">
-                                <nuxt-img
-                                    :src="variation.image"
-                                    alt="Product1"
-                                    class="w-full h-full rounded-lg"
-                                    width="48px"
-                                    height="48px"
-                                    placeholder="/placeholder.png"
-                                />
-                            </div>
-                        </button>
+                            <nuxt-img
+                                :src="variation.image"
+                                alt="Product1"
+                                class="w-12 h-12 rounded-lg"
+                                width="48px"
+                                height="48px"
+                                placeholder="/placeholder.png"
+                            />
+                        </u-button>
                     </u-chip>
                 </div>
 
@@ -93,7 +99,7 @@
                         Product Specifications
                     </h3>
                     <ul
-                        class="mt-2 ml-4 space-y-1 text-sm text-gray-800 list-disc"
+                        class="mt-2 ml-4 space-y-2 text-sm text-gray-800 list-disc"
                     >
                         <li
                             v-for="(
@@ -105,45 +111,48 @@
                                 attribute.name.charAt(0).toUpperCase() +
                                 attribute.name.slice(1)
                             }}:
-                            {{
-                                attribute.value.charAt(0).toUpperCase() +
-                                attribute.value.slice(1)
-                            }}
+                            <u-kbd
+                                :value="
+                                    attribute.value.charAt(0).toUpperCase() +
+                                    attribute.value.slice(1)
+                                "
+                                size="md"
+                            />
                         </li>
                     </ul>
                 </div>
 
-                <div class="flex justify-between">
+                <div class="flex gap-4">
                     <u-button
                         v-if="!cartStore.isProductInCart(selectedVariation)"
-                        type="button"
                         color="orange"
                         icon="material-symbols:add-shopping-cart-sharp"
-                        class="justify-center w-1/2 px-6 py-3 font-semibold"
+                        class="font-semibold"
                         label="Add to cart"
+                        size="lg"
                         :disabled="
                             selectedVariation === null ||
                             selectedVariation.stock === 0
                         "
                         @click="addToCart"
                     />
-                    <nuxt-link to="/cart" class="w-1/2" v-else>
-                        <u-button
-                            type="button"
-                            color="cyan"
-                            icon="material-symbols:shopping-cart"
-                            class="justify-center w-full px-6 py-3 font-semibold"
-                            label="Go to cart"
-                        />
-                    </nuxt-link>
+                    <u-button
+                        v-else
+                        to="/cart"
+                        color="cyan"
+                        size="lg"
+                        icon="material-symbols:shopping-cart"
+                        class="font-semibold"
+                        label="Go to cart"
+                    />
 
                     <u-button
-                        type="button"
                         :color="
                             favoriteStore.isFavorite(product) ? 'red' : 'gray'
                         "
                         icon="material-symbols:favorite"
-                        class="justify-center w-1/2 px-6 py-3 font-semibold"
+                        class="font-semibold"
+                        size="lg"
                         :label="
                             favoriteStore.isFavorite(product)
                                 ? 'Remove from favorites'
@@ -319,6 +328,23 @@ const averageRating = ref(0);
 
 const carouselRef = ref();
 
+const breadcrumbLinks = [
+    {
+        label: 'Home',
+        icon: 'i-heroicons-home',
+        to: '/',
+    },
+    {
+        label: 'Products',
+        icon: 'i-heroicons-square-3-stack-3d',
+        to: '/products',
+    },
+    {
+        label: 'Product',
+        icon: 'i-heroicons-arrow-right',
+    },
+];
+
 onMounted(async () => {
     setInterval(() => {
         if (!carouselRef.value) return;
@@ -329,7 +355,7 @@ onMounted(async () => {
         carouselRef.value.next();
     }, 3000);
 
-    const response: { data: Product } = await $fetch<{ data: Product[] }>(
+    const { data: productData } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products/${useRoute().params.slug}`,
         {
             headers: {
@@ -339,14 +365,14 @@ onMounted(async () => {
         }
     );
 
-    product.value = response.data;
+    product.value = productData;
     variations.value = product.value.variations;
 
     if (variations.value.length > 0) {
         selectedVariation.value = variations.value[0];
     }
 
-    const response2 = await $fetch(
+    const { data: reviewsData } = await $fetch(
         `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
         {
             headers: {
@@ -356,7 +382,7 @@ onMounted(async () => {
         }
     );
 
-    reviews.value = response2.data;
+    reviews.value = reviewsData;
 
     if (reviews.value.length > 0) {
         reviews.value.forEach((review) => {
