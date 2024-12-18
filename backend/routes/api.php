@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiNotFoundException;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageConfigurationController;
@@ -19,8 +20,10 @@ Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         Route::middleware('auth:sanctum')->group(function (): void {
             Route::prefix('users')->group(function (): void {
-                Route::get('me', [UserController::class, 'view'])->name('user.view');
-                Route::apiResource('/', UserController::class)->except('view');
+                Route::get('me', [AuthenticatedUserController::class, 'show']);
+                Route::patch('me', [AuthenticatedUserController::class, 'update']);
+
+                Route::apiResource('/', UserController::class);
 
                 Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
                 Route::patch('me/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');

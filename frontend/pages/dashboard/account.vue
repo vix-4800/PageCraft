@@ -79,32 +79,24 @@ const { $notify } = useNuxtApp();
 async function submitForm() {
     const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-    await useFetch(`${apiUrl}/v1/users/me`, {
-        method: 'PUT',
+    const { data } = await useFetch(`${apiUrl}/v1/users/me`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authStore.authToken}`,
         },
-        body: {
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            password: user.password,
-        },
-    }).then(async (result) => {
-        if (result.error) {
-            $notify('Something went wrong', 'error');
-            return;
-        }
-
-        await authStore.fetchUser();
-
-        user.name = authStore.user?.name;
-        user.email = authStore.user?.email;
-        user.phone = authStore.user?.phone;
-
-        $notify('Account updated successfully', 'success');
+        body: JSON.stringify(user),
     });
+
+    if (!data.value) {
+        $notify('Something went wrong', 'error');
+        return;
+    }
+
+    await authStore.fetchUser();
+    authStore.user = data;
+
+    $notify('Account updated successfully', 'success');
 }
 </script>

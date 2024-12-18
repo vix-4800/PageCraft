@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserShowResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
@@ -17,8 +16,8 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
-    public function view(Request $request): JsonResource
+    public function view(User $user): JsonResource
     {
-        return UserShowResource::make($request->user());
+        return UserShowResource::make($user);
     }
 }
