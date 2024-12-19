@@ -28,7 +28,7 @@
                             'bg-red-500': favoriteStore.isFavorite(product),
                             'bg-gray-400': !favoriteStore.isFavorite(product),
                         }"
-                        @click="toggleFavorite(product)"
+                        @click="favoriteStore.toggleFavorite(product)"
                         color="red"
                         icon="heroicons-solid:heart"
                     />
@@ -65,6 +65,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="flex justify-center w-full mt-6">
+            <u-pagination
+                size="lg"
+                :active-button="{ variant: 'outline', color: 'orange' }"
+                :inactive-button="{ color: 'gray' }"
+                v-if="withPagination && pageCount > 0"
+                v-model="page"
+                :page-count="pageCount"
+                :total="products.length"
+                :to="(page: number) => ({query: { page }})"
+            />
+        </div>
     </div>
 </template>
 
@@ -84,10 +97,20 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    withPagination: {
+        type: Boolean,
+        default: false,
+    },
+    pageCount: {
+        type: Number,
+        default: 0,
+    },
+    currentPage: {
+        type: Number,
+        default: 1,
+    },
 });
 
 const favoriteStore = useFavoriteStore();
-const toggleFavorite = (product: Product) => {
-    favoriteStore.toggleFavorite(product);
-};
+const page = ref(1);
 </script>

@@ -3,12 +3,17 @@
         :is="productListComponent"
         :products="products"
         title="Our Products"
+        :withPagination="true"
+        :pageCount="pageCount"
+        :currentPage="currentPage"
     />
 </template>
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
 
+const route = useRoute();
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);
@@ -19,21 +24,44 @@ const productListComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const products = ref<Product[]>([]);
+const pageCount = ref(0);
+const currentPage = ref(parseInt(route.query.page as string) || 1);
+
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Product[] }>(
+    await fetchProducts(currentPage.value);
+});
+
+async function fetchProducts(page: number) {
+    const { data, meta } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products`,
         {
-            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+            },
+            params: {
+                page,
+                limit: 9,
             },
         }
     );
 
     products.value = data;
-});
+    pageCount.value = meta.last_page;
+}
+
+watch(
+    () => route.query.page,
+    (newPage) => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+
+        const page = parseInt(newPage as string) || 1;
+        currentPage.value = page;
+        fetchProducts(page);
+    }
+);
 </script>
