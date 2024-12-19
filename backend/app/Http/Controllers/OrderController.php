@@ -42,11 +42,11 @@ class OrderController extends Controller implements HasMiddleware
             $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
         });
 
-        $query->when($request->filled('limit'), function (Builder $query) use ($request): void {
-            $query->limit($request->input('limit'));
-        });
+        $limit = $request->input('limit', 10);
 
-        return OrderResource::collection($query->get());
+        return OrderResource::collection(
+            $query->paginate($limit)
+        );
     }
 
     /**
@@ -88,7 +88,9 @@ class OrderController extends Controller implements HasMiddleware
 
             DB::commit();
 
-            return OrderResource::make($order->load(['items', 'user']));
+            return OrderResource::make(
+                $order->load(['items', 'user'])
+            );
         } catch (\Throwable $th) {
             DB::rollBack();
 
@@ -101,7 +103,9 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function show(Order $order): JsonResource
     {
-        return OrderResource::make($order->load(['items.productVariation.product', 'user']));
+        return OrderResource::make(
+            $order->load(['items.productVariation.product', 'user'])
+        );
     }
 
     /**
@@ -111,14 +115,8 @@ class OrderController extends Controller implements HasMiddleware
     {
         $order->update($request->validated());
 
-        return OrderResource::make($order->load(['items.productVariation.product', 'user']));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+        return OrderResource::make(
+            $order->load(['items.productVariation.product', 'user'])
+        );
     }
 }

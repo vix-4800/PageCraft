@@ -8,7 +8,6 @@ use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageConfigurationController;
-use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductVariationController;
@@ -40,13 +39,15 @@ Route::name('api.')->group(function (): void {
 
         Route::apiSingleton('page-configuration', PageConfigurationController::class);
 
-        Route::get('products/search', [ProductController::class, 'search'])->name('search');
+        Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
+        Route::get('products/best', [ProductController::class, 'best'])->name('products.best');
+        Route::get('products/new', [ProductController::class, 'new'])->name('products.new');
+        Route::get('products/popular', [ProductController::class, 'popular'])->name('products.popular');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
-        Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku']);
-        Route::apiResource('productAttributes', ProductAttributeController::class);
+        Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
-        Route::apiResource('orders', OrderController::class);
+        Route::apiResource('orders', OrderController::class)->except('destroy');
     });
 
     // Auth

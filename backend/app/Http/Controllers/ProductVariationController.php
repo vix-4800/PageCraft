@@ -26,36 +26,4 @@ class ProductVariationController extends Controller
             $productVariationsQuery->with(['product', 'productVariationAttributes'])->get()
         );
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProductVariation $productVariation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProductVariation $productVariation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ProductVariation $productVariation)
-    {
-        //
-    }
 }

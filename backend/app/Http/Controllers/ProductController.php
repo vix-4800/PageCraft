@@ -35,12 +35,52 @@ class ProductController extends Controller implements HasMiddleware
 
     /**
      * Display a listing of the resource.
-     *
-     * TODO Pagination
      */
     public function index(): JsonResource
     {
-        return ProductResource::collection(Product::active()->get());
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()->paginate($limit)
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function best(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->withCount('orderItems')
+                ->orderBy('order_items_count', 'desc')
+                ->paginate($limit)
+        );
+    }
+
+    public function popular(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->withCount('reviews')
+                ->orderBy('reviews_count', 'desc')
+                ->paginate($limit)
+        );
+    }
+
+    public function new(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->orderBy('created_at', 'desc')
+                ->paginate($limit)
+        );
     }
 
     /**
@@ -64,7 +104,9 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make($this->service->storeProduct($validated));
+        return ProductResource::make(
+            $this->service->storeProduct($validated)
+        );
     }
 
     /**
@@ -72,7 +114,9 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return ProductResource::make($product->load('variations.productVariationAttributes'));
+        return ProductResource::make(
+            $product->load('variations.productVariationAttributes')
+        );
     }
 
     /**

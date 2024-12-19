@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Laravel\Scout\Searchable;
 
 /**
@@ -18,6 +19,8 @@ use Laravel\Scout\Searchable;
  * @property bool $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, OrderItem> $orderItems
+ * @property-read int|null $order_items_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $reviews
  * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariation> $variations
@@ -98,5 +101,10 @@ class Product extends Model
     public function shouldBeSearchable(): bool
     {
         return ! $this->is_archived;
+    }
+
+    public function orderItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(OrderItem::class, ProductVariation::class);
     }
 }

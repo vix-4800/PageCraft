@@ -28,7 +28,9 @@ class PageConfigurationController extends Controller implements HasMiddleware
      */
     public function show(): JsonResource
     {
-        return PageConfigurationResource::make(PageConfiguration::first());
+        return PageConfigurationResource::make(
+            PageConfiguration::first()
+        );
     }
 
     /**
@@ -41,6 +43,8 @@ class PageConfigurationController extends Controller implements HasMiddleware
 
         $configuration->update($request->validated());
 
-        return PageConfigurationResource::make($configuration);
+        return PageConfigurationResource::make(
+            $configuration
+        );
     }
 }

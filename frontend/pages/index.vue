@@ -1,21 +1,19 @@
 <template>
     <component
         :is="productListComponent"
-        :products="products"
-        title="Our Best Products"
-        :loading="productsLoading"
+        :products="newProducts"
+        title="New Arrivals"
+        :loading="newProductsLoading"
     />
 
     <hr class="my-10" />
 
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">New Arrivals</h2>
-        <p class="text-2xl font-bold text-center text-gray-800">
-            Coming soon...
-        </p>
-    </div>
+    <component
+        :is="productListComponent"
+        :products="popularProduct"
+        title="Popular Products"
+        :loading="popularProductLoading"
+    />
 
     <hr class="my-10" />
 
@@ -32,6 +30,8 @@
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
 
+const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);
@@ -42,13 +42,15 @@ const productListComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
+const popularProduct = ref<Product[]>([]);
+const popularProductLoading = ref(true);
 
-const products = ref<Product[]>([]);
-const productsLoading = ref(true);
+const newProducts = ref<Product[]>([]);
+const newProductsLoading = ref(true);
+
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products`,
+    const { data: popularProductsData } = await $fetch<{ data: Product[] }>(
+        `${apiUrl}/v1/products/popular`,
         {
             method: 'GET',
             headers: {
@@ -58,7 +60,21 @@ onMounted(async () => {
         }
     );
 
-    products.value = data;
-    productsLoading.value = false;
+    popularProduct.value = popularProductsData;
+    popularProductLoading.value = false;
+
+    const { data: newProductsData } = await $fetch<{ data: Product[] }>(
+        `${apiUrl}/v1/products/new`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        }
+    );
+
+    newProducts.value = newProductsData;
+    newProductsLoading.value = false;
 });
 </script>
