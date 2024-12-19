@@ -312,6 +312,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product, ProductVariation } from '~/types/product';
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product>({});

@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product } from '~/types/product';
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);

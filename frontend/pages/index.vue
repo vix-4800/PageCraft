@@ -57,6 +57,9 @@ onMounted(async () => {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
+            params: {
+                limit: 6,
+            },
         }
     );
 
@@ -70,6 +73,9 @@ onMounted(async () => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+            },
+            params: {
+                limit: 6,
             },
         }
     );

@@ -204,6 +204,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product, ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
 });

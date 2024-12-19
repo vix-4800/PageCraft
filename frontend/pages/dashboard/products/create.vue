@@ -219,6 +219,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
 });

@@ -159,6 +159,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product } from '~/types/product';
 const appName: string = useRuntimeConfig().public.appName;
 const isAuthenticated: boolean = useAuthStore().authenticated;
 

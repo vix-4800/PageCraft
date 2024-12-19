@@ -185,6 +185,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ProductVariation } from '~/types/product';
 const store = useCartStore();
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
