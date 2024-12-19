@@ -8,7 +8,7 @@
             class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             v-if="loading"
         >
-            <USkeleton class="h-96 rounded-xl" v-for="i in 3" />
+            <u-skeleton class="h-96 rounded-xl" v-for="i in 3" />
         </div>
 
         <div
@@ -35,7 +35,7 @@
 
                     <nuxt-link
                         :to="`/products/${product.slug}`"
-                        class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-white"
+                        class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-transparent"
                     >
                         <nuxt-img
                             :src="product.image"

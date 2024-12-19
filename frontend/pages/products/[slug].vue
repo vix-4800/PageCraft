@@ -4,7 +4,7 @@
             class="top-0 w-full p-6 bg-gray-100 border border-orange-300 rounded-lg lg:col-span-3 lg:sticky"
         >
             <div
-                class="flex items-center justify-center p-2 bg-white rounded-xl"
+                class="flex items-center justify-center p-2 bg-transparent rounded-xl"
             >
                 <u-carousel
                     ref="carouselRef"
@@ -158,7 +158,7 @@
                                 ? 'Remove from favorites'
                                 : 'Add to favorites'
                         "
-                        @click="favoriteStore.toggleFavorite(product.value)"
+                        @click="favoriteStore.toggleFavorite(product)"
                     />
                 </div>
             </div>
@@ -313,12 +313,13 @@
 
 <script lang="ts" setup>
 import type { Product, ProductVariation } from '~/types/product';
+import type { Review } from '~/types/review';
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product>({});
 const variations = ref<ProductVariation[]>([]);
 const selectedVariation = ref<ProductVariation>({});
-const reviews = ref([]);
+const reviews = ref<Review[]>([]);
 
 const fiveStarReviews = ref(0);
 const fourStarReviews = ref(0);
@@ -373,7 +374,7 @@ onMounted(async () => {
         selectedVariation.value = variations.value[0];
     }
 
-    const { data: reviewsData } = await $fetch(
+    const { data: reviewsData } = await $fetch<{ data: Review[] }>(
         `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
         {
             headers: {
