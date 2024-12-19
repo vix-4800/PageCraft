@@ -1,84 +1,79 @@
 <template>
-    <div class="flex flex-col justify-center h-screen max-w-2xl mx-auto">
-        <div
-            class="flex flex-col gap-4 p-6 text-gray-300 border border-gray-600 rounded-lg shadow-2xl background-blur-md"
+    <div class="flex justify-center mb-4">
+        <nuxt-link
+            to="/"
+            class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
         >
-            <div class="flex justify-center">
-                <nuxt-link
-                    to="/"
-                    class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
-                >
-                    <nuxt-img
-                        src="/logo.png"
-                        :alt="useRuntimeConfig().public.appName"
-                    />
-                </nuxt-link>
-            </div>
-
-            <form
-                class="flex flex-col gap-4"
-                @submit.prevent="login(state.email, state.password)"
-            >
-                <div class="flex flex-col gap-1">
-                    <label
-                        for="email"
-                        class="w-max"
-                        style="font-family: Merriweather"
-                    >
-                        Email
-                    </label>
-                    <input
-                        id="email"
-                        v-model="state.email"
-                        type="email"
-                        class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        required
-                        autofocus
-                        autocomplete="username"
-                    />
-                </div>
-
-                <div class="flex flex-col gap-1">
-                    <label
-                        for="password"
-                        class="w-max"
-                        style="font-family: Merriweather"
-                    >
-                        Password
-                    </label>
-                    <input
-                        id="password"
-                        v-model="state.password"
-                        type="password"
-                        class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        required
-                        autocomplete="current-password"
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    class="w-full py-2 mt-8 text-gray-300 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:bg-gray-700"
-                >
-                    Login
-                </button>
-            </form>
-        </div>
+            <nuxt-img
+                src="/logo.png"
+                :alt="useRuntimeConfig().public.appName"
+            />
+        </nuxt-link>
     </div>
+
+    <u-form :state="state" @submit="login" class="space-y-6">
+        <u-form-group size="lg" name="email" required>
+            <u-input
+                v-model="state.email"
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                variant="none"
+                placeholder="Email"
+                type="email"
+                required
+                icon="material-symbols:mail"
+            />
+        </u-form-group>
+
+        <u-form-group name="password" size="lg" required>
+            <u-input
+                v-model="state.password"
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                type="password"
+                placeholder="Password"
+                required
+                variant="none"
+                icon="material-symbols:lock"
+            />
+        </u-form-group>
+
+        <u-button
+            class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+            size="lg"
+            block
+            label="Login"
+            type="submit"
+        />
+    </u-form>
+
+    <u-divider
+        label="OR"
+        :ui="{
+            border: { base: 'border-gray-500' },
+            label: 'text-gray-500',
+            container: { horizontal: 'my-4' },
+        }"
+    />
+
+    <u-button
+        class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+        size="lg"
+        block
+        label="Register"
+        to="/register"
+    />
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
-    layout: 'empty',
+    layout: 'auth',
 });
-const store = useAuthStore();
 
 const state = reactive({
     email: '',
     password: '',
 });
 
-const login = async (email: string, password: string) => {
-    await store.login(email, password);
+const login = async () => {
+    await useAuthStore().login(state.email, state.password);
 };
 </script>

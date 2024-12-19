@@ -172,7 +172,7 @@ onMounted(async () => {
 });
 
 async function getStatisticsOverview() {
-    const response = await $fetch(`${apiUrl}/v1/statistics/overview`, {
+    const { data } = await $fetch(`${apiUrl}/v1/statistics/overview`, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -180,26 +180,27 @@ async function getStatisticsOverview() {
         },
     });
 
-    statistics.users.today = response.data.users.today;
-    statistics.users.total = response.data.users.total;
+    statistics.users.today = data.users.today;
+    statistics.users.total = data.users.total;
 
-    statistics.sales.today = response.data.sales.today;
-    statistics.sales.total = response.data.sales.total;
+    statistics.sales.today = data.sales.today;
+    statistics.sales.total = data.sales.total;
 
-    statistics.earnings.today = response.data.earnings.today;
-    statistics.earnings.total = response.data.earnings.total;
+    statistics.earnings.today = data.earnings.today;
+    statistics.earnings.total = data.earnings.total;
 }
 
 async function getWeekSales() {
-    const response = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
+    const { data } = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${useAuthStore().authToken}`,
         },
     });
-    earningsOption.value.xAxis.data = Object.keys(response.data);
-    earningsOption.value.series[0].data = Object.values(response.data);
+
+    earningsOption.value.xAxis.data = Object.keys(data);
+    earningsOption.value.series[0].data = Object.values(data);
     earningsLoading.value = false;
 }
 

@@ -83,21 +83,25 @@
             </div>
         </div>
 
-        <div class="p-4 bg-gray-100 rounded-md h-max">
+        <u-form
+            :state="state"
+            @submit="checkout"
+            class="p-4 bg-gray-100 rounded-md h-max"
+        >
             <h3
                 class="pb-2 text-lg font-bold text-gray-800 border-b border-gray-300 max-sm:text-base"
             >
                 Order Summary
             </h3>
 
-            <form class="mt-6">
+            <div class="mt-6">
                 <div>
                     <h3 class="mb-4 text-base font-semibold text-gray-800">
                         Enter Details
                     </h3>
                     <div class="space-y-3">
                         <u-input
-                            v-model="name"
+                            v-model="state.name"
                             placeholder="Full Name"
                             icon="material-symbols:person"
                             trailing
@@ -108,7 +112,7 @@
                         />
 
                         <u-input
-                            v-model="email"
+                            v-model="state.email"
                             placeholder="Email"
                             type="email"
                             icon="material-symbols:mail"
@@ -120,7 +124,7 @@
                         />
 
                         <u-input
-                            v-model="phone"
+                            v-model="state.phone"
                             placeholder="Phone No."
                             icon="material-symbols:phone-enabled"
                             trailing
@@ -131,7 +135,7 @@
                         />
                     </div>
                 </div>
-            </form>
+            </div>
 
             <ul class="mt-6 space-y-3 text-gray-800">
                 <li class="flex flex-wrap gap-4 text-sm">
@@ -166,7 +170,7 @@
                     block
                     size="lg"
                     icon="material-symbols:shopping-cart"
-                    @click="checkout"
+                    type="submit"
                 />
 
                 <u-button
@@ -180,7 +184,7 @@
                     class="justify-center font-semibold text-gray-800"
                 />
             </div>
-        </div>
+        </u-form>
     </div>
 </template>
 
@@ -215,9 +219,11 @@ watch(store.items, () => {
     calculateOrder();
 });
 
-const name = ref('');
-const email = ref('');
-const phone = ref('');
+const state = reactive({
+    name: '',
+    email: '',
+    phone: '',
+});
 
 const subTotal = ref(0);
 const shipping = ref(0);
@@ -237,9 +243,9 @@ function calculateOrder() {
 }
 
 function clearDetails() {
-    name.value = '';
-    email.value = '';
-    phone.value = '';
+    state.name = '';
+    state.email = '';
+    state.phone = '';
 }
 
 function removeProductFromCart(item: ProductVariation) {
@@ -251,7 +257,7 @@ function removeProductFromCart(item: ProductVariation) {
 
 const { $notify } = useNuxtApp();
 const checkout = async () => {
-    if (name.value === '' || email.value === '' || phone.value === '') {
+    if (state.name === '' || state.email === '' || state.phone === '') {
         $notify('Please fill all the details', 'warning');
         return;
     }
@@ -271,9 +277,9 @@ const checkout = async () => {
             })),
             total: total.value,
             details: {
-                name: name.value,
-                email: email.value,
-                phone: phone.value,
+                name: state.name,
+                email: state.email,
+                phone: state.phone,
             },
         },
     });

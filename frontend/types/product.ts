@@ -13,6 +13,7 @@ export interface ProductVariation {
     image: string;
     stock: number;
     attributes: ProductVariantAttribute[];
+    product: Product;
 }
 
 export interface ProductVariantAttribute {

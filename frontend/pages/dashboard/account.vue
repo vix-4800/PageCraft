@@ -7,7 +7,7 @@
         </div>
         <div class="p-6">
             <div class="min-w-full px-1 overflow-x-auto rounded">
-                <u-form class="space-y-4" @submit="submitForm">
+                <u-form :state="user" class="space-y-4" @submit="submitForm">
                     <u-form-group label="Name" name="name">
                         <u-input
                             color="blue"
