@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { defineStore } from 'pinia';
 import type { User } from '~/types/user';
 
@@ -15,32 +16,30 @@ export const useAuthStore = defineStore('auth', {
         async login(email: string, password: string) {
             const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-            await useFetch(`${apiUrl}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            }).then((response) => {
-                useCookie('AUTH_TOKEN').value = response.data.value.data.token;
-                this.authenticated = true;
+            const { data } = await $fetch<{ data: { token: string } }>(
+                `${apiUrl}/auth/login`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                }
+            );
 
-                this.fetchUser();
+            useCookie('AUTH_TOKEN').value = data.token;
+            this.authToken = data.token;
+            this.authenticated = true;
 
+            await this.fetchUser();
+
+            if (this.user.role === 'admin') {
                 navigateTo('/dashboard');
-            });
+            } else {
+                navigateTo('/user');
+            }
         },
-        // async register({ name: string, email, phone, password }) {
-        //     this.user = {
-        //         name: name,
-        //         email: email,
-        //         phone: phone,
-        //         password: password,
-        //     };
-
-        //     this.authenticated = true;
-        // },
         async logout() {
             const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
@@ -51,30 +50,21 @@ export const useAuthStore = defineStore('auth', {
                     Accept: 'application/json',
                     Authorization: `Bearer ${this.authToken}`,
                 },
-            })
-                .then(() => {
-                    this.authenticated = false;
-                    useCookie('AUTH_TOKEN').value = '';
+            });
 
-                    this.user = {
-                        name: '',
-                        email: '',
-                        phone: '',
-                    };
+            this.authenticated = false;
+            useCookie('AUTH_TOKEN').value = '';
 
-                    navigateTo('/');
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            this.user = {} as User;
+
+            navigateTo('/');
         },
         async fetchUser() {
             const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-            const response = await $fetch<{ data: User }>(
+            const { data } = await $fetch<{ data: User }>(
                 `${apiUrl}/v1/users/me`,
                 {
-                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -83,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
                 }
             );
 
-            this.user = response.data;
+            this.user = data;
         },
     },
 });

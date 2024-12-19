@@ -27,6 +27,7 @@ class UserShowResource extends JsonResource
             'email_verified_at' => $this->email_verified_at?->toDateTimeString() ?? null,
             'phone' => $this->phone,
             'registered_at' => $this->created_at?->toDateTimeString() ?? null,
+            'role' => $this->role->name,
         ];
     }
 }

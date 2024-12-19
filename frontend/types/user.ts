@@ -6,4 +6,5 @@ export interface User {
     is_email_verified: boolean;
     email_verified_at: Date;
     registered_at: Date;
+    role: string;
 }

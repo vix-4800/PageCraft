@@ -1,16 +1,21 @@
 import { useAuthStore } from '../stores/auth';
 
 export default defineNuxtRouteMiddleware((to) => {
-    const isAuthenticated = useAuthStore().authenticated;
+    const { authenticated, user } = useAuthStore();
 
-    if (to.path.startsWith('/dashboard') && !isAuthenticated) {
+    if (!authenticated && to.path.match(/^\/(dashboard|user)/)) {
         return navigateTo('/login');
     }
 
-    if (
-        (to.path.startsWith('/login') || to.path.startsWith('/register')) &&
-        isAuthenticated
-    ) {
+    if (authenticated && to.path.match(/^\/(login|register)/)) {
+        return navigateTo(user.role === 'admin' ? '/dashboard' : '/user');
+    }
+
+    if (user?.role === 'admin' && to.path.startsWith('/user')) {
         return navigateTo('/dashboard');
+    }
+
+    if (user?.role === 'user' && to.path.startsWith('/dashboard')) {
+        return navigateTo('/user');
     }
 });
