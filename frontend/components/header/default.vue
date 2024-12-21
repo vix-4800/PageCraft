@@ -73,7 +73,7 @@
 
                         <li class="max-lg:py-2">
                             <u-button
-                                v-if="!isAuthenticated"
+                                v-if="!useSanctumAuth().isAuthenticated"
                                 to="/login"
                                 label="Sign In"
                                 size="md"
@@ -160,10 +160,10 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
-const appName: string = useRuntimeConfig().public.appName;
-const isAuthenticated: boolean = useAuthStore().authenticated;
 
+const appName: string = useRuntimeConfig().public.appName;
 const isCollapseMenuVisible = ref(false);
+
 const toggleMenu = () => {
     isCollapseMenuVisible.value = !isCollapseMenuVisible.value;
 };
@@ -182,7 +182,7 @@ const loadingSearch = ref(false);
 async function onSearchChange(q: string) {
     loadingSearch.value = true;
 
-    const products: Product[] = await $fetch<{ data: Product[] }>(
+    const { data } = await $fetch<{ data: Product[] }>(
         `${useRuntimeConfig().public.apiUrl}/v1/products/search`,
         {
             headers: {
@@ -196,7 +196,7 @@ async function onSearchChange(q: string) {
     );
 
     loadingSearch.value = false;
-    return products.data;
+    return data;
 }
 
 watch(selected, () => {

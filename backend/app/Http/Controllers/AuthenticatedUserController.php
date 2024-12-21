@@ -10,7 +10,6 @@ use App\Http\Resources\User\UserShowResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedUserController extends Controller
@@ -18,10 +17,9 @@ class AuthenticatedUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request): User
+    public function show(Request $request)
     {
-        return $request->user();
-        // return UserShowResource::make(Auth::user());
+        return UserShowResource::make($request->user())->resolve();
     }
 
     /**
@@ -31,12 +29,15 @@ class AuthenticatedUserController extends Controller
     {
         $validated = $request->validated();
 
-        if (! Hash::check($validated['password'], Auth::user()->password)) {
+        /** @var User|null $user */
+        $user = $request->user();
+
+        if (! Hash::check($validated['password'], $user->password)) {
             throw new UserAuthException('The provided password was incorrect', 422);
         }
 
-        $request->user()->update($validated);
+        $user->update($validated);
 
-        return UserShowResource::make(Auth::user());
+        return UserShowResource::make($user);
     }
 }

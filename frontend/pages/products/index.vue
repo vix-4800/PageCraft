@@ -33,19 +33,19 @@ onMounted(async () => {
 });
 
 async function fetchProducts(page: number) {
-    const { data, meta } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            params: {
-                page,
-                limit: 9,
-            },
-        }
-    );
+    const { data, meta } = await $fetch<{
+        data: Product[];
+        meta: { last_page: number };
+    }>(`${apiUrl}/v1/products`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        params: {
+            page,
+            limit: 9,
+        },
+    });
 
     products.value = data;
     pageCount.value = meta.last_page;

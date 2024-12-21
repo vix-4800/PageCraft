@@ -17,8 +17,8 @@
             <span class="block">
                 Navigate to
                 <nuxt-link
-                    class="text-gray-100 hover:underline hover:text-gray-300"
                     to="/dashboard"
+                    class="text-gray-100 hover:underline hover:text-gray-300"
                 >
                     <code class="mx-1">/dashboard</code>
                 </nuxt-link>
@@ -29,14 +29,14 @@
         <div
             class="absolute text-gray-500 bottom-4 hover:text-gray-400 hover:underline"
         >
-            <a
-                href="https://github.com/vix-4800/PageCraft"
+            <u-link
+                to="https://github.com/vix-4800/PageCraft"
                 class="flex items-center gap-2"
                 target="_blank"
             >
-                <Icon name="uil:github" style="color: white" />
+                <u-icon name="uil:github" style="color: white" />
                 GitHub
-            </a>
+            </u-link>
         </div>
     </div>
 </template>

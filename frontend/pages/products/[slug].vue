@@ -1,5 +1,8 @@
 <template>
-    <div class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5">
+    <div
+        v-if="product !== null"
+        class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5"
+    >
         <div
             class="top-0 w-full p-6 bg-gray-100 border border-orange-300 rounded-lg lg:col-span-3 lg:sticky"
         >
@@ -59,7 +62,10 @@
                 </ul>
             </div>
 
-            <div class="flex flex-col gap-4 mt-6">
+            <div
+                class="flex flex-col gap-4 mt-6"
+                v-if="selectedVariation !== null"
+            >
                 <h3 class="text-xl font-bold text-gray-800">
                     Product Variations
                 </h3>
@@ -316,9 +322,9 @@ import type { Product, ProductVariation } from '~/types/product';
 import type { Review } from '~/types/review';
 const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
-const product = ref<Product>({});
+const product = ref<Product | null>(null);
 const variations = ref<ProductVariation[]>([]);
-const selectedVariation = ref<ProductVariation>({});
+const selectedVariation = ref<ProductVariation | null>(null);
 const reviews = ref<Review[]>([]);
 
 const fiveStarReviews = ref(0);
@@ -357,7 +363,7 @@ onMounted(async () => {
         carouselRef.value.next();
     }, 3000);
 
-    const { data: productData } = await $fetch<{ data: Product[] }>(
+    const { data: productData } = await $fetch<{ data: Product }>(
         `${apiUrl}/v1/products/${useRoute().params.slug}`,
         {
             headers: {
@@ -412,6 +418,8 @@ function selectVariation(variation: ProductVariation) {
 
 const cartStore = useCartStore();
 const addToCart = () => {
+    if (!selectedVariation.value) return;
+
     if (Object.keys(selectedVariation.value).length === 0) return;
 
     cartStore.increaseProductQuantity(selectedVariation.value);

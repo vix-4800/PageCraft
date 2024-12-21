@@ -258,10 +258,10 @@ async function submitForm() {
 
 function addVariation() {
     product.variations.push({
-        sku: undefined,
-        price: undefined,
-        stock: undefined,
-        image: undefined,
+        sku: '',
+        price: 0,
+        stock: 0,
+        image: '',
         attributes: [],
     });
 }
@@ -272,8 +272,8 @@ function removeVariation() {
 
 function addAttribute(variation: ProductVariation) {
     variation.attributes.push({
-        name: undefined,
-        value: undefined,
+        name: '',
+        value: '',
     });
 }
 

@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order } from '~/types/order';
+import { OrderStatus, type Order } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
     middleware: ['sanctum:auth'],
@@ -103,7 +103,6 @@ onMounted(async () => {
     const { data } = await $fetch<{ data: Order }>(
         `${apiUrl}/v1/orders/${route.params.id}`,
         {
-            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -116,7 +115,11 @@ onMounted(async () => {
 });
 
 const updateOrderStatus = async (status: string) => {
-    const allowedStatuses = ['processing', 'delivered', 'cancelled'];
+    const allowedStatuses = [
+        OrderStatus.PROCESSING.toString(),
+        OrderStatus.DELIVERED.toString(),
+        OrderStatus.CANCELLED.toString(),
+    ];
 
     if (!allowedStatuses.includes(status)) {
         console.error('Invalid status:', status);
