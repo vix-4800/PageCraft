@@ -3,7 +3,7 @@ import type { Product } from '~/types/product';
 
 export const useFavoriteStore = defineStore('favorite', {
     state: () => ({
-        items: useLocalStorage<Product[]>('favorites', []),
+        items: [] as Product[],
     }),
     actions: {
         toggleFavorite(product: Product) {
@@ -34,4 +34,5 @@ export const useFavoriteStore = defineStore('favorite', {
             return this.items.length;
         },
     },
+    persist: true,
 });

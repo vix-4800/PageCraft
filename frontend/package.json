@@ -23,6 +23,7 @@
         "nuxt-auth-sanctum": "^0.5.2",
         "nuxt-echarts": "^0.2.4",
         "pinia": "^2.2.2",
+        "pinia-plugin-persistedstate": "^4.2.0",
         "vue": "latest",
         "vue-router": "latest"
     },

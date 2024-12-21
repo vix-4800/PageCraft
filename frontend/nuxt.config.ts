@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         '@nuxt/ui',
         'nuxt-echarts',
         'nuxt-auth-sanctum',
+        'pinia-plugin-persistedstate/nuxt',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {

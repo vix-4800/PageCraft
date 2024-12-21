@@ -65,15 +65,13 @@ definePageMeta({
 const authStore = useAuthStore();
 
 const user = reactive({
-    name: undefined,
-    email: undefined,
-    phone: undefined,
-    password: undefined,
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
 });
 
 onMounted(async () => {
-    await authStore.fetchUser();
-
     user.name = authStore.user?.name;
     user.email = authStore.user?.email;
     user.phone = authStore.user?.phone;
