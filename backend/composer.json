@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "http-interop/http-factory-guzzle": "^1.2",
+        "laravel/fortify": "^1.25",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.11",
