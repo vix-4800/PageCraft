@@ -70,10 +70,11 @@
                         :key="variation.sku"
                         :text="variation.stock"
                         size="2xl"
+                        :color="variation.stock === 0 ? 'red' : 'orange'"
                     >
                         <u-button
                             type="button"
-                            class="p-2 bg-transparent border-2 border-gray-200 rounded-lg hover:bg-transparent"
+                            class="p-2 bg-transparent border-2 border-gray-200 rounded-lg hover:bg-transparent disabled:bg-gray-300"
                             :class="
                                 variation.sku === selectedVariation.sku
                                     ? 'border-orange-400'
