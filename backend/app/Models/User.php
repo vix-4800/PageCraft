@@ -19,6 +19,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string|null $phone
  * @property string $password
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
+ * @property int $role_id
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -26,6 +30,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
  * @property-read int|null $orders_count
+ * @property-read Role $role
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
@@ -41,6 +46,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -59,6 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'phone',
         'password',
+        'role_id',
     ];
 
     /**

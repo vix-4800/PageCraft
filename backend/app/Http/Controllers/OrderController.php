@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Exceptions\ApiException;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariation;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -66,6 +68,7 @@ class OrderController extends Controller implements HasMiddleware
                     'name' => $validated['details']['name'],
                     'phone' => $validated['details']['phone'],
                     'password' => bcrypt(Str::random(16)),
+                    'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
                 ],
             );
 
