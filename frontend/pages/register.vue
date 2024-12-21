@@ -32,5 +32,6 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'auth',
+    middleware: ['sanctum:guest'],
 });
 </script>

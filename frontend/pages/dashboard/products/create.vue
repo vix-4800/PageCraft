@@ -222,6 +222,7 @@
 import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['sanctum:auth'],
 });
 
 const apiUrl: string = useRuntimeConfig().public.apiUrl;

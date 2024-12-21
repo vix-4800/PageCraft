@@ -30,7 +30,7 @@
                             @click="isNotificationSlideOverOpen = true"
                             size="md"
                             icon="ic:baseline-notifications"
-                            :label="notifications.length"
+                            :label="notifications.length.toString()"
                         />
                     </nav>
 
@@ -151,6 +151,8 @@ const userName: string = authStore.user?.name || 'User';
 const isNotificationSlideOverOpen = ref(false);
 const notifications = ref([]);
 
+const { logout } = useSanctumAuth();
+
 const userDropdownItems = [
     [
         {
@@ -166,7 +168,7 @@ const userDropdownItems = [
             icon: 'material-symbols:logout-rounded',
             class: 'hover:bg-indigo-100 hover:text-indigo-600',
             click: () => {
-                authStore.logout();
+                logout();
             },
         },
     ],
@@ -195,7 +197,6 @@ const readNotification = async (notification: Notification) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
             },
         }
     );

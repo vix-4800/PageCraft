@@ -105,8 +105,10 @@
 
 <script lang="ts" setup>
 import type { Order } from '~/types/order';
+
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['sanctum:auth'],
 });
 
 const apiUrl: string = useRuntimeConfig().public.apiUrl;

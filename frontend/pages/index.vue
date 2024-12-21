@@ -10,9 +10,9 @@
 
     <component
         :is="productListComponent"
-        :products="popularProduct"
+        :products="popularProducts"
         title="Popular Products"
-        :loading="popularProductLoading"
+        :loading="popularProductsLoading"
     />
 
     <hr class="my-10" />
@@ -42,8 +42,8 @@ const productListComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const popularProduct = ref<Product[]>([]);
-const popularProductLoading = ref(true);
+const popularProducts = ref<Product[]>([]);
+const popularProductsLoading = ref(true);
 
 const newProducts = ref<Product[]>([]);
 const newProductsLoading = ref(true);
@@ -63,8 +63,8 @@ onMounted(async () => {
         }
     );
 
-    popularProduct.value = popularProductsData;
-    popularProductLoading.value = false;
+    popularProducts.value = popularProductsData;
+    popularProductsLoading.value = false;
 
     const { data: newProductsData } = await $fetch<{ data: Product[] }>(
         `${apiUrl}/v1/products/new`,

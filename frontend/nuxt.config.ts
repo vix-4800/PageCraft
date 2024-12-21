@@ -15,6 +15,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxt/ui',
         'nuxt-echarts',
+        'nuxt-auth-sanctum',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
@@ -46,6 +47,17 @@ export default defineNuxtConfig({
             baseUrl: process.env.APP_URL || 'http://localhost:80',
             appName: process.env.APP_NAME || 'PageCraft',
             apiUrl: (process.env.API_URL || 'http://localhost:8080') + '/api',
+        },
+    },
+    sanctum: {
+        baseUrl: process.env.API_URL || 'http://localhost:8080',
+        redirect: {
+            onLogin: '/dashboard',
+            onLogout: '/',
+            onAuthOnly: '/login',
+        },
+        endpoints: {
+            user: '/api/user',
         },
     },
     googleFonts: {
