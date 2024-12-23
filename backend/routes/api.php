@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Exceptions\ApiNotFoundException;
+use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
@@ -51,5 +51,5 @@ Route::name('api.')->group(function (): void {
 });
 
 Route::fallback(function (): never {
-    throw new ApiNotFoundException;
+    throw new ApiException;
 });

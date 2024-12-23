@@ -15,7 +15,6 @@
 import type { Product } from '~/types/product';
 
 const route = useRoute();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);
@@ -35,14 +34,10 @@ onMounted(async () => {
 });
 
 async function fetchProducts(page: number) {
-    const { data, meta } = await $fetch<{
+    const { data, meta } = await apiFetch<{
         data: Product[];
         meta: { last_page: number };
-    }>(`${apiUrl}/v1/products`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
+    }>(`v1/products`, {
         params: {
             page,
             limit: 9,

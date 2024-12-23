@@ -142,7 +142,6 @@
 
 <script lang="ts" setup>
 const config = useRuntimeConfig();
-const apiUrl: string = config.public.apiUrl;
 const appName: string = config.public.appName;
 
 const authStore = useAuthStore();
@@ -175,29 +174,18 @@ const userDropdownItems = [
 ];
 
 onMounted(async () => {
-    const { data } = await $fetch<Notification[]>(
-        `${apiUrl}/v1/users/me/notifications`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
-            },
-        }
+    const { data } = await apiFetch<Notification[]>(
+        `v1/users/me/notifications`
     );
 
     notifications.value = data;
 });
 
 const readNotification = async (notification: Notification) => {
-    const { data } = await $fetch<Notification[]>(
-        `${apiUrl}/v1/users/me/notifications/${notification.id}`,
+    const { data } = await apiFetch<Notification[]>(
+        `v1/users/me/notifications/${notification.id}`,
         {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
         }
     );
 

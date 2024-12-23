@@ -10,7 +10,7 @@
                 <u-table
                     :columns="columns"
                     :rows="users"
-                    :loading="status === 'pending' || status === 'idle'"
+                    :loading="status === 'pending'"
                     :loading-state="{
                         icon: 'i-heroicons-arrow-path-20-solid',
                         label: 'Loading...',
@@ -62,30 +62,14 @@ const columns = [
     },
 ];
 
-const authStore = useAuthStore();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const users = ref<User[]>([]);
-const status = ref('idle');
+const status = ref('pending');
 onMounted(async () => {
-    const response: { data: User[] } = await $fetch<{ data: User[] }>(
-        `${apiUrl}/v1/users`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
-            },
-            onRequest() {
-                status.value = 'pending';
-            },
-            onResponse() {
-                status.value = 'success';
-            },
-        }
+    const response: { data: User[] } = await apiFetch<{ data: User[] }>(
+        `v1/users`
     );
 
     users.value = response.data;
+    status.value = 'success';
 });
 </script>

@@ -10,7 +10,7 @@
                 <u-table
                     :columns="columns"
                     :rows="products"
-                    :loading="status === 'pending' || status === 'idle'"
+                    :loading="status === 'pending'"
                     :loading-state="{
                         icon: 'i-heroicons-arrow-path-20-solid',
                         label: 'Loading...',
@@ -25,7 +25,7 @@
                         color="blue"
                         block
                         size="md"
-                        :loading="status === 'pending' || status === 'idle'"
+                        :loading="status === 'pending'"
                         type="button"
                         label="Add Product"
                         @click="navigateTo('/dashboard/products/create')"
@@ -59,31 +59,18 @@ const columns = [
     },
 ];
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const products = ref<Product[]>([]);
-const status = ref('idle');
+const status = ref('pending');
 onMounted(async () => {
     await getProducts();
 });
 
 async function getProducts() {
-    const response: { data: Product[] } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            onRequest() {
-                status.value = 'pending';
-            },
-            onResponse() {
-                status.value = 'success';
-            },
-        }
+    const response: { data: Product[] } = await apiFetch<{ data: Product[] }>(
+        `v1/products`
     );
+
+    status.value = 'success';
 
     products.value = response.data;
     products.value.forEach((product) => {

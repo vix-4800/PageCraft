@@ -225,8 +225,6 @@ definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const product = reactive({
     name: undefined,
     slug: undefined,
@@ -237,13 +235,8 @@ const product = reactive({
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    const { data } = await useFetch(`${apiUrl}/v1/products`, {
+    const { data } = await apiFetch(`v1/products`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
         body: JSON.stringify(product),
     });
 

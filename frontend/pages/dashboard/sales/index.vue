@@ -61,15 +61,7 @@ const orders = ref<Order[]>([]);
 const ordersLoading = ref(true);
 
 onMounted(async () => {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    const response = await $fetch<{ data: Order[] }>(`${apiUrl}/v1/orders`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
-    });
+    const response = await apiFetch<{ data: Order[] }>(`v1/orders`);
 
     orders.value = response.data;
     ordersLoading.value = false;

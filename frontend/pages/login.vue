@@ -88,6 +88,6 @@ const credentials = reactive({
 });
 
 const submitForm = async () => {
-    await useSanctumAuth().login(credentials);
+    await useAuthStore().login(credentials);
 };
 </script>

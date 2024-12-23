@@ -34,8 +34,6 @@
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);
@@ -53,14 +51,9 @@ const newProducts = ref<Product[]>([]);
 const newProductsLoading = ref(true);
 
 onMounted(async () => {
-    const { data: popularProductsData } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products/popular`,
+    const { data: popularProductsData } = await apiFetch<{ data: Product[] }>(
+        `v1/products/popular`,
         {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
             params: {
                 limit: 6,
             },
@@ -70,14 +63,9 @@ onMounted(async () => {
     popularProducts.value = popularProductsData;
     popularProductsLoading.value = false;
 
-    const { data: newProductsData } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products/new`,
+    const { data: newProductsData } = await apiFetch<{ data: Product[] }>(
+        `v1/products/new`,
         {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
             params: {
                 limit: 6,
             },

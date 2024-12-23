@@ -182,18 +182,11 @@ const loadingSearch = ref(false);
 async function onSearchChange(q: string) {
     loadingSearch.value = true;
 
-    const { data } = await $fetch<{ data: Product[] }>(
-        `${useRuntimeConfig().public.apiUrl}/v1/products/search`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            params: {
-                q,
-            },
-        }
-    );
+    const { data } = await apiFetch<{ data: Product[] }>(`v1/products/search`, {
+        params: {
+            q,
+        },
+    });
 
     loadingSearch.value = false;
     return data;

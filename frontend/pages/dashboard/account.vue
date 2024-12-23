@@ -79,15 +79,8 @@ onMounted(async () => {
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    const { data } = await useFetch(`${apiUrl}/v1/users/me`, {
+    const { data } = await apiFetch(`v1/users/me`, {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authStore.authToken}`,
-        },
         body: JSON.stringify(user),
     });
 

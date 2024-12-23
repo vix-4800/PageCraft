@@ -210,7 +210,6 @@ definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const route = useRoute();
 
 const product = ref<Product>({});
@@ -219,15 +218,8 @@ const variations = ref<ProductVariation[]>([]);
 const { $notify } = useNuxtApp();
 
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Product }>(
-        `${apiUrl}/v1/products/${route.params.slug}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        }
+    const { data } = await apiFetch<{ data: Product }>(
+        `v1/products/${route.params.slug}`
     );
 
     product.value = data;
@@ -235,28 +227,15 @@ onMounted(async () => {
 });
 
 const submitForm = async () => {
-    await $fetch<{ data: Product }>(
-        `${apiUrl}/v1/products/${route.params.slug}`,
-        {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${useAuthStore().authToken}`,
-            },
-            body: product.value,
-        }
-    );
+    await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
+        method: 'PUT',
+        body: product.value,
+    });
 };
 
 const deleteProduct = async () => {
-    await $fetch(`${apiUrl}/v1/products/${route.params.slug}`, {
+    await apiFetch(`v1/products/${route.params.slug}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
     });
 
     navigateTo(`/dashboard/products`);

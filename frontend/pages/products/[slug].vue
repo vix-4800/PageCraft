@@ -332,7 +332,6 @@
 <script lang="ts" setup>
 import type { Product, ProductVariation } from '~/types/product';
 import type { Review } from '~/types/review';
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const product = ref<Product | null>(null);
 const variations = ref<ProductVariation[]>([]);
@@ -365,6 +364,7 @@ const breadcrumbLinks = [
     },
 ];
 
+const route = useRoute();
 onMounted(async () => {
     setInterval(() => {
         if (!carouselRef.value) return;
@@ -375,14 +375,8 @@ onMounted(async () => {
         carouselRef.value.next();
     }, 3000);
 
-    const { data: productData } = await $fetch<{ data: Product }>(
-        `${apiUrl}/v1/products/${useRoute().params.slug}`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        }
+    const { data: productData } = await apiFetch<{ data: Product }>(
+        `v1/products/${route.params.slug}`
     );
 
     product.value = productData;
@@ -392,14 +386,8 @@ onMounted(async () => {
         selectedVariation.value = variations.value[0];
     }
 
-    const { data: reviewsData } = await $fetch<{ data: Review[] }>(
-        `${apiUrl}/v1/products/${useRoute().params.slug}/reviews`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        }
+    const { data: reviewsData } = await apiFetch<{ data: Review[] }>(
+        `v1/products/${route.params.slug}/reviews`
     );
 
     reviews.value = reviewsData;

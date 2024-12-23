@@ -111,8 +111,6 @@ definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
 const statistics = reactive({
     users: {
         today: 0,
@@ -174,13 +172,7 @@ onMounted(async () => {
 });
 
 async function getStatisticsOverview() {
-    const { data } = await $fetch(`${apiUrl}/v1/statistics/overview`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
-    });
+    const { data } = await apiFetch(`v1/statistics/overview`);
 
     statistics.users.today = data.users.today;
     statistics.users.total = data.users.total;
@@ -193,13 +185,7 @@ async function getStatisticsOverview() {
 }
 
 async function getWeekSales() {
-    const { data } = await $fetch(`${apiUrl}/v1/statistics/sales/last-week`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
-    });
+    const { data } = await apiFetch(`v1/statistics/sales/last-week`);
 
     earningsOption.value.xAxis.data = Object.keys(data);
     earningsOption.value.series[0].data = Object.values(data);
@@ -238,16 +224,13 @@ async function getLatestSales() {
     const endDate = new Date();
     const startDate = new Date(endDate.getTime() - 1000 * 60 * 60 * 24);
 
-    const response = await $fetch<{ data: Order[] }>(
-        `${apiUrl}/v1/orders?start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}&limit=7`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${useAuthStore().authToken}`,
-            },
-        }
-    );
+    const response = await apiFetch<{ data: Order[] }>(`v1/orders`, {
+        params: {
+            start_date: startDate.toISOString(),
+            end_date: endDate.toISOString(),
+            limit: 7,
+        },
+    });
 
     sales.value = response.data;
     latestSalesLoading.value = false;

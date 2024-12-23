@@ -196,21 +196,19 @@
 
 <script lang="ts" setup>
 import type { ProductVariation } from '~/types/product';
+
 const store = useCartStore();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const cartItems = ref<ProductVariation[]>([]);
 onMounted(async () => {
     const skus = store.items.map((item) => item.sku);
 
     if (skus.length > 0) {
-        const { data } = await $fetch<{ data: ProductVariation[] }>(
-            `${apiUrl}/v1/variations?skus=${skus.join(',')}`,
+        const { data } = await apiFetch<{ data: ProductVariation[] }>(
+            `v1/variations`,
             {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
+                params: {
+                    skus,
                 },
             }
         );
@@ -268,14 +266,8 @@ const checkout = async () => {
         return;
     }
 
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    const { data } = await useFetch(`${apiUrl}/v1/orders`, {
+    const { data } = await apiFetch(`v1/orders`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
         body: {
             products: cartItems.value.map((item) => ({
                 sku: item.sku,

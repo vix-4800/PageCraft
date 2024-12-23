@@ -94,21 +94,12 @@ definePageMeta({
     middleware: ['sanctum:auth'],
 });
 
-const authStore = useAuthStore();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const route = useRoute();
 
 const order = ref<Order>();
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Order }>(
-        `${apiUrl}/v1/orders/${route.params.id}`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
-            },
-        }
+    const { data } = await apiFetch<{ data: Order }>(
+        `v1/orders/${route.params.id}`
     );
 
     order.value = data;
@@ -126,15 +117,10 @@ const updateOrderStatus = async (status: OrderStatus) => {
         return;
     }
 
-    const { data } = await $fetch<{ data: Order }>(
-        `${apiUrl}/v1/orders/${route.params.id}`,
+    const { data } = await apiFetch<{ data: Order }>(
+        `v1/orders/${route.params.id}`,
         {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
-            },
             body: {
                 status: status.toString(),
             },
