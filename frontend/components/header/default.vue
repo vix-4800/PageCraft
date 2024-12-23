@@ -32,7 +32,7 @@
                     :search="onSearchChange"
                     trailing
                     :debounce="700"
-                    :searchLazy="true"
+                    :search-lazy="true"
                 />
 
                 <div class="ml-auto max-lg:mt-4">
@@ -92,10 +92,10 @@
 
                         <li class="lg:hidden">
                             <u-button
-                                @click="toggleMenu"
                                 icon="material-symbols:menu"
                                 class="bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                                 size="md"
+                                @click="toggleMenu"
                             />
                         </li>
                     </ul>
@@ -110,8 +110,8 @@
         >
             <u-button
                 class="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3 text-gray-800 hover:bg-yellow-500 hover:text-gray-900"
-                @click="toggleMenu"
                 icon="material-symbols:close"
+                @click="toggleMenu"
             />
 
             <ul

@@ -27,10 +27,10 @@
                     <nav class="flex items-center gap-2">
                         <u-button
                             class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
-                            @click="isNotificationSlideOverOpen = true"
                             size="md"
                             icon="ic:baseline-notifications"
                             :label="notifications.length.toString()"
+                            @click="isNotificationSlideOverOpen = true"
                         />
                     </nav>
 
@@ -51,17 +51,17 @@
                     <div class="lg:hidden">
                         <u-button
                             class="bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
-                            @click="mobileNavOpen = !mobileNavOpen"
                             icon="material-symbols:menu"
                             size="md"
+                            @click="mobileNavOpen = !mobileNavOpen"
                         />
                     </div>
                 </div>
             </div>
 
             <nav
-                role="navigation"
                 v-show="mobileNavOpen"
+                role="navigation"
                 class="flex flex-col py-4 lg:hidden"
             >
                 <div class="space-y-1.5">
@@ -110,8 +110,8 @@
 
                     <h3 class="text-2xl font-semibold">Notifications</h3>
                     <p
-                        class="text-gray-600 text-md"
                         v-if="notifications.length > 0"
+                        class="text-gray-600 text-md"
                     >
                         You have
                         <span class="font-semibold">
@@ -119,7 +119,7 @@
                         </span>
                         unread notifications
                     </p>
-                    <p class="text-gray-600 text-md" v-else>
+                    <p v-else class="text-gray-600 text-md">
                         You don't have any new notifications
                     </p>
                 </template>

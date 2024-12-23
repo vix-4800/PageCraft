@@ -1,12 +1,14 @@
 <template>
-    <component
-        :is="productListComponent"
-        :products="products"
-        title="Our Products"
-        :withPagination="true"
-        :pageCount="pageCount"
-        :currentPage="currentPage"
-    />
+    <div>
+        <component
+            :is="productListComponent"
+            :products="products"
+            title="Our Products"
+            :with-pagination="true"
+            :page-count="pageCount"
+            :current-page="currentPage"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>

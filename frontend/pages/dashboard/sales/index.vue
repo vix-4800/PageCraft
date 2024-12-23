@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order } from '~/types/order';
+import type { Order, OrderStatus } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
     middleware: ['sanctum:auth'],
@@ -75,13 +75,13 @@ onMounted(async () => {
     ordersLoading.value = false;
     orders.value.forEach((sale) => {
         sale['class'] = `bg-${
-            sale.status === 'created'
+            sale.status === OrderStatus.CREATED
                 ? 'yellow'
-                : sale.status === 'cancelled'
+                : sale.status === OrderStatus.CANCELLED
                 ? 'red'
-                : sale.status === 'delivered'
+                : sale.status === OrderStatus.DELIVERED
                 ? 'green'
-                : sale.status === 'processing'
+                : sale.status === OrderStatus.PROCESSING
                 ? 'blue'
                 : ''
         }-50`;

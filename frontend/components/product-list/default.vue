@@ -5,15 +5,15 @@
         <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
 
         <div
-            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             v-if="loading"
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-            <u-skeleton class="h-96 rounded-xl" v-for="i in 3" />
+            <u-skeleton v-for="i in 3" :key="i" class="h-96 rounded-xl" />
         </div>
 
         <div
-            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             v-else
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
             <div
                 v-for="product in products"
@@ -28,9 +28,9 @@
                             'bg-red-500': favoriteStore.isFavorite(product),
                             'bg-gray-400': !favoriteStore.isFavorite(product),
                         }"
-                        @click="favoriteStore.toggleFavorite(product)"
                         color="red"
                         icon="heroicons-solid:heart"
+                        @click="favoriteStore.toggleFavorite(product)"
                     />
 
                     <nuxt-link
@@ -68,11 +68,11 @@
 
         <div class="flex justify-center w-full mt-6">
             <u-pagination
+                v-if="withPagination && pageCount > 0"
+                v-model="page"
                 size="lg"
                 :active-button="{ variant: 'outline', color: 'orange' }"
                 :inactive-button="{ color: 'gray' }"
-                v-if="withPagination && pageCount > 0"
-                v-model="page"
                 :page-count="pageCount"
                 :total="products.length"
                 :to="(page: number) => ({query: { page }})"

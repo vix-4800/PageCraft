@@ -1,190 +1,196 @@
 <template>
-    <h1 class="text-3xl font-bold text-center text-gray-800">Shopping Cart</h1>
+    <div>
+        <h1 class="text-3xl font-bold text-center text-gray-800">
+            Shopping Cart
+        </h1>
 
-    <div class="grid gap-8 mt-16 md:grid-cols-3">
-        <div class="space-y-4 md:col-span-2">
-            <div
-                v-for="item in cartItems"
-                :key="item.product.slug"
-                class="grid items-start grid-cols-3 gap-4 pb-4 border-b border-gray-300"
-            >
-                <div class="flex items-start col-span-2 gap-4">
-                    <div
-                        class="p-2 bg-white border-2 border-gray-300 rounded-md w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0"
-                    >
-                        <nuxt-link :to="`/products/${item.product.slug}`">
-                            <nuxt-img
-                                :src="item.product.image"
-                                class="object-contain w-full h-full"
-                            />
-                        </nuxt-link>
-                    </div>
-
-                    <div class="flex flex-col space-y-2">
-                        <h3 class="text-base font-bold text-gray-800">
-                            {{ item.product.name }}
-                        </h3>
-                        <div>
-                            <span
-                                v-for="attribute in item.attributes"
-                                :key="attribute.name"
-                                class="block text-xs font-semibold text-gray-500"
-                            >
-                                {{
-                                    attribute.name.charAt(0).toUpperCase() +
-                                    attribute.name.slice(1)
-                                }}:
-                                {{
-                                    attribute.value.charAt(0).toUpperCase() +
-                                    attribute.value.slice(1)
-                                }}
-                            </span>
+        <div class="grid gap-8 mt-16 md:grid-cols-3">
+            <div class="space-y-4 md:col-span-2">
+                <div
+                    v-for="item in cartItems"
+                    :key="item.product.slug"
+                    class="grid items-start grid-cols-3 gap-4 pb-4 border-b border-gray-300"
+                >
+                    <div class="flex items-start col-span-2 gap-4">
+                        <div
+                            class="p-2 bg-white border-2 border-gray-300 rounded-md w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0"
+                        >
+                            <nuxt-link :to="`/products/${item.product.slug}`">
+                                <nuxt-img
+                                    :src="item.product.image"
+                                    class="object-contain w-full h-full"
+                                />
+                            </nuxt-link>
                         </div>
 
-                        <u-button
-                            class="font-semibold"
-                            @click="removeProductFromCart(item)"
-                            label="REMOVE"
-                            icon="material-symbols:delete-outline"
-                            color="red"
-                        />
+                        <div class="flex flex-col space-y-2">
+                            <h3 class="text-base font-bold text-gray-800">
+                                {{ item.product.name }}
+                            </h3>
+                            <div>
+                                <span
+                                    v-for="attribute in item.attributes"
+                                    :key="attribute.name"
+                                    class="block text-xs font-semibold text-gray-500"
+                                >
+                                    {{
+                                        attribute.name.charAt(0).toUpperCase() +
+                                        attribute.name.slice(1)
+                                    }}:
+                                    {{
+                                        attribute.value
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        attribute.value.slice(1)
+                                    }}
+                                </span>
+                            </div>
+
+                            <u-button
+                                class="font-semibold"
+                                label="REMOVE"
+                                icon="material-symbols:delete-outline"
+                                color="red"
+                                @click="removeProductFromCart(item)"
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div class="ml-auto">
-                    <h4
-                        class="text-lg font-bold text-gray-800 max-sm:text-base"
-                    >
-                        ${{ item.price }}
-                    </h4>
+                    <div class="ml-auto">
+                        <h4
+                            class="text-lg font-bold text-gray-800 max-sm:text-base"
+                        >
+                            ${{ item.price }}
+                        </h4>
 
-                    <div
-                        class="flex items-center gap-2 mt-6 text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-none"
-                    >
-                        <u-button
-                            size="xs"
-                            class="bg-transparent text-slate-600 hover:text-slate-900 hover:bg-transparent"
-                            @click="store.decreaseProductQuantity(item)"
-                            icon="ic:baseline-minus"
-                        />
+                        <div
+                            class="flex items-center gap-2 mt-6 text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-none"
+                        >
+                            <u-button
+                                size="xs"
+                                class="bg-transparent text-slate-600 hover:text-slate-900 hover:bg-transparent"
+                                icon="ic:baseline-minus"
+                                @click="store.decreaseProductQuantity(item)"
+                            />
 
-                        <span class="font-bold">
-                            {{ store.getQuantity(item) }}
-                        </span>
+                            <span class="font-bold">
+                                {{ store.getQuantity(item) }}
+                            </span>
 
-                        <u-button
-                            size="xs"
-                            class="bg-transparent text-slate-600 hover:text-slate-900 hover:bg-transparent"
-                            @click="store.increaseProductQuantity(item)"
-                            icon="ic:baseline-plus"
-                        />
+                            <u-button
+                                size="xs"
+                                class="bg-transparent text-slate-600 hover:text-slate-900 hover:bg-transparent"
+                                icon="ic:baseline-plus"
+                                @click="store.increaseProductQuantity(item)"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <u-form
-            :state="state"
-            @submit="checkout"
-            class="p-4 bg-gray-100 rounded-md h-max"
-        >
-            <h3
-                class="pb-2 text-lg font-bold text-gray-800 border-b border-gray-300 max-sm:text-base"
+            <u-form
+                :state="state"
+                class="p-4 bg-gray-100 rounded-md h-max"
+                @submit="checkout"
             >
-                Order Summary
-            </h3>
+                <h3
+                    class="pb-2 text-lg font-bold text-gray-800 border-b border-gray-300 max-sm:text-base"
+                >
+                    Order Summary
+                </h3>
 
-            <div class="mt-6">
-                <div>
-                    <h3 class="mb-4 text-base font-semibold text-gray-800">
-                        Enter Details
-                    </h3>
-                    <div class="space-y-3">
-                        <u-input
-                            v-model="state.name"
-                            placeholder="Full Name"
-                            icon="material-symbols:person"
-                            trailing
-                            color="orange"
-                            size="lg"
-                            required
-                            :disabled="store.totalItems === 0"
-                        />
+                <div class="mt-6">
+                    <div>
+                        <h3 class="mb-4 text-base font-semibold text-gray-800">
+                            Enter Details
+                        </h3>
+                        <div class="space-y-3">
+                            <u-input
+                                v-model="state.name"
+                                placeholder="Full Name"
+                                icon="material-symbols:person"
+                                trailing
+                                color="orange"
+                                size="lg"
+                                required
+                                :disabled="store.totalItems === 0"
+                            />
 
-                        <u-input
-                            v-model="state.email"
-                            placeholder="Email"
-                            type="email"
-                            icon="material-symbols:mail"
-                            trailing
-                            color="orange"
-                            size="lg"
-                            required
-                            :disabled="store.totalItems === 0"
-                        />
+                            <u-input
+                                v-model="state.email"
+                                placeholder="Email"
+                                type="email"
+                                icon="material-symbols:mail"
+                                trailing
+                                color="orange"
+                                size="lg"
+                                required
+                                :disabled="store.totalItems === 0"
+                            />
 
-                        <u-input
-                            v-model="state.phone"
-                            placeholder="Phone No."
-                            icon="material-symbols:phone-enabled"
-                            trailing
-                            color="orange"
-                            size="lg"
-                            required
-                            :disabled="store.totalItems === 0"
-                        />
+                            <u-input
+                                v-model="state.phone"
+                                placeholder="Phone No."
+                                icon="material-symbols:phone-enabled"
+                                trailing
+                                color="orange"
+                                size="lg"
+                                required
+                                :disabled="store.totalItems === 0"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <ul class="mt-6 space-y-3 text-gray-800">
-                <li class="flex flex-wrap gap-4 text-sm">
-                    Subtotal
-                    <span class="ml-auto font-bold">${{ subTotal }}</span>
-                </li>
+                <ul class="mt-6 space-y-3 text-gray-800">
+                    <li class="flex flex-wrap gap-4 text-sm">
+                        Subtotal
+                        <span class="ml-auto font-bold">${{ subTotal }}</span>
+                    </li>
 
-                <li class="flex flex-wrap gap-4 text-sm">
-                    Shipping
-                    <span class="ml-auto font-bold">${{ shipping }}</span>
-                </li>
+                    <li class="flex flex-wrap gap-4 text-sm">
+                        Shipping
+                        <span class="ml-auto font-bold">${{ shipping }}</span>
+                    </li>
 
-                <li class="flex flex-wrap gap-4 text-sm">
-                    Tax
-                    <span class="ml-auto font-bold">${{ tax }}</span>
-                </li>
+                    <li class="flex flex-wrap gap-4 text-sm">
+                        Tax
+                        <span class="ml-auto font-bold">${{ tax }}</span>
+                    </li>
 
-                <hr class="border-gray-300" />
+                    <hr class="border-gray-300" />
 
-                <li class="flex flex-wrap gap-4 text-sm font-bold">
-                    Total
-                    <span class="ml-auto">${{ total }}</span>
-                </li>
-            </ul>
+                    <li class="flex flex-wrap gap-4 text-sm font-bold">
+                        Total
+                        <span class="ml-auto">${{ total }}</span>
+                    </li>
+                </ul>
 
-            <div class="mt-6 space-y-3">
-                <u-button
-                    color="orange"
-                    :disabled="store.totalItems === 0"
-                    class="justify-center font-semibold text-gray-800 disabled:opacity-75"
-                    label="Checkout"
-                    block
-                    size="lg"
-                    icon="material-symbols:shopping-cart"
-                    type="submit"
-                />
+                <div class="mt-6 space-y-3">
+                    <u-button
+                        color="orange"
+                        :disabled="store.totalItems === 0"
+                        class="justify-center font-semibold text-gray-800 disabled:opacity-75"
+                        label="Checkout"
+                        block
+                        size="lg"
+                        icon="material-symbols:shopping-cart"
+                        type="submit"
+                    />
 
-                <u-button
-                    to="/"
-                    label="Continue Shopping"
-                    icon="ic:round-keyboard-arrow-left"
-                    variant="outline"
-                    color="blue"
-                    size="lg"
-                    block
-                    class="justify-center font-semibold text-gray-800"
-                />
-            </div>
-        </u-form>
+                    <u-button
+                        to="/"
+                        label="Continue Shopping"
+                        icon="ic:round-keyboard-arrow-left"
+                        variant="outline"
+                        color="blue"
+                        size="lg"
+                        block
+                        class="justify-center font-semibold text-gray-800"
+                    />
+                </div>
+            </u-form>
+        </div>
     </div>
 </template>
 

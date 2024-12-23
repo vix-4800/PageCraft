@@ -10,36 +10,36 @@
                 <u-form :state="user" class="space-y-4" @submit="submitForm">
                     <u-form-group label="Name" name="name">
                         <u-input
+                            v-model="user.name"
                             color="blue"
                             size="lg"
-                            v-model="user.name"
                             required
                         />
                     </u-form-group>
                     <u-form-group label="Email" name="email">
                         <u-input
+                            v-model="user.email"
                             color="blue"
                             size="lg"
-                            v-model="user.email"
                             required
                         />
                     </u-form-group>
 
                     <u-form-group label="Phone" name="phone">
                         <u-input
+                            v-model="user.phone"
                             color="blue"
                             size="lg"
-                            v-model="user.phone"
                             required
                         />
                     </u-form-group>
 
                     <u-form-group label="Password" name="password">
                         <u-input
+                            v-model="user.password"
                             required
                             color="blue"
                             size="lg"
-                            v-model="user.password"
                             type="password"
                         />
                     </u-form-group>

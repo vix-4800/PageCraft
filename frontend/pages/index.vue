@@ -1,29 +1,33 @@
 <template>
-    <component
-        :is="productListComponent"
-        :products="newProducts"
-        title="New Arrivals"
-        :loading="newProductsLoading"
-    />
+    <div>
+        <component
+            :is="productListComponent"
+            :products="newProducts"
+            title="New Arrivals"
+            :loading="newProductsLoading"
+        />
 
-    <hr class="my-10" />
+        <hr class="my-10" />
 
-    <component
-        :is="productListComponent"
-        :products="popularProducts"
-        title="Popular Products"
-        :loading="popularProductsLoading"
-    />
+        <component
+            :is="productListComponent"
+            :products="popularProducts"
+            title="Popular Products"
+            :loading="popularProductsLoading"
+        />
 
-    <hr class="my-10" />
+        <hr class="my-10" />
 
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">Latest News</h2>
-        <p class="text-2xl font-bold text-center text-gray-800">
-            Coming soon...
-        </p>
+        <div
+            class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
+        >
+            <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
+                Latest News
+            </h2>
+            <p class="text-2xl font-bold text-center text-gray-800">
+                Coming soon...
+            </p>
+        </div>
     </div>
 </template>
 
