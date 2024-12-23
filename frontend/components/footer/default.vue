@@ -86,28 +86,28 @@
                 </h4>
                 <ul class="space-y-4">
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            to="/contact"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
-                            About Us
-                        </a>
+                            Contact
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            to="/terms"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Terms &amp; Conditions
-                        </a>
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            to="/privacy"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Privacy Policy
-                        </a>
+                        </nuxt-link>
                     </li>
                 </ul>
             </div>
