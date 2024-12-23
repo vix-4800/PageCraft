@@ -38,7 +38,7 @@
                 <div class="ml-auto max-lg:mt-4">
                     <ul class="flex items-center space-x-6">
                         <li class="cursor-pointer max-lg:py-2">
-                            <nuxt-link to="/favorites" class="group">
+                            <nuxt-link to="/products/favorites" class="group">
                                 <span class="relative">
                                     <u-icon
                                         name="material-symbols:favorite-outline"

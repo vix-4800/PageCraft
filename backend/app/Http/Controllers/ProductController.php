@@ -36,12 +36,19 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
         $limit = request()->get('limit', 10);
 
+        $products = Product::query()->active();
+
+        $slugs = explode(',', $request->query('slugs', ''));
+        if (! empty($slugs)) {
+            $products->whereIn('slug', $slugs);
+        }
+
         return ProductResource::collection(
-            Product::active()->paginate($limit)
+            $products->paginate($limit)
         );
     }
 

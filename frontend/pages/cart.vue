@@ -208,7 +208,7 @@ onMounted(async () => {
             `v1/variations`,
             {
                 params: {
-                    skus,
+                    skus: skus.join(','),
                 },
             }
         );

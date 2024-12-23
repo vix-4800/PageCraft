@@ -18,5 +18,22 @@ const productListComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const products = ref<Product[]>(useFavoriteStore().items);
+const products = ref<Product[]>([]);
+onMounted(async () => {
+    await fetchProducts();
+});
+
+watch(useFavoriteStore().items, () => {
+    fetchProducts();
+});
+
+async function fetchProducts() {
+    const { data } = await apiFetch<{ data: Product[] }>(`v1/products`, {
+        params: {
+            slugs: useFavoriteStore().items.join(','),
+        },
+    });
+
+    products.value = data;
+}
 </script>
