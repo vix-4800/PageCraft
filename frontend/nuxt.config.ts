@@ -15,6 +15,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxt/ui',
         'nuxt-echarts',
+        'pinia-plugin-persistedstate/nuxt',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
@@ -45,7 +46,8 @@ export default defineNuxtConfig({
         public: {
             baseUrl: process.env.APP_URL || 'http://localhost:80',
             appName: process.env.APP_NAME || 'PageCraft',
-            apiUrl: (process.env.API_URL || 'http://localhost:8080') + '/api',
+            apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:8080',
+            apiUrl: process.env.API_URL || 'http://localhost:8080' + '/api',
         },
     },
     googleFonts: {

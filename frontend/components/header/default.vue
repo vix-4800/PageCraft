@@ -32,7 +32,7 @@
                     :search="onSearchChange"
                     trailing
                     :debounce="700"
-                    :searchLazy="true"
+                    :search-lazy="true"
                 />
 
                 <div class="ml-auto max-lg:mt-4">
@@ -73,7 +73,7 @@
 
                         <li class="max-lg:py-2">
                             <u-button
-                                v-if="!isAuthenticated"
+                                v-if="!useAuthStore().isAuthenticated"
                                 to="/login"
                                 label="Sign In"
                                 size="md"
@@ -92,10 +92,10 @@
 
                         <li class="lg:hidden">
                             <u-button
-                                @click="toggleMenu"
                                 icon="material-symbols:menu"
                                 class="bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                                 size="md"
+                                @click="toggleMenu"
                             />
                         </li>
                     </ul>
@@ -110,8 +110,8 @@
         >
             <u-button
                 class="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3 text-gray-800 hover:bg-yellow-500 hover:text-gray-900"
-                @click="toggleMenu"
                 icon="material-symbols:close"
+                @click="toggleMenu"
             />
 
             <ul
@@ -160,10 +160,10 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
-const appName: string = useRuntimeConfig().public.appName;
-const isAuthenticated: boolean = useAuthStore().authenticated;
 
+const appName: string = useRuntimeConfig().public.appName;
 const isCollapseMenuVisible = ref(false);
+
 const toggleMenu = () => {
     isCollapseMenuVisible.value = !isCollapseMenuVisible.value;
 };
@@ -182,21 +182,14 @@ const loadingSearch = ref(false);
 async function onSearchChange(q: string) {
     loadingSearch.value = true;
 
-    const products: Product[] = await $fetch<{ data: Product[] }>(
-        `${useRuntimeConfig().public.apiUrl}/v1/products/search`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            params: {
-                q,
-            },
-        }
-    );
+    const { data } = await apiFetch<{ data: Product[] }>(`v1/products/search`, {
+        params: {
+            q,
+        },
+    });
 
     loadingSearch.value = false;
-    return products.data;
+    return data;
 }
 
 watch(selected, () => {

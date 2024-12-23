@@ -10,36 +10,36 @@
                 <u-form :state="user" class="space-y-4" @submit="submitForm">
                     <u-form-group label="Name" name="name">
                         <u-input
+                            v-model="user.name"
                             color="blue"
                             size="lg"
-                            v-model="user.name"
                             required
                         />
                     </u-form-group>
                     <u-form-group label="Email" name="email">
                         <u-input
+                            v-model="user.email"
                             color="blue"
                             size="lg"
-                            v-model="user.email"
                             required
                         />
                     </u-form-group>
 
                     <u-form-group label="Phone" name="phone">
                         <u-input
+                            v-model="user.phone"
                             color="blue"
                             size="lg"
-                            v-model="user.phone"
                             required
                         />
                     </u-form-group>
 
                     <u-form-group label="Password" name="password">
                         <u-input
+                            v-model="user.password"
                             required
                             color="blue"
                             size="lg"
-                            v-model="user.password"
                             type="password"
                         />
                     </u-form-group>
@@ -57,22 +57,22 @@
 </template>
 
 <script lang="ts" setup>
+import type { User } from '~/types/user';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['auth'],
 });
 
 const authStore = useAuthStore();
 
 const user = reactive({
-    name: undefined,
-    email: undefined,
-    phone: undefined,
-    password: undefined,
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
 });
 
 onMounted(async () => {
-    await authStore.fetchUser();
-
     user.name = authStore.user?.name;
     user.email = authStore.user?.email;
     user.phone = authStore.user?.phone;
@@ -80,15 +80,8 @@ onMounted(async () => {
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    const { data } = await useFetch(`${apiUrl}/v1/users/me`, {
+    const { data } = await apiFetch<{ data: User }>(`v1/users/me`, {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authStore.authToken}`,
-        },
         body: JSON.stringify(user),
     });
 
@@ -98,8 +91,6 @@ async function submitForm() {
     }
 
     await authStore.fetchUser();
-    authStore.user = data;
-
     user.password = '';
 
     $notify('Account updated successfully', 'success');

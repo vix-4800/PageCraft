@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Exceptions\ApiNotFoundException;
-use App\Http\Controllers\AuthController;
+use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
@@ -19,9 +18,6 @@ Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         Route::middleware('auth:sanctum')->group(function (): void {
             Route::prefix('users')->group(function (): void {
-                Route::get('me', [AuthenticatedUserController::class, 'show']);
-                Route::patch('me', [AuthenticatedUserController::class, 'update']);
-
                 Route::apiResource('/', UserController::class);
 
                 Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
@@ -50,20 +46,10 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('orders', OrderController::class)->except('destroy');
     });
 
-    // Auth
-    Route::controller(AuthController::class)->prefix('auth')->group(function (): void {
-        Route::post('register', 'register')->name('register');
-        Route::post('login', 'login')->name('login');
-        Route::post('logout', 'logout')->middleware('auth:sanctum')->name('logout');
-    });
-});
-
-// Verification
-Route::controller(AuthController::class)->prefix('email')->name('verification.')->group(function (): void {
-    Route::get('verify/{user}', 'verify')->name('verify');
-    Route::post('resend', 'resend')->name('resend');
+    Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
+    Route::patch('user', [AuthenticatedUserController::class, 'update'])->middleware('auth:sanctum');
 });
 
 Route::fallback(function (): never {
-    throw new ApiNotFoundException;
+    throw new ApiException;
 });

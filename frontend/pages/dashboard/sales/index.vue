@@ -25,9 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order } from '~/types/order';
+import type { Order, OrderStatus } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['auth'],
 });
 
 const ordersColumns = [
@@ -60,27 +61,19 @@ const orders = ref<Order[]>([]);
 const ordersLoading = ref(true);
 
 onMounted(async () => {
-    const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-    const response = await $fetch<{ data: Order[] }>(`${apiUrl}/v1/orders`, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
-    });
+    const response = await apiFetch<{ data: Order[] }>(`v1/orders`);
 
     orders.value = response.data;
     ordersLoading.value = false;
     orders.value.forEach((sale) => {
         sale['class'] = `bg-${
-            sale.status === 'created'
+            sale.status === OrderStatus.CREATED
                 ? 'yellow'
-                : sale.status === 'cancelled'
+                : sale.status === OrderStatus.CANCELLED
                 ? 'red'
-                : sale.status === 'delivered'
+                : sale.status === OrderStatus.DELIVERED
                 ? 'green'
-                : sale.status === 'processing'
+                : sale.status === OrderStatus.PROCESSING
                 ? 'blue'
                 : ''
         }-50`;

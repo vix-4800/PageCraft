@@ -3,10 +3,7 @@ import type { ProductVariation } from '~/types/product';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: useCookie<{ sku: string; quantity: number }[]>('cart', {
-            default: () => [],
-            maxAge: 60 * 60 * 24 * 30, // 30 дней
-        }),
+        items: [] as { sku: string; quantity: number }[],
     }),
     actions: {
         increaseProductQuantity(product: ProductVariation) {
@@ -21,8 +18,6 @@ export const useCartStore = defineStore('cart', {
 
                 useNuxtApp().$notify(`${product.sku} added to cart`, 'success');
             }
-
-            this.syncCookies();
         },
         decreaseProductQuantity(product: ProductVariation) {
             const index = this.items.findIndex((p) => p.sku === product.sku);
@@ -33,8 +28,6 @@ export const useCartStore = defineStore('cart', {
                     existingProduct.quantity--;
                 }
             }
-
-            this.syncCookies();
         },
         removeProduct(product: ProductVariation) {
             const index = this.items.findIndex((p) => p.sku === product.sku);
@@ -46,14 +39,10 @@ export const useCartStore = defineStore('cart', {
                     `${product.sku} removed from cart`,
                     'error'
                 );
-
-                this.syncCookies();
             }
         },
         clearCart() {
             this.items = [];
-
-            this.syncCookies();
         },
         isProductInCart(product: ProductVariation): boolean {
             return this.items.some((p) => p.sku === product.sku);
@@ -62,13 +51,11 @@ export const useCartStore = defineStore('cart', {
             const item = this.items.find((p) => p.sku === product.sku);
             return item ? item.quantity : 0;
         },
-        syncCookies() {
-            useCookie('cart').value = this.items;
-        },
     },
     getters: {
         totalItems(): number {
             return this.items.reduce((total, p) => total + p.quantity, 0);
         },
     },
+    persist: true,
 });

@@ -5,15 +5,15 @@
         <div class="flex items-center gap-1 px-6 pt-6">
             <h2 class="text-2xl font-bold">Order</h2>
             <u-icon
+                v-if="order && order.status === OrdersStatus.PENDING"
                 name="material-symbols:close"
                 size="20"
                 class="bg-red-500"
-                v-if="order && order.status === 'cancelled'"
             />
         </div>
         <div class="p-6">
             <div class="min-w-full p-1 overflow-x-auto rounded">
-                <div class="space-y-4" v-if="order">
+                <div v-if="order" class="space-y-4">
                     <div class="flex gap-2">
                         <u-form-group label="Status" class="w-1/2">
                             <span
@@ -36,9 +36,9 @@
                     </div>
 
                     <u-card
-                        class="bg-slate-100"
                         v-for="item in order.items"
                         :key="item.sku"
+                        class="bg-slate-100"
                     >
                         <template #header>
                             <h3 class="text-lg font-bold">
@@ -55,30 +55,30 @@
 
                     <div class="flex gap-2">
                         <u-button
+                            v-if="order.status === OrderStatus.PROCESSING"
                             color="green"
                             size="md"
-                            v-if="order.status === 'processing'"
                             label="Deliver"
-                            @click="updateOrderStatus('delivered')"
+                            @click="updateOrderStatus(OrderStatus.DELIVERED)"
                         />
 
                         <u-button
+                            v-else-if="order.status === OrderStatus.CREATED"
                             color="blue"
                             size="md"
-                            v-else-if="order.status === 'created'"
                             label="Process"
-                            @click="updateOrderStatus('processing')"
+                            @click="updateOrderStatus(OrderStatus.PROCESSING)"
                         />
 
                         <u-button
+                            v-if="
+                                order.status !== OrderStatus.CANCELLED &&
+                                order.status !== OrderStatus.DELIVERED
+                            "
                             color="red"
                             size="md"
                             label="Cancel Order"
-                            @click="updateOrderStatus('cancelled')"
-                            v-if="
-                                order.status !== 'cancelled' &&
-                                order.status !== 'delivered'
-                            "
+                            @click="updateOrderStatus(OrderStatus.CANCELLED)"
                         />
                     </div>
                 </div>
@@ -88,51 +88,44 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order } from '~/types/order';
+import { OrderStatus, type Order } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['auth'],
 });
 
-const authStore = useAuthStore();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const route = useRoute();
 
 const order = ref<Order>();
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Order }>(
-        `${apiUrl}/v1/orders/${route.params.id}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${authStore.authToken}`,
-            },
-        }
+    const { data } = await apiFetch<{ data: Order }>(
+        `v1/orders/${route.params.id}`
     );
 
     order.value = data;
 });
 
-const updateOrderStatus = async (status: string) => {
-    const allowedStatuses = ['processing', 'delivered', 'cancelled'];
+const updateOrderStatus = async (status: OrderStatus) => {
+    const allowedStatuses = [
+        OrderStatus.PROCESSING,
+        OrderStatus.DELIVERED,
+        OrderStatus.CANCELLED,
+    ];
 
     if (!allowedStatuses.includes(status)) {
         console.error('Invalid status:', status);
         return;
     }
 
-    const { data } = await $fetch(`${apiUrl}/v1/orders/${route.params.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authStore.authToken}`,
-        },
-        body: {
-            status: status,
-        },
-    });
+    const { data } = await apiFetch<{ data: Order }>(
+        `v1/orders/${route.params.id}`,
+        {
+            method: 'PUT',
+            body: {
+                status: status.toString(),
+            },
+        }
+    );
 
     order.value = data;
 };

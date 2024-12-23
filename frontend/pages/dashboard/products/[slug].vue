@@ -7,26 +7,26 @@
         </div>
         <div class="p-6">
             <u-form
-                @submit="submitForm"
                 class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"
+                @submit="submitForm"
             >
                 <div class="px-1 space-y-2">
                     <h3 class="text-xl font-bold text-gray-800">Details</h3>
 
                     <div class="flex w-full gap-2">
                         <u-form-group label="Name" class="w-1/2" name="name">
-                            <u-input color="blue" v-model="product.name" />
+                            <u-input v-model="product.name" color="blue" />
                         </u-form-group>
 
                         <u-form-group label="Slug" class="w-1/2" name="slug">
-                            <u-input color="blue" v-model="product.slug" />
+                            <u-input v-model="product.slug" color="blue" />
                         </u-form-group>
                     </div>
 
                     <u-form-group label="Description" name="description">
                         <u-textarea
-                            color="blue"
                             v-model="product.description"
+                            color="blue"
                         />
                     </u-form-group>
                 </div>
@@ -44,9 +44,9 @@
 
                     <div class="px-1 space-y-2">
                         <u-card
-                            class="bg-slate-100"
                             v-for="variation in variations"
                             :key="variation.sku"
+                            class="bg-slate-100"
                         >
                             <template #header>
                                 <h3 class="text-lg font-bold">
@@ -58,16 +58,16 @@
                                 <div class="flex gap-2">
                                     <u-form-group label="Sku" class="w-1/3">
                                         <u-input
-                                            color="blue"
                                             v-model="variation.sku"
+                                            color="blue"
                                             required
                                         />
                                     </u-form-group>
 
                                     <u-form-group label="Price" class="w-1/3">
                                         <u-input
-                                            color="blue"
                                             v-model="variation.price"
+                                            color="blue"
                                             required
                                         />
                                     </u-form-group>
@@ -77,8 +77,8 @@
                                         class="w-1/3"
                                     >
                                         <u-input
-                                            color="blue"
                                             v-model="variation.stock"
+                                            color="blue"
                                             required
                                         />
                                     </u-form-group>
@@ -88,12 +88,12 @@
                                     <u-input
                                         color="blue"
                                         type="file"
-                                        @change="
-                                            handleFileChange($event, variation)
-                                        "
                                         :ui="{
                                             icon: { trailing: { pointer: '' } },
                                         }"
+                                        @change="
+                                            handleFileChange($event, variation)
+                                        "
                                     >
                                         <template #trailing>
                                             <u-button
@@ -115,9 +115,9 @@
                                         }})
                                     </h3>
                                     <div
-                                        class="flex gap-2"
                                         v-for="attribute in variation.attributes"
                                         :key="attribute.name"
+                                        class="flex gap-2"
                                     >
                                         <u-form-group
                                             label="Name"
@@ -125,8 +125,8 @@
                                             name="attribute.name"
                                         >
                                             <u-input
-                                                color="blue"
                                                 v-model="attribute.name"
+                                                color="blue"
                                                 required
                                             />
                                         </u-form-group>
@@ -137,8 +137,8 @@
                                             name="attribute.value"
                                         >
                                             <u-input
-                                                color="blue"
                                                 v-model="attribute.value"
+                                                color="blue"
                                                 required
                                             />
                                         </u-form-group>
@@ -193,9 +193,9 @@
                     />
                     <u-button
                         color="red"
-                        @click="deleteProduct"
                         size="md"
                         label="Delete"
+                        @click="deleteProduct"
                     />
                 </div>
             </u-form>
@@ -207,9 +207,9 @@
 import type { Product, ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['auth'],
 });
 
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const route = useRoute();
 
 const product = ref<Product>({});
@@ -218,15 +218,8 @@ const variations = ref<ProductVariation[]>([]);
 const { $notify } = useNuxtApp();
 
 onMounted(async () => {
-    const { data } = await $fetch<{ data: Product }>(
-        `${apiUrl}/v1/products/${route.params.slug}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        }
+    const { data } = await apiFetch<{ data: Product }>(
+        `v1/products/${route.params.slug}`
     );
 
     product.value = data;
@@ -234,28 +227,15 @@ onMounted(async () => {
 });
 
 const submitForm = async () => {
-    await $fetch<{ data: Product }>(
-        `${apiUrl}/v1/products/${route.params.slug}`,
-        {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${useAuthStore().authToken}`,
-            },
-            body: product.value,
-        }
-    );
+    await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
+        method: 'PUT',
+        body: product.value,
+    });
 };
 
 const deleteProduct = async () => {
-    await $fetch(`${apiUrl}/v1/products/${route.params.slug}`, {
+    await apiFetch(`v1/products/${route.params.slug}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${useAuthStore().authToken}`,
-        },
     });
 
     navigateTo(`/dashboard/products`);
@@ -266,10 +246,10 @@ function addVariation() {
     variations.value = [
         ...variations.value,
         {
-            sku: undefined,
-            price: undefined,
-            stock: undefined,
-            image: undefined,
+            sku: '',
+            price: 0,
+            stock: 0,
+            image: '',
             attributes: [],
         },
     ];
@@ -281,8 +261,8 @@ function removeVariation() {
 
 function addAttribute(variation: ProductVariation) {
     variation.attributes.push({
-        name: undefined,
-        value: undefined,
+        name: '',
+        value: '',
     });
 }
 

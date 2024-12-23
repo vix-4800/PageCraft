@@ -1,36 +1,38 @@
 <template>
-    <component
-        :is="productListComponent"
-        :products="newProducts"
-        title="New Arrivals"
-        :loading="newProductsLoading"
-    />
+    <div>
+        <component
+            :is="productListComponent"
+            :products="newProducts"
+            title="New Arrivals"
+            :loading="newProductsLoading"
+        />
 
-    <hr class="my-10" />
+        <hr class="my-10" />
 
-    <component
-        :is="productListComponent"
-        :products="popularProduct"
-        title="Popular Products"
-        :loading="popularProductLoading"
-    />
+        <component
+            :is="productListComponent"
+            :products="popularProducts"
+            title="Popular Products"
+            :loading="popularProductsLoading"
+        />
 
-    <hr class="my-10" />
+        <hr class="my-10" />
 
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">Latest News</h2>
-        <p class="text-2xl font-bold text-center text-gray-800">
-            Coming soon...
-        </p>
+        <div
+            class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
+        >
+            <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
+                Latest News
+            </h2>
+            <p class="text-2xl font-bold text-center text-gray-800">
+                Coming soon...
+            </p>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
-
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 
 const pageStore = usePageConfigurationStore();
 
@@ -42,38 +44,28 @@ const productListComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const popularProduct = ref<Product[]>([]);
-const popularProductLoading = ref(true);
+const popularProducts = ref<Product[]>([]);
+const popularProductsLoading = ref(true);
 
 const newProducts = ref<Product[]>([]);
 const newProductsLoading = ref(true);
 
 onMounted(async () => {
-    const { data: popularProductsData } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products/popular`,
+    const { data: popularProductsData } = await apiFetch<{ data: Product[] }>(
+        `v1/products/popular`,
         {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
             params: {
                 limit: 6,
             },
         }
     );
 
-    popularProduct.value = popularProductsData;
-    popularProductLoading.value = false;
+    popularProducts.value = popularProductsData;
+    popularProductsLoading.value = false;
 
-    const { data: newProductsData } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products/new`,
+    const { data: newProductsData } = await apiFetch<{ data: Product[] }>(
+        `v1/products/new`,
         {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
             params: {
                 limit: 6,
             },

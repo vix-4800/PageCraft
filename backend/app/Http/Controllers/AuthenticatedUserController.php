@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\UserAuthException;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserShowResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
@@ -28,12 +29,15 @@ class AuthenticatedUserController extends Controller
     {
         $validated = $request->validated();
 
-        if (! Hash::check($validated['password'], $request->user()->password)) {
+        /** @var User|null $user */
+        $user = $request->user();
+
+        if (! Hash::check($validated['password'], $user->password)) {
             throw new UserAuthException('The provided password was incorrect', 422);
         }
 
-        $request->user()->update($validated);
+        $user->update($validated);
 
-        return UserShowResource::make($request->user());
+        return UserShowResource::make($user);
     }
 }

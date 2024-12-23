@@ -1,19 +1,20 @@
 <template>
-    <component
-        :is="productListComponent"
-        :products="products"
-        title="Our Products"
-        :withPagination="true"
-        :pageCount="pageCount"
-        :currentPage="currentPage"
-    />
+    <div>
+        <component
+            :is="productListComponent"
+            :products="products"
+            title="Our Products"
+            :with-pagination="true"
+            :page-count="pageCount"
+            :current-page="currentPage"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
 
 const route = useRoute();
-const apiUrl: string = useRuntimeConfig().public.apiUrl;
 const pageStore = usePageConfigurationStore();
 
 const product_list = ref(pageStore.product_list);
@@ -33,19 +34,15 @@ onMounted(async () => {
 });
 
 async function fetchProducts(page: number) {
-    const { data, meta } = await $fetch<{ data: Product[] }>(
-        `${apiUrl}/v1/products`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            params: {
-                page,
-                limit: 9,
-            },
-        }
-    );
+    const { data, meta } = await apiFetch<{
+        data: Product[];
+        meta: { last_page: number };
+    }>(`v1/products`, {
+        params: {
+            page,
+            limit: 9,
+        },
+    });
 
     products.value = data;
     pageCount.value = meta.last_page;
