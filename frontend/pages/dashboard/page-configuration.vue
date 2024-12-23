@@ -77,7 +77,7 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
+    middleware: ['auth'],
 });
 
 const pageStore = usePageConfigurationStore();

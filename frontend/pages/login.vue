@@ -78,7 +78,7 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'auth',
-    middleware: [],
+    middleware: ['guest'],
 });
 
 const credentials = reactive({

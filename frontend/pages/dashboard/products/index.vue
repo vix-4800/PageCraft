@@ -40,7 +40,7 @@
 import type { Product } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
+    middleware: ['auth'],
 });
 
 const columns = [

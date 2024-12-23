@@ -91,7 +91,7 @@
 import { OrderStatus, type Order } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
+    middleware: ['auth'],
 });
 
 const route = useRoute();

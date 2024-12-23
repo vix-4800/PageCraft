@@ -60,7 +60,7 @@
 import type { User } from '~/types/user';
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
+    middleware: ['auth'],
 });
 
 const authStore = useAuthStore();
