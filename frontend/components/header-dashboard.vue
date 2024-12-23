@@ -173,7 +173,7 @@ const userDropdownItems = [
 
 onMounted(async () => {
     const { data } = await apiFetch<{ data: Notification[] }>(
-        `v1/users/me/notifications`
+        `user/notifications`
     );
 
     notifications.value = data;
@@ -181,7 +181,7 @@ onMounted(async () => {
 
 const readNotification = async (notification: Notification) => {
     const { data } = await apiFetch<{ data: Notification[] }>(
-        `v1/users/me/notifications/${notification.id}`,
+        `user/notifications/${notification.id}`,
         {
             method: 'PATCH',
         }

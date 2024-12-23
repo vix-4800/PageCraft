@@ -17,13 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
-        Route::middleware('auth:sanctum')->group(function (): void {
-            Route::prefix('users')->group(function (): void {
-                Route::apiResource('/', UserController::class);
-
-                Route::get('me/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
-                Route::patch('me/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
-            });
+        Route::middleware(['auth:sanctum', 'admin'])->group(function (): void {
+            Route::apiResource('users', UserController::class);
 
             Route::controller(StatisticsController::class)
                 ->prefix('statistics')
@@ -50,6 +45,9 @@ Route::name('api.')->group(function (): void {
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
     Route::patch('user', [AuthenticatedUserController::class, 'update'])->middleware('auth:sanctum');
+
+    Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
+    Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
 });
 
 Route::fallback(function (): never {

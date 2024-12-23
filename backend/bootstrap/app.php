@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Exceptions\ApiException;
 use App\Exceptions\ApiNotFoundException;
 use App\Exceptions\ApiUnauthorizedException;
+use App\Http\Middleware\IsUserAdmin;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -21,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+
+        $middleware->alias([
+            'admin' => IsUserAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
@@ -36,7 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (Exception $exception, Request $request): void {
-            // throw_if($request->wantsJson(), new ApiException);
+            throw_if($request->wantsJson(), new ApiException);
         });
     })
     ->create();
