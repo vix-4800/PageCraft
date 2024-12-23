@@ -28,7 +28,7 @@
 import type { Order, OrderStatus } from '~/types/order';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['sanctum:auth'],
+    middleware: [],
 });
 
 const ordersColumns = [

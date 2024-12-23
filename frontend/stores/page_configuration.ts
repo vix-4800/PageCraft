@@ -18,10 +18,17 @@ export const usePageConfigurationStore = defineStore('page_configuration', {
             this.product_list = data.product_list;
         },
         async saveConfiguration(pageConfiguration: PageConfiguration) {
-            await apiFetch(`v1/page-configuration`, {
-                method: 'PUT',
-                body: pageConfiguration,
-            });
+            const { data } = await apiFetch<{ data: PageConfiguration }>(
+                `v1/page-configuration`,
+                {
+                    method: 'PUT',
+                    body: pageConfiguration,
+                }
+            );
+
+            this.header = data.header;
+            this.footer = data.footer;
+            this.product_list = data.product_list;
         },
     },
     persist: true,

@@ -148,9 +148,7 @@ const authStore = useAuthStore();
 const userName: string = authStore.user?.name || 'User';
 
 const isNotificationSlideOverOpen = ref(false);
-const notifications = ref([]);
-
-const { logout } = useSanctumAuth();
+const notifications = ref<Notification[]>([]);
 
 const userDropdownItems = [
     [
@@ -167,14 +165,14 @@ const userDropdownItems = [
             icon: 'material-symbols:logout-rounded',
             class: 'hover:bg-indigo-100 hover:text-indigo-600',
             click: () => {
-                logout();
+                authStore.logout();
             },
         },
     ],
 ];
 
 onMounted(async () => {
-    const { data } = await apiFetch<Notification[]>(
+    const { data } = await apiFetch<{ data: Notification[] }>(
         `v1/users/me/notifications`
     );
 
@@ -182,7 +180,7 @@ onMounted(async () => {
 });
 
 const readNotification = async (notification: Notification) => {
-    const { data } = await apiFetch<Notification[]>(
+    const { data } = await apiFetch<{ data: Notification[] }>(
         `v1/users/me/notifications/${notification.id}`,
         {
             method: 'PATCH',

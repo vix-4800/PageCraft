@@ -108,7 +108,7 @@ import type { Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['sanctum:auth'],
+    middleware: [],
 });
 
 const statistics = reactive({

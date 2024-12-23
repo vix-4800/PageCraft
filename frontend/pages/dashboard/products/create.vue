@@ -222,7 +222,7 @@
 import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['sanctum:auth'],
+    middleware: [],
 });
 
 const product = reactive({

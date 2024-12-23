@@ -73,7 +73,7 @@
 
                         <li class="max-lg:py-2">
                             <u-button
-                                v-if="!useSanctumAuth().isAuthenticated"
+                                v-if="!useAuthStore().isAuthenticated"
                                 to="/login"
                                 label="Sign In"
                                 size="md"

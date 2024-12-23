@@ -57,9 +57,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { User } from '~/types/user';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['sanctum:auth'],
+    middleware: [],
 });
 
 const authStore = useAuthStore();
@@ -79,7 +80,7 @@ onMounted(async () => {
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    const { data } = await apiFetch(`v1/users/me`, {
+    const { data } = await apiFetch<{ data: User }>(`v1/users/me`, {
         method: 'PATCH',
         body: JSON.stringify(user),
     });
@@ -90,8 +91,6 @@ async function submitForm() {
     }
 
     await authStore.fetchUser();
-    authStore.user = data;
-
     user.password = '';
 
     $notify('Account updated successfully', 'success');
