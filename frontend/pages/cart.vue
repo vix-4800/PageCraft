@@ -282,11 +282,6 @@ const checkout = async () => {
         },
     });
 
-    if (!data.value) {
-        $notify('Something went wrong', 'error');
-        return;
-    }
-
     store.clearCart();
     calculateOrder();
     clearDetails();
