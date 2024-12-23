@@ -42,7 +42,7 @@ class ProductController extends Controller implements HasMiddleware
 
         $products = Product::query()->active();
 
-        $slugs = explode(',', $request->query('slugs', ''));
+        $slugs = array_filter(explode(',', $request->query('slugs', '')));
         if (! empty($slugs)) {
             $products->whereIn('slug', $slugs);
         }

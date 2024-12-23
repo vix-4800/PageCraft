@@ -108,7 +108,7 @@ import type { Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth'],
+    middleware: ['auth', 'admin'],
 });
 
 const statistics = reactive({

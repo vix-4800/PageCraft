@@ -8,3 +8,8 @@ export interface User {
     registered_at: Date;
     role: string;
 }
+
+export enum UserRole {
+    CUSTOMER = 'customer',
+    ADMIN = 'admin',
+}
