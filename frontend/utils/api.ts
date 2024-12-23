@@ -1,7 +1,5 @@
 export const apiFetch = async <T>(url: string, options: $FetchOptions = {}) => {
     const runtimeConfig = useRuntimeConfig();
-    const apiUrl: string = runtimeConfig.public.apiUrl;
-    const apiBaseUrl: string = runtimeConfig.public.apiBaseUrl;
 
     const defaultHeaders: Record<string, string> = {
         'Content-Type': 'application/json',
@@ -14,6 +12,8 @@ export const apiFetch = async <T>(url: string, options: $FetchOptions = {}) => {
     // Fetch the CSRF token cookie
     let csrfCookie = useCookie(csrfCookieName);
     if (!csrfCookie.value) {
+        const apiBaseUrl: string = runtimeConfig.public.apiBaseUrl;
+
         await $fetch('/sanctum/csrf-cookie', {
             baseURL: apiBaseUrl,
             credentials: 'include',
@@ -26,17 +26,9 @@ export const apiFetch = async <T>(url: string, options: $FetchOptions = {}) => {
         defaultHeaders[csrfHeaderName] = csrfCookie.value;
     }
 
-    const authRoutes: string[] = [
-        'sanctum/csrf-cookie',
-        'login',
-        'register',
-        'reset-password',
-        'forgot-password',
-        'logout',
-    ];
-
+    const apiUrl: string = runtimeConfig.public.apiUrl;
     return await $fetch<T>(`/${url}`, {
-        baseURL: authRoutes.includes(url) ? apiBaseUrl : apiUrl,
+        baseURL: apiUrl,
         credentials: 'include',
         ...options,
         headers: {

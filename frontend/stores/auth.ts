@@ -17,8 +17,11 @@ export const useAuthStore = defineStore('auth', {
             });
 
             await this.fetchUser();
+            navigateTo('/dashboard');
         },
-        async register(credentials) {},
+        async register(credentials) {
+            console.log(credentials);
+        },
         async logout() {
             await apiFetch('logout', {
                 method: 'POST',
@@ -38,7 +41,5 @@ export const useAuthStore = defineStore('auth', {
     getters: {
         isAuthenticated: (state) => !!state.user,
     },
-    persist: {
-        storage: piniaPluginPersistedstate.localStorage(),
-    },
+    persist: true,
 });

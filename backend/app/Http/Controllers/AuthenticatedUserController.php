@@ -17,9 +17,9 @@ class AuthenticatedUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request): JsonResource
     {
-        return UserShowResource::make($request->user())->resolve();
+        return UserShowResource::make($request->user());
     }
 
     /**
