@@ -81,6 +81,36 @@
                             :key="variation.sku"
                             :text="variation.stock"
                             size="2xl"
+                            :color="variation.stock === 0 ? 'red' : 'orange'"
+                        >
+                            <u-button
+                                type="button"
+                                class="p-2 bg-transparent border-2 border-gray-200 rounded-lg hover:bg-transparent disabled:bg-gray-300"
+                                :class="
+                                    variation.sku === selectedVariation.sku
+                                        ? 'border-orange-400'
+                                        : ''
+                                "
+                                :disabled="variation.stock === 0"
+                                @click="selectVariation(variation)"
+                            >
+                                <nuxt-img
+                                    :src="variation.image"
+                                    alt="Product1"
+                                    class="w-12 h-12 rounded-lg"
+                                    width="48px"
+                                    height="48px"
+                                    placeholder="/placeholder.png"
+                                />
+                            </u-button>
+                        </u-chip>
+                    </div>
+                    <div class="flex flex-wrap justify-center mx-auto gap-x-4">
+                        <u-chip
+                            v-for="variation in variations"
+                            :key="variation.sku"
+                            :text="variation.stock"
+                            size="2xl"
                         >
                             <u-button
                                 type="button"
