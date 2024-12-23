@@ -91,7 +91,7 @@ class OrderController extends Controller implements HasMiddleware
 
             DB::commit();
 
-            return OrderResource::make(
+            return new OrderResource(
                 $order->load(['items', 'user'])
             );
         } catch (\Throwable $th) {
@@ -106,7 +106,7 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function show(Order $order): JsonResource
     {
-        return OrderResource::make(
+        return new OrderResource(
             $order->load(['items.productVariation.product', 'user'])
         );
     }
@@ -118,7 +118,7 @@ class OrderController extends Controller implements HasMiddleware
     {
         $order->update($request->validated());
 
-        return OrderResource::make(
+        return new OrderResource(
             $order->load(['items.productVariation.product', 'user'])
         );
     }

@@ -19,7 +19,7 @@ class AuthenticatedUserController extends Controller
      */
     public function show(Request $request): JsonResource
     {
-        return UserShowResource::make($request->user());
+        return new UserShowResource($request->user());
     }
 
     /**
@@ -38,6 +38,6 @@ class AuthenticatedUserController extends Controller
 
         $user->update($validated);
 
-        return UserShowResource::make($user);
+        return new UserShowResource($user);
     }
 }

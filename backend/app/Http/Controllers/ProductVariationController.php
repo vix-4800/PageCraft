@@ -7,13 +7,14 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Product\ProductVariationResource;
 use App\Models\ProductVariation;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductVariationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $productVariationsQuery = ProductVariation::query();
 

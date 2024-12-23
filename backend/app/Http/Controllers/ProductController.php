@@ -111,7 +111,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make(
+        return new ProductResource(
             $this->service->storeProduct($validated)
         );
     }
@@ -121,7 +121,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return ProductResource::make(
+        return new ProductResource(
             $product->load('variations.productVariationAttributes')
         );
     }
@@ -133,7 +133,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make(
+        return new ProductResource(
             $this->service->updateProduct($validated, $product)
         );
     }

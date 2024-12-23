@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProductReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\ProductReview;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -27,7 +28,7 @@ class ProductReviewController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index(Product $product)
+    public function index(Product $product): JsonResource
     {
         return ReviewResource::collection($product->reviews->load('user'));
     }

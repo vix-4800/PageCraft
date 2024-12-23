@@ -18,6 +18,6 @@ class UserController extends Controller
 
     public function view(User $user): JsonResource
     {
-        return UserShowResource::make($user);
+        return new UserShowResource($user);
     }
 }

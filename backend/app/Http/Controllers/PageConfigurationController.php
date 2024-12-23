@@ -19,7 +19,7 @@ class PageConfigurationController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', except: ['show']),
+            new Middleware('auth:sanctum', only: ['update']),
         ];
     }
 
@@ -28,7 +28,7 @@ class PageConfigurationController extends Controller implements HasMiddleware
      */
     public function show(): JsonResource
     {
-        return PageConfigurationResource::make(
+        return new PageConfigurationResource(
             PageConfiguration::first()
         );
     }
@@ -43,7 +43,7 @@ class PageConfigurationController extends Controller implements HasMiddleware
 
         $configuration->update($request->validated());
 
-        return PageConfigurationResource::make(
+        return new PageConfigurationResource(
             $configuration
         );
     }
