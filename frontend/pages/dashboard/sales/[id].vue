@@ -5,7 +5,7 @@
         <div class="flex items-center gap-1 px-6 pt-6">
             <h2 class="text-2xl font-bold">Order</h2>
             <u-icon
-                v-if="order && order.status === OrdersStatus.PENDING"
+                v-if="order && order.status === 'cancelled'"
                 name="material-symbols:close"
                 size="20"
                 class="bg-red-500"
@@ -89,6 +89,7 @@
 
 <script lang="ts" setup>
 import { OrderStatus, type Order } from '~/types/order';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['auth', 'admin'],

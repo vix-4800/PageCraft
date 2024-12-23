@@ -25,7 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order, OrderStatus } from '~/types/order';
+import { OrderStatus, type Order } from '~/types/order';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['auth', 'admin'],

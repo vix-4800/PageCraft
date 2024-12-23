@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Order } from '~/types/order';
+import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
@@ -236,13 +236,13 @@ async function getLatestSales() {
     latestSalesLoading.value = false;
     sales.value.forEach((sale) => {
         sale['class'] = `bg-${
-            sale.status === 'created'
+            sale.status === OrderStatus.CREATED
                 ? 'yellow'
-                : sale.status === 'cancelled'
+                : sale.status === OrderStatus.CANCELLED
                 ? 'red'
-                : sale.status === 'delivered'
+                : sale.status === OrderStatus.DELIVERED
                 ? 'green'
-                : sale.status === 'processing'
+                : sale.status === OrderStatus.PROCESSING
                 ? 'blue'
                 : ''
         }-50`;
