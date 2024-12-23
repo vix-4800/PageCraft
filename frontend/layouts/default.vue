@@ -1,6 +1,6 @@
 <template>
     <div class="page-transition layout-transition">
-        <component :is="headerComponent" />
+        <component :is="headerComponent" :pages="pages" />
 
         <main class="min-h-screen p-4 mx-auto lg:max-w-7xl sm:px-6">
             <slot></slot>
@@ -20,6 +20,15 @@ const headerComponent = defineAsyncComponent({
     errorComponent: () => import(`@/components/header/default.vue`),
     timeout: 3000,
 });
+
+const pages = ref([
+    { name: 'Home', href: '/', icon: 'material-symbols:home' },
+    {
+        name: 'Products',
+        href: '/products',
+        icon: 'material-symbols:storefront',
+    },
+]);
 
 const footer = ref(pageStore.footer);
 const footerComponent = defineAsyncComponent({

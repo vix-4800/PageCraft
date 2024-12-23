@@ -161,21 +161,23 @@
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
 
-const appName: string = useRuntimeConfig().public.appName;
-const isCollapseMenuVisible = ref(false);
+defineProps({
+    pages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+            icon: string;
+        }[],
+        required: true,
+    },
+});
 
+const appName: string = useRuntimeConfig().public.appName;
+
+const isCollapseMenuVisible = ref(false);
 const toggleMenu = () => {
     isCollapseMenuVisible.value = !isCollapseMenuVisible.value;
 };
-
-const pages = ref([
-    { name: 'Home', href: '/', icon: 'material-symbols:home' },
-    {
-        name: 'Products',
-        href: '/products',
-        icon: 'material-symbols:storefront',
-    },
-]);
 
 const selected = ref();
 const loadingSearch = ref(false);
