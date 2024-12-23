@@ -28,6 +28,7 @@ export const useAuthStore = defineStore('auth', {
             });
 
             this.setUser(null);
+            navigateTo('/');
         },
         async fetchUser() {
             const { data } = await apiFetch<{ data: User }>(`user`);
