@@ -103,6 +103,7 @@ definePageMeta({
 
 const { $notify } = useNuxtApp();
 const pageStore = usePageConfigurationStore();
+const settingStore = useSiteSettingsStore();
 
 const pageConfigurationState = reactive({
     header: pageStore.header,
@@ -130,19 +131,17 @@ const loading = ref(false);
 onMounted(async () => {
     loading.value = true;
 
-    await getPageConfiguration();
-    await getSiteSettings();
+    await pageStore.getConfig();
+    pageConfigurationState.header = pageStore.header;
+    pageConfigurationState.footer = pageStore.footer;
+    pageConfigurationState.product_list = pageStore.product_list;
+
+    await settingStore.fetch();
+    siteSettingsState.value = settingStore.settings;
 
     loading.value = false;
 });
 
-async function getPageConfiguration() {
-    await pageStore.getConfig();
-
-    pageConfigurationState.header = pageStore.header;
-    pageConfigurationState.footer = pageStore.footer;
-    pageConfigurationState.product_list = pageStore.product_list;
-}
 const saveConfiguration = async () => {
     loading.value = true;
     await pageStore.saveConfiguration(pageConfigurationState);
@@ -152,21 +151,14 @@ const saveConfiguration = async () => {
 };
 
 const siteSettingsState = ref({});
-async function getSiteSettings() {
-    const { data } = await apiFetch<{ data: PageConfiguration }>(
-        `v1/site-settings`
-    );
-
-    siteSettingsState.value = data;
-}
 const saveSiteSettings = async () => {
     loading.value = true;
 
-    await apiFetch<{ data: PageConfiguration }>(`v1/site-settings`, {
-        method: 'PUT',
-        body: siteSettingsState.value,
-    });
+    await settingStore.save(siteSettingsState.value);
+    siteSettingsState.value = settingStore.settings;
 
     loading.value = false;
+
+    $notify('Settings saved successfully', 'success');
 };
 </script>
