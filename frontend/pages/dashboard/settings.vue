@@ -115,14 +115,14 @@ const headerStylesOptions = [
     { value: 'minimalistic', label: 'Minimalistic' },
 ];
 
-const productListStylesOptions = [
+const footerStylesOptions = [
     { value: 'default', label: 'Default' },
     { value: 'minimalistic', label: 'Minimalistic' },
 ];
 
-const footerStylesOptions = [
+const productListStylesOptions = [
     { value: 'default', label: 'Default' },
-    { value: 'minimalistic', label: 'Minimalistic' },
+    { value: 'modern', label: 'Modern' },
 ];
 
 const loading = ref(false);
@@ -161,13 +161,10 @@ async function getSiteSettings() {
 const saveSiteSettings = async () => {
     loading.value = true;
 
-    const { data } = await apiFetch<{ data: PageConfiguration }>(
-        `v1/site-settings`,
-        {
-            method: 'PUT',
-            body: siteSettingsState.value,
-        }
-    );
+    await apiFetch<{ data: PageConfiguration }>(`v1/site-settings`, {
+        method: 'PUT',
+        body: siteSettingsState.value,
+    });
 
     loading.value = false;
 };
