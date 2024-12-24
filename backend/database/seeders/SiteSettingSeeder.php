@@ -32,10 +32,6 @@ class SiteSettingSeeder extends Seeder
                 'value' => 'Vix',
             ],
             [
-                'key' => 'site_copyright',
-                'value' => '&copy; '.date('Y').' PageCraft',
-            ],
-            [
                 'key' => 'site_email',
                 'value' => 'email@example.com',
             ],

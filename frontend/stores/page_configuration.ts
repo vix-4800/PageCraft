@@ -13,9 +13,7 @@ export const usePageConfigurationStore = defineStore('page_configuration', {
                 `v1/page-configuration`
             );
 
-            this.header = data.header;
-            this.footer = data.footer;
-            this.product_list = data.product_list;
+            this.setConfiguration(data);
         },
         async saveConfiguration(pageConfiguration: PageConfiguration) {
             const { data } = await apiFetch<{ data: PageConfiguration }>(
@@ -26,9 +24,12 @@ export const usePageConfigurationStore = defineStore('page_configuration', {
                 }
             );
 
-            this.header = data.header;
-            this.footer = data.footer;
-            this.product_list = data.product_list;
+            this.setConfiguration(data);
+        },
+        setConfiguration(pageConfiguration: PageConfiguration) {
+            this.header = pageConfiguration.header;
+            this.footer = pageConfiguration.footer;
+            this.product_list = pageConfiguration.product_list;
         },
     },
     persist: true,

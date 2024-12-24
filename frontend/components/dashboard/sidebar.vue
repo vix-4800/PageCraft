@@ -24,10 +24,7 @@
                     <u-icon name="material-symbols:groups" size="20" />
                 </DashboardNavLink>
 
-                <DashboardNavLink
-                    to="page-configuration"
-                    label="Page Configuration"
-                >
+                <DashboardNavLink to="settings" label="Settings">
                     <u-icon
                         name="material-symbols:settings-outline"
                         size="20"

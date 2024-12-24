@@ -20,7 +20,8 @@ class SiteSettingResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            $this->key => $this->value,
+            'key' => $this->key,
+            'value' => $this->value,
         ];
     }
 }
