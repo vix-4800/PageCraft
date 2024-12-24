@@ -55,7 +55,7 @@ onMounted(async () => {
         `v1/products/popular`,
         {
             params: {
-                limit: 6,
+                limit: product_list.value === 'compact' ? 4 : 6,
             },
         }
     );
@@ -67,7 +67,7 @@ onMounted(async () => {
         `v1/products/new`,
         {
             params: {
-                limit: 6,
+                limit: product_list.value === 'compact' ? 4 : 6,
             },
         }
     );

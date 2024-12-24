@@ -40,7 +40,7 @@ async function fetchProducts(page: number) {
     }>(`v1/products`, {
         params: {
             page,
-            limit: 9,
+            limit: product_list.value === 'compact' ? 12 : 9,
         },
     });
 

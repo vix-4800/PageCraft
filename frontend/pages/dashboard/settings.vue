@@ -123,6 +123,7 @@ const footerStylesOptions = [
 const productListStylesOptions = [
     { value: 'default', label: 'Default' },
     { value: 'modern', label: 'Modern' },
+    { value: 'compact', label: 'Compact' },
 ];
 
 const loading = ref(false);
