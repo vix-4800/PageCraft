@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,7 +42,7 @@ class OrderCreated extends Notification implements ShouldQueue
     {
         return [
             'message' => 'New order created.',
-            'order' => OrderResource::make($this->order),
+            'order' => new OrderResource($this->order),
         ];
     }
 }

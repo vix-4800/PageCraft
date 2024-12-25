@@ -291,8 +291,8 @@
             <div class="flex flex-col items-start gap-8 mt-8">
                 <div v-for="review in reviews" :key="review.id" class="flex">
                     <nuxt-img
-                        :src="review.user?.image || '/placeholder.png'"
-                        class="w-12 h-12 border-2 border-white rounded-full"
+                        :src="review.user?.avatar || '/placeholder.png'"
+                        class="w-12 h-12 border-2 border-gray-300 rounded-full"
                         loading="lazy"
                     />
                     <div class="ml-3">

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\ProductReview;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ProductReviewSeeder extends Seeder
@@ -15,8 +16,12 @@ class ProductReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::each(function (Product $product): void {
-            ProductReview::factory(random_int(1, 5))->for($product)->create();
+        Product::all()->each(function (Product $product): void {
+            $users = User::inRandomOrder()->take(random_int(1, 5))->get();
+
+            $users->each(function (User $user) use ($product): void {
+                ProductReview::factory()->for($product)->for($user)->create();
+            });
         });
     }
 }

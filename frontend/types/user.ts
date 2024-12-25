@@ -1,6 +1,7 @@
 export interface User {
     id: number;
     name: string;
+    avatar: string;
     email: string;
     phone: string;
     is_email_verified: boolean;
