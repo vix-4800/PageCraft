@@ -120,6 +120,7 @@ const footerStylesOptions = [
     { value: 'default', label: 'Default' },
     { value: 'minimalistic', label: 'Minimalistic' },
     { value: 'simple', label: 'Simple' },
+    { value: 'contact', label: 'Contact Details' },
 ];
 
 const productListStylesOptions = [
