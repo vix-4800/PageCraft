@@ -119,6 +119,7 @@ const headerStylesOptions = [
 const footerStylesOptions = [
     { value: 'default', label: 'Default' },
     { value: 'minimalistic', label: 'Minimalistic' },
+    { value: 'simple', label: 'Simple' },
 ];
 
 const productListStylesOptions = [
