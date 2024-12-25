@@ -19,11 +19,11 @@ class DatabaseSeeder extends Seeder
         $seeders = [
             RoleSeeder::class,
             UserSeeder::class,
-            PageConfigurationSeeder::class,
             ProductAttributeSeeder::class,
             ProductSeeder::class,
             ProductReviewSeeder::class,
             SiteSettingSeeder::class,
+            SiteTemplateSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {

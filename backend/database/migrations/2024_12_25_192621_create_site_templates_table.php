@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('page_configurations', function (Blueprint $table): void {
+        Schema::create('site_templates', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('header_template', 50);
-            $table->string('footer_template', 50);
-            $table->string('product_list_template', 50);
+            $table->string('block');
+            $table->string('template');
 
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('page_configurations');
+        Schema::dropIfExists('site_templates');
     }
 };

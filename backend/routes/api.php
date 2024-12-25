@@ -6,11 +6,11 @@ use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PageConfigurationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\SiteSettingController;
+use App\Http\Controllers\SiteTemplateController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +29,8 @@ Route::name('api.')->group(function (): void {
                 });
         });
 
-        Route::apiSingleton('page-configuration', PageConfigurationController::class);
         Route::apiSingleton('site-settings', SiteSettingController::class);
+        Route::apiSingleton('site-templates', SiteTemplateController::class);
 
         Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
         Route::get('products/best', [ProductController::class, 'best'])->name('products.best');

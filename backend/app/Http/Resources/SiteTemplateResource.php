@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\PageConfiguration
+ * @mixin \App\Models\SiteTemplate
  */
-class PageConfigurationResource extends JsonResource
+class SiteTemplateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,9 +20,8 @@ class PageConfigurationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'header' => $this->header_template,
-            'footer' => $this->footer_template,
-            'product_list' => $this->product_list_template,
+            'block' => $this->block,
+            'template' => $this->template,
         ];
     }
 }
