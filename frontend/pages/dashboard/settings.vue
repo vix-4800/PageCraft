@@ -14,7 +14,7 @@
                 <u-form
                     :state="siteSettingsState"
                     class="flex flex-col gap-2 px-1"
-                    @submit="saveSiteSettings"
+                    @submit="saveSettings"
                 >
                     <u-form-group
                         v-for="(setting, index) in siteSettingsState"
@@ -60,7 +60,7 @@
                         <u-select
                             v-model="value.template"
                             color="blue"
-                            :options="templateOptions[value.block]"
+                            :options="templateOptions[value.block as keyof typeof templateOptions]"
                             size="lg"
                         />
                     </u-form-group>
@@ -113,6 +113,10 @@ const templateOptions = {
         { value: 'modern', label: 'Modern' },
         { value: 'compact', label: 'Compact' },
     ],
+    product_detail: [
+        { value: 'default', label: 'Default' },
+        { value: 'modern', label: 'Modern' },
+    ],
 };
 
 const loading = ref(false);
@@ -139,7 +143,7 @@ const saveTemplates = async () => {
     $notify('Configuration saved successfully', 'success');
 };
 
-const saveSiteSettings = async () => {
+const saveSettings = async () => {
     loading.value = true;
 
     await settingStore.save(siteSettingsState.value);

@@ -27,6 +27,10 @@ class SiteTemplateSeeder extends Seeder
                 'block' => 'product_list',
                 'template' => 'default',
             ],
+            [
+                'block' => 'product_detail',
+                'template' => 'default',
+            ],
         ]);
     }
 }

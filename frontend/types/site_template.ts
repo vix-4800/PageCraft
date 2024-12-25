@@ -7,6 +7,6 @@ export enum TemplateBlock {
     Header = 'header',
     Footer = 'footer',
     ProductList = 'product_list',
-    ProductView = 'product_view',
+    ProductDetail = 'product_detail',
     Cart = 'cart',
 }
