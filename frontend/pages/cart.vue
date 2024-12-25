@@ -46,13 +46,15 @@
                                 </span>
                             </div>
 
-                            <u-button
-                                class="font-semibold"
-                                label="REMOVE"
-                                icon="material-symbols:delete-outline"
-                                color="red"
-                                @click="removeProductFromCart(item)"
-                            />
+                            <div>
+                                <u-button
+                                    class="font-semibold"
+                                    label="REMOVE"
+                                    icon="material-symbols:delete-outline"
+                                    color="red"
+                                    @click="removeProductFromCart(item)"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -266,6 +268,51 @@ const checkout = async () => {
         return;
     }
 
+    if (store.totalItems === 0) {
+        $notify('Please add some products to cart', 'warning');
+        return;
+    }
+
+    var payments = new cp.CloudPayments({
+        language: 'en-US',
+        email: '',
+        applePaySupport: false,
+        googlePaySupport: false,
+        yandexPaySupport: true,
+        tinkoffPaySupport: true,
+        tinkoffInstallmentSupport: true,
+        sbpSupport: true,
+    });
+
+    payments
+        .pay('charge', {
+            publicId: 'test_api_00000000000000000000002',
+            description: 'Order Payment',
+            amount: total.value,
+            currency: 'USD',
+            invoiceId: '123',
+            accountId: '123',
+            email: state.email,
+            skin: 'mini',
+            requireEmail: true,
+        })
+        .then(async function (widgetResult) {
+            if (widgetResult.status === 'success') {
+                await createOrder();
+
+                $notify('Order Placed Successfully');
+            } else {
+                console.log('error', widgetResult);
+
+                $notify('Payment Failed', 'error');
+            }
+        })
+        .catch(function (error) {
+            console.log('error', error);
+        });
+};
+
+const createOrder = async () => {
     const { data } = await apiFetch(`v1/orders`, {
         method: 'POST',
         body: {
@@ -286,7 +333,5 @@ const checkout = async () => {
     calculateOrder();
     clearDetails();
     cartItems.value = [];
-
-    $notify('Order Placed Successfully');
 };
 </script>

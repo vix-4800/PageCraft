@@ -27,6 +27,11 @@ export default defineNuxtConfig({
                     content: 'width=device-width, initial-scale=1',
                 },
             ],
+            script: [
+                {
+                    src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
+                },
+            ],
         },
         // pageTransition: { name: 'page', mode: 'out-in' },
         layoutTransition: { name: 'layout', mode: 'out-in' },
