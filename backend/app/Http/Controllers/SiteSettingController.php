@@ -10,6 +10,7 @@ use App\Models\SiteSetting;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 
 class SiteSettingController extends Controller implements HasMiddleware
 {
@@ -33,11 +34,17 @@ class SiteSettingController extends Controller implements HasMiddleware
 
     /**
      * Update the specified resource in storage.
-     *
-     * TODO Add validation and update
      */
     public function update(UpdateSiteSettingRequest $request): JsonResource
     {
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($validated): void {
+            foreach ($validated as $setting) {
+                SiteSetting::firstWhere('key', $setting['key'])->update(['value' => $setting['value']]);
+            }
+        });
+
         return SiteSettingResource::collection(SiteSetting::all());
     }
 }

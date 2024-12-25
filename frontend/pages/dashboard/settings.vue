@@ -20,6 +20,7 @@
                         v-for="(setting, index) in siteSettingsState"
                         :key="index"
                         :label="setting.key"
+                        required
                     >
                         <u-input
                             v-model="setting.value"
@@ -96,6 +97,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { SiteSetting } from '~/types/site_setting';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['auth', 'admin'],
@@ -152,7 +155,7 @@ const saveConfiguration = async () => {
     $notify('Configuration saved successfully', 'success');
 };
 
-const siteSettingsState = ref({});
+const siteSettingsState = ref<SiteSetting[]>([]);
 const saveSiteSettings = async () => {
     loading.value = true;
 
