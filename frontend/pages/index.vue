@@ -33,10 +33,11 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
+import { TemplateBlock } from '~/types/site_template';
 
-const pageStore = usePageConfigurationStore();
+const templateStore = useSiteTemplatesStore();
 
-const product_list = ref(pageStore.product_list);
+const product_list = ref(templateStore.getTemplate(TemplateBlock.ProductList));
 const productListComponent = defineAsyncComponent({
     loader: () => import(`@/components/product-list/${product_list.value}.vue`),
     delay: 200,

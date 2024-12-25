@@ -11,9 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-const pageStore = usePageConfigurationStore();
+import { TemplateBlock } from '~/types/site_template';
 
-const header = ref(pageStore.header);
+const templateStore = useSiteTemplatesStore();
+
+const header = ref(templateStore.getTemplate(TemplateBlock.Header));
 const headerComponent = defineAsyncComponent({
     loader: () => import(`@/components/header/${header.value}.vue`),
     delay: 200,
@@ -30,7 +32,7 @@ const pages = ref([
     },
 ]);
 
-const footer = ref(pageStore.footer);
+const footer = ref(templateStore.getTemplate(TemplateBlock.Footer));
 const footerComponent = defineAsyncComponent({
     loader: () => import(`@/components/footer/${footer.value}.vue`),
     delay: 200,

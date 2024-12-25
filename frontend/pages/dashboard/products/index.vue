@@ -38,6 +38,7 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['auth', 'admin'],

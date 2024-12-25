@@ -44,38 +44,23 @@
 
             <u-card :ui="{ background: 'bg-slate-100' }">
                 <template #header>
-                    <h3 class="text-lg font-semibold">Page Styles</h3>
+                    <h3 class="text-lg font-semibold">Page Templates</h3>
                 </template>
 
                 <u-form
-                    :state="pageConfigurationState"
+                    :state="siteTemplatesState"
                     class="flex flex-col gap-2 px-1"
-                    @submit="saveConfiguration"
+                    @submit="saveTemplates"
                 >
-                    <div class="flex gap-4">
-                        <u-form-group label="Header" class="w-1/2">
-                            <u-select
-                                v-model="pageConfigurationState.header"
-                                color="blue"
-                                :options="headerStylesOptions"
-                                size="lg"
-                            />
-                        </u-form-group>
-                        <u-form-group label="Footer" class="w-1/2">
-                            <u-select
-                                v-model="pageConfigurationState.footer"
-                                color="blue"
-                                :options="footerStylesOptions"
-                                size="lg"
-                            />
-                        </u-form-group>
-                    </div>
-
-                    <u-form-group label="Product List">
+                    <u-form-group
+                        v-for="(value, index) in siteTemplatesState"
+                        :key="index"
+                        :label="value.block"
+                    >
                         <u-select
-                            v-model="pageConfigurationState.product_list"
+                            v-model="value.template"
                             color="blue"
-                            :options="productListStylesOptions"
+                            :options="templateOptions[value.block]"
                             size="lg"
                         />
                     </u-form-group>
@@ -98,6 +83,7 @@
 
 <script lang="ts" setup>
 import type { SiteSetting } from '~/types/site_setting';
+import type { SiteTemplate } from '~/types/site_template';
 
 definePageMeta({
     layout: 'dashboard',
@@ -105,41 +91,36 @@ definePageMeta({
 });
 
 const { $notify } = useNuxtApp();
-const pageStore = usePageConfigurationStore();
+const templatesStore = useSiteTemplatesStore();
 const settingStore = useSiteSettingsStore();
 
-const pageConfigurationState = reactive({
-    header: pageStore.header,
-    product_list: pageStore.product_list,
-    footer: pageStore.footer,
-});
+const siteTemplatesState = ref<SiteTemplate[]>([]);
+const siteSettingsState = ref<SiteSetting[]>([]);
 
-const headerStylesOptions = [
-    { value: 'default', label: 'Default' },
-    { value: 'minimalistic', label: 'Minimalistic' },
-];
-
-const footerStylesOptions = [
-    { value: 'default', label: 'Default' },
-    { value: 'minimalistic', label: 'Minimalistic' },
-    { value: 'simple', label: 'Simple' },
-    { value: 'contact', label: 'Contact Details' },
-];
-
-const productListStylesOptions = [
-    { value: 'default', label: 'Default' },
-    { value: 'modern', label: 'Modern' },
-    { value: 'compact', label: 'Compact' },
-];
+const templateOptions = {
+    header: [
+        { value: 'default', label: 'Default' },
+        { value: 'minimalistic', label: 'Minimalistic' },
+    ],
+    footer: [
+        { value: 'default', label: 'Default' },
+        { value: 'minimalistic', label: 'Minimalistic' },
+        { value: 'simple', label: 'Simple' },
+        { value: 'contact', label: 'Contact Details' },
+    ],
+    product_list: [
+        { value: 'default', label: 'Default' },
+        { value: 'modern', label: 'Modern' },
+        { value: 'compact', label: 'Compact' },
+    ],
+};
 
 const loading = ref(false);
 onMounted(async () => {
     loading.value = true;
 
-    await pageStore.getConfig();
-    pageConfigurationState.header = pageStore.header;
-    pageConfigurationState.footer = pageStore.footer;
-    pageConfigurationState.product_list = pageStore.product_list;
+    await templatesStore.fetch();
+    siteTemplatesState.value = templatesStore.templates;
 
     await settingStore.fetch();
     siteSettingsState.value = settingStore.settings;
@@ -147,15 +128,17 @@ onMounted(async () => {
     loading.value = false;
 });
 
-const saveConfiguration = async () => {
+const saveTemplates = async () => {
     loading.value = true;
-    await pageStore.saveConfiguration(pageConfigurationState);
+
+    await templatesStore.save(siteTemplatesState.value);
+    siteTemplatesState.value = templatesStore.templates;
+
     loading.value = false;
 
     $notify('Configuration saved successfully', 'success');
 };
 
-const siteSettingsState = ref<SiteSetting[]>([]);
 const saveSiteSettings = async () => {
     loading.value = true;
 
