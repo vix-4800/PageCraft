@@ -18,7 +18,10 @@ export default defineNuxtRouteMiddleware((to) => {
 
         // Redirect to correct dashboard
         const dashboard = authStore.isAdmin ? 'admin' : 'user';
-        if (!to.path.startsWith(`/dashboard/${dashboard}`)) {
+        if (
+            !to.path.startsWith(`/dashboard/${dashboard}`) &&
+            !to.path.match(`/dashboard/account`)
+        ) {
             return navigateTo(`/dashboard/${dashboard}`);
         }
     }

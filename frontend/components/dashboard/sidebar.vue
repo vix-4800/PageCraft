@@ -69,11 +69,8 @@ const userLinks = [
     },
 ];
 
-const route = useRoute();
 const groupedLinks = computed(() => {
-    const links = route.path.startsWith('/dashboard/admin')
-        ? adminLinks
-        : userLinks;
+    const links = useAuthStore().isAdmin ? adminLinks : userLinks;
 
     return links.reduce((groups, link) => {
         (groups[link.category] = groups[link.category] || []).push(link);
