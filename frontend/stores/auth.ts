@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', {
             password: string;
             remember: boolean;
         }) {
-            await apiFetch('login', {
+            await apiFetch('auth/login', {
                 method: 'POST',
                 body: JSON.stringify(credentials),
             });
@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('auth', {
             password: string;
             password_confirmation: string;
         }) {
-            await apiFetch('register', {
+            await apiFetch('auth/register', {
                 method: 'POST',
                 body: JSON.stringify(credentials),
             });
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
             navigateTo('/dashboard');
         },
         async logout() {
-            await apiFetch('logout', {
+            await apiFetch('auth/logout', {
                 method: 'POST',
             });
 
@@ -49,6 +49,13 @@ export const useAuthStore = defineStore('auth', {
         },
         setUser(user: User | null) {
             this.user = user;
+        },
+        async githubLogin() {
+            const { data } = await apiFetch<{ data: { url: string } }>(
+                'auth/github/redirect'
+            );
+
+            navigateTo(data.url, { external: true });
         },
     },
     getters: {

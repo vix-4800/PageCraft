@@ -33,7 +33,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
-            'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id
+            'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
         ]);
     }
 }

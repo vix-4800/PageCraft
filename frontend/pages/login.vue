@@ -57,6 +57,31 @@
         </u-form>
 
         <u-divider
+            label="Or login with"
+            :ui="{
+                border: { base: 'border-gray-500' },
+                label: 'text-gray-500',
+                container: { horizontal: 'my-4' },
+            }"
+        />
+
+        <div class="flex gap-4">
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
+                label="Google"
+                icon="ri:google-fill"
+            />
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
+                label="GitHub"
+                icon="ri:github-fill"
+                @click="githubLogin"
+            />
+        </div>
+
+        <u-divider
             label="Don't have an account?"
             :ui="{
                 border: { base: 'border-gray-500' },
@@ -87,7 +112,12 @@ const credentials = reactive({
     remember: true,
 });
 
+const authStore = useAuthStore();
 const submitForm = async () => {
-    await useAuthStore().login(credentials);
+    await authStore.login(credentials);
+};
+
+const githubLogin = async () => {
+    await authStore.githubLogin();
 };
 </script>

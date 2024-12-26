@@ -20,7 +20,7 @@ use Laravolt\Avatar\Avatar;
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string|null $phone
- * @property string $password
+ * @property string|null $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_confirmed_at

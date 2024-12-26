@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
@@ -48,6 +49,13 @@ Route::name('api.')->group(function (): void {
 
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
+
+    Route::prefix('auth')->name('auth.')->group(function (): void {
+        Route::prefix('github')->name('github.')->group(function (): void {
+            Route::get('redirect', [OAuthController::class, 'githubRedirect'])->name('redirect');
+            Route::get('callback', [OAuthController::class, 'githubCallback'])->name('callback');
+        });
+    });
 });
 
 Route::fallback(function (): never {
