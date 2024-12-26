@@ -17,8 +17,7 @@ export const useAuthStore = defineStore('auth', {
                 body: JSON.stringify(credentials),
             });
 
-            await this.fetchUser();
-            navigateTo('/dashboard');
+            navigateTo('/two-factor');
         },
         async register(credentials: {
             name: string;
@@ -32,7 +31,6 @@ export const useAuthStore = defineStore('auth', {
                 body: JSON.stringify(credentials),
             });
 
-            await this.fetchUser();
             navigateTo('/dashboard');
         },
         async logout() {
@@ -78,6 +76,15 @@ export const useAuthStore = defineStore('auth', {
             );
 
             return response;
+        },
+        async confirmTwoFactorCode(code: string) {
+            await apiFetch('auth/two-factor-challenge', {
+                method: 'POST',
+                body: { code },
+            });
+
+            await this.fetchUser();
+            navigateTo('/dashboard');
         },
     },
     getters: {

@@ -222,7 +222,6 @@
 import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
 });
 
 const product = reactive({

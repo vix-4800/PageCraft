@@ -101,7 +101,6 @@ import { OAuthProvider } from '~/types/oauth_provider';
 
 definePageMeta({
     layout: 'auth',
-    middleware: [],
 });
 
 const credentials = reactive({

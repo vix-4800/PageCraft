@@ -97,7 +97,6 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'auth',
-    middleware: [],
 });
 
 const credentials = reactive({

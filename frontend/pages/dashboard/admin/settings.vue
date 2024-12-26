@@ -87,7 +87,6 @@ import type { SiteTemplate } from '~/types/site_template';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
 });
 
 const { $notify } = useNuxtApp();

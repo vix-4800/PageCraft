@@ -28,7 +28,6 @@ import type { User } from '~/types/user';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: [],
 });
 
 const columns = [
