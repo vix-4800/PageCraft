@@ -28,20 +28,22 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
-            throw_if($request->wantsJson(), new ApiNotFoundException);
-        });
+        if (app()->isProduction()) {
+            $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
+                throw_if($request->wantsJson(), new ApiNotFoundException);
+            });
 
-        $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
-            throw_if($request->wantsJson(), new ApiNotFoundException);
-        });
+            $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
+                throw_if($request->wantsJson(), new ApiNotFoundException);
+            });
 
-        $exceptions->render(function (AuthenticationException $exception, Request $request): void {
-            throw_if($request->wantsJson(), new ApiUnauthorizedException);
-        });
+            $exceptions->render(function (AuthenticationException $exception, Request $request): void {
+                throw_if($request->wantsJson(), new ApiUnauthorizedException);
+            });
 
-        $exceptions->render(function (Exception $exception, Request $request): void {
-            throw_if($request->wantsJson(), new ApiException);
-        });
+            $exceptions->render(function (Exception $exception, Request $request): void {
+                throw_if($request->wantsJson(), new ApiException);
+            });
+        }
     })
     ->create();
