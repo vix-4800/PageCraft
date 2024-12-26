@@ -24,6 +24,11 @@ class ProductFactory extends Factory
             'slug' => fn (array $attributes): string => Str::slug($attributes['name']),
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(category: 'products'),
+            'additional_images' => [
+                $this->faker->imageUrl(category: 'products'),
+                $this->faker->imageUrl(category: 'products'),
+                $this->faker->imageUrl(category: 'products'),
+            ],
         ];
     }
 }

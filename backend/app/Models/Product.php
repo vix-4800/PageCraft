@@ -17,6 +17,7 @@ use Laravel\Scout\Searchable;
  * @property string $slug
  * @property string $description
  * @property string|null $image
+ * @property array|null $additional_images
  * @property bool $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -28,9 +29,11 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $variations_count
  *
  * @method static Builder<static>|Product active()
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static Builder<static>|Product newModelQuery()
  * @method static Builder<static>|Product newQuery()
  * @method static Builder<static>|Product query()
+ * @method static Builder<static>|Product whereAdditionalImages($value)
  * @method static Builder<static>|Product whereCreatedAt($value)
  * @method static Builder<static>|Product whereDescription($value)
  * @method static Builder<static>|Product whereId($value)
@@ -39,7 +42,6 @@ use Laravel\Scout\Searchable;
  * @method static Builder<static>|Product whereName($value)
  * @method static Builder<static>|Product whereSlug($value)
  * @method static Builder<static>|Product whereUpdatedAt($value)
- * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  *
  * @mixin \Eloquent
  */
@@ -58,6 +60,7 @@ class Product extends Model
         'image',
         'description',
         'is_archived',
+        'additional_images',
     ];
 
     /**
@@ -67,6 +70,7 @@ class Product extends Model
      */
     protected $casts = [
         'is_archived' => 'boolean',
+        'additional_images' => 'array',
     ];
 
     public function variations(): HasMany

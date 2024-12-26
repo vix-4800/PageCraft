@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'image' => $this->image,
+            'additional_images' => $this->additional_images,
             'description' => $this->description,
             'variations' => ProductVariationResource::collection($this->whenLoaded('variations')),
             'created_at' => $this->created_at?->toDateTimeString(),

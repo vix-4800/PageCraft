@@ -20,9 +20,10 @@
                                 />
                             </u-button>
                             <u-button
-                                v-for="image in product.images"
+                                v-for="image in product.additional_images"
                                 :key="image"
                                 :padded="false"
+                                :ui="{ rounded: 'rounded-lg' }"
                                 @click="selectedImage = image"
                             >
                                 <nuxt-img

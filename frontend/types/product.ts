@@ -2,6 +2,7 @@ export interface Product {
     name: string;
     slug: string;
     image: string;
+    additional_images: string[];
     description: string;
     variations: ProductVariation[];
     created_at: Date;
