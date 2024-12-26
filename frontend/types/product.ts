@@ -5,6 +5,17 @@ export interface Product {
     additional_images: string[];
     description: string;
     variations: ProductVariation[];
+    reviews: {
+        count: number;
+        average: number;
+        stars: {
+            five_stars: number;
+            four_stars: number;
+            three_stars: number;
+            two_stars: number;
+            one_star: number;
+        };
+    };
     created_at: Date;
 }
 

@@ -1,9 +1,6 @@
 <template>
-    <div>
-        <div
-            v-if="product !== null"
-            class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5"
-        >
+    <div v-if="product !== null">
+        <div class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5">
             <div
                 class="top-0 w-full p-6 bg-gray-100 border border-orange-300 rounded-lg lg:col-span-3 lg:sticky"
             >
@@ -41,7 +38,7 @@
 
                 <div class="flex mt-2">
                     <u-icon
-                        v-for="i in averageRating"
+                        v-for="i in Math.round(product.reviews.average)"
                         :key="i"
                         name="line-md:star-alt-filled"
                         size="30"
@@ -49,7 +46,7 @@
                     />
 
                     <u-icon
-                        v-for="i in 5 - averageRating"
+                        v-for="i in 5 - Math.round(product.reviews.average)"
                         :key="i"
                         name="line-md:star-alt-filled"
                         size="30"
@@ -184,7 +181,7 @@
 
         <div class="mt-8">
             <h3 class="text-xl font-bold text-gray-800">
-                Reviews ({{ reviews.length }})
+                Reviews ({{ product.reviews.count }})
             </h3>
 
             <div class="w-1/2 mt-4 space-y-3">
@@ -197,14 +194,16 @@
                     />
                     <u-meter
                         :value="
-                            reviews.length > 0
-                                ? (fiveStarReviews / reviews.length) * 100
+                            product.reviews.count > 0
+                                ? (product.reviews.stars.five_stars /
+                                      product.reviews.count) *
+                                  100
                                 : 0
                         "
                         color="orange"
                     />
                     <p class="text-sm font-bold text-gray-800">
-                        {{ fiveStarReviews }}
+                        {{ product.reviews.stars.five_stars }}
                     </p>
                 </div>
 
@@ -217,14 +216,16 @@
                     />
                     <u-meter
                         :value="
-                            reviews.length > 0
-                                ? (fourStarReviews / reviews.length) * 100
+                            product.reviews.count > 0
+                                ? (product.reviews.stars.four_stars /
+                                      product.reviews.count) *
+                                  100
                                 : 0
                         "
                         color="orange"
                     />
                     <p class="text-sm font-bold text-gray-800">
-                        {{ fourStarReviews }}
+                        {{ product.reviews.stars.four_stars }}
                     </p>
                 </div>
 
@@ -237,14 +238,16 @@
                     />
                     <u-meter
                         :value="
-                            reviews.length > 0
-                                ? (threeStarReviews / reviews.length) * 100
+                            product.reviews.count > 0
+                                ? (product.reviews.stars.three_stars /
+                                      product.reviews.count) *
+                                  100
                                 : 0
                         "
                         color="orange"
                     />
                     <p class="text-sm font-bold text-gray-800">
-                        {{ threeStarReviews }}
+                        {{ product.reviews.stars.three_stars }}
                     </p>
                 </div>
 
@@ -257,14 +260,16 @@
                     />
                     <u-meter
                         :value="
-                            reviews.length > 0
-                                ? (twoStarReviews / reviews.length) * 100
+                            product.reviews.count > 0
+                                ? (product.reviews.stars.two_stars /
+                                      product.reviews.count) *
+                                  100
                                 : 0
                         "
                         color="orange"
                     />
                     <p class="text-sm font-bold text-gray-800">
-                        {{ twoStarReviews }}
+                        {{ product.reviews.stars.two_stars }}
                     </p>
                 </div>
 
@@ -277,14 +282,16 @@
                     />
                     <u-meter
                         :value="
-                            reviews.length > 0
-                                ? (oneStarReviews / reviews.length) * 100
+                            product.reviews.count > 0
+                                ? (product.reviews.stars.one_star /
+                                      product.reviews.count) *
+                                  100
                                 : 0
                         "
                         color="orange"
                     />
                     <p class="text-sm font-bold text-gray-800">
-                        {{ oneStarReviews }}
+                        {{ product.reviews.stars.one_star }}
                     </p>
                 </div>
             </div>
@@ -353,13 +360,6 @@ const props = defineProps({
     },
 });
 
-const fiveStarReviews = ref(0);
-const fourStarReviews = ref(0);
-const threeStarReviews = ref(0);
-const twoStarReviews = ref(0);
-const oneStarReviews = ref(0);
-const averageRating = ref(0);
-
 const carouselRef = ref();
 
 const selectedVariation = ref<ProductVariation | null>(null);
@@ -379,31 +379,6 @@ watch(
     (newVariations) => {
         if (newVariations.length > 0 && !selectedVariation.value) {
             selectedVariation.value = newVariations[0];
-        }
-    },
-    { immediate: true }
-);
-
-watch(
-    () => props.reviews,
-    (newReviews) => {
-        if (newReviews.length > 0) {
-            newReviews.forEach((review: Review) => {
-                if (review.rating === 5) fiveStarReviews.value++;
-                if (review.rating === 4) fourStarReviews.value++;
-                if (review.rating === 3) threeStarReviews.value++;
-                if (review.rating === 2) twoStarReviews.value++;
-                if (review.rating === 1) oneStarReviews.value++;
-            });
-
-            averageRating.value = Math.round(
-                (fiveStarReviews.value * 5 +
-                    fourStarReviews.value * 4 +
-                    threeStarReviews.value * 3 +
-                    twoStarReviews.value * 2 +
-                    oneStarReviews.value) /
-                    newReviews.length
-            );
         }
     },
     { immediate: true }

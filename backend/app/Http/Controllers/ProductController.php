@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductShowResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -111,7 +112,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return new ProductResource(
+        return new ProductShowResource(
             $this->service->storeProduct($validated)
         );
     }
@@ -121,7 +122,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return new ProductResource(
+        return new ProductShowResource(
             $product->load('variations.productVariationAttributes')
         );
     }
@@ -133,7 +134,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return new ProductResource(
+        return new ProductShowResource(
             $this->service->updateProduct($validated, $product)
         );
     }

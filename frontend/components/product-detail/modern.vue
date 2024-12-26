@@ -64,7 +64,7 @@
                             <div
                                 class="flex items-center gap-1 text-lg px-2.5 bg-green-600 text-white rounded-full"
                             >
-                                <p>{{ averageRating }}</p>
+                                <p>{{ product.reviews.average }}</p>
                                 <svg
                                     class="w-[13px] h-[13px] fill-white"
                                     viewBox="0 0 14 13"
@@ -77,7 +77,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-gray-500">
-                                {{ reviews.length }} reviews
+                                {{ product.reviews.count }} reviews
                             </p>
                         </div>
                     </div>
@@ -245,7 +245,7 @@
                         </h3>
                         <div class="flex items-center gap-1.5 mt-4">
                             <svg
-                                v-for="n in Math.round(averageRating)"
+                                v-for="n in Math.round(product.reviews.average)"
                                 :key="n"
                                 class="w-5 h-5 fill-blue-600"
                                 viewBox="0 0 14 13"
@@ -257,7 +257,8 @@
                                 />
                             </svg>
                             <svg
-                                v-for="n in 5 - Math.round(averageRating)"
+                                v-for="n in 5 -
+                                Math.round(product.reviews.average)"
                                 :key="n"
                                 class="w-5 h-5 fill-[#CED5D8]"
                                 viewBox="0 0 14 13"
@@ -274,10 +275,10 @@
                             <h4
                                 class="text-2xl font-semibold text-gray-800 sm:text-3xl"
                             >
-                                {{ averageRating }} / 5
+                                {{ product.reviews.average }} / 5
                             </h4>
                             <p class="text-sm text-gray-500">
-                                Based on {{ reviews.length }} ratings
+                                Based on {{ product.reviews.count }} ratings
                             </p>
                         </div>
                     </div>
@@ -370,13 +371,6 @@ const props = defineProps({
     },
 });
 
-const fiveStarReviews = ref(0);
-const fourStarReviews = ref(0);
-const threeStarReviews = ref(0);
-const twoStarReviews = ref(0);
-const oneStarReviews = ref(0);
-const averageRating = ref(0);
-
 const selectedVariation = ref<ProductVariation | null>(null);
 const selectedImage = ref<string | null>(null);
 
@@ -395,33 +389,6 @@ watch(
     (newVariations) => {
         if (newVariations.length > 0 && !selectedVariation.value) {
             selectedVariation.value = newVariations[0];
-        }
-    },
-    { immediate: true }
-);
-
-watch(
-    () => props.reviews,
-    (newReviews) => {
-        if (newReviews.length > 0) {
-            newReviews.forEach((review: Review) => {
-                if (review.rating === 5) fiveStarReviews.value++;
-                if (review.rating === 4) fourStarReviews.value++;
-                if (review.rating === 3) threeStarReviews.value++;
-                if (review.rating === 2) twoStarReviews.value++;
-                if (review.rating === 1) oneStarReviews.value++;
-            });
-
-            averageRating.value = Number(
-                (
-                    (fiveStarReviews.value * 5 +
-                        fourStarReviews.value * 4 +
-                        threeStarReviews.value * 3 +
-                        twoStarReviews.value * 2 +
-                        oneStarReviews.value) /
-                    newReviews.length
-                ).toFixed(2)
-            );
         }
     },
     { immediate: true }
