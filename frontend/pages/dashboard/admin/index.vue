@@ -108,7 +108,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
 const statistics = reactive({
@@ -250,6 +250,6 @@ async function getLatestSales() {
 }
 
 function select(row: Order) {
-    return navigateTo('/dashboard/sales/' + row.id);
+    return navigateTo('/dashboard/admin/orders/' + row.id);
 }
 </script>

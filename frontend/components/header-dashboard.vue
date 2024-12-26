@@ -66,7 +66,7 @@
             >
                 <div class="space-y-1.5">
                     <nuxt-link
-                        to="/dashboard/sales"
+                        to="/dashboard/orders"
                         class="group flex items-center justify-between gap-2 rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-slate-400 hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200"
                     >
                         <u-icon
@@ -74,7 +74,7 @@
                             size="20"
                             class="text-slate-400 group-hover:text-indigo-500"
                         />
-                        <span class="grow">Sales</span>
+                        <span class="grow">Orders</span>
                         <span
                             class="inline-flex items-center justify-center px-1 text-xs text-indigo-900 border border-indigo-200 rounded-full bg-indigo-50"
                         >
@@ -156,14 +156,12 @@ const userDropdownItems = [
             label: 'Account',
             icon: 'material-symbols:account-circle',
             to: '/dashboard/account',
-            class: 'hover:bg-indigo-100 hover:text-indigo-600',
         },
     ],
     [
         {
             label: 'Logout',
             icon: 'material-symbols:logout-rounded',
-            class: 'hover:bg-indigo-100 hover:text-indigo-600',
             click: () => {
                 authStore.logout();
             },
@@ -189,7 +187,7 @@ const readNotification = async (notification: Notification) => {
 
     notifications.value = data;
 
-    navigateTo('/dashboard/sales/' + notification.data.order.id);
+    navigateTo('/dashboard/orders/' + notification.data.order.id);
 
     isNotificationSlideOverOpen.value = false;
 };

@@ -3,7 +3,7 @@
         class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
     >
         <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Product '{{ product.name }}'</h2>
+            <h2 class="text-2xl font-bold">Create Product</h2>
         </div>
         <div class="p-6">
             <u-form
@@ -15,37 +15,60 @@
 
                     <div class="flex w-full gap-2">
                         <u-form-group label="Name" class="w-1/2" name="name">
-                            <u-input v-model="product.name" color="blue" />
+                            <u-input
+                                v-model="product.name"
+                                color="blue"
+                                required
+                            />
                         </u-form-group>
 
                         <u-form-group label="Slug" class="w-1/2" name="slug">
-                            <u-input v-model="product.slug" color="blue" />
+                            <u-input
+                                v-model="product.slug"
+                                color="blue"
+                                required
+                            />
                         </u-form-group>
                     </div>
 
                     <u-form-group label="Description" name="description">
                         <u-textarea
                             v-model="product.description"
+                            required
                             color="blue"
                         />
                     </u-form-group>
-                </div>
 
-                <nuxt-img
-                    :src="product.image"
-                    :alt="product.name"
-                    class="object-contain w-full h-96"
-                />
+                    <u-form-group label="Image" name="image">
+                        <u-input
+                            v-model="product.image"
+                            color="blue"
+                            type="file"
+                            :ui="{ icon: { trailing: { pointer: '' } } }"
+                        >
+                            <template #trailing>
+                                <u-button
+                                    v-show="product.image"
+                                    color="gray"
+                                    variant="link"
+                                    icon="i-heroicons-x-mark-20-solid"
+                                    :padded="false"
+                                    @click="product.image = null"
+                                />
+                            </template>
+                        </u-input>
+                    </u-form-group>
+                </div>
 
                 <div class="space-y-3">
                     <h3 class="text-xl font-bold text-gray-800">
-                        Variations ({{ variations.length }})
+                        Variations ({{ product.variations.length }})
                     </h3>
 
                     <div class="px-1 space-y-2">
                         <u-card
-                            v-for="variation in variations"
-                            :key="variation.sku"
+                            v-for="(variation, index) in product.variations"
+                            :key="index"
                             class="bg-slate-100"
                         >
                             <template #header>
@@ -86,14 +109,12 @@
 
                                 <u-form-group label="Image">
                                     <u-input
+                                        v-model="variation.image"
                                         color="blue"
                                         type="file"
                                         :ui="{
                                             icon: { trailing: { pointer: '' } },
                                         }"
-                                        @change="
-                                            handleFileChange($event, variation)
-                                        "
                                     >
                                         <template #trailing>
                                             <u-button
@@ -175,7 +196,7 @@
                             @click="addVariation"
                         />
                         <u-button
-                            v-if="variations.length > 0"
+                            v-if="product.variations.length > 0"
                             color="red"
                             size="md"
                             label="Remove Variation"
@@ -184,79 +205,62 @@
                     </div>
                 </div>
 
-                <div class="flex gap-2">
-                    <u-button
-                        color="blue"
-                        size="md"
-                        label="Save"
-                        type="submit"
-                    />
-                    <u-button
-                        color="red"
-                        size="md"
-                        label="Delete"
-                        @click="deleteProduct"
-                    />
-                </div>
+                <u-button
+                    class="w-min"
+                    :disabled="product.variations.length === 0"
+                    color="blue"
+                    size="md"
+                    label="Submit"
+                    type="submit"
+                />
             </u-form>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import type { Product, ProductVariation } from '~/types/product';
+import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
-const route = useRoute();
-
-const product = ref<Product>({});
-const variations = ref<ProductVariation[]>([]);
+const product = reactive({
+    name: undefined,
+    slug: undefined,
+    description: undefined,
+    image: undefined,
+    variations: [] as ProductVariation[],
+});
 
 const { $notify } = useNuxtApp();
-
-onMounted(async () => {
-    const { data } = await apiFetch<{ data: Product }>(
-        `v1/products/${route.params.slug}`
-    );
-
-    product.value = data;
-    variations.value = data.variations ?? [];
-});
-
-const submitForm = async () => {
-    await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
-        method: 'PUT',
-        body: product.value,
-    });
-};
-
-const deleteProduct = async () => {
-    await apiFetch(`v1/products/${route.params.slug}`, {
-        method: 'DELETE',
+async function submitForm() {
+    const { data } = await apiFetch(`v1/products`, {
+        method: 'POST',
+        body: JSON.stringify(product),
     });
 
-    navigateTo(`/dashboard/products`);
+    if (!data.value) {
+        $notify('Something went wrong', 'error');
+        return;
+    }
+
+    navigateTo(`/dashboard/admin/products`);
     $notify('Product created successfully', 'success');
-};
+}
 
 function addVariation() {
-    variations.value = [
-        ...variations.value,
-        {
-            sku: '',
-            price: 0,
-            stock: 0,
-            image: '',
-            attributes: [],
-        },
-    ];
+    product.variations.push({
+        sku: '',
+        price: 0,
+        stock: 0,
+        image: '',
+        attributes: [],
+    });
 }
 
 function removeVariation() {
-    variations.value.pop();
+    product.variations.pop();
 }
 
 function addAttribute(variation: ProductVariation) {
@@ -268,12 +272,5 @@ function addAttribute(variation: ProductVariation) {
 
 function removeAttribute(variation: ProductVariation) {
     variation.attributes.pop();
-}
-
-function handleFileChange(event: Event, variation: ProductVariation) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-        variation.image = input.files[0];
-    }
 }
 </script>

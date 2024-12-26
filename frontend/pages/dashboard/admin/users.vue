@@ -28,7 +28,7 @@ import type { User } from '~/types/user';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
 const columns = [

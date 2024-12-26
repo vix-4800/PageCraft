@@ -28,7 +28,7 @@
                         :loading="status === 'pending'"
                         type="button"
                         label="Add Product"
-                        @click="navigateTo('/dashboard/products/create')"
+                        @click="navigateTo('/dashboard/admin/products/create')"
                     />
                 </div>
             </div>
@@ -41,7 +41,7 @@ import type { Product } from '~/types/product';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
 const columns = [

@@ -17,7 +17,7 @@
             <span class="block">
                 Navigate to
                 <nuxt-link
-                    to="/dashboard"
+                    to="/dashboard/admin"
                     class="text-gray-100 hover:underline hover:text-gray-300"
                 >
                     <code class="mx-1">/dashboard</code>

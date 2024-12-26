@@ -3,7 +3,7 @@
         class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
     >
         <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Sales</h2>
+            <h2 class="text-2xl font-bold">Orders</h2>
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
@@ -29,7 +29,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
 const ordersColumns = [
@@ -82,6 +82,6 @@ onMounted(async () => {
 });
 
 function select(row: Order) {
-    return navigateTo('/dashboard/sales/' + row.id);
+    return navigateTo('/dashboard/admin/orders/' + row.id);
 }
 </script>

@@ -1,10 +1,6 @@
 <template>
     <u-link
-        :to="
-            to === 'dashboard' || to === 'logout'
-                ? '/' + to
-                : '/dashboard/' + to
-        "
+        :to="to"
         active-class="text-indigo-500 bg-indigo-100 hover:bg-indigo-100 hover:text-indigo-600"
         class="group flex items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm text-slate-800 font-semibold hover:bg-slate-200 hover:text-slate-900"
     >

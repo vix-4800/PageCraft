@@ -58,17 +58,18 @@
 
 <script lang="ts" setup>
 import type { User } from '~/types/user';
+
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'admin'],
+    middleware: [],
 });
 
 const authStore = useAuthStore();
 
 const user = reactive({
-    name: '',
-    email: '',
-    phone: '',
+    name: '' as string | undefined,
+    email: '' as string | undefined,
+    phone: '' as string | undefined,
     password: '',
 });
 
