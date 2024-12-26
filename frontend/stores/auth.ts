@@ -58,6 +58,27 @@ export const useAuthStore = defineStore('auth', {
 
             navigateTo(data.url, { external: true });
         },
+        async toggleTwoFactor() {
+            await apiFetch('auth/user/two-factor-authentication', {
+                method: this.user?.two_factor.enabled ? 'DELETE' : 'POST',
+            });
+
+            await this.fetchUser();
+        },
+        async fetchTwoFactorQrCode() {
+            const { svg } = await apiFetch<{ svg: string; url: string }>(
+                'auth/user/two-factor-qr-code'
+            );
+
+            return svg;
+        },
+        async fetchTwoFactorRecoveryCodes() {
+            const response = await apiFetch<string[]>(
+                'auth/user/two-factor-recovery-codes'
+            );
+
+            return response;
+        },
     },
     getters: {
         isAuthenticated: (state) => !!state.user,

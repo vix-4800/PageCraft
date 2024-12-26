@@ -8,6 +8,10 @@ export interface User {
     email_verified_at: Date;
     registered_at: Date;
     role: string;
+    two_factor: {
+        enabled: boolean;
+        secret: string;
+    };
 }
 
 export enum UserRole {

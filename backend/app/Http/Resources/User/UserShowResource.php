@@ -29,6 +29,10 @@ class UserShowResource extends JsonResource
             'phone' => $this->phone,
             'registered_at' => $this->created_at?->toDateTimeString() ?? null,
             'role' => $this->role->name,
+            'two_factor' => [
+                'enabled' => $this->two_factor_secret !== null,
+                'secret' => $this->two_factor_secret,
+            ],
         ];
     }
 }
