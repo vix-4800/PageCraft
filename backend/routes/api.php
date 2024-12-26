@@ -50,11 +50,9 @@ Route::name('api.')->group(function (): void {
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
 
-    Route::prefix('auth')->name('auth.')->group(function (): void {
-        Route::prefix('github')->name('github.')->group(function (): void {
-            Route::get('redirect', [OAuthController::class, 'githubRedirect'])->name('redirect');
-            Route::get('callback', [OAuthController::class, 'githubCallback'])->name('callback');
-        });
+    Route::prefix('oauth/{provider}')->name('oauth.')->group(function (): void {
+        Route::get('redirect', [OAuthController::class, 'oauthRedirect'])->name('redirect');
+        Route::get('callback', [OAuthController::class, 'oauthCallback'])->name('callback');
     });
 });
 

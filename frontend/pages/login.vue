@@ -47,13 +47,25 @@
                 </template>
             </u-checkbox>
 
-            <u-button
-                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
-                size="lg"
-                block
-                label="Login"
-                type="submit"
-            />
+            <div class="flex justify-center gap-4">
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    label="Login"
+                    block
+                    type="submit"
+                    icon="material-symbols:login-rounded"
+                />
+
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    label="Register"
+                    block
+                    to="/register"
+                    icon="material-symbols:person-add"
+                />
+            </div>
         </u-form>
 
         <u-divider
@@ -65,12 +77,13 @@
             }"
         />
 
-        <div class="flex gap-4">
+        <div class="flex justify-center gap-4">
             <u-button
                 class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                 size="lg"
                 label="Google"
                 icon="ri:google-fill"
+                @click="googleLogin"
             />
             <u-button
                 class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
@@ -80,27 +93,12 @@
                 @click="githubLogin"
             />
         </div>
-
-        <u-divider
-            label="Don't have an account?"
-            :ui="{
-                border: { base: 'border-gray-500' },
-                label: 'text-gray-500',
-                container: { horizontal: 'my-4' },
-            }"
-        />
-
-        <u-button
-            class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
-            size="lg"
-            block
-            label="Register"
-            to="/register"
-        />
     </div>
 </template>
 
 <script lang="ts" setup>
+import { OAuthProvider } from '~/types/oauth_provider';
+
 definePageMeta({
     layout: 'auth',
     middleware: [],
@@ -118,6 +116,10 @@ const submitForm = async () => {
 };
 
 const githubLogin = async () => {
-    await authStore.githubLogin();
+    await authStore.oauthLogin(OAuthProvider.GITHUB);
+};
+
+const googleLogin = async () => {
+    await authStore.oauthLogin(OAuthProvider.GOOGLE);
 };
 </script>

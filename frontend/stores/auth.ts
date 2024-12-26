@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import type { OAuthProvider } from '~/types/oauth_provider';
 import { UserRole, type User } from '~/types/user';
 
 export const useAuthStore = defineStore('auth', {
@@ -50,9 +51,9 @@ export const useAuthStore = defineStore('auth', {
         setUser(user: User | null) {
             this.user = user;
         },
-        async githubLogin() {
+        async oauthLogin(provider: OAuthProvider) {
             const { data } = await apiFetch<{ data: { url: string } }>(
-                'auth/github/redirect'
+                `oauth/${provider}/redirect`
             );
 
             navigateTo(data.url, { external: true });

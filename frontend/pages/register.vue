@@ -71,31 +71,26 @@
                 />
             </u-form-group>
 
-            <u-button
-                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
-                size="lg"
-                block
-                label="Register"
-                type="submit"
-            />
+            <div class="flex justify-center gap-4">
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    block
+                    label="Register"
+                    type="submit"
+                    icon="material-symbols:person-add"
+                />
+
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    block
+                    label="Login"
+                    to="/login"
+                    icon="material-symbols:login-rounded"
+                />
+            </div>
         </u-form>
-
-        <u-divider
-            label="Already have an account?"
-            :ui="{
-                border: { base: 'border-gray-500' },
-                label: 'text-gray-500',
-                container: { horizontal: 'my-4' },
-            }"
-        />
-
-        <u-button
-            class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
-            size="lg"
-            block
-            label="Login"
-            to="/login"
-        />
     </div>
 </template>
 
