@@ -19,6 +19,7 @@
                     >
                         <nuxt-img
                             :src="item"
+                            :alt="product.name"
                             class="w-full"
                             draggable="false"
                         />
@@ -334,6 +335,7 @@
 import type { Product, ProductVariation } from '~/types/product';
 import type { Review } from '~/types/review';
 
+const cartStore = useCartStore();
 const favoriteStore = useFavoriteStore();
 
 const props = defineProps({
@@ -428,7 +430,6 @@ function selectVariation(variation: ProductVariation) {
     selectedVariation.value = variation;
 }
 
-const cartStore = useCartStore();
 const addToCart = () => {
     if (!selectedVariation.value) return;
 
