@@ -145,7 +145,7 @@ const config = useRuntimeConfig();
 const appName: string = config.public.appName;
 
 const authStore = useAuthStore();
-const userName: string = authStore.user?.name || 'User';
+const userName = computed(() => authStore.user?.name || 'User');
 
 const isNotificationSlideOverOpen = ref(false);
 const notifications = ref<Notification[]>([]);

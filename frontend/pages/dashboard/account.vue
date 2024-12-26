@@ -81,15 +81,10 @@ onMounted(async () => {
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    const { data } = await apiFetch<{ data: User }>(`v1/users/me`, {
+    await apiFetch<{ data: User }>(`user`, {
         method: 'PATCH',
         body: JSON.stringify(user),
     });
-
-    if (!data.value) {
-        $notify('Something went wrong', 'error');
-        return;
-    }
 
     await authStore.fetchUser();
     user.password = '';
