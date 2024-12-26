@@ -57,7 +57,7 @@
         </u-form>
 
         <u-divider
-            label="OR"
+            label="Don't have an account?"
             :ui="{
                 border: { base: 'border-gray-500' },
                 label: 'text-gray-500',

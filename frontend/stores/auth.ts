@@ -19,8 +19,20 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchUser();
             navigateTo('/dashboard');
         },
-        async register(credentials) {
-            console.log(credentials);
+        async register(credentials: {
+            name: string;
+            email: string;
+            phone: string;
+            password: string;
+            password_confirmation: string;
+        }) {
+            await apiFetch('register', {
+                method: 'POST',
+                body: JSON.stringify(credentials),
+            });
+
+            await this.fetchUser();
+            navigateTo('/dashboard');
         },
         async logout() {
             await apiFetch('logout', {
