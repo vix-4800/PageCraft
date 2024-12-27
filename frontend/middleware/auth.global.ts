@@ -3,8 +3,8 @@ export default defineNuxtRouteMiddleware((to) => {
 
     // Redirect to dashboard if already logged in
     if (
-        (to.path === '/login' || to.path === '/register') &&
-        authStore.isAuthenticated
+        authStore.isAuthenticated &&
+        (to.path === '/login' || to.path === '/register')
     ) {
         const dashboard = authStore.isAdmin ? 'admin' : 'user';
         return navigateTo(`/dashboard/${dashboard}`);

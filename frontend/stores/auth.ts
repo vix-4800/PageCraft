@@ -31,7 +31,8 @@ export const useAuthStore = defineStore('auth', {
                 body: JSON.stringify(credentials),
             });
 
-            navigateTo('/dashboard');
+            await this.fetchUser();
+            navigateTo('/verify-email');
         },
         async logout() {
             await apiFetch('auth/logout', {
@@ -86,10 +87,22 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchUser();
             navigateTo('/dashboard');
         },
+        async resendVerificationEmail() {
+            await apiFetch('auth/email/verification-notification', {
+                method: 'POST',
+            });
+        },
+        async verifyEmail(url: string) {
+            await apiFetch(url);
+
+            await this.fetchUser();
+            navigateTo('/dashboard');
+        },
     },
     getters: {
-        isAuthenticated: (state) => !!state.user,
-        isAdmin: (state) => state.user?.role === UserRole.ADMIN,
+        isAuthenticated: (state): boolean => !!state.user,
+        isAdmin: (state): boolean => state.user?.role === UserRole.ADMIN,
+        isVerified: (state): boolean => !!state.user?.email_verified_at,
     },
     persist: true,
 });

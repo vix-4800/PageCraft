@@ -147,6 +147,7 @@ import type { User } from '~/types/user';
 
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['verified'],
 });
 
 const authStore = useAuthStore();

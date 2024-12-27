@@ -108,6 +108,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['verified'],
 });
 
 const statistics = reactive({

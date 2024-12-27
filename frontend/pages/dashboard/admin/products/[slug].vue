@@ -207,6 +207,7 @@
 import type { Product, ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['verified'],
 });
 
 const route = useRoute();

@@ -41,6 +41,7 @@ import type { Product } from '~/types/product';
 
 definePageMeta({
     layout: 'dashboard',
+    middleware: ['verified'],
 });
 
 const columns = [
