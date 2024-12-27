@@ -45,7 +45,6 @@ Route::name('api.')->group(function (): void {
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
-    Route::patch('user', [AuthenticatedUserController::class, 'update'])->middleware('auth:sanctum');
 
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');

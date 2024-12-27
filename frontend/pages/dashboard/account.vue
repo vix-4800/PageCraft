@@ -39,16 +39,6 @@
                         />
                     </u-form-group>
 
-                    <u-form-group label="Password" name="password">
-                        <u-input
-                            v-model="user.password"
-                            required
-                            color="blue"
-                            size="lg"
-                            type="password"
-                        />
-                    </u-form-group>
-
                     <u-button
                         color="blue"
                         size="md"
@@ -156,7 +146,6 @@ const user = reactive({
     name: '' as string | undefined,
     email: '' as string | undefined,
     phone: '' as string | undefined,
-    password: '',
 });
 
 onMounted(async () => {
@@ -167,13 +156,8 @@ onMounted(async () => {
 
 const { $notify } = useNuxtApp();
 async function submitForm() {
-    await apiFetch<{ data: User }>(`user`, {
-        method: 'PATCH',
-        body: JSON.stringify(user),
-    });
-
+    await authStore.update(user);
     await authStore.fetchUser();
-    user.password = '';
 
     $notify('Account updated successfully', 'success');
 }
