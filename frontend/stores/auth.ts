@@ -12,12 +12,20 @@ export const useAuthStore = defineStore('auth', {
             password: string;
             remember: boolean;
         }) {
-            await apiFetch('auth/login', {
-                method: 'POST',
-                body: JSON.stringify(credentials),
-            });
+            const { two_factor } = await apiFetch<{ two_factor: boolean }>(
+                'auth/login',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(credentials),
+                }
+            );
 
-            navigateTo('/two-factor');
+            await this.fetchUser();
+            if (two_factor) {
+                navigateTo('/two-factor');
+            } else {
+                navigateTo('/dashboard');
+            }
         },
         async register(credentials: {
             name: string;
