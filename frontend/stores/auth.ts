@@ -106,6 +106,12 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchUser();
             navigateTo('/dashboard');
         },
+        async confirmPassword(password: string) {
+            await apiFetch('auth/user/confirm-password', {
+                method: 'POST',
+                body: { password },
+            });
+        },
     },
     getters: {
         isAuthenticated: (state): boolean => !!state.user,
