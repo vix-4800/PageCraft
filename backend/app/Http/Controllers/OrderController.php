@@ -107,7 +107,7 @@ class OrderController extends Controller implements HasMiddleware
     public function show(Order $order): JsonResource
     {
         return new OrderResource(
-            $order->load(['items.productVariation.product', 'user'])
+            $order->load(['items.productVariation.product', 'items.productVariation.productVariationAttributes', 'user'])
         );
     }
 

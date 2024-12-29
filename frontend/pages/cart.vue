@@ -33,16 +33,8 @@
                                     :key="attribute.name"
                                     class="block text-xs font-semibold text-gray-500"
                                 >
-                                    {{
-                                        attribute.name.charAt(0).toUpperCase() +
-                                        attribute.name.slice(1)
-                                    }}:
-                                    {{
-                                        attribute.value
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        attribute.value.slice(1)
-                                    }}
+                                    {{ capitalize(attribute.name) }}:
+                                    {{ capitalize(attribute.value) }}
                                 </span>
                             </div>
 
