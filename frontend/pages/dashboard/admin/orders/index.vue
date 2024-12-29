@@ -1,26 +1,19 @@
 <template>
-    <div
-        class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
-    >
-        <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Orders</h2>
-        </div>
-        <div class="p-6">
-            <div class="min-w-full overflow-x-auto rounded">
-                <u-table
-                    :columns="ordersColumns"
-                    :rows="orders"
-                    :loading="ordersLoading"
-                    :loading-state="{
-                        icon: 'i-heroicons-arrow-path-20-solid',
-                        label: 'Loading...',
-                    }"
-                    :progress="{ color: 'blue', animation: 'carousel' }"
-                    class="w-full"
-                    @select="select"
-                />
-            </div>
-        </div>
+    <div>
+        <DashboardPageName title="Orders" />
+
+        <u-table
+            :columns="ordersColumns"
+            :rows="orders"
+            :loading="ordersLoading"
+            :loading-state="{
+                icon: 'i-heroicons-arrow-path-20-solid',
+                label: 'Loading...',
+            }"
+            :progress="{ color: 'blue', animation: 'carousel' }"
+            class="w-full"
+            @select="select"
+        />
     </div>
 </template>
 

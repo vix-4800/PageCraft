@@ -1,11 +1,8 @@
 <template>
-    <div
-        class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
-    >
-        <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Account Settings</h2>
-        </div>
-        <div class="p-6 space-y-4">
+    <div>
+        <DashboardPageName title="Account" />
+
+        <div class="space-y-4">
             <u-card :ui="{ background: 'bg-slate-100' }">
                 <template #header>
                     <h3 class="text-lg font-semibold">Profile Info</h3>
@@ -133,8 +130,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { User } from '~/types/user';
-
 definePageMeta({
     layout: 'dashboard',
     middleware: ['verified'],

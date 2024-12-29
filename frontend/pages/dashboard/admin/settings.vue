@@ -1,11 +1,8 @@
 <template>
-    <div
-        class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
-    >
-        <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Settings</h2>
-        </div>
-        <div class="p-6 space-y-4">
+    <div>
+        <DashboardPageName title="Settings" />
+
+        <div class="space-y-4">
             <u-card :ui="{ background: 'bg-slate-100' }">
                 <template #header>
                     <h3 class="text-lg font-semibold">General</h3>

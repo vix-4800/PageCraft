@@ -1,25 +1,18 @@
 <template>
-    <div
-        class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
-    >
-        <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Registered Users</h2>
-        </div>
-        <div class="p-6">
-            <div class="min-w-full overflow-x-auto rounded">
-                <u-table
-                    :columns="columns"
-                    :rows="users"
-                    :loading="status === 'pending'"
-                    :loading-state="{
-                        icon: 'i-heroicons-arrow-path-20-solid',
-                        label: 'Loading...',
-                    }"
-                    :progress="{ color: 'blue', animation: 'carousel' }"
-                    class="w-full"
-                />
-            </div>
-        </div>
+    <div>
+        <DashboardPageName title="Users" />
+
+        <u-table
+            :columns="columns"
+            :rows="users"
+            :loading="status === 'pending'"
+            :loading-state="{
+                icon: 'i-heroicons-arrow-path-20-solid',
+                label: 'Loading...',
+            }"
+            :progress="{ color: 'blue', animation: 'carousel' }"
+            class="w-full"
+        />
     </div>
 </template>
 
