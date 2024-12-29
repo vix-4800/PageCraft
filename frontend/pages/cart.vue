@@ -115,7 +115,10 @@
                                 color="orange"
                                 size="lg"
                                 required
-                                :disabled="store.totalItems === 0"
+                                :disabled="
+                                    store.totalItems === 0 ||
+                                    authStore.isAuthenticated
+                                "
                             />
 
                             <u-input
@@ -127,7 +130,10 @@
                                 color="orange"
                                 size="lg"
                                 required
-                                :disabled="store.totalItems === 0"
+                                :disabled="
+                                    store.totalItems === 0 ||
+                                    authStore.isAuthenticated
+                                "
                             />
 
                             <u-input
@@ -138,7 +144,10 @@
                                 color="orange"
                                 size="lg"
                                 required
-                                :disabled="store.totalItems === 0"
+                                :disabled="
+                                    store.totalItems === 0 ||
+                                    authStore.isAuthenticated
+                                "
                             />
                         </div>
                     </div>
@@ -200,6 +209,7 @@
 import type { ProductVariation } from '~/types/product';
 
 const store = useCartStore();
+const authStore = useAuthStore();
 
 const cartItems = ref<ProductVariation[]>([]);
 onMounted(async () => {
@@ -226,9 +236,9 @@ watch(store.items, () => {
 });
 
 const state = reactive({
-    name: '',
-    email: '',
-    phone: '',
+    name: authStore.isAuthenticated ? authStore.user?.name : '',
+    email: authStore.isAuthenticated ? authStore.user?.email : '',
+    phone: authStore.isAuthenticated ? authStore.user?.phone : '',
 });
 
 const subTotal = ref(0);
@@ -273,7 +283,7 @@ const checkout = async () => {
         return;
     }
 
-    var payments = new cp.CloudPayments({
+    const payments = new cp.CloudPayments({
         language: 'en-US',
         email: '',
         applePaySupport: false,
@@ -296,7 +306,7 @@ const checkout = async () => {
             skin: 'mini',
             requireEmail: true,
         })
-        .then(async function (widgetResult) {
+        .then(async function (widgetResult: { status: string }) {
             if (widgetResult.status === 'success') {
                 await createOrder();
 
@@ -313,7 +323,7 @@ const checkout = async () => {
 };
 
 const createOrder = async () => {
-    const { data } = await apiFetch(`v1/orders`, {
+    await apiFetch(`v1/orders`, {
         method: 'POST',
         body: {
             products: cartItems.value.map((item) => ({
