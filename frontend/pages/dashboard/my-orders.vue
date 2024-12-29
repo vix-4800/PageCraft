@@ -3,7 +3,7 @@
         class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
     >
         <div class="px-6 pt-6">
-            <h2 class="text-2xl font-bold">Orders</h2>
+            <h2 class="text-2xl font-bold">My Orders</h2>
         </div>
         <div class="p-6">
             <div class="min-w-full overflow-x-auto rounded">
@@ -17,7 +17,6 @@
                     }"
                     :progress="{ color: 'blue', animation: 'carousel' }"
                     class="w-full"
-                    @select="select"
                 />
             </div>
         </div>
@@ -39,10 +38,6 @@ const ordersColumns = [
         sortable: true,
     },
     {
-        key: 'user.email',
-        label: 'Email',
-    },
-    {
         key: 'status',
         label: 'Status',
         sortable: true,
@@ -62,7 +57,7 @@ const orders = ref<Order[]>([]);
 const ordersLoading = ref(true);
 
 onMounted(async () => {
-    const { data } = await apiFetch<{ data: Order[] }>(`v1/orders`);
+    const { data } = await apiFetch<{ data: Order[] }>(`user/orders`);
 
     orders.value = data;
     ordersLoading.value = false;
@@ -81,8 +76,4 @@ onMounted(async () => {
         }-50`;
     });
 });
-
-function select(row: Order) {
-    return navigateTo('/dashboard/admin/orders/' + row.id);
-}
 </script>

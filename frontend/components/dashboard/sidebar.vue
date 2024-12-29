@@ -29,13 +29,19 @@ const adminLinks = [
         to: '/dashboard/admin',
     },
     {
-        category: 'Sales',
+        category: 'Orders',
         label: 'Orders',
         icon: 'material-symbols:shopping-cart',
         to: '/dashboard/admin/orders',
     },
     {
-        category: 'Sales',
+        category: 'Orders',
+        label: 'My Orders',
+        icon: 'material-symbols:shopping-cart-outline',
+        to: '/dashboard/my-orders',
+    },
+    {
+        category: 'Orders',
         label: 'Products',
         icon: 'material-symbols:storefront',
         to: '/dashboard/admin/products',
@@ -65,7 +71,7 @@ const userLinks = [
         category: 'Orders',
         label: 'My Orders',
         icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/user/orders',
+        to: '/dashboard/my-orders',
     },
 ];
 

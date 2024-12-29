@@ -122,4 +122,14 @@ class OrderController extends Controller implements HasMiddleware
             $order->load(['items.productVariation.product', 'user'])
         );
     }
+
+    public function userOrders(Request $request): JsonResource
+    {
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+
+        return OrderResource::collection(
+            $user->orders()->orderBy('created_at', 'desc')->get()
+        );
+    }
 }
