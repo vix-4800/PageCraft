@@ -161,7 +161,9 @@
                             class="flex justify-between w-full leading-relaxed text-gray-500"
                         >
                             <span class="text-base font-normal">Subtotal</span>
-                            <span class="text-base font-medium">$210.00</span>
+                            <span class="text-base font-medium">
+                                ${{ order.sub_total }}
+                            </span>
                         </div>
                         <div
                             class="flex justify-between w-full leading-relaxed text-gray-500"
@@ -169,14 +171,18 @@
                             <span class="text-base font-normal">
                                 Shipping Charge
                             </span>
-                            <span class="text-base font-medium">$10.00</span>
+                            <span class="text-base font-medium">
+                                ${{ order.shipping }}
+                            </span>
                         </div>
 
                         <div
                             class="flex justify-between w-full leading-relaxed text-gray-500"
                         >
                             <span class="text-base font-normal"> Tax Fee </span>
-                            <span class="text-base font-medium">$22.00</span>
+                            <span class="text-base font-medium">
+                                ${{ order.tax }}
+                            </span>
                         </div>
                     </div>
 
@@ -198,6 +204,7 @@
             </section>
 
             <section
+                v-if="order.note"
                 class="flex flex-col items-start justify-start w-full gap-1"
             >
                 <h6
@@ -206,9 +213,7 @@
                     Order Note:
                 </h6>
                 <p class="text-sm font-normal leading-normal text-gray-500">
-                    Make sure to ship all the ordered items together by Friday.
-                    I've emailed you the details, so please check it an review
-                    it. Thank You!
+                    {{ order.note }}
                 </p>
             </section>
 

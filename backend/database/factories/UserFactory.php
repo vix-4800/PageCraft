@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -30,7 +29,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail,
             'email_verified_at' => now(),
             'phone' => fake()->phoneNumber,
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= bcrypt('password'),
             'remember_token' => Str::random(10),
         ];
     }

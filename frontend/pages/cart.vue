@@ -308,9 +308,6 @@ const checkout = async () => {
 
                 $notify('Payment Failed', 'error');
             }
-        })
-        .catch(function (error) {
-            console.log('error', error);
         });
 };
 
@@ -322,7 +319,9 @@ const createOrder = async () => {
                 sku: item.sku,
                 quantity: store.getQuantity(item),
             })),
-            total: total.value,
+            tax: tax.value,
+            shipping: shipping.value,
+            note: null,
             details: {
                 name: state.name,
                 email: state.email,

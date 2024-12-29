@@ -22,7 +22,13 @@ return new class extends Migration
 
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->enum('status', OrderStatus::values())->default(OrderStatus::CREATED);
+
+            $table->decimal('sub_total', 8, 2);
+            $table->decimal('shipping', 8, 2);
+            $table->decimal('tax', 8, 2);
             $table->decimal('total', 8, 2);
+
+            $table->text('note')->nullable();
 
             $table->timestamps();
         });
