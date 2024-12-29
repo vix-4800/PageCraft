@@ -18,6 +18,15 @@
                 icon="material-symbols:refresh"
                 @click="resendCode"
             />
+
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
+                label="Logout"
+                block
+                icon="material-symbols:logout-rounded"
+                @click="authStore.logout()"
+            />
         </div>
     </div>
 </template>
