@@ -51,4 +51,8 @@ return [
         'client_id' => env('SDEK_CLIENT_ID'),
         'client_secret' => env('SDEK_CLIENT_SECRET'),
     ],
+
+    'boxberry' => [
+        'token' => env('BOXBERRY_TOKEN'),
+    ],
 ];

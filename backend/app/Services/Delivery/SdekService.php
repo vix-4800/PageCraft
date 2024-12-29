@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
+use App\Exceptions\Delivery\MethodNotAllowed;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -26,15 +27,17 @@ final class SdekService implements DeliveryService
     /**
      * @throws \Illuminate\Http\Client\RequestException
      */
-    protected function makeRequest(string $url, string $method, array $data): array
+    protected function makeRequest(string $url, string $method, array $data = []): array
     {
+        throw_unless(in_array($method, ['GET', 'POST', 'PUT', 'DELETE']), new MethodNotAllowed);
+
         if (! Cache::has($this->tokenCacheKey)) {
             $this->renewAccessToken();
         }
 
         $request = Http::withToken($this->getAccessToken(), 'Bearer')->baseUrl($this->baseUrl);
         $request = match ($method) {
-            'GET' => $request->get($url),
+            'GET' => $request->withQueryParameters($data)->get($url),
             'POST' => $request->post($url, $data),
             'PUT' => $request->put($url, $data),
             'DELETE' => $request->delete($url),
