@@ -20,10 +20,10 @@ export const useAuthStore = defineStore('auth', {
                 }
             );
 
-            await this.fetchUser();
             if (two_factor) {
                 navigateTo('/two-factor');
             } else {
+                await this.fetchUser();
                 navigateTo('/dashboard');
             }
         },
