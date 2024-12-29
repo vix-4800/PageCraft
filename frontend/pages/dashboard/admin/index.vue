@@ -37,7 +37,7 @@
         </div>
 
         <div
-            class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
+            class="col-span-12 overflow-hidden bg-white border rounded-xl border-slate-200"
         >
             <dl class="px-6 pt-6">
                 <dt class="text-2xl font-bold">
@@ -47,26 +47,11 @@
                     Total Earnings
                 </dd>
             </dl>
-            <div class="h-64 px-4">
-                <v-chart :option="earningsOption" :loading="earningsLoading" />
-            </div>
-        </div>
-
-        <div
-            class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12 lg:col-span-6"
-        >
-            <dl class="px-6 pt-6">
-                <dt class="text-2xl font-bold">
-                    {{ statistics.pageviews.total }}
-                </dt>
-                <dd class="text-sm font-medium text-slate-500">
-                    Total Pageviews
-                </dd>
-            </dl>
-            <div class="h-64">
+            <div class="px-4 h-96">
                 <v-chart
-                    :option="pageviewsOption"
-                    :loading="pageviewsLoading"
+                    :option="earningsOption"
+                    :loading="earningsLoading"
+                    :autoresize="true"
                 />
             </div>
         </div>
@@ -124,10 +109,6 @@ const statistics = reactive({
         today: 0,
         total: 0,
     },
-    pageviews: {
-        today: 0,
-        total: 0,
-    },
 });
 
 const earningsLoading = ref(true);
@@ -147,27 +128,9 @@ const earningsOption = ref({
     ],
 });
 
-const pageviewsLoading = ref(true);
-const pageviewsOption = ref({
-    xAxis: {
-        type: 'category',
-        data: [0, 0, 0],
-    },
-    yAxis: {
-        type: 'value',
-    },
-    series: [
-        {
-            data: ['2024-01-01', '2024-01-02', '2024-01-03'],
-            type: 'line',
-        },
-    ],
-});
-
 onMounted(async () => {
     await getStatisticsOverview();
     await getWeekSales();
-    // await getWeekPageviews();
     await getLatestSales();
 });
 
@@ -177,7 +140,6 @@ async function getStatisticsOverview() {
             users: { today: number; total: number };
             sales: { today: number; total: number };
             earnings: { today: number; total: number };
-            pageviews: { today: number; total: number };
         };
     }>(`v1/statistics/overview`);
 
