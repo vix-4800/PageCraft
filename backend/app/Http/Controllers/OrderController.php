@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Exceptions\ApiException;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariation;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ class OrderController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', except: ['store']),
+            new Middleware(['auth:sanctum', 'admin'], except: ['store']),
         ];
     }
 
@@ -42,11 +44,11 @@ class OrderController extends Controller implements HasMiddleware
             $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
         });
 
-        $query->when($request->filled('limit'), function (Builder $query) use ($request): void {
-            $query->limit($request->input('limit'));
-        });
+        $limit = $request->input('limit', 10);
 
-        return OrderResource::collection($query->get());
+        return OrderResource::collection(
+            $query->paginate($limit)
+        );
     }
 
     /**
@@ -66,6 +68,7 @@ class OrderController extends Controller implements HasMiddleware
                     'name' => $validated['details']['name'],
                     'phone' => $validated['details']['phone'],
                     'password' => bcrypt(Str::random(16)),
+                    'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
                 ],
             );
 
@@ -88,7 +91,9 @@ class OrderController extends Controller implements HasMiddleware
 
             DB::commit();
 
-            return OrderResource::make($order->load(['items', 'user']));
+            return new OrderResource(
+                $order->load(['items', 'user'])
+            );
         } catch (\Throwable $th) {
             DB::rollBack();
 
@@ -101,7 +106,9 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function show(Order $order): JsonResource
     {
-        return OrderResource::make($order->load(['items.productVariation.product', 'user']));
+        return new OrderResource(
+            $order->load(['items.productVariation.product', 'items.productVariation.productVariationAttributes', 'user'])
+        );
     }
 
     /**
@@ -111,14 +118,18 @@ class OrderController extends Controller implements HasMiddleware
     {
         $order->update($request->validated());
 
-        return OrderResource::make($order->load(['items.productVariation.product', 'user']));
+        return new OrderResource(
+            $order->load(['items.productVariation.product', 'user'])
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
+    public function userOrders(Request $request): JsonResource
     {
-        //
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+
+        return OrderResource::collection(
+            $user->orders()->orderBy('created_at', 'desc')->get()
+        );
     }
 }

@@ -109,4 +109,37 @@ class ProductService
             ]);
         });
     }
+
+    /**
+     * Get statistics of reviews for a given product.
+     *
+     * @return array{
+     *     count: int,
+     *     average: float,
+     *     stars: array{
+     *         five_stars: int,
+     *         four_stars: int,
+     *         three_stars: int,
+     *         two_stars: int,
+     *         one_star: int
+     *     }
+     * }
+     */
+    public function getProductReviewsStatistics(int $productId): array
+    {
+        /** @var Product $product */
+        $product = Product::with('reviews')->find($productId);
+
+        return [
+            'count' => $product->reviews->count(),
+            'average' => $product->reviews->avg('rating'),
+            'stars' => [
+                'five_stars' => $product->reviews->where('rating', 5)->count(),
+                'four_stars' => $product->reviews->where('rating', 4)->count(),
+                'three_stars' => $product->reviews->where('rating', 3)->count(),
+                'two_stars' => $product->reviews->where('rating', 2)->count(),
+                'one_star' => $product->reviews->where('rating', 1)->count(),
+            ],
+        ];
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="page-transition layout-transition">
-        <component :is="headerComponent" />
+        <component :is="headerComponent" :pages="pages" />
 
         <main class="min-h-screen p-4 mx-auto lg:max-w-7xl sm:px-6">
             <slot></slot>
@@ -11,9 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-const pageStore = usePageConfigurationStore();
+import { TemplateBlock } from '~/types/site_template';
 
-const header = ref(pageStore.header);
+const templateStore = useSiteTemplatesStore();
+
+const header = ref(templateStore.getTemplate(TemplateBlock.Header));
 const headerComponent = defineAsyncComponent({
     loader: () => import(`@/components/header/${header.value}.vue`),
     delay: 200,
@@ -21,7 +23,16 @@ const headerComponent = defineAsyncComponent({
     timeout: 3000,
 });
 
-const footer = ref(pageStore.footer);
+const pages = ref([
+    { name: 'Home', href: '/', icon: 'material-symbols:home' },
+    {
+        name: 'Products',
+        href: '/products',
+        icon: 'material-symbols:storefront',
+    },
+]);
+
+const footer = ref(templateStore.getTemplate(TemplateBlock.Footer));
 const footerComponent = defineAsyncComponent({
     loader: () => import(`@/components/footer/${footer.value}.vue`),
     delay: 200,

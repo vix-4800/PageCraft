@@ -14,41 +14,34 @@ class ProductAttributeSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->createAttributes();
-        $this->createAttributeValues();
-    }
+        $attributes = collect(['color', 'size', 'material']);
 
-    private function createAttributes(): void
-    {
-        $attributes = [
-            'color',
-            'size',
-            'material',
-        ];
+        $colors = collect(['red', 'green', 'blue']);
+        $sizes = collect(['xs', 's', 'm', 'l', 'xl']);
+        $materials = collect(['leather', 'fabric', 'polyester']);
 
-        foreach ($attributes as $attribute) {
-            ProductAttribute::create([
+        $attributes->each(function (string $attribute) use ($colors, $sizes, $materials): void {
+            $attribute = ProductAttribute::create([
                 'name' => $attribute,
             ]);
-        }
-    }
 
-    private function createAttributeValues(): void
-    {
-        /** @var ProductAttribute $colorAttribute */
-        ProductAttribute::firstWhere('name', 'color');
-
-        /** @var ProductAttribute $sizeAttribute */
-        $sizeAttribute = ProductAttribute::firstWhere('name', 'size');
-        $sizeAttribute->values()->createMany([
-            ['value' => 'xs'],
-            ['value' => 's'],
-            ['value' => 'm'],
-            ['value' => 'l'],
-            ['value' => 'xl'],
-        ]);
-
-        /** @var ProductAttribute $materialAttribute */
-        ProductAttribute::firstWhere('name', 'material');
+            switch ($attribute->name) {
+                case 'color':
+                    $attribute->values()->createMany(
+                        $colors->map(fn (string $color): array => ['value' => $color])->toArray()
+                    );
+                    break;
+                case 'size':
+                    $attribute->values()->createMany(
+                        $sizes->map(fn (string $size): array => ['value' => $size])->toArray()
+                    );
+                    break;
+                case 'material':
+                    $attribute->values()->createMany(
+                        $materials->map(fn (string $material): array => ['value' => $material])->toArray()
+                    );
+                    break;
+            }
+        });
     }
 }

@@ -4,36 +4,38 @@
     >
         <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
 
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+            v-if="loading"
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+            <u-skeleton v-for="i in 3" :key="i" class="h-96 rounded-xl" />
+        </div>
+
+        <div
+            v-else
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
             <div
                 v-for="product in products"
                 :key="product.slug"
                 class="relative flex flex-col overflow-hidden bg-gray-200 rounded-xl"
             >
                 <div class="p-4">
-                    <button
-                        type="button"
-                        class="absolute flex items-center justify-center w-10 h-10 transition-colors bg-gray-100 border rounded-full cursor-pointer top-1 right-1"
+                    <u-button
+                        :ui="{ rounded: 'rounded-full' }"
+                        class="absolute flex items-center justify-center w-10 h-10 top-1 right-1"
                         :class="{
-                            'border-red-300 bg-red-100':
-                                favoriteStore.isFavorite(product),
+                            'bg-red-500': favoriteStore.isFavorite(product),
+                            'bg-gray-400': !favoriteStore.isFavorite(product),
                         }"
-                        @click="toggleFavorite(product)"
-                    >
-                        <u-icon
-                            name="heroicons-solid:heart"
-                            size="25"
-                            class="text-black transition-all ease-in-out hover:scale-110"
-                            :class="{
-                                'text-red-500 hover:text-red-600':
-                                    favoriteStore.isFavorite(product),
-                            }"
-                        />
-                    </button>
+                        color="red"
+                        icon="heroicons-solid:heart"
+                        @click="favoriteStore.toggleFavorite(product)"
+                    />
 
                     <nuxt-link
                         :to="`/products/${product.slug}`"
-                        class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-white"
+                        class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-transparent"
                     >
                         <nuxt-img
                             :src="product.image"
@@ -52,14 +54,29 @@
                         {{ product.description }}
                     </p>
 
-                    <nuxt-link
+                    <u-button
                         :to="`/products/${product.slug}`"
-                        class="flex items-center justify-center w-full gap-3 px-6 py-3 mt-auto text-base font-semibold text-gray-800 bg-yellow-400 rounded-xl"
-                    >
-                        View
-                    </nuxt-link>
+                        block
+                        size="lg"
+                        color="orange"
+                        class="mt-auto font-semibold"
+                        label="View"
+                    />
                 </div>
             </div>
+        </div>
+
+        <div class="flex justify-center w-full mt-6">
+            <u-pagination
+                v-if="withPagination && pageCount > 0"
+                v-model="page"
+                size="lg"
+                :active-button="{ variant: 'outline', color: 'orange' }"
+                :inactive-button="{ color: 'gray' }"
+                :page-count="pageCount"
+                :total="products.length"
+                :to="(page: number) => ({query: { page }})"
+            />
         </div>
     </div>
 </template>
@@ -76,10 +93,24 @@ defineProps({
         type: String,
         required: true,
     },
+    loading: {
+        type: Boolean,
+        default: false,
+    },
+    withPagination: {
+        type: Boolean,
+        default: false,
+    },
+    pageCount: {
+        type: Number,
+        default: 0,
+    },
+    currentPage: {
+        type: Number,
+        default: 1,
+    },
 });
 
 const favoriteStore = useFavoriteStore();
-const toggleFavorite = (product: Product) => {
-    favoriteStore.toggleFavorite(product);
-};
+const page = ref(1);
 </script>

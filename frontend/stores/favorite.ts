@@ -3,20 +3,30 @@ import type { Product } from '~/types/product';
 
 export const useFavoriteStore = defineStore('favorite', {
     state: () => ({
-        items: useLocalStorage<Product[]>('favorites', []),
+        items: [] as string[],
     }),
     actions: {
         toggleFavorite(product: Product) {
-            const index = this.items.findIndex((p) => p.slug === product.slug);
+            const index = this.items.findIndex((slug) => slug === product.slug);
 
             if (index !== -1) {
                 this.items.splice(index, 1);
+
+                useNuxtApp().$notify(
+                    `${product.name} removed from favorites`,
+                    'error'
+                );
             } else {
-                this.items.push(product);
+                this.items.push(product.slug);
+
+                useNuxtApp().$notify(
+                    `${product.name} added to favorites`,
+                    'success'
+                );
             }
         },
         isFavorite(product: Product): boolean {
-            return this.items.some((p) => p.slug === product.slug);
+            return this.items.some((slug) => slug === product.slug);
         },
     },
     getters: {
@@ -24,4 +34,5 @@ export const useFavoriteStore = defineStore('favorite', {
             return this.items.length;
         },
     },
+    persist: true,
 });

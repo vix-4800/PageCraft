@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\User\UserShowResource;
+use App\Http\Resources\User\UserShortResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +22,7 @@ class ReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => UserShowResource::make($this->whenLoaded('user')),
+            'user' => UserShortResource::make($this->whenLoaded('user')),
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status,

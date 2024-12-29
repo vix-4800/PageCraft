@@ -9,25 +9,14 @@ use App\Http\Requests\UpdateProductReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\ProductReview;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductReviewController extends Controller implements HasMiddleware
+class ProductReviewController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('auth:sanctum', except: ['index', 'store']),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function index(Product $product)
+    public function index(Product $product): JsonResource
     {
         return ReviewResource::collection($product->reviews->load('user'));
     }

@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductShowResource;
 use App\Models\Product;
 use App\Services\ProductService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -22,7 +24,7 @@ class ProductController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:sanctum', except: ['index', 'show']),
+            new Middleware(['auth:sanctum', 'admin'], only: ['store', 'update', 'destroy']),
         ];
     }
 
@@ -34,12 +36,73 @@ class ProductController extends Controller implements HasMiddleware
 
     /**
      * Display a listing of the resource.
-     *
-     * TODO Pagination
      */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
-        return ProductResource::collection(Product::active()->get());
+        $limit = request()->get('limit', 10);
+
+        $products = Product::query()->active();
+
+        $slugs = array_filter(explode(',', $request->query('slugs', '')));
+        if (! empty($slugs)) {
+            $products->whereIn('slug', $slugs);
+        }
+
+        return ProductResource::collection(
+            $products->paginate($limit)
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function best(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->withCount('orderItems')
+                ->orderBy('order_items_count', 'desc')
+                ->paginate($limit)
+        );
+    }
+
+    public function popular(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->withCount('reviews')
+                ->orderBy('reviews_count', 'desc')
+                ->paginate($limit)
+        );
+    }
+
+    public function new(): JsonResource
+    {
+        $limit = request()->get('limit', 10);
+
+        return ProductResource::collection(
+            Product::active()
+                ->orderBy('created_at', 'desc')
+                ->paginate($limit)
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * TODO Add filter by active products
+     */
+    public function search(Request $request): JsonResource
+    {
+        return ProductResource::collection(
+            Product::search(
+                trim($request->get('q') ?? '')
+            )->get()
+        );
     }
 
     /**
@@ -49,7 +112,9 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make($this->service->storeProduct($validated));
+        return new ProductShowResource(
+            $this->service->storeProduct($validated)
+        );
     }
 
     /**
@@ -57,7 +122,9 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return ProductResource::make($product->load('variations.productVariationAttributes'));
+        return new ProductShowResource(
+            $product->load('variations.productVariationAttributes')
+        );
     }
 
     /**
@@ -67,7 +134,9 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return ProductResource::make($this->service->updateProduct($validated, $product));
+        return new ProductShowResource(
+            $this->service->updateProduct($validated, $product)
+        );
     }
 
     /**

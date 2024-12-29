@@ -1,89 +1,128 @@
 import { defineStore } from 'pinia';
-import type { User } from '~/types/user';
+import type { OAuthProvider } from '~/types/oauth_provider';
+import { UserRole, type User } from '~/types/user';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        authenticated: !!useCookie('AUTH_TOKEN').value,
-        user: {} as User,
-        authToken: useCookie('AUTH_TOKEN', {
-            sameSite: 'strict',
-            secure: true,
-            maxAge: 60 * 60 * 24 * 5, // 5 days
-        }),
+        user: null as User | null,
     }),
     actions: {
-        async login(email: string, password: string) {
-            const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-            await useFetch(`${apiUrl}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            }).then((response) => {
-                useCookie('AUTH_TOKEN').value = response.data.value.data.token;
-                this.authenticated = true;
-
-                this.fetchUser();
-
-                navigateTo('/dashboard');
-            });
-        },
-        // async register({ name: string, email, phone, password }) {
-        //     this.user = {
-        //         name: name,
-        //         email: email,
-        //         phone: phone,
-        //         password: password,
-        //     };
-
-        //     this.authenticated = true;
-        // },
-        async logout() {
-            const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-            await useFetch(`${apiUrl}/auth/logout`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.authToken}`,
-                },
-            })
-                .then(() => {
-                    this.authenticated = false;
-                    useCookie('AUTH_TOKEN').value = '';
-
-                    this.user = {
-                        name: '',
-                        email: '',
-                        phone: '',
-                    };
-
-                    navigateTo('/');
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
-        async fetchUser() {
-            const apiUrl: string = useRuntimeConfig().public.apiUrl;
-
-            const response = await $fetch<{ data: User }>(
-                `${apiUrl}/v1/users/me`,
+        async login(credentials: {
+            email: string;
+            password: string;
+            remember: boolean;
+        }) {
+            const { two_factor } = await apiFetch<{ two_factor: boolean }>(
+                'auth/login',
                 {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        Authorization: `Bearer ${this.authToken}`,
-                    },
+                    method: 'POST',
+                    body: JSON.stringify(credentials),
                 }
             );
 
-            this.user = response.data;
+            if (two_factor) {
+                navigateTo('/two-factor');
+            } else {
+                await this.fetchUser();
+                navigateTo('/dashboard');
+            }
+        },
+        async register(credentials: {
+            name: string;
+            email: string;
+            phone: string;
+            password: string;
+            password_confirmation: string;
+        }) {
+            await apiFetch('auth/register', {
+                method: 'POST',
+                body: JSON.stringify(credentials),
+            });
+
+            await this.fetchUser();
+            navigateTo('/verify-email');
+        },
+        async logout() {
+            await apiFetch('auth/logout', {
+                method: 'POST',
+            });
+
+            this.setUser(null);
+            navigateTo('/');
+        },
+        async update(user: User) {
+            await apiFetch<{ data: User }>(`auth/user/profile-information`, {
+                method: 'PUT',
+                body: JSON.stringify(user),
+            });
+        },
+        async fetchUser() {
+            const { data } = await apiFetch<{ data: User }>(`user`);
+
+            this.setUser(data);
+        },
+        setUser(user: User | null) {
+            this.user = user;
+        },
+        async oauthLogin(provider: OAuthProvider) {
+            const { data } = await apiFetch<{ data: { url: string } }>(
+                `oauth/${provider}/redirect`
+            );
+
+            navigateTo(data.url, { external: true });
+        },
+        async toggleTwoFactor() {
+            await apiFetch('auth/user/two-factor-authentication', {
+                method: this.user?.two_factor.enabled ? 'DELETE' : 'POST',
+            });
+
+            await this.fetchUser();
+        },
+        async fetchTwoFactorQrCode() {
+            const { svg } = await apiFetch<{ svg: string; url: string }>(
+                'auth/user/two-factor-qr-code'
+            );
+
+            return svg;
+        },
+        async fetchTwoFactorRecoveryCodes() {
+            const response = await apiFetch<string[]>(
+                'auth/user/two-factor-recovery-codes'
+            );
+
+            return response;
+        },
+        async confirmTwoFactorCode(code: string) {
+            await apiFetch('auth/two-factor-challenge', {
+                method: 'POST',
+                body: { code },
+            });
+
+            await this.fetchUser();
+            navigateTo('/dashboard');
+        },
+        async resendVerificationEmail() {
+            await apiFetch('auth/email/verification-notification', {
+                method: 'POST',
+            });
+        },
+        async verifyEmail(url: string) {
+            await apiFetch(url);
+
+            await this.fetchUser();
+            navigateTo('/dashboard');
+        },
+        async confirmPassword(password: string) {
+            await apiFetch('auth/user/confirm-password', {
+                method: 'POST',
+                body: { password },
+            });
         },
     },
+    getters: {
+        isAuthenticated: (state): boolean => !!state.user,
+        isAdmin: (state): boolean => state.user?.role === UserRole.ADMIN,
+        isVerified: (state): boolean => !!state.user?.email_verified_at,
+    },
+    persist: true,
 });

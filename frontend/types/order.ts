@@ -2,6 +2,7 @@ import type { ProductVariation } from './product';
 import type { User } from './user';
 
 export interface Order {
+    id: number;
     user: User;
     status: OrderStatus;
     items: ProductVariation[];
@@ -10,7 +11,8 @@ export interface Order {
 }
 
 export enum OrderStatus {
-    PENDING = 'pending',
+    CREATED = 'created',
+    PACKED = 'packed',
     PROCESSING = 'processing',
     DELIVERED = 'delivered',
     CANCELLED = 'cancelled',

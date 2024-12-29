@@ -22,10 +22,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'avatar' => $this->avatar,
             'email' => $this->email,
             'phone' => $this->phone,
             'is_email_verified' => $this->hasVerifiedEmail(),
             'registered_at' => $this->created_at?->toDateTimeString() ?? null,
+            'role' => $this->role->name,
         ];
     }
 }

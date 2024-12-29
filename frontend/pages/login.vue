@@ -1,84 +1,124 @@
 <template>
-    <div class="flex flex-col justify-center h-screen max-w-2xl mx-auto">
-        <div
-            class="flex flex-col gap-4 p-6 text-gray-300 border border-gray-600 rounded-lg shadow-2xl background-blur-md"
-        >
-            <div class="flex justify-center">
-                <nuxt-link
-                    to="/"
-                    class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
-                >
-                    <nuxt-img
-                        src="/logo.png"
-                        :alt="useRuntimeConfig().public.appName"
-                    />
-                </nuxt-link>
-            </div>
-
-            <form
-                class="flex flex-col gap-4"
-                @submit.prevent="login(state.email, state.password)"
+    <div>
+        <div class="flex justify-center mb-4">
+            <nuxt-link
+                to="/"
+                class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
             >
-                <div class="flex flex-col gap-1">
-                    <label
-                        for="email"
-                        class="w-max"
-                        style="font-family: Merriweather"
-                    >
-                        Email
-                    </label>
-                    <input
-                        id="email"
-                        v-model="state.email"
-                        type="email"
-                        class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        required
-                        autofocus
-                        autocomplete="username"
-                    />
-                </div>
+                <nuxt-img
+                    src="/logo.png"
+                    :alt="useRuntimeConfig().public.appName"
+                />
+            </nuxt-link>
+        </div>
 
-                <div class="flex flex-col gap-1">
-                    <label
-                        for="password"
-                        class="w-max"
-                        style="font-family: Merriweather"
-                    >
-                        Password
-                    </label>
-                    <input
-                        id="password"
-                        v-model="state.password"
-                        type="password"
-                        class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        required
-                        autocomplete="current-password"
-                    />
-                </div>
+        <u-form :state="credentials" class="space-y-6" @submit="submitForm">
+            <u-form-group size="lg" name="email" required>
+                <u-input
+                    v-model="credentials.email"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    variant="none"
+                    placeholder="Email"
+                    type="email"
+                    required
+                    icon="material-symbols:mail"
+                />
+            </u-form-group>
 
-                <button
+            <u-form-group name="password" size="lg" required>
+                <u-input
+                    v-model="credentials.password"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    variant="none"
+                    icon="material-symbols:lock"
+                />
+            </u-form-group>
+
+            <u-checkbox
+                v-model="credentials.remember"
+                color="blue"
+                class="text-gray-100"
+            >
+                <template #label>
+                    <span class="italic text-gray-100">Remember me</span>
+                </template>
+            </u-checkbox>
+
+            <div class="flex justify-center gap-4">
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    label="Login"
+                    block
                     type="submit"
-                    class="w-full py-2 mt-8 text-gray-300 bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:bg-gray-700"
-                >
-                    Login
-                </button>
-            </form>
+                    icon="material-symbols:login-rounded"
+                />
+
+                <u-button
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    size="lg"
+                    label="Register"
+                    block
+                    to="/register"
+                    icon="material-symbols:person-add"
+                />
+            </div>
+        </u-form>
+
+        <u-divider
+            label="Or login with"
+            :ui="{
+                border: { base: 'border-gray-500' },
+                label: 'text-gray-500',
+                container: { horizontal: 'my-4' },
+            }"
+        />
+
+        <div class="flex justify-center gap-4">
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
+                label="Google"
+                icon="ri:google-fill"
+                @click="googleLogin"
+            />
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
+                label="GitHub"
+                icon="ri:github-fill"
+                @click="githubLogin"
+            />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-definePageMeta({
-    layout: 'empty',
-});
-const store = useAuthStore();
+import { OAuthProvider } from '~/types/oauth_provider';
 
-const state = reactive({
+definePageMeta({
+    layout: 'auth',
+});
+
+const credentials = reactive({
     email: '',
     password: '',
+    remember: true,
 });
 
-const login = async (email: string, password: string) => {
-    await store.login(email, password);
+const authStore = useAuthStore();
+const submitForm = async () => {
+    await authStore.login(credentials);
+};
+
+const githubLogin = async () => {
+    await authStore.oauthLogin(OAuthProvider.GITHUB);
+};
+
+const googleLogin = async () => {
+    await authStore.oauthLogin(OAuthProvider.GOOGLE);
 };
 </script>

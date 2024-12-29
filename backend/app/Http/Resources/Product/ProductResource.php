@@ -24,7 +24,6 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'image' => $this->image,
             'description' => $this->description,
-            'variations' => ProductVariationResource::collection($this->whenLoaded('variations')),
             'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }
