@@ -11,7 +11,7 @@ enum OrderStatus: string
     use EnumWithValues;
 
     case CREATED = 'created';
-    case PAID = 'paid';
+    case PACKED = 'packed';
     case PROCESSING = 'processing';
     case DELIVERED = 'delivered';
     case CANCELLED = 'cancelled';

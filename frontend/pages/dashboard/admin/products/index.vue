@@ -12,6 +12,10 @@
             }"
             :progress="{ color: 'blue', animation: 'carousel' }"
             class="w-full"
+            :empty-state="{
+                icon: 'material-symbols-light:storefront-outline-rounded',
+                label: 'No products',
+            }"
             @select="select"
         />
 

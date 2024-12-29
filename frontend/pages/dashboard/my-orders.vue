@@ -11,6 +11,10 @@
                 label: 'Loading...',
             }"
             :progress="{ color: 'blue', animation: 'carousel' }"
+            :empty-state="{
+                icon: 'material-symbols:remove-shopping-cart',
+                label: 'No orders',
+            }"
             class="w-full"
         />
     </div>

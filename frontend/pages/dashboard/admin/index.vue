@@ -172,7 +172,14 @@ onMounted(async () => {
 });
 
 async function getStatisticsOverview() {
-    const { data } = await apiFetch(`v1/statistics/overview`);
+    const { data } = await apiFetch<{
+        data: {
+            users: { today: number; total: number };
+            sales: { today: number; total: number };
+            earnings: { today: number; total: number };
+            pageviews: { today: number; total: number };
+        };
+    }>(`v1/statistics/overview`);
 
     statistics.users.today = data.users.today;
     statistics.users.total = data.users.total;

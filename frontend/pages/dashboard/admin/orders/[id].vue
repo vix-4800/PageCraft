@@ -9,7 +9,8 @@
                 <u-button
                     label="Print Invoice"
                     icon="mdi:printer"
-                    class="sm:w-fit w-full px-3.5 py-2 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex"
+                    color="blue"
+                    size="md"
                 />
             </template>
         </DashboardPageName>
@@ -211,7 +212,10 @@
                 </p>
             </section>
 
-            <div class="flex gap-2">
+            <div
+                v-if="order.status !== OrderStatus.DELIVERED"
+                class="flex gap-2"
+            >
                 <u-button
                     v-if="order.status === OrderStatus.PROCESSING"
                     color="green"
@@ -229,10 +233,7 @@
                 />
 
                 <u-button
-                    v-if="
-                        order.status !== OrderStatus.CANCELLED &&
-                        order.status !== OrderStatus.DELIVERED
-                    "
+                    v-if="order.status !== OrderStatus.CANCELLED"
                     color="red"
                     size="md"
                     label="Cancel Order"
@@ -287,30 +288,50 @@ const updateOrderStatus = async (status: OrderStatus) => {
     order.value = data;
 };
 
-const deliveryStatuses = [
+const deliveryValue = ref<number>(0);
+watch(
+    () => order.value,
+    (newOrder) => {
+        switch (newOrder?.status) {
+            case OrderStatus.CREATED:
+                deliveryValue.value = 0;
+                break;
+            case OrderStatus.PACKED:
+                deliveryValue.value = 1;
+                break;
+            case OrderStatus.PROCESSING:
+                deliveryValue.value = 2;
+                break;
+            case OrderStatus.DELIVERED:
+                deliveryValue.value = 3;
+                break;
+            default:
+                deliveryValue.value = 0;
+                break;
+        }
+    }
+);
+
+const deliveryStatuses = computed(() => [
     {
         label: 'Created',
-        value: OrderStatus.CREATED,
         icon: 'material-symbols:pending-actions',
-        active: true,
+        active: deliveryValue.value >= 0,
     },
     {
         label: 'Packed',
-        // value: OrderStatus.PACKED,
         icon: 'material-symbols:package-2',
-        active: true,
+        active: deliveryValue.value >= 1,
     },
     {
         label: 'Processing',
-        value: OrderStatus.PROCESSING,
         icon: 'material-symbols:delivery-truck-speed',
-        active: true,
+        active: deliveryValue.value >= 2,
     },
     {
         label: 'Delivered',
-        value: OrderStatus.DELIVERED,
         icon: 'material-symbols:location-on',
-        active: false,
+        active: deliveryValue.value === 3,
     },
-];
+]);
 </script>

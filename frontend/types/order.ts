@@ -12,7 +12,7 @@ export interface Order {
 
 export enum OrderStatus {
     CREATED = 'created',
-    PAID = 'paid',
+    PACKED = 'packed',
     PROCESSING = 'processing',
     DELIVERED = 'delivered',
     CANCELLED = 'cancelled',
