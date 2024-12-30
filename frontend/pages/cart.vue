@@ -141,6 +141,20 @@
                                     authStore.isAuthenticated
                                 "
                             />
+
+                            <u-textarea
+                                v-model="state.note"
+                                autoresize
+                                placeholder="Note"
+                                icon="material-symbols:note-add"
+                                trailing
+                                color="orange"
+                                size="lg"
+                                :disabled="
+                                    store.totalItems === 0 ||
+                                    authStore.isAuthenticated
+                                "
+                            />
                         </div>
                     </div>
                 </div>
@@ -231,6 +245,7 @@ const state = reactive({
     name: authStore.isAuthenticated ? authStore.user?.name : '',
     email: authStore.isAuthenticated ? authStore.user?.email : '',
     phone: authStore.isAuthenticated ? authStore.user?.phone : '',
+    note: '',
 });
 
 const subTotal = ref(0);
@@ -254,6 +269,7 @@ function clearDetails() {
     state.name = '';
     state.email = '';
     state.phone = '';
+    state.note = '';
 }
 
 function removeProductFromCart(item: ProductVariation) {
@@ -321,7 +337,7 @@ const createOrder = async () => {
             })),
             tax: tax.value,
             shipping: shipping.value,
-            note: null,
+            note: state.note,
             details: {
                 name: state.name,
                 email: state.email,
