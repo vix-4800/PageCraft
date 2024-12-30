@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             SiteSettingSeeder::class,
             SiteTemplateSeeder::class,
             OrderSeeder::class,
+            MarketplaceSeeder::class,
+            MarketplaceAccountSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {
