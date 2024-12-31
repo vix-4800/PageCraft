@@ -26,6 +26,7 @@ export interface ProductVariation {
     stock: number;
     attributes: ProductVariantAttribute[];
     product: Product;
+    quantity: number;
 }
 
 export interface ProductVariantAttribute {

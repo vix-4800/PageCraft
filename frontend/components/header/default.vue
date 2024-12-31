@@ -182,16 +182,21 @@ const toggleMenu = () => {
 const selected = ref();
 const loadingSearch = ref(false);
 async function onSearchChange(q: string) {
-    loadingSearch.value = true;
+    if (q) {
+        loadingSearch.value = true;
 
-    const { data } = await apiFetch<{ data: Product[] }>(`v1/products/search`, {
-        params: {
-            q,
-        },
-    });
+        const { data } = await apiFetch<{ data: Product[] }>(
+            `v1/products/search`,
+            {
+                params: {
+                    q,
+                },
+            }
+        );
 
-    loadingSearch.value = false;
-    return data;
+        loadingSearch.value = false;
+        return data;
+    }
 }
 
 watch(selected, () => {

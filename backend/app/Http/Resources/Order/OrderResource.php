@@ -23,9 +23,13 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'status' => $this->status,
+            'sub_total' => $this->sub_total,
+            'tax' => $this->tax,
+            'shipping' => $this->shipping,
             'total' => $this->total,
             'user' => UserResource::make($this->whenLoaded('user')),
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
+            'note' => $this->note,
             'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }

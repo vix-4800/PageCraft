@@ -8,32 +8,22 @@
                     <h3 class="text-lg font-semibold">Profile Info</h3>
                 </template>
 
-                <u-form :state="user" class="space-y-4" @submit="submitForm">
+                <u-form
+                    :schema="schema"
+                    :state="user"
+                    class="space-y-4"
+                    @submit="submitForm"
+                >
                     <u-form-group label="Name" name="name">
-                        <u-input
-                            v-model="user.name"
-                            color="blue"
-                            size="lg"
-                            required
-                        />
+                        <u-input v-model="user.name" color="blue" size="lg" />
                     </u-form-group>
 
                     <u-form-group label="Email" name="email">
-                        <u-input
-                            v-model="user.email"
-                            color="blue"
-                            size="lg"
-                            required
-                        />
+                        <u-input v-model="user.email" color="blue" size="lg" />
                     </u-form-group>
 
                     <u-form-group label="Phone" name="phone">
-                        <u-input
-                            v-model="user.phone"
-                            color="blue"
-                            size="lg"
-                            required
-                        />
+                        <u-input v-model="user.phone" color="blue" size="lg" />
                     </u-form-group>
 
                     <u-button
@@ -95,8 +85,8 @@
                     </p>
 
                     <div
-                        v-html="qrCode"
                         class="flex items-center justify-center w-full h-56"
+                        v-html="qrCode"
                     />
 
                     <u-divider class="my-4" />
@@ -130,6 +120,9 @@
 </template>
 
 <script lang="ts" setup>
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['verified'],
@@ -143,6 +136,19 @@ const user = reactive({
     phone: '' as string | undefined,
 });
 
+type Schema = z.output<typeof schema>;
+const schema = z.object({
+    name: z
+        .string()
+        .min(1, 'Name is required')
+        .min(2, 'Must be at least 2 characters'),
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    phone: z
+        .string()
+        .min(1, 'Phone is required')
+        .min(8, 'Must be at least 8 characters'),
+});
+
 onMounted(async () => {
     user.name = authStore.user?.name;
     user.email = authStore.user?.email;
@@ -150,8 +156,8 @@ onMounted(async () => {
 });
 
 const { $notify } = useNuxtApp();
-async function submitForm() {
-    await authStore.update(user);
+async function submitForm(event: FormSubmitEvent<Schema>) {
+    await authStore.update(event.data);
     await authStore.fetchUser();
 
     $notify('Account updated successfully', 'success');

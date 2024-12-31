@@ -21,8 +21,12 @@ class StoreOrderRequest extends FormRequest
             'details.email' => 'required|email',
             'details.phone' => 'required|string',
 
-            'total' => 'required|numeric',
             'products' => 'required|array',
+
+            'tax' => 'required|numeric',
+            'shipping' => 'required|numeric',
+
+            'note' => 'nullable|string',
         ];
     }
 }

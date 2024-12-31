@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
-use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\OrderCreated;
@@ -16,9 +15,6 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $order->status = OrderStatus::CREATED;
-        $order->saveQuietly();
-
         User::first()->notify(new OrderCreated($order));
     }
 

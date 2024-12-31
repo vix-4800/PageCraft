@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use App\Exceptions\ApiException;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\Order\OrderResource;
@@ -72,10 +71,19 @@ class OrderController extends Controller implements HasMiddleware
                 ],
             );
 
-            /** @var Order $order */
-            $order = $user->orders()->create(['total' => $validated['total']]);
-
             $products = collect($validated['products']);
+            $subTotal = $products->sum(function (array $product): float|int {
+                return $product['quantity'] * ProductVariation::firstWhere('sku', $product['sku'])->price;
+            });
+
+            /** @var Order $order */
+            $order = $user->orders()->create([
+                'sub_total' => $subTotal,
+                'tax' => $validated['tax'],
+                'shipping' => $validated['shipping'],
+                'total' => $subTotal + $validated['shipping'] + $validated['tax'],
+                'note' => $validated['note'],
+            ]);
 
             $products->each(function (array $product) use ($order): void {
                 /** @var ProductVariation $productVariation */
@@ -97,7 +105,7 @@ class OrderController extends Controller implements HasMiddleware
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            throw new ApiException;
+            throw $th;
         }
     }
 
