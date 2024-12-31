@@ -84,6 +84,7 @@
 
             <u-form
                 :state="state"
+                :schema="schema"
                 class="p-4 bg-gray-100 rounded-md h-max"
                 @submit="checkout"
             >
@@ -99,62 +100,67 @@
                             Enter Details
                         </h3>
                         <div class="space-y-3">
-                            <u-input
-                                v-model="state.name"
-                                placeholder="Full Name"
-                                icon="material-symbols:person"
-                                trailing
-                                color="orange"
-                                size="lg"
-                                required
-                                :disabled="
-                                    store.totalItems === 0 ||
-                                    authStore.isAuthenticated
-                                "
-                            />
+                            <u-form-group size="lg" name="name">
+                                <u-input
+                                    v-model="state.name"
+                                    placeholder="Full Name"
+                                    icon="material-symbols:person"
+                                    trailing
+                                    color="orange"
+                                    size="lg"
+                                    :disabled="
+                                        store.totalItems === 0 ||
+                                        authStore.isAuthenticated
+                                    "
+                                />
+                            </u-form-group>
 
-                            <u-input
-                                v-model="state.email"
-                                placeholder="Email"
-                                type="email"
-                                icon="material-symbols:mail"
-                                trailing
-                                color="orange"
-                                size="lg"
-                                required
-                                :disabled="
-                                    store.totalItems === 0 ||
-                                    authStore.isAuthenticated
-                                "
-                            />
+                            <u-form-group size="lg" name="email">
+                                <u-input
+                                    v-model="state.email"
+                                    placeholder="Email"
+                                    type="email"
+                                    icon="material-symbols:mail"
+                                    trailing
+                                    color="orange"
+                                    size="lg"
+                                    :disabled="
+                                        store.totalItems === 0 ||
+                                        authStore.isAuthenticated
+                                    "
+                                />
+                            </u-form-group>
 
-                            <u-input
-                                v-model="state.phone"
-                                placeholder="Phone No."
-                                icon="material-symbols:phone-enabled"
-                                trailing
-                                color="orange"
-                                size="lg"
-                                required
-                                :disabled="
-                                    store.totalItems === 0 ||
-                                    authStore.isAuthenticated
-                                "
-                            />
+                            <u-form-group size="lg" name="phone">
+                                <u-input
+                                    v-model="state.phone"
+                                    placeholder="Phone No."
+                                    icon="material-symbols:phone-enabled"
+                                    trailing
+                                    color="orange"
+                                    size="lg"
+                                    :disabled="
+                                        store.totalItems === 0 ||
+                                        authStore.isAuthenticated
+                                    "
+                                />
+                            </u-form-group>
 
-                            <u-textarea
-                                v-model="state.note"
-                                autoresize
-                                placeholder="Note"
-                                icon="material-symbols:note-add"
-                                trailing
-                                color="orange"
-                                size="lg"
-                                :disabled="
-                                    store.totalItems === 0 ||
-                                    authStore.isAuthenticated
-                                "
-                            />
+                            <u-form-group size="lg" name="note">
+                                <u-textarea
+                                    v-model="state.note"
+                                    autoresize
+                                    placeholder="Note"
+                                    icon="material-symbols:note-add"
+                                    trailing
+                                    color="orange"
+                                    size="lg"
+                                    :disabled="
+                                        store.totalItems === 0 ||
+                                        authStore.isAuthenticated
+                                    "
+                                />
+                            </u-form-group>
                         </div>
                     </div>
                 </div>
@@ -213,6 +219,8 @@
 
 <script lang="ts" setup>
 import type { ProductVariation } from '~/types/product';
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
 
 const store = useCartStore();
 const authStore = useAuthStore();
@@ -242,10 +250,23 @@ watch(store.items, () => {
 });
 
 const state = reactive({
-    name: authStore.isAuthenticated ? authStore.user?.name : '',
-    email: authStore.isAuthenticated ? authStore.user?.email : '',
-    phone: authStore.isAuthenticated ? authStore.user?.phone : '',
-    note: '',
+    name: authStore.isAuthenticated ? authStore.user?.name : ('' as string),
+    email: authStore.isAuthenticated ? authStore.user?.email : ('' as string),
+    phone: authStore.isAuthenticated ? authStore.user?.phone : ('' as string),
+    note: '' as string | undefined,
+});
+
+const schema = z.object({
+    name: z
+        .string()
+        .min(1, 'Name is required')
+        .min(2, 'Must be at least 2 characters'),
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    phone: z
+        .string()
+        .min(1, 'Phone is required')
+        .min(8, 'Must be at least 8 characters'),
+    note: z.string().nullable(),
 });
 
 const subTotal = ref(0);
@@ -280,12 +301,8 @@ function removeProductFromCart(item: ProductVariation) {
 }
 
 const { $notify } = useNuxtApp();
-const checkout = async () => {
-    if (state.name === '' || state.email === '' || state.phone === '') {
-        $notify('Please fill all the details', 'warning');
-        return;
-    }
-
+type Schema = z.output<typeof schema>;
+const checkout = async (event: FormSubmitEvent<Schema>) => {
     if (store.totalItems === 0) {
         $notify('Please add some products to cart', 'warning');
         return;
@@ -316,7 +333,7 @@ const checkout = async () => {
         })
         .then(async function (widgetResult: { status: string }) {
             if (widgetResult.status === 'success') {
-                await createOrder();
+                await createOrder(event.data);
 
                 $notify('Order Placed Successfully');
             } else {
@@ -327,7 +344,12 @@ const checkout = async () => {
         });
 };
 
-const createOrder = async () => {
+const createOrder = async (data: {
+    name: string;
+    email: string;
+    phone: string;
+    note: string | null;
+}) => {
     await apiFetch(`v1/orders`, {
         method: 'POST',
         body: {
@@ -337,11 +359,11 @@ const createOrder = async () => {
             })),
             tax: tax.value,
             shipping: shipping.value,
-            note: state.note,
+            note: data.note,
             details: {
-                name: state.name,
-                email: state.email,
-                phone: state.phone,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
             },
         },
     });

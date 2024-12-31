@@ -24,7 +24,8 @@
         "pinia": "^2.2.2",
         "pinia-plugin-persistedstate": "^4.2.0",
         "vue": "latest",
-        "vue-router": "latest"
+        "vue-router": "latest",
+        "zod": "^3.24.1"
     },
     "devDependencies": {
         "@formkit/auto-animate": "^0.8.2",

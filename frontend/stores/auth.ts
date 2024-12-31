@@ -50,10 +50,18 @@ export const useAuthStore = defineStore('auth', {
             this.setUser(null);
             navigateTo('/');
         },
-        async update(user: User) {
+        async update({
+            name,
+            email,
+            phone,
+        }: {
+            name: string;
+            email: string;
+            phone: string;
+        }) {
             await apiFetch<{ data: User }>(`auth/user/profile-information`, {
                 method: 'PUT',
-                body: JSON.stringify(user),
+                body: JSON.stringify({ name, email, phone }),
             });
         },
         async fetchUser() {
