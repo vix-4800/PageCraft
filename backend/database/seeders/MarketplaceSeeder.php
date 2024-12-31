@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\MarketplaceType;
 use App\Models\Marketplace;
 use Illuminate\Database\Seeder;
 
@@ -15,13 +16,18 @@ class MarketplaceSeeder extends Seeder
     public function run(): void
     {
         Marketplace::create([
-            'name' => 'Wildberries',
+            'name' => MarketplaceType::WILDBERRIES,
             'base_url' => 'https://www.wildberries.ru',
         ]);
 
         Marketplace::create([
-            'name' => 'Ozon',
+            'name' => MarketplaceType::OZON,
             'base_url' => 'https://www.ozon.ru',
+        ]);
+
+        Marketplace::create([
+            'name' => MarketplaceType::YANDEX,
+            'base_url' => 'https://market.yandex.ru',
         ]);
     }
 }
