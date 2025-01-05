@@ -219,7 +219,6 @@
 <script lang="ts" setup>
 import type { ProductVariation } from '~/types/product';
 import { z } from 'zod';
-import type { FormSubmitEvent } from '#ui/types';
 
 const cartStore = useCartStore();
 const authStore = useAuthStore();
@@ -250,8 +249,7 @@ const schema = z.object({
 });
 
 const { $notify } = useNuxtApp();
-type Schema = z.output<typeof schema>;
-const checkout = async (event: FormSubmitEvent<Schema>) => {
+const checkout = async () => {
     if (cartStore.totalItems === 0) {
         $notify('Please add some products to cart', 'warning');
         return;
@@ -279,26 +277,27 @@ const checkout = async (event: FormSubmitEvent<Schema>) => {
             email: cartStore.details.email,
             skin: 'mini',
             requireEmail: true,
+            payer: {
+                firstName: cartStore.details.name,
+                phone: cartStore.details.phone,
+            },
         })
         .then(async function (widgetResult: { status: string }) {
             if (widgetResult.status === 'success') {
-                await createOrder(event.data);
+                await createOrder();
+                cartStore.clearCart();
 
-                $notify('Order Placed Successfully');
+                $notify('Order Placed Successfully', 'success');
+            } else if (widgetResult.type === 'cancel') {
+                $notify('Payment Cancelled', 'warning');
             } else {
-                console.log('error', widgetResult);
-
                 $notify('Payment Failed', 'error');
+                console.error(widgetResult);
             }
         });
 };
 
-const createOrder = async (data: {
-    name: string;
-    email: string;
-    phone: string;
-    note: string | null;
-}) => {
+const createOrder = async () => {
     await apiFetch(`v1/orders`, {
         method: 'POST',
         body: {
@@ -308,16 +307,13 @@ const createOrder = async (data: {
             })),
             tax: cartStore.cost.tax,
             shipping: cartStore.cost.shipping,
-            note: data.note,
+            note: cartStore.details.note,
             details: {
-                name: data.name,
-                email: data.email,
-                phone: data.phone,
+                name: cartStore.details.name,
+                email: cartStore.details.email,
+                phone: cartStore.details.phone,
             },
         },
     });
-
-    cartStore.clearCart();
-    clearDetails();
 };
 </script>
