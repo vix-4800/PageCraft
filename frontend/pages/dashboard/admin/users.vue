@@ -21,7 +21,7 @@ import type { User } from '~/types/user';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
 const columns = [

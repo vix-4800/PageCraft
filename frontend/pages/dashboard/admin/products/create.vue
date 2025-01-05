@@ -204,7 +204,7 @@
 import type { ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
 const product = reactive({

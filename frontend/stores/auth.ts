@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
                 navigateTo('/two-factor');
             } else {
                 await this.fetchUser();
-                navigateTo('/dashboard');
+                navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
             }
         },
         async register(credentials: {

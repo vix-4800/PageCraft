@@ -5,6 +5,6 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 </script>

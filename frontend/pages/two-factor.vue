@@ -55,6 +55,13 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'auth',
+    middleware: [
+        function (to, from) {
+            if (from.path !== '/login') {
+                return navigateTo('/login');
+            }
+        },
+    ],
 });
 
 const state = reactive(['', '', '', '', '', '']);

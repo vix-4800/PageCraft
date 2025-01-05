@@ -120,7 +120,7 @@ import type { SiteTemplate } from '~/types/site_template';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
 const { $notify } = useNuxtApp();
