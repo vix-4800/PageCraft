@@ -154,6 +154,7 @@ const templateOptions = {
         { value: 'default', label: 'Default' },
         { value: 'modern', label: 'Modern' },
     ],
+    cart: [{ value: 'default', label: 'Default' }],
 };
 
 const loading = ref(false);
