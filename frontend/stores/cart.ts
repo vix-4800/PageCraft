@@ -131,6 +131,25 @@ export const useCartStore = defineStore('cart', {
 
             return [];
         },
+        async createOrder() {
+            await apiFetch(`v1/orders`, {
+                method: 'POST',
+                body: {
+                    products: this.items.map((item) => ({
+                        sku: item.sku,
+                        quantity: this.getQuantity(item.sku),
+                    })),
+                    tax: this.cost.tax,
+                    shipping: this.cost.shipping,
+                    note: this.details.note,
+                    details: {
+                        name: this.details.name,
+                        email: this.details.email,
+                        phone: this.details.phone,
+                    },
+                },
+            });
+        },
     },
     getters: {
         totalItems(): number {

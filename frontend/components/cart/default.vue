@@ -104,7 +104,12 @@
                                 v-if="!authStore.isAuthenticated"
                                 class="space-y-3"
                             >
-                                <u-form-group size="lg" name="name">
+                                <u-form-group
+                                    size="lg"
+                                    name="name"
+                                    label="Name"
+                                    required
+                                >
                                     <u-input
                                         v-model="cartStore.details.name"
                                         placeholder="Full Name"
@@ -116,7 +121,12 @@
                                     />
                                 </u-form-group>
 
-                                <u-form-group size="lg" name="email">
+                                <u-form-group
+                                    size="lg"
+                                    name="email"
+                                    label="Email"
+                                    required
+                                >
                                     <u-input
                                         v-model="cartStore.details.email"
                                         placeholder="Email"
@@ -129,7 +139,12 @@
                                     />
                                 </u-form-group>
 
-                                <u-form-group size="lg" name="phone">
+                                <u-form-group
+                                    size="lg"
+                                    name="phone"
+                                    label="Phone"
+                                    required
+                                >
                                     <u-input
                                         v-model="cartStore.details.phone"
                                         placeholder="Phone No."
@@ -255,65 +270,6 @@ const checkout = async () => {
         return;
     }
 
-    const payments = new cp.CloudPayments({
-        language: 'en-US',
-        email: '',
-        applePaySupport: false,
-        googlePaySupport: false,
-        yandexPaySupport: true,
-        tinkoffPaySupport: true,
-        tinkoffInstallmentSupport: true,
-        sbpSupport: true,
-    });
-
-    payments
-        .pay('charge', {
-            publicId: 'test_api_00000000000000000000002',
-            description: 'Order Payment',
-            amount: cartStore.cost.total,
-            currency: 'USD',
-            invoiceId: '123',
-            accountId: '123',
-            email: cartStore.details.email,
-            skin: 'mini',
-            requireEmail: true,
-            payer: {
-                firstName: cartStore.details.name,
-                phone: cartStore.details.phone,
-            },
-        })
-        .then(async function (widgetResult: { status: string }) {
-            if (widgetResult.status === 'success') {
-                await createOrder();
-                cartStore.clearCart();
-
-                $notify('Order Placed Successfully', 'success');
-            } else if (widgetResult.type === 'cancel') {
-                $notify('Payment Cancelled', 'warning');
-            } else {
-                $notify('Payment Failed', 'error');
-                console.error(widgetResult);
-            }
-        });
-};
-
-const createOrder = async () => {
-    await apiFetch(`v1/orders`, {
-        method: 'POST',
-        body: {
-            products: cartStore.items.map((item) => ({
-                sku: item.sku,
-                quantity: cartStore.getQuantity(item.sku),
-            })),
-            tax: cartStore.cost.tax,
-            shipping: cartStore.cost.shipping,
-            note: cartStore.details.note,
-            details: {
-                name: cartStore.details.name,
-                email: cartStore.details.email,
-                phone: cartStore.details.phone,
-            },
-        },
-    });
+    await openPaymentWidget();
 };
 </script>
