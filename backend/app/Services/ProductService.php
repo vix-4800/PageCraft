@@ -13,13 +13,14 @@ use App\Models\ProductVariationAttribute;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Str;
+use Throwable;
 
 class ProductService
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @throws ApiException
+     * @throws Throwable
      */
     public function storeProduct(array $productData): Product
     {
@@ -39,11 +40,10 @@ class ProductService
             DB::commit();
 
             return $product;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
 
-            // throw $th;
-            throw new ApiException;
+            throw $th;
         }
     }
 
