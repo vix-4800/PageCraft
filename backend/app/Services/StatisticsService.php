@@ -29,7 +29,7 @@ class StatisticsService
             ->selectRaw("DATE(created_at) as date, $operation($column) as total")
             ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
-            ->orderBy('date', 'desc')
+            ->orderBy('date', 'asc')
             ->pluck('total', 'date')
             ->toArray();
     }
