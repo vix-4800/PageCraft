@@ -186,10 +186,15 @@ const readNotification = async (notification: Notification) => {
     );
 
     notifications.value = data;
-
-    navigateTo('/dashboard/orders/' + notification.data.order.id);
-
     isNotificationSlideOverOpen.value = false;
+
+    switch (notification.data.type) {
+        case 'order':
+            navigateTo('/dashboard/admin/orders/' + notification.data.data.id);
+            break;
+        default:
+            break;
+    }
 };
 
 const mobileNavOpen = ref(false);

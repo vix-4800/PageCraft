@@ -42,7 +42,8 @@ class OrderCreated extends Notification implements ShouldQueue
     {
         return [
             'message' => 'New order created.',
-            'order' => new OrderResource($this->order),
+            'type' => 'order',
+            'data' => new OrderResource($this->order),
         ];
     }
 }
