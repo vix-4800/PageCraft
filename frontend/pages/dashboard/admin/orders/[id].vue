@@ -257,6 +257,7 @@ definePageMeta({
     middleware: ['dashboard', 'verified'],
 });
 
+const { $notify } = useNuxtApp();
 const route = useRoute();
 
 const order = ref<Order>();
@@ -291,6 +292,8 @@ const updateOrderStatus = async (status: OrderStatus) => {
     );
 
     order.value = data;
+
+    $notify('Order updated successfully', 'success');
 };
 
 const deliveryValue = ref<number>(0);
