@@ -16,7 +16,7 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
-    public function view(User $user): JsonResource
+    public function show(User $user): JsonResource
     {
         return new UserShowResource($user);
     }
