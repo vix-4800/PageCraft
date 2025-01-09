@@ -107,7 +107,7 @@ export const useAuthStore = defineStore('auth', {
             });
 
             await this.fetchUser();
-            navigateTo('/dashboard');
+            navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
         },
         async resendVerificationEmail() {
             await apiFetch('auth/email/verification-notification', {
@@ -118,7 +118,7 @@ export const useAuthStore = defineStore('auth', {
             await apiFetch(url);
 
             await this.fetchUser();
-            navigateTo('/dashboard');
+            navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
         },
         async confirmPassword(password: string) {
             await apiFetch('auth/user/confirm-password', {

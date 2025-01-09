@@ -12,6 +12,11 @@
             }"
             :progress="{ color: 'blue', animation: 'carousel' }"
             class="w-full"
+            :empty-state="{
+                icon: 'material-symbols:groups',
+                label: 'No users',
+            }"
+            @select="select"
         />
     </div>
 </template>
@@ -65,4 +70,8 @@ onMounted(async () => {
     users.value = response.data;
     status.value = 'success';
 });
+
+function select(row: User) {
+    return navigateTo('/dashboard/admin/users/' + row.id);
+}
 </script>
