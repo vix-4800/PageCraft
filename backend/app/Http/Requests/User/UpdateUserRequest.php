@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'string', 'email', 'min:3', 'max:255'],
             'phone' => ['required', 'string', 'min:6', 'max:255'],
-            'password' => ['required', 'string', 'min:6', 'max:255'],
+            'role' => ['required', 'string', 'min:3', 'max:255', 'exists:roles,name'],
         ];
     }
 }

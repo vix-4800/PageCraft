@@ -20,6 +20,7 @@ Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
         Route::middleware(['auth:sanctum', 'admin'])->group(function (): void {
             Route::apiResource('users', UserController::class);
+            Route::post('users/{user}/verify', [UserController::class, 'verify'])->name('users.verify');
 
             Route::controller(StatisticsController::class)
                 ->prefix('statistics')
