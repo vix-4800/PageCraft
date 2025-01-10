@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserRole;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
-use App\Models\ProductVariation;
-use App\Models\Role;
-use App\Models\User;
+use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\DB;
-use Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrderController extends Controller implements HasMiddleware
 {
@@ -30,6 +27,12 @@ class OrderController extends Controller implements HasMiddleware
         return [
             new Middleware(['auth:sanctum', 'admin'], except: ['store']),
         ];
+    }
+
+    public function __construct(
+        private readonly OrderService $service
+    ) {
+        //
     }
 
     /**
@@ -57,56 +60,9 @@ class OrderController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        try {
-            DB::beginTransaction();
-
-            /** @var User $user */
-            $user = User::firstOrCreate(
-                ['email' => $validated['details']['email']],
-                [
-                    'name' => $validated['details']['name'],
-                    'phone' => $validated['details']['phone'],
-                    'password' => bcrypt(Str::random(16)),
-                    'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
-                ],
-            );
-
-            $products = collect($validated['products']);
-            $subTotal = $products->sum(function (array $product): float|int {
-                return $product['quantity'] * ProductVariation::firstWhere('sku', $product['sku'])->price;
-            });
-
-            /** @var Order $order */
-            $order = $user->orders()->create([
-                'sub_total' => $subTotal,
-                'tax' => $validated['tax'],
-                'shipping' => $validated['shipping'],
-                'total' => $subTotal + $validated['shipping'] + $validated['tax'],
-                'note' => $validated['note'],
-            ]);
-
-            $products->each(function (array $product) use ($order): void {
-                /** @var ProductVariation $productVariation */
-                $productVariation = ProductVariation::firstWhere('sku', $product['sku']);
-
-                $order->items()->create([
-                    'quantity' => $product['quantity'],
-                    'product_variation_id' => $productVariation->id,
-                ]);
-
-                $productVariation->decrement('stock', $product['quantity']);
-            });
-
-            DB::commit();
-
-            return new OrderResource(
-                $order->load(['items', 'user'])
-            );
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            throw $th;
-        }
+        return new OrderResource(
+            $this->service->storeOrder($validated)->load(['items', 'user'])
+        );
     }
 
     /**
@@ -138,6 +94,17 @@ class OrderController extends Controller implements HasMiddleware
 
         return OrderResource::collection(
             $user->orders()->orderBy('created_at', 'desc')->get()
+        );
+    }
+
+    public function invoice(Order $order): StreamedResponse
+    {
+        $pdf = Pdf::loadView('pdf.invoice', compact('order'));
+
+        return response()->streamDownload(
+            fn (): int => print ($pdf->output()),
+            'invoice.pdf',
+            ['Content-Type' => 'application/pdf']
         );
     }
 }

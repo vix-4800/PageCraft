@@ -11,6 +11,8 @@
                     icon="mdi:printer"
                     color="blue"
                     size="md"
+                    :loading="isGeneratingInvoice"
+                    @click="generateInvoice"
                 />
             </template>
         </DashboardPageName>
@@ -254,9 +256,10 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
+const { $notify } = useNuxtApp();
 const route = useRoute();
 
 const order = ref<Order>();
@@ -291,6 +294,8 @@ const updateOrderStatus = async (status: OrderStatus) => {
     );
 
     order.value = data;
+
+    $notify('Order updated successfully', 'success');
 };
 
 const deliveryValue = ref<number>(0);
@@ -339,4 +344,30 @@ const deliveryStatuses = computed(() => [
         active: deliveryValue.value === 3,
     },
 ]);
+
+const isGeneratingInvoice = ref(false);
+
+const generateInvoice = async () => {
+    isGeneratingInvoice.value = true;
+
+    const response = await apiFetch(`v1/orders/${route.params.id}/invoice`, {
+        headers: {
+            'Content-Type': 'application/pdf',
+        },
+        responseType: 'blob',
+    });
+
+    isGeneratingInvoice.value = false;
+
+    const url = window.URL.createObjectURL(response);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'invoice.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    $notify('Invoice generated successfully', 'success');
+};
 </script>

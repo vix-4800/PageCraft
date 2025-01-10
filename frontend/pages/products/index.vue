@@ -18,9 +18,9 @@ import { TemplateBlock } from '~/types/site_template';
 const route = useRoute();
 const templateStore = useSiteTemplatesStore();
 
-const product_list = ref(templateStore.getTemplate(TemplateBlock.ProductList));
+const productList = ref(templateStore.getTemplate(TemplateBlock.ProductList));
 const productListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/product-list/${product_list.value}.vue`),
+    loader: () => import(`@/components/product-list/${productList.value}.vue`),
     delay: 200,
     errorComponent: () => import(`@/components/product-list/default.vue`),
     timeout: 3000,
@@ -41,7 +41,7 @@ async function fetchProducts(page: number) {
     }>(`v1/products`, {
         params: {
             page,
-            limit: product_list.value === 'compact' ? 12 : 9,
+            limit: productList.value === 'compact' ? 12 : 9,
         },
     });
 

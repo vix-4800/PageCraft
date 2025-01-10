@@ -65,7 +65,7 @@
             </div>
 
             <div class="flex space-x-4 max-lg:ml-auto">
-                <div v-if="!useAuthStore().isAuthenticated" class="flex gap-2">
+                <div v-if="!authStore.isAuthenticated" class="flex gap-2">
                     <u-button
                         to="/login"
                         label="Login"
@@ -79,7 +79,9 @@
                 </div>
                 <div v-else>
                     <u-button
-                        to="/dashboard"
+                        :to="`/dashboard/${
+                            authStore.isAdmin ? 'admin' : 'user'
+                        }`"
                         label="Dashboard"
                         class="px-4 py-2 text-sm font-bold text-gray-500 transition-all duration-300 ease-in-out bg-transparent border-2 rounded-full hover:bg-gray-50"
                     />
@@ -114,6 +116,8 @@ defineProps({
         required: true,
     },
 });
+
+const authStore = useAuthStore();
 
 const isCollapseMenuVisible = ref(false);
 const toggleMenu = () => {

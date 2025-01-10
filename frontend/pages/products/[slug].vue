@@ -14,12 +14,12 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const product_detail = ref(
+const productDetail = ref(
     templateStore.getTemplate(TemplateBlock.ProductDetail)
 );
 const productDetailComponent = defineAsyncComponent({
     loader: () =>
-        import(`@/components/product-detail/${product_detail.value}.vue`),
+        import(`@/components/product-detail/${productDetail.value}.vue`),
     delay: 200,
     errorComponent: () => import(`@/components/product-detail/default.vue`),
     timeout: 3000,

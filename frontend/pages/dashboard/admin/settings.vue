@@ -120,7 +120,7 @@ import type { SiteTemplate } from '~/types/site_template';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
 const { $notify } = useNuxtApp();
@@ -151,6 +151,10 @@ const templateOptions = {
         { value: 'compact', label: 'Compact' },
     ],
     product_detail: [
+        { value: 'default', label: 'Default' },
+        { value: 'modern', label: 'Modern' },
+    ],
+    cart: [
         { value: 'default', label: 'Default' },
         { value: 'modern', label: 'Modern' },
     ],

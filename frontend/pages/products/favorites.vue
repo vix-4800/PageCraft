@@ -12,9 +12,9 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const product_list = ref(templateStore.getTemplate(TemplateBlock.ProductList));
+const productList = ref(templateStore.getTemplate(TemplateBlock.ProductList));
 const productListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/product-list/${product_list.value}.vue`),
+    loader: () => import(`@/components/product-list/${productList.value}.vue`),
     delay: 200,
     errorComponent: () => import(`@/components/product-list/default.vue`),
     timeout: 3000,
@@ -25,14 +25,21 @@ onMounted(async () => {
     await fetchProducts();
 });
 
-watch(useFavoriteStore().items, () => {
+const favoriteStore = useFavoriteStore();
+
+watch(favoriteStore.items, () => {
     fetchProducts();
 });
 
 async function fetchProducts() {
+    if (favoriteStore.totalItemsCount === 0) {
+        products.value = [];
+        return;
+    }
+
     const { data } = await apiFetch<{ data: Product[] }>(`v1/products`, {
         params: {
-            slugs: useFavoriteStore().items.join(','),
+            slugs: favoriteStore.items.join(','),
         },
     });
 

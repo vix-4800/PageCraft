@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
                 navigateTo('/two-factor');
             } else {
                 await this.fetchUser();
-                navigateTo('/dashboard');
+                navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
             }
         },
         async register(credentials: {
@@ -48,6 +48,7 @@ export const useAuthStore = defineStore('auth', {
             });
 
             this.setUser(null);
+            useCartDetailsStore().clear();
             navigateTo('/');
         },
         async update({
@@ -68,6 +69,7 @@ export const useAuthStore = defineStore('auth', {
             const { data } = await apiFetch<{ data: User }>(`user`);
 
             this.setUser(data);
+            useCartDetailsStore().update();
         },
         setUser(user: User | null) {
             this.user = user;
@@ -107,7 +109,7 @@ export const useAuthStore = defineStore('auth', {
             });
 
             await this.fetchUser();
-            navigateTo('/dashboard');
+            navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
         },
         async resendVerificationEmail() {
             await apiFetch('auth/email/verification-notification', {
@@ -118,12 +120,19 @@ export const useAuthStore = defineStore('auth', {
             await apiFetch(url);
 
             await this.fetchUser();
-            navigateTo('/dashboard');
+            navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
         },
         async confirmPassword(password: string) {
             await apiFetch('auth/user/confirm-password', {
                 method: 'POST',
                 body: { password },
+            });
+        },
+        async deleteUser() {
+            await this.logout();
+
+            await apiFetch('user', {
+                method: 'DELETE',
             });
         },
     },

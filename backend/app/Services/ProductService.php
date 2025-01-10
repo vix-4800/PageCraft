@@ -12,26 +12,33 @@ use App\Models\ProductVariation;
 use App\Models\ProductVariationAttribute;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Str;
+use Throwable;
 
 class ProductService
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @throws ApiException
+     * @throws Throwable
      */
     public function storeProduct(array $productData): Product
     {
         try {
             DB::beginTransaction();
 
+            $imagePath = null;
+            if (isset($productData['image'])) {
+                $imagePath = Storage::put('products', $productData['image']);
+            }
+
             /** @var Product $product */
             $product = Product::create([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $productData['image'] ?? null,
+                'image' => $imagePath,
             ]);
 
             $this->addVariationsToProduct($product, collect($productData['variations']));
@@ -39,11 +46,10 @@ class ProductService
             DB::commit();
 
             return $product;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
 
-            // throw $th;
-            throw new ApiException;
+            throw $th;
         }
     }
 

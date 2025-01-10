@@ -37,9 +37,9 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const product_list = ref(templateStore.getTemplate(TemplateBlock.ProductList));
+const productList = ref(templateStore.getTemplate(TemplateBlock.ProductList));
 const productListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/product-list/${product_list.value}.vue`),
+    loader: () => import(`@/components/product-list/${productList.value}.vue`),
     delay: 200,
     errorComponent: () => import(`@/components/product-list/default.vue`),
     timeout: 3000,
@@ -56,7 +56,7 @@ onMounted(async () => {
         `v1/products/popular`,
         {
             params: {
-                limit: product_list.value === 'compact' ? 4 : 6,
+                limit: productList.value === 'compact' ? 4 : 6,
             },
         }
     );
@@ -68,7 +68,7 @@ onMounted(async () => {
         `v1/products/new`,
         {
             params: {
-                limit: product_list.value === 'compact' ? 4 : 6,
+                limit: productList.value === 'compact' ? 4 : 6,
             },
         }
     );

@@ -15,7 +15,7 @@
         <u-form
             :state="credentials"
             :schema="schema"
-            class="space-y-6"
+            class="space-y-4"
             @submit="submitForm"
         >
             <u-form-group size="lg" name="email">

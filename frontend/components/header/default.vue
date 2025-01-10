@@ -73,20 +73,22 @@
 
                         <li class="max-lg:py-2">
                             <u-button
-                                v-if="!useAuthStore().isAuthenticated"
-                                to="/login"
-                                label="Sign In"
-                                size="md"
-                                class="font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
-                            />
-
-                            <u-button
-                                v-else
-                                to="/dashboard"
+                                v-if="authStore.isAuthenticated"
+                                :to="`/dashboard/${
+                                    authStore.isAdmin ? 'admin' : 'user'
+                                }`"
                                 size="md"
                                 class="font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                                 icon="material-symbols:account-circle"
                                 label="Dashboard"
+                            />
+
+                            <u-button
+                                v-else
+                                to="/login"
+                                label="Sign In"
+                                size="md"
+                                class="font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                             />
                         </li>
 
@@ -172,6 +174,7 @@ defineProps({
     },
 });
 
+const authStore = useAuthStore();
 const appName: string = useRuntimeConfig().public.appName;
 
 const isCollapseMenuVisible = ref(false);

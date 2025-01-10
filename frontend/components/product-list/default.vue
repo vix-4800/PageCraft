@@ -18,7 +18,7 @@
             <div
                 v-for="product in products"
                 :key="product.slug"
-                class="relative flex flex-col overflow-hidden bg-gray-200 rounded-xl"
+                class="relative flex flex-col overflow-hidden bg-gray-100 shadow-md rounded-xl"
             >
                 <div class="p-4">
                     <u-button
@@ -26,7 +26,7 @@
                         class="absolute flex items-center justify-center w-10 h-10 top-1 right-1"
                         :class="{
                             'bg-red-500': favoriteStore.isFavorite(product),
-                            'bg-gray-400': !favoriteStore.isFavorite(product),
+                            'bg-gray-300': !favoriteStore.isFavorite(product),
                         }"
                         color="red"
                         icon="heroicons-solid:heart"
@@ -46,20 +46,25 @@
                     </nuxt-link>
                 </div>
 
-                <div class="flex flex-col gap-3 p-6 text-center h-1/2">
-                    <h3 class="text-xl font-bold text-gray-800">
-                        {{ product.name }}
-                    </h3>
-                    <p class="text-gray-600 text-md">
-                        {{ product.description }}
-                    </p>
+                <div
+                    class="flex flex-col justify-between gap-3 p-6 text-center h-1/2"
+                >
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">
+                            {{ product.name }}
+                        </h3>
+
+                        <p class="text-gray-600 text-md">
+                            {{ product.description }}
+                        </p>
+                    </div>
 
                     <u-button
                         :to="`/products/${product.slug}`"
                         block
                         size="lg"
                         color="orange"
-                        class="mt-auto font-semibold"
+                        class="font-semibold"
                         label="View"
                     />
                 </div>

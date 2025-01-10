@@ -111,9 +111,19 @@
             </u-modal>
 
             <u-card :ui="{ background: 'bg-red-100' }">
-                <template #header>
+                <div class="flex justify-between">
                     <h3 class="text-lg font-semibold">Delete Account</h3>
-                </template>
+
+                    <div class="flex gap-2">
+                        <u-button
+                            color="red"
+                            size="md"
+                            label="Delete"
+                            icon="material-symbols:delete"
+                            @click="deleteAccount"
+                        />
+                    </div>
+                </div>
             </u-card>
         </div>
     </div>
@@ -177,4 +187,8 @@ async function toggleTwoFactor() {
 const isQrCodeModalOpen = ref(false);
 const qrCode = ref<null | string>(null);
 const recoveryCodes = ref<null | string[]>(null);
+
+const deleteAccount = async () => {
+    await authStore.deleteUser();
+};
 </script>

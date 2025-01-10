@@ -12,6 +12,11 @@
             }"
             :progress="{ color: 'blue', animation: 'carousel' }"
             class="w-full"
+            :empty-state="{
+                icon: 'material-symbols:groups',
+                label: 'No users',
+            }"
+            @select="select"
         />
     </div>
 </template>
@@ -21,7 +26,7 @@ import type { User } from '~/types/user';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['dashboard', 'verified'],
 });
 
 const columns = [
@@ -65,4 +70,8 @@ onMounted(async () => {
     users.value = response.data;
     status.value = 'success';
 });
+
+function select(row: User) {
+    return navigateTo('/dashboard/admin/users/' + row.id);
+}
 </script>
