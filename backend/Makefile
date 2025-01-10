@@ -49,3 +49,7 @@ larastan:
 helper:
 	@echo "\nGenerating Laravel IDE helpers..."
 	@docker exec -it backend composer ide-helper
+
+scout:
+	@echo "\nUpdating Laravel Scout Indexes"
+	@docker exec -it backend php artisan scout:import "App\Models\Product"
