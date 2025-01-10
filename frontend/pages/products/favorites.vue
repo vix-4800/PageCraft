@@ -25,14 +25,21 @@ onMounted(async () => {
     await fetchProducts();
 });
 
-watch(useFavoriteStore().items, () => {
+const favoriteStore = useFavoriteStore();
+
+watch(favoriteStore.items, () => {
     fetchProducts();
 });
 
 async function fetchProducts() {
+    if (favoriteStore.totalItemsCount === 0) {
+        products.value = [];
+        return;
+    }
+
     const { data } = await apiFetch<{ data: Product[] }>(`v1/products`, {
         params: {
-            slugs: useFavoriteStore().items.join(','),
+            slugs: favoriteStore.items.join(','),
         },
     });
 
