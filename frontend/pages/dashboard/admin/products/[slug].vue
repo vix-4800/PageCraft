@@ -37,17 +37,34 @@
 
                 <div class="px-1 space-y-2">
                     <u-card
-                        v-for="variation in variations"
+                        v-for="(variation, index) in variations"
                         :key="variation.sku"
                         class="bg-slate-100"
                     >
                         <template #header>
-                            <h3 class="text-lg font-bold">
-                                Variation with sku '{{ variation.sku }}'
-                            </h3>
+                            <div class="flex justify-between">
+                                <h3 class="text-lg font-bold">
+                                    Variation with sku '{{ variation.sku }}'
+                                </h3>
+
+                                <u-button
+                                    color="blue"
+                                    variant="link"
+                                    size="sm"
+                                    :icon="
+                                        index === currentShownVariation
+                                            ? 'i-heroicons-chevron-up'
+                                            : 'i-heroicons-chevron-down'
+                                    "
+                                    @click="toggleVariation(index)"
+                                />
+                            </div>
                         </template>
 
-                        <div class="space-y-3">
+                        <div
+                            v-show="index === currentShownVariation"
+                            class="space-y-3"
+                        >
                             <div class="flex gap-2">
                                 <u-form-group label="Sku" class="w-1/3">
                                     <u-input
@@ -196,6 +213,15 @@ const route = useRoute();
 
 const product = ref<Product>({});
 const variations = ref<ProductVariation[]>([]);
+const currentShownVariation = ref(-1);
+
+const toggleVariation = (index: number) => {
+    if (index === currentShownVariation.value) {
+        currentShownVariation.value = -1;
+    } else {
+        currentShownVariation.value = index;
+    }
+};
 
 const { $notify } = useNuxtApp();
 
@@ -235,6 +261,8 @@ function addVariation() {
             attributes: [],
         },
     ];
+
+    toggleVariation(variations.value.length - 1);
 }
 
 function removeVariation() {
