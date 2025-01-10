@@ -126,6 +126,13 @@ export const useAuthStore = defineStore('auth', {
                 body: { password },
             });
         },
+        async deleteUser() {
+            await this.logout();
+
+            await apiFetch('user', {
+                method: 'DELETE',
+            });
+        },
     },
     getters: {
         isAuthenticated: (state): boolean => !!state.user,

@@ -17,4 +17,9 @@ class AuthenticatedUserController extends Controller
     {
         return new UserShowResource($request->user());
     }
+
+    public function destroy(Request $request): void
+    {
+        $request->user()->delete();
+    }
 }
