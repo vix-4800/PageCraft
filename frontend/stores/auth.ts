@@ -48,6 +48,7 @@ export const useAuthStore = defineStore('auth', {
             });
 
             this.setUser(null);
+            useCartDetailsStore().clear();
             navigateTo('/');
         },
         async update({
@@ -68,6 +69,7 @@ export const useAuthStore = defineStore('auth', {
             const { data } = await apiFetch<{ data: User }>(`user`);
 
             this.setUser(data);
+            useCartDetailsStore().update();
         },
         setUser(user: User | null) {
             this.user = user;

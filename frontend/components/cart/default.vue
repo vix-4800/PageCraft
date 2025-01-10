@@ -83,7 +83,7 @@
             </div>
 
             <u-form
-                :state="cartStore.details"
+                :state="cartDetails"
                 :schema="schema"
                 class="p-4 bg-gray-100 rounded-md h-max"
                 @submit="checkout"
@@ -111,7 +111,7 @@
                                     required
                                 >
                                     <u-input
-                                        v-model="cartStore.details.name"
+                                        v-model="cartDetails.name"
                                         placeholder="Full Name"
                                         icon="material-symbols:person"
                                         trailing
@@ -128,7 +128,7 @@
                                     required
                                 >
                                     <u-input
-                                        v-model="cartStore.details.email"
+                                        v-model="cartDetails.email"
                                         placeholder="Email"
                                         type="email"
                                         icon="material-symbols:mail"
@@ -146,7 +146,7 @@
                                     required
                                 >
                                     <u-input
-                                        v-model="cartStore.details.phone"
+                                        v-model="cartDetails.phone"
                                         placeholder="Phone No."
                                         icon="material-symbols:phone-enabled"
                                         trailing
@@ -159,7 +159,7 @@
 
                             <u-form-group size="lg" name="note" label="Note">
                                 <u-textarea
-                                    v-model="cartStore.details.note"
+                                    v-model="cartDetails.note"
                                     autoresize
                                     placeholder="Note"
                                     icon="material-symbols:note-add"
@@ -236,6 +236,7 @@ import type { ProductVariation } from '~/types/product';
 import { z } from 'zod';
 
 const cartStore = useCartStore();
+const cartDetails = useCartDetailsStore();
 const authStore = useAuthStore();
 
 const cartItems = ref<ProductVariation[]>([]);

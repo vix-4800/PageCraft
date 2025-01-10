@@ -14,18 +14,6 @@ export const useCartStore = defineStore('cart', {
             tax: 0 as number,
             total: 0 as number,
         },
-        details: {
-            name: useAuthStore().isAuthenticated
-                ? useAuthStore().user?.name
-                : ('' as string),
-            email: useAuthStore().isAuthenticated
-                ? useAuthStore().user?.email
-                : '',
-            phone: useAuthStore().isAuthenticated
-                ? useAuthStore().user?.phone
-                : '',
-            note: '' as string,
-        },
     }),
     actions: {
         increaseProductQuantity(product: ProductVariation) {
@@ -96,13 +84,6 @@ export const useCartStore = defineStore('cart', {
         },
         clearCart() {
             this.items = [];
-            this.details = {
-                name: '',
-                email: '',
-                phone: '',
-                note: '',
-            };
-
             this.calculateCosts();
         },
         isProductInCart(product: ProductVariation): boolean {
@@ -132,6 +113,8 @@ export const useCartStore = defineStore('cart', {
             return [];
         },
         async createOrder() {
+            const cartDetails = useCartDetailsStore();
+
             await apiFetch(`v1/orders`, {
                 method: 'POST',
                 body: {
@@ -141,11 +124,11 @@ export const useCartStore = defineStore('cart', {
                     })),
                     tax: this.cost.tax,
                     shipping: this.cost.shipping,
-                    note: this.details.note,
+                    note: cartDetails.note,
                     details: {
-                        name: this.details.name,
-                        email: this.details.email,
-                        phone: this.details.phone,
+                        name: cartDetails.name,
+                        email: cartDetails.email,
+                        phone: cartDetails.phone,
                     },
                 },
             });
@@ -160,4 +143,34 @@ export const useCartStore = defineStore('cart', {
         },
     },
     persist: true,
+});
+
+export const useCartDetailsStore = defineStore('cart_details', {
+    state: () => ({
+        name: useAuthStore().isAuthenticated
+            ? useAuthStore().user?.name
+            : ('' as string),
+        email: useAuthStore().isAuthenticated ? useAuthStore().user?.email : '',
+        phone: useAuthStore().isAuthenticated ? useAuthStore().user?.phone : '',
+        note: '' as string,
+    }),
+    actions: {
+        update() {
+            if (useAuthStore().isAuthenticated) {
+                this.name = useAuthStore().user?.name;
+                this.email = useAuthStore().user?.email;
+                this.phone = useAuthStore().user?.phone;
+            } else {
+                this.name = '';
+                this.email = '';
+                this.phone = '';
+            }
+        },
+        clear() {
+            this.name = '';
+            this.email = '';
+            this.phone = '';
+            this.note = '';
+        },
+    },
 });

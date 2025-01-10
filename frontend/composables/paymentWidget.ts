@@ -2,6 +2,7 @@ export const openPaymentWidget = async () => {
     const { $notify } = useNuxtApp();
 
     const cartStore = useCartStore();
+    const cartDetails = useCartDetailsStore();
 
     const payments = new cp.CloudPayments({
         language: 'en-US',
@@ -22,12 +23,12 @@ export const openPaymentWidget = async () => {
             currency: 'USD',
             invoiceId: '123',
             accountId: '123',
-            email: cartStore.details.email,
+            email: cartDetails.email,
             skin: 'mini',
             requireEmail: true,
             payer: {
-                firstName: cartStore.details.name,
-                phone: cartStore.details.phone,
+                firstName: cartDetails.name,
+                phone: cartDetails.phone,
             },
         })
         .then(function (widgetResult: { status: string; type: string }) {
