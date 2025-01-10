@@ -3,7 +3,10 @@
         <DashboardPageName title="Create Product" />
 
         <u-form
+            :schema="schema"
+            :state="product"
             class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"
+            enctype="multipart/form-data"
             @submit="submitForm"
         >
             <div class="px-1 space-y-2">
@@ -11,28 +14,24 @@
 
                 <div class="flex w-full gap-2">
                     <u-form-group label="Name" class="w-1/2" name="name">
-                        <u-input v-model="product.name" color="blue" required />
+                        <u-input v-model="product.name" color="blue" />
                     </u-form-group>
 
                     <u-form-group label="Slug" class="w-1/2" name="slug">
-                        <u-input v-model="product.slug" color="blue" required />
+                        <u-input v-model="product.slug" color="blue" />
                     </u-form-group>
                 </div>
 
                 <u-form-group label="Description" name="description">
-                    <u-textarea
-                        v-model="product.description"
-                        required
-                        color="blue"
-                    />
+                    <u-textarea v-model="product.description" color="blue" />
                 </u-form-group>
 
                 <u-form-group label="Image" name="image">
                     <u-input
-                        v-model="product.image"
                         color="blue"
                         type="file"
                         :ui="{ icon: { trailing: { pointer: '' } } }"
+                        @change="onFileChange"
                     >
                         <template #trailing>
                             <u-button
@@ -202,33 +201,81 @@
 
 <script lang="ts" setup>
 import type { ProductVariation } from '~/types/product';
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
+
 definePageMeta({
     layout: 'dashboard',
     middleware: ['dashboard', 'verified'],
+});
+
+type Schema = z.output<typeof schema>;
+const schema = z.object({
+    name: z
+        .string()
+        .min(1, 'Name is required')
+        .min(3, 'Must be at least 3 characters'),
+    slug: z
+        .string()
+        .min(1, 'Slug is required')
+        .min(3, 'Must be at least 3 characters'),
+    description: z
+        .string()
+        .min(1, 'Description is required')
+        .min(3, 'Must be at least 3 characters'),
 });
 
 const product = reactive({
     name: undefined,
     slug: undefined,
     description: undefined,
-    image: undefined,
+    image: null,
     variations: [] as ProductVariation[],
 });
 
 const { $notify } = useNuxtApp();
-async function submitForm() {
-    const { data } = await apiFetch(`v1/products`, {
-        method: 'POST',
-        body: JSON.stringify(product),
+async function submitForm(event: FormSubmitEvent<Schema>) {
+    const formData = new FormData();
+    formData.append('name', event.data.name);
+    formData.append('slug', event.data.slug);
+    formData.append('description', event.data.description);
+
+    if (product.image) {
+        formData.append('image', product.image);
+    }
+
+    product.variations.forEach((variation, index) => {
+        formData.append(`variations[${index}][sku]`, variation.sku);
+        formData.append(`variations[${index}][price]`, variation.price);
+        formData.append(`variations[${index}][stock]`, variation.stock);
+
+        variation.attributes.forEach((attribute, attrIndex) => {
+            formData.append(
+                `variations[${index}][attributes][${attrIndex}][name]`,
+                attribute.name
+            );
+            formData.append(
+                `variations[${index}][attributes][${attrIndex}][value]`,
+                attribute.value
+            );
+        });
     });
 
-    if (!data.value) {
-        $notify('Something went wrong', 'error');
-        return;
-    }
+    await apiFetch(`v1/products`, {
+        method: 'POST',
+        body: formData,
+    });
 
     navigateTo(`/dashboard/admin/products`);
     $notify('Product created successfully', 'success');
+}
+
+function onFileChange(event: Event) {
+    const file = event[0];
+
+    if (file) {
+        product.image = file;
+    }
 }
 
 function addVariation() {

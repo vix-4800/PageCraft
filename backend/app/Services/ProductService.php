@@ -12,6 +12,7 @@ use App\Models\ProductVariation;
 use App\Models\ProductVariationAttribute;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Str;
 use Throwable;
 
@@ -27,12 +28,17 @@ class ProductService
         try {
             DB::beginTransaction();
 
+            $imagePath = null;
+            if (isset($productData['image'])) {
+                $imagePath = Storage::put('products', $productData['image']);
+            }
+
             /** @var Product $product */
             $product = Product::create([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $productData['image'] ?? null,
+                'image' => $imagePath,
             ]);
 
             $this->addVariationsToProduct($product, collect($productData['variations']));

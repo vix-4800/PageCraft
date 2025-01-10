@@ -2,9 +2,12 @@ export const apiFetch = async <T>(url: string, options: $FetchOptions = {}) => {
     const runtimeConfig = useRuntimeConfig();
 
     const defaultHeaders: Record<string, string> = {
-        'Content-Type': 'application/json',
         Accept: 'application/json',
     };
+
+    if (!(options.body instanceof FormData)) {
+        defaultHeaders['Content-Type'] = 'application/json';
+    }
 
     const csrfCookieName = 'XSRF-TOKEN';
     const csrfHeaderName = 'X-XSRF-TOKEN';

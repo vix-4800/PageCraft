@@ -19,6 +19,17 @@
             @select="select"
         />
 
+        <div
+            class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
+        >
+            <u-pagination
+                v-model="page"
+                :active-button="{ variant: 'outline', color: 'blue' }"
+                :inactive-button="{ color: 'gray' }"
+                :total="total"
+            />
+        </div>
+
         <div class="w-full px-1 mt-4">
             <u-button
                 color="blue"
@@ -35,6 +46,7 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
+import type { Meta } from '~/types/pagination';
 
 definePageMeta({
     layout: 'dashboard',
@@ -64,8 +76,18 @@ onMounted(async () => {
     await getProducts();
 });
 
+const page = ref(1);
+const total = ref(0);
+
 async function getProducts() {
-    const { data } = await apiFetch<{ data: Product[] }>(`v1/products`);
+    const { data, meta } = await apiFetch<{
+        data: Product[];
+        meta: Meta;
+    }>(`v1/products`, {
+        params: {
+            page: page.value,
+        },
+    });
 
     status.value = 'success';
     products.value = data;
@@ -75,7 +97,14 @@ async function getProducts() {
                 ? `${product.description.slice(0, 75)}...`
                 : product.description;
     });
+
+    page.value = meta.current_page;
+    total.value = meta.total;
 }
+
+watch(page, async () => {
+    await getProducts();
+});
 
 function select(row: Product) {
     return navigateTo('/dashboard/admin/products/' + row.slug);
