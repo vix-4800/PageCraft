@@ -43,6 +43,7 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
         Route::apiResource('orders', OrderController::class)->except('destroy');
+        Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

@@ -9,11 +9,13 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrderController extends Controller implements HasMiddleware
 {
@@ -92,6 +94,17 @@ class OrderController extends Controller implements HasMiddleware
 
         return OrderResource::collection(
             $user->orders()->orderBy('created_at', 'desc')->get()
+        );
+    }
+
+    public function invoice(Order $order): StreamedResponse
+    {
+        $pdf = Pdf::loadView('pdf.invoice', compact('order'));
+
+        return response()->streamDownload(
+            fn (): int => print ($pdf->output()),
+            'invoice.pdf',
+            ['Content-Type' => 'application/pdf']
         );
     }
 }
