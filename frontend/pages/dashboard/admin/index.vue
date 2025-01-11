@@ -60,7 +60,9 @@
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
         >
             <div class="px-6 pt-6">
-                <h2 class="text-2xl font-bold">7 Latest Sales</h2>
+                <h2 class="text-2xl font-bold">
+                    {{ latestSalesLimit }} Latest Sales
+                </h2>
                 <h3 class="text-sm font-medium text-slate-500">
                     You have {{ statistics.sales.today }} new sale{{
                         statistics.sales.today > 1 ? 's' : ''
@@ -189,19 +191,16 @@ const salesColumns = [
 ];
 const sales = ref<Order[]>([]);
 const latestSalesLoading = ref(true);
-async function getLatestSales() {
-    const endDate = new Date();
-    const startDate = new Date(endDate.getTime() - 1000 * 60 * 60 * 24);
+const latestSalesLimit = ref(10);
 
-    const response = await apiFetch<{ data: Order[] }>(`v1/orders`, {
+async function getLatestSales() {
+    const { data } = await apiFetch<{ data: Order[] }>(`v1/orders/latest`, {
         params: {
-            start_date: startDate.toISOString(),
-            end_date: endDate.toISOString(),
-            limit: 7,
+            limit: latestSalesLimit.value,
         },
     });
 
-    sales.value = response.data;
+    sales.value = data;
     latestSalesLoading.value = false;
     sales.value.forEach((sale) => {
         sale['class'] = `bg-${
