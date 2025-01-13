@@ -25,6 +25,7 @@
 -   `make start` - запустить фронтенд и бэкенд
 -   `make stop` - остановить фронтенд и бэкенд
 -   `make restart` - перезапустить фронтенд и бэкенд
+-   `make update` - обновить приложение
 
 ### Frontend
 
@@ -32,6 +33,7 @@
 -   `make stop_frontend` - остановить фронтенд
 -   `make restart_frontend` - перезапустить фронтенд
 -   `make logs_frontend` - просмотреть логи фронтенда
+-   `make update_frontend` - обновить фронтенд
 
 ### Backend
 
@@ -39,6 +41,7 @@
 -   `make stop_backend` - остановить бэкенд
 -   `make restart_backend` - перезапустить бэкенд
 -   `make logs_backend` - просмотреть логи бэкенда
+-   `make update_backend` - обновить бэкенд
 
 ## Дополнительные возможности
 
