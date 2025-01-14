@@ -43,7 +43,6 @@ $appUrl = $installData[RequestParam::APP_URL->value];
 
 				<p class="text-gray-700">Please note that the server might take a few seconds to start.</p>
 			</div>
-
 		</div>
 	</main>
 

@@ -3,6 +3,15 @@
 require_once __DIR__ . '/autoloader.php';
 
 use PageCraft\RequestParam;
+use PageCraft\Log;
+
+$logger = new Log();
+$progress = $logger->getProgress();
+
+if ($progress === 100) {
+	header('Location: ./installing.php');
+	exit;
+}
 
 ?>
 
