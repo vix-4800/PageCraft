@@ -1,3 +1,14 @@
+<?php
+
+require_once __DIR__ . '/autoloader.php';
+
+use PageCraft\RequestParam;
+
+$installData = json_decode(file_get_contents(__DIR__ . '/install_data.json'), true);
+$appUrl = $installData[RequestParam::APP_URL->value];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +33,17 @@
 				<progress class="w-full rounded" value="0" max="100" id="progress_bar"></progress>
 				<span id="progress_status">Loading...</span>
 			</div>
+
+			<div class="flex flex-col items-center justify-center hidden w-full gap-4" id="installed_content">
+				<h2 class="text-xl font-semibold text-gray-800">Installation Complete!</h2>
+				<p class="text-gray-700">
+					You can access your app at:
+					<a href="<?= $appUrl ?>" class="text-blue-500 hover:underline" target="_blank"><?= $appUrl ?></a>
+				</p>
+
+				<p class="text-gray-700">Please note that the server might take a few seconds to start.</p>
+			</div>
+
 		</div>
 	</main>
 
