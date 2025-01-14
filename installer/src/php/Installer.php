@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/RequestParam.php';
-require_once __DIR__ . '/DatabaseConfigurator.php';
+require_once __DIR__ . '/Log.php';
 
 class Installer
 {
@@ -11,38 +11,40 @@ class Installer
 
 	protected string $installPath;
 
+	protected Log $logger;
+
+	protected Env $backendEnvHelper;
+
+	protected Env $frontendEnvHelper;
+
 	public function __construct(
 		protected array $installationData
 	) {
 		$this->installPath = $this->installationData[RequestParam::INSTALL_PATH->value] . '/pagecraft';
 
-		file_put_contents("install.log", '');
+		$this->logger = new Log();
+		$this->logger->clear();
+
+		$this->backendEnvHelper = new Env("{$this->installPath}/backend");
+		$this->frontendEnvHelper = new Env("{$this->installPath}/frontend");
 	}
 
 	public function install(): void
 	{
-		$this->log("Starting installation process...", 0);
+		$this->logger->write("Starting installation process...", 0);
 
 		$this->checkDependencies();
 		$this->validateInstallPath();
-
 		$this->cloneRepository();
 		$this->configEnvironmentVariables();
 		$this->installComposerDependencies();
 		$this->installNodeDependencies();
-
-		$this->log("Installation completed successfully.", 60);
-
 		$this->startDockerContainers();
-
-		$databaseConfigurator = new DatabaseConfigurator($this->installationData, $this->installPath);
-		$databaseConfigurator->configure();
-
 		$this->generateAppKey();
 		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
 		$this->storageLink();
 
-		$this->log("Containers started successfully.", 100);
+		$this->logger->write("Containers started successfully.", 100);
 	}
 
 	protected function validateInstallPath(): void
@@ -70,7 +72,7 @@ class Installer
 			throw new RuntimeException('Docker is not installed or not available in PATH.');
 		}
 
-		$this->log("Dependencies checked: Git and Docker are available.", 10);
+		$this->logger->write("Dependencies checked: Git and Docker are available.", 10);
 	}
 
 	protected function cloneRepository(): void
@@ -83,54 +85,49 @@ class Installer
 			throw new RuntimeException('Failed to clone repository.');
 		}
 
-		$this->log("Repository cloned successfully.", 25);
+		$this->logger->write("Repository cloned successfully.", 25);
 	}
 
 	protected function configEnvironmentVariables(): void
 	{
 		// Backend
-		shell_exec("cp {$this->installPath}/backend/.env.example {$this->installPath}/backend/.env");
-
-		$backendEnvContent = file_get_contents("{$this->installPath}/backend/.env");
-		$backendEnvContent = str_replace('APP_NAME=PageCraft', "APP_NAME={$this->installationData[RequestParam::APP_NAME->value]}", $backendEnvContent);
-		file_put_contents("{$this->installPath}/backend/.env", $backendEnvContent);
+		$this->backendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
+		$this->backendEnvHelper->set('DB_DATABASE', $this->installationData[RequestParam::DB_NAME->value]);
+		$this->backendEnvHelper->set('DB_USERNAME', $this->installationData[RequestParam::DB_USER->value]);
+		$this->backendEnvHelper->set('DB_PASSWORD', $this->installationData[RequestParam::DB_PASSWORD->value]);
 
 		// Frontend
-		shell_exec("cp {$this->installPath}/frontend/.env.example {$this->installPath}/frontend/.env");
+		$this->frontendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
 
-		$frontendEnvContent = file_get_contents("{$this->installPath}/frontend/.env");
-		$frontendEnvContent = str_replace('APP_NAME=PageCraft', "APP_NAME={$this->installationData[RequestParam::APP_NAME->value]}", $frontendEnvContent);
-		file_put_contents("{$this->installPath}/frontend/.env", $frontendEnvContent);
-
-		$this->log("Environment variables configured successfully.", 30);
+		$this->logger->write("Environment variables configured successfully.", 30);
 	}
 
 	protected function installComposerDependencies(): void
 	{
 		shell_exec("cd {$this->installPath}/backend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html composer:latest composer install --ignore-platform-reqs --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts");
 
-		$this->log("Composer dependencies installed.", 45);
+		$this->logger->write("Composer dependencies installed.", 45);
 	}
 
 	protected function installNodeDependencies(): void
 	{
 		shell_exec("cd {$this->installPath}/frontend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html node:22-alpine npm install --force");
 
-		$this->log("Node.js dependencies installed.", 55);
+		$this->logger->write("Node.js dependencies installed.", 60);
 	}
 
 	protected function startDockerContainers(): void
 	{
 		shell_exec("cd {$this->installPath} && docker compose -f backend/docker-compose.yml up -d && docker compose -f frontend/docker-compose.yml up -d");
 
-		$this->log("Docker containers started.", 75);
+		$this->logger->write("Docker containers started.", 75);
 	}
 
 	protected function generateAppKey(): void
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan key:generate");
 
-		$this->log("App key generated.", 80);
+		$this->logger->write("App key generated.", 80);
 	}
 
 	protected function runMigrations(bool $withSeeders = false): void
@@ -141,23 +138,13 @@ class Installer
 			shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan db:seed");
 		}
 
-		$this->log("Migrations run.", 90);
+		$this->logger->write("Migrations run.", 90);
 	}
 
 	protected function storageLink(): void
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link");
 
-		$this->log("Storage linked.", 95);
-	}
-
-	public function log(string $message, int $progress): void
-	{
-		$logData = [
-			'status' => $message,
-			'progress' => $progress
-		];
-
-		file_put_contents("install.log", json_encode($logData) . PHP_EOL, FILE_APPEND);
+		$this->logger->write("Storage linked.", 95);
 	}
 }
