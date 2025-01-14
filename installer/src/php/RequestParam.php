@@ -10,7 +10,7 @@ enum RequestParam: string
 	case APP_TIMEZONE = 'app_timezone';
 	case DB_NAME = 'db_name';
 	case DB_USER = 'db_user';
-	case Db_PASSWORD = 'db_password';
+	case DB_PASSWORD = 'db_password';
 	case MAIL_DRIVER = 'mail_driver';
 	case MAIL_HOST = 'mail_host';
 	case MAIL_PORT = 'mail_port';

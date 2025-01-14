@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . 'RequestParam.php';
-
 class Installer
 {
 	protected string $repositoryUrl = 'https://github.com/vix-4800/PageCraft.git';
@@ -34,6 +32,10 @@ class Installer
 		echo "Installation completed successfully.\n";
 
 		$this->startDockerContainers();
+
+		$databaseConfigurator = new DatabaseConfigurator($this->installationData, $this->installPath);
+		$databaseConfigurator->configure();
+
 		$this->generateAppKey();
 		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
 		$this->storageLink();
