@@ -106,7 +106,8 @@ if ($progress === 100) {
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="/var/www/pagecraft" name="<?= RequestParam::INSTALL_PATH->value ?>" required>
+						type="text" placeholder="/var/www/pagecraft" name="<?= RequestParam::INSTALL_PATH->value ?>" required
+						pattern="^[a-zA-Z0-9_\-\/]+$">
 				</div>
 			</section>
 
@@ -253,9 +254,7 @@ if ($progress === 100) {
 				</div>
 			</section>
 
-			<button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-				Install
-			</button>
+			<button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Install</button>
 		</form>
 	</main>
 
