@@ -2,11 +2,19 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . 'RequestParam.php';
+
 class Installer
 {
 	protected string $repositoryUrl = 'https://github.com/vix-4800/PageCraft.git';
 
 	protected string $installPath = './PageCraft';
+
+	public function __construct(
+		protected array $installationData
+	) {
+		// 
+	}
 
 	public function install(): void
 	{
@@ -66,14 +74,14 @@ class Installer
 		@shell_exec("cp {$this->installPath}/backend/.env.example {$this->installPath}/backend/.env");
 
 		$backendEnvContent = file_get_contents("{$this->installPath}/backend/.env");
-		$backendEnvContent = str_replace('APP_NAME=PageCraft', 'APP_NAME=Test', $backendEnvContent);
+		$backendEnvContent = str_replace('APP_NAME=PageCraft', "APP_NAME={$this->installationData[RequestParam::APP_NAME->value]}", $backendEnvContent);
 		file_put_contents("{$this->installPath}/backend/.env", $backendEnvContent);
 
 		// Frontend
 		@shell_exec("cp {$this->installPath}/frontend/.env.example {$this->installPath}/frontend/.env");
 
 		$frontendEnvContent = file_get_contents("{$this->installPath}/frontend/.env");
-		$frontendEnvContent = str_replace('APP_NAME=PageCraft', 'APP_NAME=Test', $frontendEnvContent);
+		$frontendEnvContent = str_replace('APP_NAME=PageCraft', "APP_NAME={$this->installationData[RequestParam::APP_NAME->value]}", $frontendEnvContent);
 		file_put_contents("{$this->installPath}/frontend/.env", $frontendEnvContent);
 
 		echo "Environment variables configured successfully.\n";
