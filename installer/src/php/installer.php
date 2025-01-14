@@ -35,6 +35,7 @@ class Installer
 
 		$this->startDockerContainers();
 		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
+		$this->storageLink();
 
 		echo "Containers started successfully.\n";
 	}
@@ -116,5 +117,10 @@ class Installer
 		if ($withSeeders) {
 			@shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan db:seed");
 		}
+	}
+
+	protected function storageLink(): void
+	{
+		@shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link");
 	}
 }
