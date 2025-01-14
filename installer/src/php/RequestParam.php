@@ -20,4 +20,5 @@ enum RequestParam: string
 	case BACKEND_PORT = 'backend_port';
 	case RUN_SEEDERS = 'run_seeders';
 	case APP_ENVIRONMENT = 'environment';
+	case INSTALL_PATH = 'install_path';
 }

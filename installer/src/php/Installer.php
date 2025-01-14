@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/RequestParam.php';
+require_once __DIR__ . '/DatabaseConfigurator.php';
+
 class Installer
 {
 	protected string $repositoryUrl = 'https://github.com/vix-4800/PageCraft.git';
 
-	protected string $installPath = './PageCraft';
+	protected string $installPath;
 
 	public function __construct(
 		protected array $installationData
 	) {
-		file_put_contents("{$this->installPath}/install.log", '');
+		$this->installPath = $this->installationData[RequestParam::INSTALL_PATH->value] . '/pagecraft';
+
+		file_put_contents("install.log", '');
 	}
 
 	public function install(): void
@@ -19,10 +24,7 @@ class Installer
 		$this->log("Starting installation process...\n");
 
 		$this->checkDependencies();
-
-		if (is_dir($this->installPath)) {
-			throw new RuntimeException("Installation path '{$this->installPath}' already exists.");
-		}
+		$this->validateInstallPath();
 
 		$this->cloneRepository();
 		$this->configEnvironmentVariables();
@@ -41,6 +43,17 @@ class Installer
 		$this->storageLink();
 
 		$this->log("Containers started successfully.\n");
+	}
+
+	protected function validateInstallPath(): void
+	{
+		if (empty($this->installPath)) {
+			throw new InvalidArgumentException('Installation path cannot be empty.');
+		}
+
+		if (!is_writable(dirname($this->installPath))) {
+			throw new RuntimeException("Cannot write to the specified directory: " . dirname($this->installPath));
+		}
 	}
 
 	protected function checkDependencies(): void
@@ -134,6 +147,6 @@ class Installer
 
 	public function log(string $message): void
 	{
-		file_put_contents("{$this->installPath}/install.log", $message . PHP_EOL, FILE_APPEND);
+		file_put_contents("install.log", $message . PHP_EOL, FILE_APPEND);
 	}
 }

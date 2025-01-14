@@ -87,6 +87,15 @@ require_once __DIR__ . '/src/php/RequestParam.php';
 						<option value="Europe/Moscow">Europe/Moscow</option>
 					</select>
 				</div>
+
+				<div class="gap-4 md:flex md:items-center">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::INSTALL_PATH->value ?>">
+						App Location:
+					</label>
+					<input
+						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
+						type="text" placeholder="/var/www/pagecraft" name="<?= RequestParam::INSTALL_PATH->value ?>" required>
+				</div>
 			</section>
 
 			<hr class="border-gray-500">

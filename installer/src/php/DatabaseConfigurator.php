@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/Env.php';
+require_once __DIR__ . '/RequestParam.php';
+
 class DatabaseConfigurator
 {
 	private Env $envHelper;
