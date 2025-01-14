@@ -72,7 +72,8 @@ if ($progress === 100) {
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="http://localhost" name="<?= RequestParam::APP_URL->value ?>" required>
+						type="text" placeholder="http://example.com" name="<?= RequestParam::APP_URL->value ?>" required
+						pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
