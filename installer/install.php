@@ -14,22 +14,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get'])) {
 	$getParam = $_GET['get'];
 
 	if ($getParam === 'status') {
-		$logFile = __DIR__ . '/install.log';
-
-		$progress = 25;
-		$status = 'Log file not found.';
+		$logFile = 'install.log';
 
 		if (file_exists($logFile)) {
 			$lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-			$status = end($lines);
+			$lastLog = end($lines);
+
+			$logData = json_decode($lastLog, true);
+
+
+			echo json_encode([
+				'status' => $logData['status'],
+				'progress' => $logData['progress']
+			]);
+
+			return;
 		}
-
-		echo json_encode([
-			'status' => $status,
-			'progress' => $progress
-		]);
-
-		return;
 	}
 
 	echo json_encode([

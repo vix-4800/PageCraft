@@ -3,6 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	const progressStatus = document.getElementById("progress_status");
 
 	setInterval(async () => {
+		if (progressBar.value === 100) {
+			return;
+		}
+
 		const response = await fetch("/install.php?get=status");
 
 		if (response.ok) {
