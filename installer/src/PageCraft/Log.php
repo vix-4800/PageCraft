@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace PageCraft;
+
 class Log
 {
 	protected string $filename = 'install.log';

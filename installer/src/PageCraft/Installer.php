@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/RequestParam.php';
-require_once __DIR__ . '/Log.php';
-require_once __DIR__ . '/Env.php';
-require_once __DIR__ . '/Exceptions/InstallationException.php';
+namespace PageCraft;
+
+require_once __DIR__ . './../../autoloader.php';
+
+use PageCraft\Exceptions\InstallationException;
 
 class Installer
 {

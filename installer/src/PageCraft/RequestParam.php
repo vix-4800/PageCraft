@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace PageCraft;
+
 enum RequestParam: string
 {
 	case APP_NAME = 'app_name';

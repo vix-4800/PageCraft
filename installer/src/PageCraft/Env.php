@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace PageCraft;
+
 class Env
 {
 	private string $envFile;

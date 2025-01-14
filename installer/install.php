@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/src/php/Installer.php';
+require_once __DIR__ . '/autoloader.php';
+
+use PageCraft\Installer;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	file_put_contents(__DIR__ . '/install_data.json', json_encode($_POST));
