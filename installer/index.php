@@ -14,7 +14,7 @@ require_once __DIR__ . '/src/php/RequestParam.php';
 	<title>PageCraft Installer</title>
 
 	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="./src/js/main.js"></script>
+	<script src="./assets/js/main.js"></script>
 </head>
 
 <body>

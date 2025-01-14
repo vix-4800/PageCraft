@@ -8,7 +8,7 @@
 	<title>PageCraft Installer</title>
 
 	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="./src/js/loading.js"></script>
+	<script src="./assets/js/loading.js"></script>
 </head>
 
 <body>
