@@ -34,6 +34,7 @@ class Installer
 		echo "Installation completed successfully.\n";
 
 		$this->startDockerContainers();
+		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
 
 		echo "Containers started successfully.\n";
 	}
@@ -106,5 +107,14 @@ class Installer
 		@shell_exec("cd {$this->installPath} && docker compose -f backend/docker-compose.yml up -d && docker compose -f frontend/docker-compose.yml up -d");
 
 		echo "Docker containers started.\n";
+	}
+
+	protected function runMigrations(bool $withSeeders = false): void
+	{
+		@shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan migrate --force");
+
+		if ($withSeeders) {
+			@shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan db:seed");
+		}
 	}
 }
