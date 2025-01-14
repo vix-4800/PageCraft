@@ -9,3 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	$installer->install();
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get'])) {
+	$getParam = $_GET['get'];
+
+	if ($getParam === 'status') {
+		echo 'Installing...';
+	}
+}
