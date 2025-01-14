@@ -1,3 +1,9 @@
+<?php
+
+require_once __DIR__ . '/src/php/RequestParam.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,42 +47,42 @@
 				</h3>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="app_name">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::APP_NAME->value ?>">
 						App Name:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="PageCraft" name="app_name" required>
+						type="text" placeholder="PageCraft" name="<?= RequestParam::APP_NAME->value ?>" required>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="app_url">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::APP_URL->value ?>">
 						App URL:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="http://localhost" name="app_url" required>
+						type="text" placeholder="http://localhost" name="<?= RequestParam::APP_URL->value ?>" required>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="app_locale">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::APP_LOCALE->value ?>">
 						App Locale:
 					</label>
 					<select
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						name="app_locale" required>
+						name="<?= RequestParam::APP_LOCALE->value ?>" required>
 						<option value="en" selected>English</option>
 						<option value="ru">Russian</option>
 					</select>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="app_timezone">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::APP_TIMEZONE->value ?>">
 						App Timezone:
 					</label>
 					<select
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						name="app_timezone" required>
+						name="<?= RequestParam::APP_TIMEZONE->value ?>" required>
 						<option value="UTC" selected>UTC</option>
 						<option value="Europe/Moscow">Europe/Moscow</option>
 					</select>
@@ -91,30 +97,30 @@
 				</h3>
 				<div class="space-y-2">
 					<div class="gap-4 md:flex md:items-center">
-						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="db_name">
+						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::DB_NAME->value ?>">
 							DB Name:
 						</label>
 						<input
 							class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-							type="text" placeholder="pagecraft_db" name="db_name" required>
+							type="text" placeholder="pagecraft_db" name="<?= RequestParam::DB_NAME->value ?>" required>
 					</div>
 
 					<div class="gap-4 md:flex md:items-center">
-						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="db_user">
+						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::DB_USER->value ?>">
 							DB User:
 						</label>
 						<input
 							class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-							type="text" placeholder="pagecraft" name="db_user" required>
+							type="text" placeholder="pagecraft" name="<?= RequestParam::DB_USER->value ?>" required>
 					</div>
 
 					<div class="gap-4 md:flex md:items-center">
-						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="db_password">
+						<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::DB_PASSWORD->value ?>">
 							DB Password:
 						</label>
 						<input
 							class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-							type="password" placeholder="password" name="db_password">
+							type="password" placeholder="password" name="<?= RequestParam::DB_PASSWORD->value ?>" required">
 					</div>
 				</div>
 			</section>
@@ -127,60 +133,60 @@
 				</h3>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_driver">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_DRIVER->value ?>">
 						Driver:
 					</label>
 					<select
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						name="mail_driver" required>
+						name="<?= RequestParam::MAIL_DRIVER->value ?>" required>
 						<option value="smtp" selected>SMTP</option>
 						<option value="log">Log</option>
 					</select>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_host">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_HOST->value ?>">
 						Host:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="mailhog" name="mail_host">
+						type="text" placeholder="mailhog" name="<?= RequestParam::MAIL_HOST->value ?>" required">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_port">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_PORT->value ?>">
 						Port:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="number" placeholder="1025" name="mail_port" required>
+						type="number" placeholder="1025" name="<?= RequestParam::MAIL_PORT->value ?>" required>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_username">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_USERNAME->value ?>">
 						Username:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" name="mail_username">
+						type="text" name="<?= RequestParam::MAIL_USERNAME->value ?>">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_password">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_PASSWORD->value ?>">
 						Password:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="password" name="mail_password">
+						type="password" name="<?= RequestParam::MAIL_PASSWORD->value ?>">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="mail_encryption">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::MAIL_ENCRYPTION->value ?>">
 						Encryption:
 					</label>
 					<select
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						name="mail_encryption" required>
+						name="<?= RequestParam::MAIL_ENCRYPTION->value ?>" required>
 						<option value="none" selected>None</option>
 						<option value="tls">TLS</option>
 						<option value="ssl">SSL</option>
@@ -196,29 +202,29 @@
 				</h3>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="backend_port">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::BACKEND_PORT->value ?>">
 						Backend Port:
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="number" placeholder="8080" value="8080" name="backend_port" required>
+						type="number" placeholder="8080" value="8080" name="<?= RequestParam::BACKEND_PORT->value ?>" required>
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="run_seeders">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::RUN_SEEDERS->value ?>">
 						Populate Database with Test Data:
 					</label>
 					<input class="w-5 h-5 bg-gray-200 border-2 border-gray-200 rounded" type="checkbox"
-						name="run_seeders" value="1">
+						name="<?= RequestParam::RUN_SEEDERS->value ?>" value="1">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
-					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="environment">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::APP_ENVIRONMENT->value ?>">
 						Environment:
 					</label>
 					<select
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						name="environment" required>
+						name="<?= RequestParam::APP_ENVIRONMENT->value ?>" required>
 						<option value="local" selected>Local</option>
 						<option value="staging">Staging</option>
 						<option value="production">Production</option>
