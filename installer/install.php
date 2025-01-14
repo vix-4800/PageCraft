@@ -14,6 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get'])) {
 	$getParam = $_GET['get'];
 
 	if ($getParam === 'status') {
-		echo 'Installing...';
+		$progress = 25;
+		$status = 'Installing...';
+
+		echo json_encode([
+			'status' => 'Installing...',
+			'progress' => $progress
+		]);
+
+		return;
 	}
+
+	echo json_encode([
+		'status' => 'Installation not started.',
+		'progress' => 0
+	]);
 }

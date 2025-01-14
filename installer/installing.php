@@ -19,7 +19,7 @@
 	<main class="flex justify-center min-h-screen gap-4 mx-auto lg:max-w-6xl md:max-w-4xl">
 		<div class="w-1/2">
 			<div class="flex flex-col items-center justify-between w-full gap-4">
-				<progress class="w-full rounded" value="50" max="100" id="progress_bar"></progress>
+				<progress class="w-full rounded" value="0" max="100" id="progress_bar"></progress>
 				<span id="progress_status">Loading...</span>
 			</div>
 		</div>

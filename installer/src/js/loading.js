@@ -1,13 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-	const progressElement = document.getElementById("progress_bar");
+	const progressBar = document.getElementById("progress_bar");
 	const progressStatus = document.getElementById("progress_status");
 
 	setInterval(async () => {
 		const response = await fetch("/install.php?get=status");
 
 		if (response.ok) {
-			const status = await response.text();
-			progressStatus.textContent = status;
+			const data = await response.json();
+			progressBar.value = Number.parseFloat(data.progress);
+			progressStatus.textContent = data.status;
+		} else {
+			progressStatus.textContent = "Error fetching status.";
 		}
 	}, 1500);
 });
