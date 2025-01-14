@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/RequestParam.php';
 require_once __DIR__ . '/Log.php';
+require_once __DIR__ . '/Env.php';
+require_once __DIR__ . '/Exceptions/InstallationException.php';
 
 class Installer
 {
@@ -50,11 +52,11 @@ class Installer
 	protected function validateInstallPath(): self
 	{
 		if (empty($this->installPath)) {
-			throw new InvalidArgumentException('Installation path cannot be empty.');
+			throw new InstallationException('Installation path cannot be empty.');
 		}
 
 		if (!is_writable(dirname($this->installPath))) {
-			throw new RuntimeException("Cannot write to the specified directory: " . dirname($this->installPath));
+			throw new InstallationException("Cannot write to the specified directory: " . dirname($this->installPath));
 		}
 
 		return $this;
@@ -65,13 +67,13 @@ class Installer
 		$gitVersion = shell_exec('git --version');
 
 		if (is_bool($gitVersion) && empty($gitVersion)) {
-			throw new RuntimeException('Git is not installed or not available in PATH.');
+			throw new InstallationException('Git is not installed or not available in PATH.');
 		}
 
 		$dockerVersion = shell_exec('docker -v');
 
 		if (is_bool($dockerVersion) && empty($dockerVersion)) {
-			throw new RuntimeException('Docker is not installed or not available in PATH.');
+			throw new InstallationException('Docker is not installed or not available in PATH.');
 		}
 
 		$this->logger->write("Dependencies checked: Git and Docker are available.", 10);
@@ -86,7 +88,7 @@ class Installer
 		$cloneResult = shell_exec("cd {$this->installPath} && git clone {$this->repositoryUrl} .");
 
 		if (is_bool($cloneResult) && empty($cloneResult)) {
-			throw new RuntimeException('Failed to clone repository.');
+			throw new InstallationException('Failed to clone repository.');
 		}
 
 		$this->logger->write("Repository cloned successfully.", 25);
