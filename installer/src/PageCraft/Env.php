@@ -18,16 +18,29 @@ class Env
 		}
 	}
 
-	public function get(string $key): string
+	public function get(string $key): ?string
 	{
-		return explode("{$key}=", $this->getEnvContent())[1];
+		$pattern = "/^{$key}=(.*)$/m";
+
+		if (preg_match($pattern, $this->getEnvContent(), $matches)) {
+			return trim($matches[1]);
+		}
+
+		return null;
 	}
 
 	public function set(string $key, string $value): void
 	{
-		$this->writeToEnvFile(
-			str_replace("{$key}=", "{$key}={$value}", $this->getEnvContent())
-		);
+		$envContent = $this->getEnvContent();
+		$pattern = "/^{$key}=.*$/m";
+
+		$value = empty($value) ? $value : "\"{$value}\"";
+
+		$newContent = preg_match($pattern, $envContent)
+			? preg_replace($pattern, "{$key}={$value}", $envContent)
+			: $envContent . PHP_EOL . "{$key}={$value}";
+
+		$this->writeToEnvFile($newContent);
 	}
 
 	public function delete(string $key): void
