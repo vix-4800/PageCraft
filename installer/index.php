@@ -124,7 +124,8 @@ if ($progress === 100) {
 						</label>
 						<input
 							class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-							type="text" placeholder="pagecraft_db" name="<?= RequestParam::DB_NAME->value ?>" required>
+							type="text" placeholder="pagecraft_db" name="<?= RequestParam::DB_NAME->value ?>" required
+							pattern="^[a-zA-Z0-9_\-]+$">
 					</div>
 
 					<div class="gap-4 md:flex md:items-center">
@@ -133,7 +134,8 @@ if ($progress === 100) {
 						</label>
 						<input
 							class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-							type="text" placeholder="pagecraft" name="<?= RequestParam::DB_USER->value ?>" required>
+							type="text" placeholder="pagecraft" name="<?= RequestParam::DB_USER->value ?>" required
+							pattern="^[a-zA-Z0-9_\-]+$">
 					</div>
 
 					<div class="gap-4 md:flex md:items-center">
@@ -172,7 +174,8 @@ if ($progress === 100) {
 					</label>
 					<input
 						class="w-3/5 px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"
-						type="text" placeholder="mailhog" name="<?= RequestParam::MAIL_HOST->value ?>" required">
+						type="text" placeholder="mailhog" name="<?= RequestParam::MAIL_HOST->value ?>" required"
+						pattern="^[a-zA-Z0-9_\-]+$">
 				</div>
 
 				<div class="gap-4 md:flex md:items-center">
