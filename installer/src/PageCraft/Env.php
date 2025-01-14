@@ -6,16 +6,12 @@ namespace PageCraft;
 
 class Env
 {
-	private string $envFile;
+	protected string $envFile;
 
 	public function __construct(
-		private readonly string $directory
+		protected readonly string $directory
 	) {
 		$this->envFile = "{$this->directory}/.env";
-
-		if (!file_exists($this->envFile)) {
-			$this->createFromExample();
-		}
 	}
 
 	public function get(string $key): ?string

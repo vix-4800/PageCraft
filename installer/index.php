@@ -42,7 +42,7 @@ use PageCraft\RequestParam;
 			</ul>
 		</aside>
 
-		<form action="./install.php" method="POST" class="w-4/5 space-y-4" id="installer-form">
+		<form class="w-4/5 space-y-4" id="installer-form">
 			<section class="space-y-2" id="application-settings">
 				<h3 class="text-xl font-bold text-gray-800">
 					Application Settings

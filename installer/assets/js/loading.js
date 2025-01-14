@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			return;
 		}
 
-		const response = await fetch("/install.php?get=status");
+		const response = await fetch("handler.php?get=status");
 
 		if (response.ok) {
 			const data = await response.json();

@@ -86,7 +86,7 @@ class Installer
 	{
 		mkdir($this->installPath, 0755, true);
 
-		$cloneResult = shell_exec("cd {$this->installPath} && git clone {$this->repositoryUrl} .");
+		$cloneResult = exec("cd {$this->installPath} && git clone {$this->repositoryUrl} .");
 
 		if (is_bool($cloneResult) && empty($cloneResult)) {
 			throw new InstallationException('Failed to clone repository.');
@@ -100,12 +100,14 @@ class Installer
 	protected function configEnvironmentVariables(): self
 	{
 		// Backend
+		$this->backendEnvHelper->createFromExample();
 		$this->backendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
 		$this->backendEnvHelper->set('DB_DATABASE', $this->installationData[RequestParam::DB_NAME->value]);
 		$this->backendEnvHelper->set('DB_USERNAME', $this->installationData[RequestParam::DB_USER->value]);
 		$this->backendEnvHelper->set('DB_PASSWORD', $this->installationData[RequestParam::DB_PASSWORD->value]);
 
 		// Frontend
+		$this->frontendEnvHelper->createFromExample();
 		$this->frontendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
 
 		$this->logger->write("Environment variables configured successfully.", 30);

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			const formData = new FormData(e.target);
 
-			const response = await fetch("install.php", {
+			const response = await fetch("handler.php", {
 				method: "POST",
 				body: formData,
 			});
