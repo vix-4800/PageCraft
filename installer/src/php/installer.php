@@ -34,6 +34,7 @@ class Installer
 		echo "Installation completed successfully.\n";
 
 		$this->startDockerContainers();
+		$this->generateAppKey();
 		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
 		$this->storageLink();
 
@@ -108,6 +109,11 @@ class Installer
 		@shell_exec("cd {$this->installPath} && docker compose -f backend/docker-compose.yml up -d && docker compose -f frontend/docker-compose.yml up -d");
 
 		echo "Docker containers started.\n";
+	}
+
+	protected function generateAppKey(): void
+	{
+		@shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan key:generate");
 	}
 
 	protected function runMigrations(bool $withSeeders = false): void
