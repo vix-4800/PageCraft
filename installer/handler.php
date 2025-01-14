@@ -3,7 +3,15 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	file_put_contents(__DIR__ . '/install_data.json', json_encode($_POST));
 
-	shell_exec('php ' . __DIR__ . '/install.php');
+	exec("php " . __DIR__ . "/install.php > /dev/null 2>&1 &");
+
+	http_response_code(200);
+
+	echo json_encode([
+		'status' => 'Installation started.',
+		'progress' => 0
+	]);
+	return;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get'])) {
