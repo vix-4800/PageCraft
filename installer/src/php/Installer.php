@@ -33,21 +33,21 @@ class Installer
 	{
 		$this->logger->write("Starting installation process...", 0);
 
-		$this->checkDependencies();
-		$this->validateInstallPath();
-		$this->cloneRepository();
-		$this->configEnvironmentVariables();
-		$this->installComposerDependencies();
-		$this->installNodeDependencies();
-		$this->startDockerContainers();
-		$this->generateAppKey();
-		$this->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1);
-		$this->storageLink();
+		$this->checkDependencies()
+			->validateInstallPath()
+			->cloneRepository()
+			->configEnvironmentVariables()
+			->installComposerDependencies()
+			->installNodeDependencies()
+			->startDockerContainers()
+			->generateAppKey()
+			->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1)
+			->storageLink();
 
 		$this->logger->write("Containers started successfully.", 100);
 	}
 
-	protected function validateInstallPath(): void
+	protected function validateInstallPath(): self
 	{
 		if (empty($this->installPath)) {
 			throw new InvalidArgumentException('Installation path cannot be empty.');
@@ -56,9 +56,11 @@ class Installer
 		if (!is_writable(dirname($this->installPath))) {
 			throw new RuntimeException("Cannot write to the specified directory: " . dirname($this->installPath));
 		}
+
+		return $this;
 	}
 
-	protected function checkDependencies(): void
+	protected function checkDependencies(): self
 	{
 		$gitVersion = shell_exec('git --version');
 
@@ -73,9 +75,11 @@ class Installer
 		}
 
 		$this->logger->write("Dependencies checked: Git and Docker are available.", 10);
+
+		return $this;
 	}
 
-	protected function cloneRepository(): void
+	protected function cloneRepository(): self
 	{
 		mkdir($this->installPath, 0755, true);
 
@@ -86,9 +90,11 @@ class Installer
 		}
 
 		$this->logger->write("Repository cloned successfully.", 25);
+
+		return $this;
 	}
 
-	protected function configEnvironmentVariables(): void
+	protected function configEnvironmentVariables(): self
 	{
 		// Backend
 		$this->backendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
@@ -100,37 +106,47 @@ class Installer
 		$this->frontendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
 
 		$this->logger->write("Environment variables configured successfully.", 30);
+
+		return $this;
 	}
 
-	protected function installComposerDependencies(): void
+	protected function installComposerDependencies(): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html composer:latest composer install --ignore-platform-reqs --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts");
 
 		$this->logger->write("Composer dependencies installed.", 45);
+
+		return $this;
 	}
 
-	protected function installNodeDependencies(): void
+	protected function installNodeDependencies(): self
 	{
 		shell_exec("cd {$this->installPath}/frontend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html node:22-alpine npm install --force");
 
 		$this->logger->write("Node.js dependencies installed.", 60);
+
+		return $this;
 	}
 
-	protected function startDockerContainers(): void
+	protected function startDockerContainers(): self
 	{
 		shell_exec("cd {$this->installPath} && docker compose -f backend/docker-compose.yml up -d && docker compose -f frontend/docker-compose.yml up -d");
 
 		$this->logger->write("Docker containers started.", 75);
+
+		return $this;
 	}
 
-	protected function generateAppKey(): void
+	protected function generateAppKey(): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan key:generate");
 
 		$this->logger->write("App key generated.", 80);
+
+		return $this;
 	}
 
-	protected function runMigrations(bool $withSeeders = false): void
+	protected function runMigrations(bool $withSeeders = false): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan migrate --force");
 
@@ -139,12 +155,16 @@ class Installer
 		}
 
 		$this->logger->write("Migrations run.", 90);
+
+		return $this;
 	}
 
-	protected function storageLink(): void
+	protected function storageLink(): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link");
 
 		$this->logger->write("Storage linked.", 95);
+
+		return $this;
 	}
 }
