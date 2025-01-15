@@ -22,13 +22,10 @@ Route::name('api.')->group(function (): void {
             Route::apiResource('users', UserController::class);
             Route::post('users/{user}/verify', [UserController::class, 'verify'])->name('users.verify');
 
-            Route::controller(StatisticsController::class)
-                ->prefix('statistics')
-                ->name('statistics.')
-                ->group(function (): void {
-                    Route::get('overview', 'overview')->name('overview');
-                    Route::get('sales/last-week', 'salesForLastSevenDays')->name('sales.lastSevenDays');
-                });
+            Route::controller(StatisticsController::class)->prefix('statistics')->name('statistics.')->group(function (): void {
+                Route::get('overview', 'overview')->name('overview');
+                Route::get('sales/last-week', 'salesForLastSevenDays')->name('sales.lastSevenDays');
+            });
         });
 
         Route::apiSingleton('site-settings', SiteSettingController::class);
@@ -42,8 +39,9 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
-        Route::apiResource('orders', OrderController::class)->except('destroy');
+        Route::get('orders/latest', [OrderController::class, 'latest'])->name('orders.latest');
         Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
+        Route::apiResource('orders', OrderController::class)->except('destroy');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

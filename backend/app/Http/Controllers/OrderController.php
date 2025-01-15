@@ -10,7 +10,6 @@ use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -40,16 +39,22 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function index(Request $request): JsonResource
     {
-        $query = Order::with('user')->orderBy('created_at', 'desc');
-
-        $query->when($request->filled(['start_date', 'end_date']), function (Builder $query) use ($request): void {
-            $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
-        });
-
         $limit = $request->input('limit', 10);
 
         return OrderResource::collection(
-            $query->paginate($limit)
+            Order::with('user')->orderBy('created_at', 'desc')->paginate($limit)
+        );
+    }
+
+    /**
+     * Display a listing of the latest orders.
+     */
+    public function latest(Request $request): JsonResource
+    {
+        $limit = $request->input('limit', 10);
+
+        return OrderResource::collection(
+            Order::with('user')->orderBy('created_at', 'desc')->take($limit)->get()
         );
     }
 

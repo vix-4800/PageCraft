@@ -1,9 +1,8 @@
 #!make
 
-.PHONY: build start stop ps restart pull config \ 
-	start_frontend stop_frontend restart_frontend shell_frontend logs_frontend \
-	start_backend stop_backend restart_backend shell_backend logs_backend \
-	start stop ps restart
+.PHONY: start stop restart pull update \ 
+	start_frontend stop_frontend restart_frontend shell_frontend logs_frontend update_frontend \
+	start_backend stop_backend restart_backend shell_backend logs_backend update_backend
 
 FRONTEND_DOCKER_FILE=frontend/docker-compose.yml
 BACKEND_DOCKER_FILE=backend/docker-compose.yml
@@ -12,6 +11,12 @@ BACKEND_DOCKER_FILE=backend/docker-compose.yml
 start: start_frontend start_backend
 stop: stop_frontend stop_backend
 restart: restart_frontend restart_backend
+update: pull start update_frontend update_backend restart
+install: start install_frontend install_backend restart
+pull:
+	@echo "\nPulling images..."
+	@docker compose -f $(FRONTEND_DOCKER_FILE) pull
+	@docker compose -f $(BACKEND_DOCKER_FILE) pull
 
 # Frontend
 start_frontend:
@@ -30,6 +35,12 @@ shell_frontend:
 logs_frontend:
 	@echo "\nShowing Frontend Logs..."
 	@docker logs -f frontend
+update_frontend:
+	@echo "\nUpdating Frontend..."
+	@docker exec -it frontend npm update --force
+install_frontend:
+	@echo "\nInstalling Frontend..."
+	@docker exec -it frontend npm install --force
 
 # Backend
 start_backend:
@@ -48,3 +59,9 @@ shell_backend:
 logs_backend:
 	@echo "\nShowing Backend Logs..."
 	@docker logs -f backend
+update_backend:
+	@echo "\nUpdating Backend..."
+	@docker exec -it backend composer update
+install_backend:
+	@echo "\nInstalling Backend..."
+	@docker exec -it backend composer install

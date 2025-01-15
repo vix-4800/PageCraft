@@ -15,7 +15,11 @@ class UserController extends Controller
 {
     public function index(): JsonResource
     {
-        return UserResource::collection(User::all());
+        $limit = request()->get('limit', 10);
+
+        return UserResource::collection(
+            User::paginate($limit)
+        );
     }
 
     public function show(User $user): JsonResource
