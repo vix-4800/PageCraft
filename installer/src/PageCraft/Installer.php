@@ -102,6 +102,7 @@ class Installer
 		$appName = $this->installationData[RequestParam::APP_NAME->value];
 		$appEnv = $this->installationData[RequestParam::APP_ENVIRONMENT->value];
 		$appUrl = $this->installationData[RequestParam::APP_URL->value];
+		$appDomain = str_replace('https://', '', $appUrl);
 		$backendPort = $this->installationData[RequestParam::BACKEND_PORT->value];
 
 		$databaseName = $this->installationData[RequestParam::DB_NAME->value];
@@ -128,6 +129,8 @@ class Installer
 		$this->backendEnvHelper->set('MAIL_USERNAME', $this->installationData[RequestParam::MAIL_USERNAME->value]);
 		$this->backendEnvHelper->set('MAIL_PASSWORD', $this->installationData[RequestParam::MAIL_PASSWORD->value]);
 		$this->backendEnvHelper->set('MAIL_ENCRYPTION', $this->installationData[RequestParam::MAIL_ENCRYPTION->value]);
+
+		$this->backendEnvHelper->set('CERTBOT_DOMAINS', $appDomain);
 
 		$nginxDockerConf = file_get_contents("{$this->installPath}/backend/docker/nginx/default.conf");
 		$nginxDockerConf = str_replace('server_name localhost;', "server_name {$appUrl};", $nginxDockerConf);
