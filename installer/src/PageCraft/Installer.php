@@ -36,16 +36,24 @@ class Installer
 	{
 		$this->logger->write("Starting installation process...", 0);
 
-		$this->checkDependencies()
+		$installer = $this->checkDependencies(10)
 			->validateInstallPath()
-			->cloneRepository()
-			->configEnvironmentVariables()
-			->installComposerDependencies()
-			->installNodeDependencies()
-			->startDockerContainers()
-			->generateAppKey()
-			->runMigrations($this->installationData[RequestParam::RUN_SEEDERS->value] === 1)
-			->storageLink();
+			->cloneRepository(20)
+			->configEnvironmentVariables(30)
+			->installComposerDependencies(45)
+			->installNodeDependencies(60)
+			->startDockerContainers(70)
+			->generateAppKey(75)
+			->runMigrations(80)
+			->storageLink(85);
+
+		if ((bool) $this->installationData[RequestParam::RUN_SEEDERS->value]) {
+			$installer->runSeeders(90);
+		}
+
+		if ((bool)$this->installationData[RequestParam::ENABLE_SSL->value]) {
+			$installer->enableSsl(95);
+		}
 
 		$this->logger->write("Containers started successfully.", 100);
 	}
@@ -63,7 +71,7 @@ class Installer
 		return $this;
 	}
 
-	protected function checkDependencies(): self
+	protected function checkDependencies(int $progress): self
 	{
 		$gitVersion = shell_exec('git --version');
 
@@ -77,12 +85,12 @@ class Installer
 			throw new InstallationException('Docker is not installed or not available in PATH.');
 		}
 
-		$this->logger->write("Dependencies checked: Git and Docker are available.", 10);
+		$this->logger->write("Dependencies checked: Git and Docker are available.", $progress);
 
 		return $this;
 	}
 
-	protected function cloneRepository(): self
+	protected function cloneRepository(int $progress): self
 	{
 		mkdir($this->installPath, 0755, true);
 
@@ -92,12 +100,12 @@ class Installer
 			throw new InstallationException('Failed to clone repository.');
 		}
 
-		$this->logger->write("Repository cloned successfully.", 25);
+		$this->logger->write("Repository cloned successfully.", $progress);
 
 		return $this;
 	}
 
-	protected function configEnvironmentVariables(): self
+	protected function configEnvironmentVariables(int $progress): self
 	{
 		$appName = $this->installationData[RequestParam::APP_NAME->value];
 		$appEnv = $this->installationData[RequestParam::APP_ENVIRONMENT->value];
@@ -150,65 +158,82 @@ class Installer
 		$this->frontendEnvHelper->set('APP_URL', $appUrl);
 		$this->frontendEnvHelper->set('API_PORT', $backendPort);
 
-		$this->logger->write("Environment variables configured successfully.", 30);
+		$this->logger->write("Environment variables configured successfully.", $progress);
 
 		return $this;
 	}
 
-	protected function installComposerDependencies(): self
+	protected function installComposerDependencies(int $progress): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html composer:latest composer install --ignore-platform-reqs --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts");
 
-		$this->logger->write("Composer dependencies installed.", 45);
+		$this->logger->write("Composer dependencies installed.", $progress);
 
 		return $this;
 	}
 
-	protected function installNodeDependencies(): self
+	protected function installNodeDependencies(int $progress): self
 	{
 		shell_exec("cd {$this->installPath}/frontend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html node:22-alpine npm install --force");
 
-		$this->logger->write("Node.js dependencies installed.", 60);
+		$this->logger->write("Node.js dependencies installed.", $progress);
 
 		return $this;
 	}
 
-	protected function startDockerContainers(): self
+	protected function startDockerContainers(int $progress): self
 	{
 		shell_exec("cd {$this->installPath} && docker compose -f backend/docker-compose.yml up -d && docker compose -f frontend/docker-compose.yml up -d");
 
-		$this->logger->write("Docker containers started.", 75);
+		$this->logger->write("Docker containers started.", $progress);
 
 		return $this;
 	}
 
-	protected function generateAppKey(): self
+	protected function generateAppKey(int $progress): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan key:generate");
 
-		$this->logger->write("App key generated.", 80);
+		$this->logger->write("App key generated.", $progress);
 
 		return $this;
 	}
 
-	protected function runMigrations(bool $withSeeders = false): self
+	protected function runMigrations(int $progress): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan migrate --force");
 
-		if ($withSeeders) {
-			shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan db:seed");
-		}
-
-		$this->logger->write("Migrations run.", 90);
+		$this->logger->write("Migrations run.", $progress);
 
 		return $this;
 	}
 
-	protected function storageLink(): self
+	protected function runSeeders(int $progress): self
+	{
+		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan db:seed");
+
+		$this->logger->write("Seeders run.", $progress);
+
+		return $this;
+	}
+
+	protected function storageLink(int $progress): self
 	{
 		shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link");
 
-		$this->logger->write("Storage linked.", 95);
+		$this->logger->write("Storage linked.", $progress);
+
+		return $this;
+	}
+
+	protected function enableSsl(int $progress): self
+	{
+		$domains = $this->backendEnvHelper->get('CERTBOT_DOMAINS');
+		$email = $this->backendEnvHelper->get('CERTBOT_EMAIL');
+
+		shell_exec("cd {$this->installPath}/backend && docker exec -it backend certbot --nginx --non-interactive --agree-tos --email {$email} --domains {$domains}");
+
+		$this->logger->write("Certbot enabled, SSL enabled.", $progress);
 
 		return $this;
 	}

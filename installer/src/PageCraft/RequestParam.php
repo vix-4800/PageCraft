@@ -23,4 +23,5 @@ enum RequestParam: string
 	case RUN_SEEDERS = 'run_seeders';
 	case APP_ENVIRONMENT = 'environment';
 	case INSTALL_PATH = 'install_path';
+	case ENABLE_SSL = 'enable_ssl';
 }

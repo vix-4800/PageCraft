@@ -255,6 +255,14 @@ if ($progress === 100) {
 						<option value="production">Production</option>
 					</select>
 				</div>
+
+				<div class="gap-4 md:flex md:items-center">
+					<label class="font-bold text-gray-500 md:w-1/4 md:text-right md:mb-0" for="<?= RequestParam::ENABLE_SSL->value ?>">
+						Enable SSL:
+					</label>
+					<input class="w-5 h-5 bg-gray-200 border-2 border-gray-200 rounded" type="checkbox"
+						name="<?= RequestParam::ENABLE_SSL->value ?>" value="1">
+				</div>
 			</section>
 
 			<button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Install</button>
