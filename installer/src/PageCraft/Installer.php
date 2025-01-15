@@ -99,16 +99,53 @@ class Installer
 
 	protected function configEnvironmentVariables(): self
 	{
+		$appName = $this->installationData[RequestParam::APP_NAME->value];
+		$appEnv = $this->installationData[RequestParam::APP_ENVIRONMENT->value];
+		$appUrl = $this->installationData[RequestParam::APP_URL->value];
+		$backendPort = $this->installationData[RequestParam::BACKEND_PORT->value];
+
+		$databaseName = $this->installationData[RequestParam::DB_NAME->value];
+		$databaseUser = $this->installationData[RequestParam::DB_USER->value];
+		$databasePassword = $this->installationData[RequestParam::DB_PASSWORD->value];
+
 		// Backend
 		$this->backendEnvHelper->createFromExample();
-		$this->backendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
-		$this->backendEnvHelper->set('DB_DATABASE', $this->installationData[RequestParam::DB_NAME->value]);
-		$this->backendEnvHelper->set('DB_USERNAME', $this->installationData[RequestParam::DB_USER->value]);
-		$this->backendEnvHelper->set('DB_PASSWORD', $this->installationData[RequestParam::DB_PASSWORD->value]);
+		$this->backendEnvHelper->set('APP_NAME', $appName);
+		$this->backendEnvHelper->set('APP_ENV', $appEnv);
+		$this->backendEnvHelper->set('APP_PORT', $backendPort);
+		$this->backendEnvHelper->set('APP_URL', "{$appUrl}:\${APP_PORT}");
+		$this->backendEnvHelper->set('FRONTEND_URL', $appUrl);
+		$this->backendEnvHelper->set('APP_LOCALE', $this->installationData[RequestParam::APP_LOCALE->value]);
+		$this->backendEnvHelper->set('APP_TIMEZONE', $this->installationData[RequestParam::APP_TIMEZONE->value]);
+
+		$this->backendEnvHelper->set('DB_DATABASE', $databaseName);
+		$this->backendEnvHelper->set('DB_USERNAME', $databaseUser);
+		$this->backendEnvHelper->set('DB_PASSWORD', $databasePassword);
+
+		$this->backendEnvHelper->set('MAIL_MAILER', $this->installationData[RequestParam::MAIL_DRIVER->value]);
+		$this->backendEnvHelper->set('MAIL_HOST', $this->installationData[RequestParam::MAIL_HOST->value]);
+		$this->backendEnvHelper->set('MAIL_PORT', $this->installationData[RequestParam::MAIL_PORT->value]);
+		$this->backendEnvHelper->set('MAIL_USERNAME', $this->installationData[RequestParam::MAIL_USERNAME->value]);
+		$this->backendEnvHelper->set('MAIL_PASSWORD', $this->installationData[RequestParam::MAIL_PASSWORD->value]);
+		$this->backendEnvHelper->set('MAIL_ENCRYPTION', $this->installationData[RequestParam::MAIL_ENCRYPTION->value]);
+
+		$nginxDockerConf = file_get_contents("{$this->installPath}/backend/docker/nginx/default.conf");
+		$nginxDockerConf = str_replace('server_name localhost;', "server_name {$appUrl};", $nginxDockerConf);
+		file_put_contents("{$this->installPath}/backend/docker/nginx/default.conf", $nginxDockerConf);
+
+		$mySqlDockerConf = file_get_contents("{$this->installPath}/backend/docker/mysql/init.sql");
+		$mySqlDockerConf = str_replace('IF NOT EXISTS pagecraft', "IF NOT EXISTS {$databaseName}", $mySqlDockerConf);
+		$mySqlDockerConf = str_replace('CREATE USER \'pagecraft_user\'', "CREATE USER '{$databaseUser}'", $mySqlDockerConf);
+		$mySqlDockerConf = str_replace('IDENTIFIED BY \'pagecraft\'', "IDENTIFIED BY '{$databasePassword}'", $mySqlDockerConf);
+		$mySqlDockerConf = str_replace('ON pagecraft.* TO \'pagecraft_user\'', "ON {$databaseName}.* TO '{$databaseUser}'", $mySqlDockerConf);
+		file_put_contents("{$this->installPath}/backend/docker/mysql/init.sql", $mySqlDockerConf);
 
 		// Frontend
 		$this->frontendEnvHelper->createFromExample();
-		$this->frontendEnvHelper->set('APP_NAME', $this->installationData[RequestParam::APP_NAME->value]);
+		$this->frontendEnvHelper->set('APP_NAME', $appName);
+		$this->frontendEnvHelper->set('APP_ENV', $appEnv);
+		$this->frontendEnvHelper->set('APP_URL', $appUrl);
+		$this->frontendEnvHelper->set('API_PORT', $backendPort);
 
 		$this->logger->write("Environment variables configured successfully.", 30);
 
