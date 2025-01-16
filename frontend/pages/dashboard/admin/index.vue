@@ -57,6 +57,24 @@
         </div>
 
         <div
+            id="widgetIframe"
+            class="col-span-12 border rounded-xl border-slate-200"
+        >
+            <div class="px-6 pt-6">
+                <span class="text-2xl font-bold">Visits</span>
+
+                <iframe
+                    width="100%"
+                    height="350"
+                    src="http://localhost:8082/index.php?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=1&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=day&date=yesterday"
+                    scrolling="yes"
+                    marginheight="0"
+                    marginwidth="0"
+                ></iframe>
+            </div>
+        </div>
+
+        <div
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
         >
             <div class="px-6 pt-6">
