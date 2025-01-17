@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Review } from '~/types/review';
+import { ReviewStatus, type Review } from '~/types/review';
 
 definePageMeta({
     layout: 'dashboard',
@@ -90,7 +90,11 @@ async function getReviews() {
 
 const pendingReviews = ref<Review[]>([]);
 async function getPendingReviews() {
-    const { data } = await apiFetch<{ data: Review[] }>('v1/reviews/pending');
+    const { data } = await apiFetch<{ data: Review[] }>('v1/reviews', {
+        params: {
+            status: ReviewStatus.PENDING,
+        },
+    });
 
     pendingReviews.value = data;
 }

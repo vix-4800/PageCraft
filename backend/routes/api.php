@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductVariationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\SiteTemplateController;
 use App\Http\Controllers\StatisticsController;
@@ -43,6 +44,8 @@ Route::name('api.')->group(function (): void {
         Route::get('orders/latest', [OrderController::class, 'latest'])->name('orders.latest');
         Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
         Route::apiResource('orders', OrderController::class)->except('destroy');
+
+        Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

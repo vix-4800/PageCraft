@@ -10,3 +10,9 @@ export interface Review {
     created_at: Date;
     product: Product;
 }
+
+export enum ReviewStatus {
+    PENDING = 'pending',
+    APPROVED = 'approved',
+    REJECTED = 'rejected',
+}
