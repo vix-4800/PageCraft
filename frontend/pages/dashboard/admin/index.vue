@@ -5,7 +5,9 @@
         >
             <dl>
                 <dt class="text-2xl font-bold">{{ statistics.users.today }}</dt>
-                <dd class="text-sm font-medium text-slate-500">Users today</dd>
+                <dd class="text-sm font-medium text-slate-500">
+                    Registered today
+                </dd>
             </dl>
         </div>
 
@@ -14,7 +16,9 @@
         >
             <dl>
                 <dt class="text-2xl font-bold">{{ statistics.users.total }}</dt>
-                <dd class="text-sm font-medium text-slate-500">Users total</dd>
+                <dd class="text-sm font-medium text-slate-500">
+                    Registered total
+                </dd>
             </dl>
         </div>
 
