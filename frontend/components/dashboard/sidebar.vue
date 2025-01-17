@@ -41,10 +41,16 @@ const adminLinks = [
         to: '/dashboard/my-orders',
     },
     {
-        category: 'Orders',
+        category: 'Products',
         label: 'Products',
         icon: 'material-symbols:storefront',
         to: '/dashboard/admin/products',
+    },
+    {
+        category: 'Products',
+        label: 'Reviews',
+        icon: 'material-symbols:rate-review',
+        to: '/dashboard/admin/reviews',
     },
     {
         category: 'Administration',
