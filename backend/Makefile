@@ -1,6 +1,7 @@
 #!make
 
-.PHONY: start stop restart shell logs migrate seed test pint helper
+.PHONY: start stop restart shell logs migrate seed test pint helper scout \
+    install update pull build
 
 include .env
 
@@ -53,3 +54,19 @@ helper:
 scout:
 	@echo "\nUpdating Laravel Scout Indexes"
 	@docker exec -it backend php artisan scout:import "App\Models\Product"
+
+update:
+	@echo "\nUpdating..."
+	@docker exec -it backend composer update
+
+install:
+	@echo "\nInstalling..."
+	@docker exec -it backend composer install
+
+pull:
+	@echo "\nPulling images..."
+	@docker compose pull
+
+build:
+	@echo "\nBuilding images..."
+	@docker compose build
