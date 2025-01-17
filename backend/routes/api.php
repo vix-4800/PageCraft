@@ -35,6 +35,7 @@ Route::name('api.')->group(function (): void {
         Route::get('products/best', [ProductController::class, 'best'])->name('products.best');
         Route::get('products/new', [ProductController::class, 'new'])->name('products.new');
         Route::get('products/popular', [ProductController::class, 'popular'])->name('products.popular');
+        Route::post('products/update-search-indexes', [ProductController::class, 'updateSearchIndexes'])->name('products.updateSearchIndexes');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');

@@ -1,6 +1,24 @@
 <template>
     <div>
-        <DashboardPageName title="Products" />
+        <DashboardPageName title="Products">
+            <template #actions>
+                <u-button
+                    label="Update Search Indexes"
+                    icon="material-symbols:refresh"
+                    color="blue"
+                    size="md"
+                    @click="updateSearchIndexes"
+                />
+
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:add"
+                    label="Add Product"
+                    @click="navigateTo('/dashboard/admin/products/create')"
+                />
+            </template>
+        </DashboardPageName>
 
         <u-table
             :columns="columns"
@@ -27,18 +45,6 @@
                 :active-button="{ variant: 'outline', color: 'blue' }"
                 :inactive-button="{ color: 'gray' }"
                 :total="total"
-            />
-        </div>
-
-        <div class="w-full px-1 mt-4">
-            <u-button
-                color="blue"
-                block
-                size="md"
-                :loading="status === 'pending'"
-                type="button"
-                label="Add Product"
-                @click="navigateTo('/dashboard/admin/products/create')"
             />
         </div>
     </div>
@@ -108,5 +114,11 @@ watch(page, async () => {
 
 function select(row: Product) {
     return navigateTo('/dashboard/admin/products/' + row.slug);
+}
+
+async function updateSearchIndexes() {
+    await apiFetch(`v1/products/update-search-indexes`, {
+        method: 'POST',
+    });
 }
 </script>

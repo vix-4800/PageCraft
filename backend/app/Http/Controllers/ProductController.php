@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
@@ -15,6 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Artisan;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -24,7 +26,7 @@ class ProductController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(['auth:sanctum', 'admin'], only: ['store', 'update', 'destroy']),
+            new Middleware(['auth:sanctum', 'admin'], only: ['store', 'update', 'destroy', 'updateSearchIndexes']),
         ];
     }
 
@@ -147,5 +149,14 @@ class ProductController extends Controller implements HasMiddleware
         $product->delete();
 
         return response()->noContent();
+    }
+
+    public function updateSearchIndexes(): Response
+    {
+        Artisan::call('scout:update-indexes', [
+            'model' => "App\Models\Product",
+        ]);
+
+        return ApiResponse::empty();
     }
 }
