@@ -9,4 +9,5 @@ export enum TemplateBlock {
     ProductList = 'product_list',
     ProductDetail = 'product_detail',
     Cart = 'cart',
+    Contact = 'contact',
 }

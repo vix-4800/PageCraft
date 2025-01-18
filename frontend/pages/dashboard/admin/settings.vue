@@ -158,6 +158,7 @@ const templateOptions = {
         { value: 'default', label: 'Default' },
         { value: 'modern', label: 'Modern' },
     ],
+    contact: [{ value: 'default', label: 'Default' }],
 };
 
 const loading = ref(false);
