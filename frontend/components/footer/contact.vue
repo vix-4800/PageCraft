@@ -179,6 +179,14 @@
                         Contact
                     </nuxt-link>
                 </li>
+                <li class="text-sm">
+                    <nuxt-link
+                        to="/about"
+                        class="font-semibold text-gray-300 hover:underline"
+                    >
+                        About
+                    </nuxt-link>
+                </li>
             </ul>
             <p class="text-sm text-gray-300 md:ml-auto">
                 © {{ appName }}. All rights reserved.

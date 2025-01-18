@@ -10,4 +10,5 @@ export enum TemplateBlock {
     ProductDetail = 'product_detail',
     Cart = 'cart',
     Contact = 'contact',
+    About = 'about',
 }

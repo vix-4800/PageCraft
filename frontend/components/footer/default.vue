@@ -109,6 +109,14 @@
                             Privacy Policy
                         </nuxt-link>
                     </li>
+                    <li>
+                        <nuxt-link
+                            to="/about"
+                            class="text-sm text-gray-300 hover:text-yellow-500"
+                        >
+                            About
+                        </nuxt-link>
+                    </li>
                 </ul>
             </div>
         </div>

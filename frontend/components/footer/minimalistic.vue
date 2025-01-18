@@ -31,6 +31,11 @@
                         Contact
                     </nuxt-link>
                 </li>
+                <li>
+                    <nuxt-link to="/about" class="text-[15px] hover:text-white">
+                        About
+                    </nuxt-link>
+                </li>
             </ul>
         </div>
     </footer>

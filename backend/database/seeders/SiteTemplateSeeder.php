@@ -38,6 +38,10 @@ class SiteTemplateSeeder extends Seeder
             [
                 'block' => 'contact',
                 'template' => 'default',
+            ],
+            [
+                'block' => 'about',
+                'template' => 'default',
             ]
         ]);
     }

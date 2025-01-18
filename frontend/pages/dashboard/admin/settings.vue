@@ -159,6 +159,7 @@ const templateOptions = {
         { value: 'modern', label: 'Modern' },
     ],
     contact: [{ value: 'default', label: 'Default' }],
+    about: [{ value: 'default', label: 'Default' }],
 };
 
 const loading = ref(false);
