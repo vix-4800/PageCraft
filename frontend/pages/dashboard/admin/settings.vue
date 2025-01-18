@@ -16,7 +16,7 @@
                     <u-form-group
                         v-for="(setting, index) in siteSettingsState"
                         :key="index"
-                        :label="setting.key"
+                        :label="capitalize(setting.key.replace('_', ' '))"
                         required
                     >
                         <u-input
@@ -52,7 +52,7 @@
                     <u-form-group
                         v-for="(value, index) in siteTemplatesState"
                         :key="index"
-                        :label="value.block"
+                        :label="capitalize(value.block.replace('_', ' '))"
                     >
                         <u-select
                             v-model="value.template"
