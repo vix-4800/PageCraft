@@ -42,7 +42,7 @@ class SiteTemplateSeeder extends Seeder
             [
                 'block' => 'about',
                 'template' => 'default',
-            ]
+            ],
         ]);
     }
 }

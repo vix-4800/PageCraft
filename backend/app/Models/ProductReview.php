@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\ReviewReactionType;
 use App\Enums\ReviewStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -19,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read Product $product
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReviewReaction> $reactions
+ * @property-read int|null $reactions_count
  * @property-read User|null $user
  *
  * @method static \Database\Factories\ProductReviewFactory factory($count = null, $state = [])
@@ -70,5 +74,20 @@ class ProductReview extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function reactions(): HasMany
+    {
+        return $this->hasMany(ProductReviewReaction::class);
+    }
+
+    public function likesCount(): int
+    {
+        return $this->reactions()->where('type', ReviewReactionType::LIKE)->count();
+    }
+
+    public function dislikesCount(): int
+    {
+        return $this->reactions()->where('type', ReviewReactionType::DISLIKE)->count();
     }
 }

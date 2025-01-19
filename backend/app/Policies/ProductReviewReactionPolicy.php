@@ -1,28 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Policies;
 
-use App\Models\MarketplaceAccount;
+use App\Models\ProductReviewReaction;
 use App\Models\User;
+use Auth;
 
-class MarketplaceAccountPolicy
+class ProductReviewReactionPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, MarketplaceAccount $marketplaceAccount): bool
+    public function view(User $user, ProductReviewReaction $productReviewReaction): bool
     {
-        return $this->viewAny($user);
+        return true;
     }
 
     /**
@@ -30,22 +29,22 @@ class MarketplaceAccountPolicy
      */
     public function create(User $user): bool
     {
-        return $this->viewAny($user);
+        return Auth::check();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, MarketplaceAccount $marketplaceAccount): bool
+    public function update(User $user, ProductReviewReaction $productReviewReaction): bool
     {
-        return $this->viewAny($user);
+        return $user->is($productReviewReaction->user);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, MarketplaceAccount $marketplaceAccount): bool
+    public function delete(User $user, ProductReviewReaction $productReviewReaction): bool
     {
-        return $this->viewAny($user);
+        return $this->update($user, $productReviewReaction);
     }
 }

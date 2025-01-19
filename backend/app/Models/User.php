@@ -25,7 +25,6 @@ use Laravolt\Avatar\Avatar;
  * @property string|null $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
- * @property string|null $two_factor_confirmed_at
  * @property int $role_id
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -35,6 +34,10 @@ use Laravolt\Avatar\Avatar;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
  * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReviewReaction> $productReviewReactions
+ * @property-read int|null $product_review_reactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $productReviews
+ * @property-read int|null $product_reviews_count
  * @property-read Role $role
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
@@ -52,7 +55,6 @@ use Laravolt\Avatar\Avatar;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
@@ -121,5 +123,15 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn (): string => $avatar->create($this->email)->toGravatar(['d' => 'identicon', 'r' => 'g', 's' => 100]),
         );
+    }
+
+    public function productReviewReactions(): HasMany
+    {
+        return $this->hasMany(ProductReviewReaction::class);
+    }
+
+    public function productReviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
     }
 }

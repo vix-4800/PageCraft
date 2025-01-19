@@ -9,6 +9,7 @@ use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\ProductReviewReactionController;
 use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SiteSettingController;
@@ -39,6 +40,7 @@ Route::name('api.')->group(function (): void {
         Route::post('products/update-search-indexes', [ProductController::class, 'updateSearchIndexes'])->name('products.updateSearchIndexes');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
+        Route::apiResource('products.reviews.reactions', ProductReviewReactionController::class)->shallow()->only('store');
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
         Route::get('orders/latest', [OrderController::class, 'latest'])->name('orders.latest');

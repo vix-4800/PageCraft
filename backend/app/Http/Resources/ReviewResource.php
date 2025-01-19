@@ -25,6 +25,10 @@ class ReviewResource extends JsonResource
             'id' => $this->id,
             'user' => UserShortResource::make($this->whenLoaded('user')),
             'product' => ProductResource::make($this->whenLoaded('product')),
+            'reaction' => [
+                'likes' => $this->likesCount(),
+                'dislikes' => $this->dislikesCount(),
+            ],
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status,
