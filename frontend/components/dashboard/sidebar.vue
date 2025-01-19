@@ -60,6 +60,12 @@ const adminLinks = [
     },
     {
         category: 'Administration',
+        label: 'Marketplaces',
+        icon: 'material-symbols:storefront',
+        to: '/dashboard/admin/marketplaces',
+    },
+    {
+        category: 'Administration',
         label: 'Settings',
         icon: 'material-symbols:settings-outline',
         to: '/dashboard/admin/settings',
