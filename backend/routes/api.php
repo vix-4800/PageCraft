@@ -40,7 +40,7 @@ Route::name('api.')->group(function (): void {
         Route::post('products/update-search-indexes', [ProductController::class, 'updateSearchIndexes'])->name('products.updateSearchIndexes');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
-        Route::apiResource('products.reviews.reactions', ProductReviewReactionController::class)->shallow()->only('store');
+        Route::apiResource('products.reviews.reactions', ProductReviewReactionController::class)->shallow()->scoped(['product' => 'slug'])->only('store')->middleware('auth:sanctum');
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
         Route::get('orders/latest', [OrderController::class, 'latest'])->name('orders.latest');
