@@ -54,15 +54,21 @@ const adminLinks = [
     },
     {
         category: 'Administration',
+        label: 'Marketplaces',
+        icon: 'material-symbols:storefront',
+        to: '/dashboard/admin/marketplaces',
+    },
+    {
+        category: 'Administration',
         label: 'Users',
         icon: 'material-symbols:groups',
         to: '/dashboard/admin/users',
     },
     {
         category: 'Administration',
-        label: 'Marketplaces',
-        icon: 'material-symbols:storefront',
-        to: '/dashboard/admin/marketplaces',
+        label: 'User Questions',
+        icon: 'material-symbols:question-mark',
+        to: '/dashboard/admin/questions',
     },
     {
         category: 'Administration',
