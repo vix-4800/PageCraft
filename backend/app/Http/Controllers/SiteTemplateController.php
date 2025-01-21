@@ -20,7 +20,7 @@ class SiteTemplateController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(['auth:sanctum', 'admin'], only: ['update']),
+            new Middleware(['auth:sanctum', 'admin', 'password.confirm'], only: ['update']),
         ];
     }
 
