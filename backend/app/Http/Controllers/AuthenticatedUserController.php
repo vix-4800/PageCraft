@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Resources\User\UserShowResource;
+use App\Notifications\AccountDeleted;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -22,10 +23,13 @@ class AuthenticatedUserController extends Controller
 
     public function destroy(Request $request): Response
     {
+        /** @var \App\Models\User $user */
         $user = $request->user();
 
-        $user->delete();
+        $user->notify(new AccountDeleted);
+
         $user->tokens()->delete();
+        $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
