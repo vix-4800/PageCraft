@@ -42,13 +42,17 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchUser();
             navigateTo('/verify-email');
         },
-        async logout() {
-            await apiFetch('auth/logout', {
-                method: 'POST',
-            });
+        async logout(withBackend: boolean = true) {
+            if (withBackend) {
+                await apiFetch('auth/logout', {
+                    method: 'POST',
+                });
+            }
 
             this.setUser(null);
             useCartDetailsStore().clear();
+            useCookie('XSRF-TOKEN').value = '';
+
             navigateTo('/');
         },
         async update({
@@ -131,11 +135,11 @@ export const useAuthStore = defineStore('auth', {
         async deleteUser() {
             withPasswordConfirmation(
                 async () => {
-                    await this.logout();
-
                     await apiFetch('user', {
                         method: 'DELETE',
                     });
+
+                    await this.logout(false);
                 },
                 'Confirm user deletion',
                 'Are you sure you want to delete your account?',
