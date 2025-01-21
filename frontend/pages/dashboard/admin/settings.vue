@@ -11,7 +11,7 @@
                 <u-form
                     :state="siteSettingsState"
                     class="flex flex-col gap-2 px-1"
-                    @submit="confirmSave"
+                    @submit="saveSettings"
                 >
                     <u-form-group
                         v-for="(setting, index) in siteSettingsState"
@@ -34,7 +34,6 @@
                         class="mt-2 w-min"
                         label="Save"
                         :loading="loading"
-                        :disabled="loading"
                     />
                 </u-form>
             </u-card>
@@ -70,47 +69,10 @@
                         class="mt-2 w-min"
                         label="Save"
                         :loading="loading"
-                        :disabled="loading"
                     />
                 </u-form>
             </u-card>
         </div>
-
-        <u-modal v-model="isConfirmModalOpen">
-            <div class="p-4">
-                <h3 class="text-lg font-semibold">
-                    Confirm site settings update
-                </h3>
-
-                <p class="mb-4 text-sm text-gray-600">
-                    Are you sure you want to update site settings?
-                </p>
-
-                <u-form-group label="Password" name="password" required>
-                    <u-input
-                        v-model="password"
-                        color="blue"
-                        size="md"
-                        type="password"
-                        label="Password"
-                        required
-                    />
-                </u-form-group>
-
-                <div class="flex justify-end gap-2 mt-4">
-                    <u-button
-                        color="red"
-                        label="Cancel"
-                        @click="isConfirmModalOpen = false"
-                    />
-                    <u-button
-                        color="blue"
-                        label="Update"
-                        @click="saveSettings"
-                    />
-                </div>
-            </div>
-        </u-modal>
     </div>
 </template>
 
@@ -123,13 +85,8 @@ definePageMeta({
     middleware: ['dashboard', 'verified'],
 });
 
-const { $notify } = useNuxtApp();
 const templatesStore = useSiteTemplatesStore();
 const settingStore = useSiteSettingsStore();
-const authStore = useAuthStore();
-
-const isConfirmModalOpen = ref(false);
-const password = ref('');
 
 const siteTemplatesState = ref<SiteTemplate[]>([]);
 const siteSettingsState = ref<SiteSetting[]>([]);
@@ -175,33 +132,27 @@ onMounted(async () => {
     loading.value = false;
 });
 
-const saveTemplates = async () => {
-    loading.value = true;
+async function saveTemplates() {
+    withPasswordConfirmation(
+        async () => {
+            await templatesStore.save(siteTemplatesState.value);
+            siteTemplatesState.value = templatesStore.templates;
+        },
+        'Confirm site templates update',
+        'Are you sure you want to save the changes?',
+        'Templates saved successfully'
+    );
+}
 
-    await templatesStore.save(siteTemplatesState.value);
-    siteTemplatesState.value = templatesStore.templates;
-
-    loading.value = false;
-
-    $notify('Configuration saved successfully', 'success');
-};
-
-const confirmSave = () => {
-    isConfirmModalOpen.value = true;
-};
-
-const saveSettings = async () => {
-    loading.value = true;
-
-    await authStore.confirmPassword(password.value);
-    await settingStore.save(siteSettingsState.value);
-    siteSettingsState.value = settingStore.settings;
-
-    loading.value = false;
-
-    isConfirmModalOpen.value = false;
-    password.value = '';
-
-    $notify('Settings saved successfully', 'success');
-};
+async function saveSettings() {
+    withPasswordConfirmation(
+        async () => {
+            await settingStore.save(siteSettingsState.value);
+            siteSettingsState.value = settingStore.settings;
+        },
+        'Confirm site settings update',
+        'Are you sure you want to save the changes?',
+        'Settings saved successfully'
+    );
+}
 </script>
