@@ -58,7 +58,8 @@ const props = defineProps({
     },
     successNotificationMessage: {
         type: String,
-        required: true,
+        required: false,
+        default: '',
     },
     successFunction: {
         type: Function,
@@ -79,6 +80,7 @@ const state = reactive({
     password: '' as string | undefined,
 });
 
+const modal = useModal();
 const { $notify } = useNuxtApp();
 const authStore = useAuthStore();
 
@@ -90,16 +92,24 @@ const confirm = async (event: FormSubmitEvent<Schema>) => {
 
     try {
         await authStore.confirmPassword(event.data.password);
+
+        modal.close();
+
         await props.successFunction();
 
-        $notify(props.successNotificationMessage, 'success');
+        if (props.successNotificationMessage)
+            $notify(props.successNotificationMessage, 'success');
     } catch (err) {
-        form.value!.setErrors([
-            {
-                path: 'password',
-                message: err.data.errors.password[0],
-            },
-        ]);
+        console.log(err);
+
+        if (err.data.errors.password) {
+            form.value!.setErrors([
+                {
+                    path: 'password',
+                    message: err.data.errors.password[0],
+                },
+            ]);
+        }
     } finally {
         loading.value = false;
     }

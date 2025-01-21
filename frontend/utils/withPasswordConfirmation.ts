@@ -4,8 +4,10 @@ export const withPasswordConfirmation = async (
     apiFunction: () => Promise<void>,
     title: string,
     subtitle: string,
-    onConfirmMessage: string
+    force: boolean = false,
+    onConfirmMessage?: string
 ) => {
+    const modal = useModal();
     const { $notify } = useNuxtApp();
 
     if (typeof apiFunction !== 'function') {
@@ -14,19 +16,25 @@ export const withPasswordConfirmation = async (
     }
 
     try {
-        await apiFunction();
+        if (force) {
+            openModal();
+        } else {
+            await apiFunction();
+        }
 
-        $notify(onConfirmMessage, 'success');
+        if (onConfirmMessage) $notify(onConfirmMessage, 'success');
     } catch (err) {
         if (err?.statusCode === 423) {
-            const modal = useModal();
-
-            modal.open(ConfirmPassword, {
-                title,
-                message: subtitle,
-                successNotificationMessage: onConfirmMessage,
-                successFunction: apiFunction,
-            });
+            openModal();
         }
+    }
+
+    function openModal() {
+        modal.open(ConfirmPassword, {
+            title,
+            message: subtitle,
+            successNotificationMessage: onConfirmMessage,
+            successFunction: apiFunction,
+        });
     }
 };

@@ -129,11 +129,18 @@ export const useAuthStore = defineStore('auth', {
             });
         },
         async deleteUser() {
-            await this.logout();
+            withPasswordConfirmation(
+                async () => {
+                    await this.logout();
 
-            await apiFetch('user', {
-                method: 'DELETE',
-            });
+                    await apiFetch('user', {
+                        method: 'DELETE',
+                    });
+                },
+                'Confirm user deletion',
+                'Are you sure you want to delete your account?',
+                true
+            );
         },
     },
     getters: {

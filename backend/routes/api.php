@@ -51,7 +51,7 @@ Route::name('api.')->group(function (): void {
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
-    Route::delete('user', [AuthenticatedUserController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::delete('user', [AuthenticatedUserController::class, 'destroy'])->middleware(['auth:sanctum', 'password.confirm']);
     Route::get('user/orders', [OrderController::class, 'userOrders'])->middleware('auth:sanctum');
 
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');

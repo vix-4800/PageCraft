@@ -14,15 +14,23 @@ export const useSiteSettingsStore = defineStore('site_settings', {
             this.setSettings(data);
         },
         async save(settings: SiteSetting[]) {
-            const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                `v1/site-settings`,
-                {
-                    method: 'PUT',
-                    body: settings,
-                }
-            );
+            withPasswordConfirmation(
+                async () => {
+                    const { data } = await apiFetch<{ data: SiteSetting[] }>(
+                        `v1/site-settings`,
+                        {
+                            method: 'PUT',
+                            body: settings,
+                        }
+                    );
 
-            this.setSettings(data);
+                    this.setSettings(data);
+                },
+                'Confirm site settings update',
+                'Are you sure you want to save the changes?',
+                false,
+                'Settings saved successfully'
+            );
         },
         setSettings(settings: SiteSetting[]) {
             this.settings = settings;

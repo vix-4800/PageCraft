@@ -133,26 +133,12 @@ onMounted(async () => {
 });
 
 async function saveTemplates() {
-    withPasswordConfirmation(
-        async () => {
-            await templatesStore.save(siteTemplatesState.value);
-            siteTemplatesState.value = templatesStore.templates;
-        },
-        'Confirm site templates update',
-        'Are you sure you want to save the changes?',
-        'Templates saved successfully'
-    );
+    await templatesStore.save(siteTemplatesState.value);
+    siteTemplatesState.value = templatesStore.templates;
 }
 
 async function saveSettings() {
-    withPasswordConfirmation(
-        async () => {
-            await settingStore.save(siteSettingsState.value);
-            siteSettingsState.value = settingStore.settings;
-        },
-        'Confirm site settings update',
-        'Are you sure you want to save the changes?',
-        'Settings saved successfully'
-    );
+    await settingStore.save(siteSettingsState.value);
+    siteSettingsState.value = settingStore.settings;
 }
 </script>
