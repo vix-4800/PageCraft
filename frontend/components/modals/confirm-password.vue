@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import { z } from 'zod';
-import type { FormSubmitEvent } from '#ui/types';
+import type { FormSubmitEvent, Form } from '#ui/types';
 
 const props = defineProps({
     title: {
@@ -77,7 +77,7 @@ interface Schema {
 
 const form = ref<Form<Schema>>();
 const state = reactive({
-    password: '' as string | undefined,
+    password: '' as string,
 });
 
 const modal = useModal();

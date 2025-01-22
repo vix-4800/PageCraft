@@ -13,6 +13,7 @@
         </div>
 
         <u-form
+            ref="form"
             :state="credentials"
             :schema="schema"
             class="space-y-4"
@@ -103,7 +104,7 @@
 
 <script lang="ts" setup>
 import { z } from 'zod';
-import type { FormSubmitEvent } from '#ui/types';
+import type { FormSubmitEvent, Form } from '#ui/types';
 import { OAuthProvider } from '~/types/oauth_provider';
 
 definePageMeta({
@@ -118,6 +119,7 @@ const schema = z.object({
     remember: z.boolean(),
 });
 
+const form = ref<Form<Schema>>();
 type Schema = z.output<typeof schema>;
 
 const credentials = reactive({
@@ -128,12 +130,20 @@ const credentials = reactive({
 
 const authStore = useAuthStore();
 const submitForm = async (event: FormSubmitEvent<Schema>) => {
+    form.value!.clear();
     loading.value = true;
 
     try {
         await authStore.login(event.data);
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        if (err?.statusCode === 422) {
+            form.value!.setErrors([
+                {
+                    path: 'email',
+                    message: err.data.errors.email[0],
+                },
+            ]);
+        }
     } finally {
         loading.value = false;
     }
