@@ -5,5 +5,6 @@
         </NuxtLayout>
 
         <UModals />
+        <USlideovers />
     </div>
 </template>
