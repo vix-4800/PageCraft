@@ -75,41 +75,6 @@
                 </div>
             </u-card>
 
-            <u-modal v-model="isQrCodeModalOpen">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold">Two Factor QR Code</h3>
-
-                    <p class="text-sm text-gray-600">
-                        Scan the QR code below to enable two factor
-                        authentication.
-                    </p>
-
-                    <div
-                        class="flex items-center justify-center w-full h-56"
-                        v-html="qrCode"
-                    />
-
-                    <u-divider class="my-4" />
-
-                    <p class="mb-4 text-sm font-semibold text-gray-600">
-                        If you lost your device, you can recover your account
-                        using a recovery code.
-                    </p>
-
-                    <ul class="grid w-full grid-cols-2 gap-2">
-                        <li
-                            v-for="code in recoveryCodes"
-                            :key="code"
-                            class="text-sm text-gray-600"
-                        >
-                            <u-badge size="md" color="blue" variant="soft">
-                                {{ code }}
-                            </u-badge>
-                        </li>
-                    </ul>
-                </div>
-            </u-modal>
-
             <u-card :ui="{ background: 'bg-red-100' }">
                 <div class="flex justify-between">
                     <h3 class="text-lg font-semibold">Delete Account</h3>
@@ -132,6 +97,7 @@
 <script lang="ts" setup>
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types';
+import TwoFactor from '~/components/modals/two-factor.vue';
 
 definePageMeta({
     layout: 'dashboard',
@@ -173,10 +139,15 @@ async function submitForm(event: FormSubmitEvent<Schema>) {
     $notify('Account updated successfully', 'success');
 }
 
+const modal = useModal();
 async function showQrCode() {
-    isQrCodeModalOpen.value = true;
-    qrCode.value = await authStore.fetchTwoFactorQrCode();
-    recoveryCodes.value = await authStore.fetchTwoFactorRecoveryCodes();
+    const qrCode = await authStore.fetchTwoFactorQrCode();
+    const recoveryCodes = await authStore.fetchTwoFactorRecoveryCodes();
+
+    modal.open(TwoFactor, {
+        qrCode,
+        recoveryCodes,
+    });
 }
 
 async function toggleTwoFactor() {
@@ -184,9 +155,6 @@ async function toggleTwoFactor() {
 
     if (authStore.user?.two_factor.enabled) await showQrCode();
 }
-const isQrCodeModalOpen = ref(false);
-const qrCode = ref<null | string>(null);
-const recoveryCodes = ref<null | string[]>(null);
 
 const deleteAccount = async () => {
     await authStore.deleteUser();

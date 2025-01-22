@@ -100,8 +100,6 @@ const confirm = async (event: FormSubmitEvent<Schema>) => {
         if (props.successNotificationMessage)
             $notify(props.successNotificationMessage, 'success');
     } catch (err) {
-        console.log(err);
-
         if (err.data.errors.password) {
             form.value!.setErrors([
                 {
