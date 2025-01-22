@@ -71,7 +71,13 @@ const adminLinks = [
         to: '/dashboard/admin/questions',
     },
     {
-        category: 'Administration',
+        category: 'Settings',
+        label: 'Templates',
+        icon: 'material-symbols:design-services',
+        to: '/dashboard/admin/templates',
+    },
+    {
+        category: 'Settings',
         label: 'Settings',
         icon: 'material-symbols:settings-outline',
         to: '/dashboard/admin/settings',
