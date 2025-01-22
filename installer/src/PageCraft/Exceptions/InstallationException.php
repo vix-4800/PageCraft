@@ -8,5 +8,5 @@ use Exception;
 
 class InstallationException extends Exception
 {
-	// 
+    //
 }
