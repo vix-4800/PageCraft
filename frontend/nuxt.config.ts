@@ -88,10 +88,10 @@ export default defineNuxtConfig({
             'LegendComponent',
         ],
     },
-    // postcss: {
-    //     plugins: {
-    //         tailwindcss: {},
-    //         autoprefixer: {},
-    //     },
-    // },
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    },
 });
