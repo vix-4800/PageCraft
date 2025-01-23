@@ -75,6 +75,8 @@ const columns = [
     },
 ];
 
+const { $notify } = useNuxtApp();
+
 const products = ref<Product[]>([]);
 const status = ref('pending');
 
@@ -120,5 +122,7 @@ async function updateSearchIndexes() {
     await apiFetch(`v1/products/update-search-indexes`, {
         method: 'POST',
     });
+
+    $notify('Products Search Indexes Updated', 'success');
 }
 </script>
