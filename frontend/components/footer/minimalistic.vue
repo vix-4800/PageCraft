@@ -10,30 +10,12 @@
             </p>
 
             <ul class="flex flex-wrap space-x-6 gap-y-2 max-lg:justify-center">
-                <li>
-                    <nuxt-link to="/terms" class="text-[15px] hover:text-white">
-                        Terms of Service
-                    </nuxt-link>
-                </li>
-                <li>
+                <li v-for="page in footerPages" :key="page.name">
                     <nuxt-link
-                        to="/privacy"
+                        :to="page.href"
                         class="text-[15px] hover:text-white"
                     >
-                        Privacy Policy
-                    </nuxt-link>
-                </li>
-                <li>
-                    <nuxt-link
-                        to="/contact"
-                        class="text-[15px] hover:text-white"
-                    >
-                        Contact
-                    </nuxt-link>
-                </li>
-                <li>
-                    <nuxt-link to="/about" class="text-[15px] hover:text-white">
-                        About
+                        {{ page.name }}
                     </nuxt-link>
                 </li>
             </ul>
@@ -43,4 +25,14 @@
 
 <script lang="ts" setup>
 const appName: string = useRuntimeConfig().public.appName;
+
+defineProps({
+    footerPages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+        }[],
+        required: true,
+    },
+});
 </script>

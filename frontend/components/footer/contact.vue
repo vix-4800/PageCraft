@@ -155,36 +155,16 @@
 
         <div class="flex gap-4 max-md:flex-col">
             <ul class="flex flex-wrap gap-4">
-                <li class="text-sm">
+                <li
+                    v-for="page in footerPages"
+                    :key="page.name"
+                    class="text-sm"
+                >
                     <nuxt-link
-                        to="/terms"
+                        :to="page.href"
                         class="font-semibold text-gray-300 hover:underline"
                     >
-                        Terms of Service
-                    </nuxt-link>
-                </li>
-                <li class="text-sm">
-                    <nuxt-link
-                        to="/privacy"
-                        class="font-semibold text-gray-300 hover:underline"
-                    >
-                        Privacy Policy
-                    </nuxt-link>
-                </li>
-                <li class="text-sm">
-                    <nuxt-link
-                        to="/contact"
-                        class="font-semibold text-gray-300 hover:underline"
-                    >
-                        Contact
-                    </nuxt-link>
-                </li>
-                <li class="text-sm">
-                    <nuxt-link
-                        to="/about"
-                        class="font-semibold text-gray-300 hover:underline"
-                    >
-                        About
+                        {{ page.name }}
                     </nuxt-link>
                 </li>
             </ul>
@@ -197,4 +177,14 @@
 
 <script lang="ts" setup>
 const appName: string = useRuntimeConfig().public.appName;
+
+defineProps({
+    footerPages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+        }[],
+        required: true,
+    },
+});
 </script>

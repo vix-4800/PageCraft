@@ -138,21 +138,21 @@
                     </nuxt-link>
                 </li>
                 <li
-                    v-for="category in pages"
-                    :key="category.name"
+                    v-for="page in headerPages"
+                    :key="page.name"
                     class="px-3 max-lg:border-b max-lg:py-3"
                 >
                     <u-link
-                        :to="category.href"
+                        :to="page.href"
                         class="flex items-center gap-1 text-sm hover:text-yellow-500"
                         active-class="text-yellow-400"
                         inactive-class="text-white"
                     >
                         <u-icon
-                            :name="category.icon"
+                            :name="page.icon"
                             class="inline-block w-5 h-5"
                         />
-                        {{ category.name }}
+                        {{ page.name }}
                     </u-link>
                 </li>
             </ul>
@@ -164,7 +164,7 @@
 import type { Product } from '~/types/product';
 
 defineProps({
-    pages: {
+    headerPages: {
         type: Array as () => {
             name: string;
             href: string;

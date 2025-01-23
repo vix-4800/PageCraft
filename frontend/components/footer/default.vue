@@ -85,36 +85,12 @@
                     Information
                 </h4>
                 <ul class="space-y-4">
-                    <li>
+                    <li v-for="page in footerPages" :key="page.name">
                         <nuxt-link
-                            to="/contact"
+                            :to="page.href"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
-                            Contact
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/terms"
-                            class="text-sm text-gray-300 hover:text-yellow-500"
-                        >
-                            Terms &amp; Conditions
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/privacy"
-                            class="text-sm text-gray-300 hover:text-yellow-500"
-                        >
-                            Privacy Policy
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/about"
-                            class="text-sm text-gray-300 hover:text-yellow-500"
-                        >
-                            About
+                            {{ page.name }}
                         </nuxt-link>
                     </li>
                 </ul>
@@ -129,4 +105,14 @@
 
 <script lang="ts" setup>
 const appName: string = useRuntimeConfig().public.appName;
+
+defineProps({
+    footerPages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+        }[],
+        required: true,
+    },
+});
 </script>
