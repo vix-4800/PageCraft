@@ -33,6 +33,7 @@
         "@nuxt/fonts": "^0.8.0",
         "@nuxt/icon": "^1.5.1",
         "@nuxt/image": "^1.8.0",
+        "@nuxtjs/seo": "^2.1.0",
         "@pinia/nuxt": "^0.5.4",
         "typescript": "^5.6.2"
     }

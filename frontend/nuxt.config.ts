@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         '@nuxt/ui',
         'nuxt-echarts',
         'pinia-plugin-persistedstate/nuxt',
+        '@nuxtjs/seo',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
