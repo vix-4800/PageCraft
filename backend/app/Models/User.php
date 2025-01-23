@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Observers\UserObserver;
 use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,6 +63,7 @@ use Laravolt\Avatar\Avatar;
  *
  * @mixin \Eloquent
  */
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, MustVerifyEmail, Notifiable, TwoFactorAuthenticatable;
