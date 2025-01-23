@@ -7,6 +7,7 @@
                     icon="material-symbols:refresh"
                     color="blue"
                     size="md"
+                    :loading="updatingIndexes"
                     @click="updateSearchIndexes"
                 />
 
@@ -118,11 +119,15 @@ function select(row: Product) {
     return navigateTo('/dashboard/admin/products/' + row.slug);
 }
 
+const updatingIndexes = ref(false);
 async function updateSearchIndexes() {
+    updatingIndexes.value = true;
+
     await apiFetch(`v1/products/update-search-indexes`, {
         method: 'POST',
     });
 
+    updatingIndexes.value = false;
     $notify('Products Search Indexes Updated', 'success');
 }
 </script>
