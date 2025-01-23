@@ -16,10 +16,6 @@ class SiteSettingSeeder extends Seeder
     {
         SiteSetting::insert([
             [
-                'key' => 'site_name',
-                'value' => env('APP_NAME', 'PageCraft'),
-            ],
-            [
                 'key' => 'site_description',
                 'value' => 'PageCraft is a lightweight, free and open source CMS for your website.',
             ],

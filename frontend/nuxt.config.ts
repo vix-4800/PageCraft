@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
         head: {
+            charset: 'utf-8',
             title: process.env.APP_NAME || 'PageCraft',
             meta: [
                 {
@@ -28,9 +29,6 @@ export default defineNuxtConfig({
                 },
             ],
             script: [
-                {
-                    src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
-                },
                 {
                     children: `var _paq = window._paq = window._paq || [];
                             _paq.push(['trackPageView']);
@@ -89,4 +87,10 @@ export default defineNuxtConfig({
             'LegendComponent',
         ],
     },
+    // postcss: {
+    //     plugins: {
+    //         tailwindcss: {},
+    //         autoprefixer: {},
+    //     },
+    // },
 });

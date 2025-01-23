@@ -4,7 +4,6 @@ export interface SiteSetting {
 }
 
 export enum SettingKey {
-    SiteName = 'site_name',
     SiteDescription = 'site_description',
     SiteKeywords = 'site_keywords',
     SiteAuthor = 'site_author',

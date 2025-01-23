@@ -35,6 +35,12 @@ export const useSiteSettingsStore = defineStore('site_settings', {
         setSettings(settings: SiteSetting[]) {
             this.settings = settings;
         },
+        getSetting(key: string) {
+            return this.settings.find((setting) => setting.key === key)?.value;
+        },
+    },
+    getters: {
+        fetched: (state) => state.settings.length > 0,
     },
     persist: true,
 });

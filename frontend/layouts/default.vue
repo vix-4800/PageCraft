@@ -11,7 +11,36 @@
 </template>
 
 <script lang="ts" setup>
+import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
+
+const settingsStore = useSiteSettingsStore();
+
+onMounted(() => {
+    settingsStore.fetch();
+});
+
+useHead({
+    meta: [
+        {
+            name: 'description',
+            content: settingsStore.getSetting(SettingKey.SiteDescription),
+        },
+        {
+            name: 'keywords',
+            content: settingsStore.getSetting(SettingKey.SiteKeywords),
+        },
+        {
+            name: 'author',
+            content: settingsStore.getSetting(SettingKey.SiteAuthor),
+        },
+    ],
+    script: [
+        {
+            src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
+        },
+    ],
+});
 
 const templateStore = useSiteTemplatesStore();
 
