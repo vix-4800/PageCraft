@@ -65,19 +65,23 @@
             >
                 <div class="space-y-1.5">
                     <nuxt-link
-                        to="/dashboard/orders"
+                        v-for="link in mobileNavLinks"
+                        :key="link.label"
+                        :to="link.to"
                         class="group flex items-center justify-between gap-2 rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-slate-400 hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200"
                     >
                         <u-icon
-                            name="material-symbols:shopping-cart"
+                            :name="link.icon"
                             size="20"
                             class="text-slate-400 group-hover:text-indigo-500"
                         />
-                        <span class="grow">Orders</span>
+                        <span class="grow">
+                            {{ link.label }}
+                        </span>
                         <span
                             class="inline-flex items-center justify-center px-1 text-xs text-indigo-900 border border-indigo-200 rounded-full bg-indigo-50"
                         >
-                            0
+                            {{ link.badge }}
                         </span>
                     </nuxt-link>
                 </div>
@@ -117,4 +121,12 @@ const userDropdownItems = [
 ];
 
 const mobileNavOpen = ref(false);
+const mobileNavLinks = [
+    {
+        label: 'Orders',
+        icon: 'material-symbols:shopping-cart',
+        to: '/dashboard/admin/orders',
+        badge: 0,
+    },
+];
 </script>
