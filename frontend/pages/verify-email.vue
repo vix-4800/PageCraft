@@ -1,14 +1,14 @@
 <template>
     <div class="space-y-6">
-        <h1 class="text-3xl font-bold text-center">Verify Email</h1>
+        <auth-form-header
+            title="Verify Email"
+            :subtitle="
+                'Please follow the link sent to your email address (' +
+                authStore.user?.email +
+                ') to verify your email'
+            "
+        />
 
-        <p class="text-center">
-            Please follow the link sent to your email address (
-            <span class="font-bold text-slate-100">
-                {{ authStore.user?.email }}
-            </span>
-            ) to verify your email
-        </p>
         <div class="flex justify-center gap-4">
             <u-button
                 class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"

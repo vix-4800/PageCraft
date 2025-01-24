@@ -1,12 +1,9 @@
 <template>
     <div class="space-y-6">
-        <h1 class="text-3xl font-bold text-center">
-            Two-Factor Authentication
-        </h1>
-
-        <p class="text-center">
-            Please enter the code from your authenticator application
-        </p>
+        <auth-form-header
+            title="Two-Factor Authentication"
+            subtitle="Please enter the code from your authenticator application"
+        />
 
         <u-form :state="state" class="space-y-6" @submit="submitForm">
             <u-form-group size="lg" name="code" required>
