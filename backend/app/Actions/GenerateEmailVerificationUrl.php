@@ -14,7 +14,7 @@ class GenerateEmailVerificationUrl
         $frontendUrl = env('FRONTEND_URL', 'http://localhost').'/verify-email';
 
         $verifyUrl = URL::temporarySignedRoute(
-            'api.user.verify',
+            'verification.verify',
             now()->addMinutes(config('auth.verification.expire', 60)),
             [
                 'id' => $notifiable->getKey(),
@@ -22,6 +22,6 @@ class GenerateEmailVerificationUrl
             ]
         );
 
-        return $frontendUrl.'?verify_url='.urlencode($verifyUrl);
+        return $frontendUrl.'?verify_url='.base64_encode($verifyUrl);
     }
 }

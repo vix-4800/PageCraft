@@ -67,9 +67,20 @@ const resendCode = async () => {
 const route = useRoute();
 onMounted(async () => {
     if (route.query.verify_url !== undefined) {
-        const url = new URL(route.query.verify_url as string);
+        loading.value = true;
 
-        await authStore.verifyEmail(url.pathname.replace('/api/', ''));
+        const apiUrl: string = useRuntimeConfig().public.apiUrl;
+
+        const url = route.query.verify_url;
+        const decodedUrl = atob(url).toString().replace(`${apiUrl}/`, '');
+
+        try {
+            await authStore.verifyEmail(decodedUrl);
+        } catch (error) {
+            $notify(error.data?.message ?? 'Error verifying email', 'error');
+        }
+
+        loading.value = false;
     }
 });
 </script>
