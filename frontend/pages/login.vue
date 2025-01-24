@@ -41,15 +41,23 @@
                 />
             </u-form-group>
 
-            <u-checkbox
-                v-model="credentials.remember"
-                color="blue"
-                class="text-gray-100"
-            >
-                <template #label>
-                    <span class="italic text-gray-100">Remember me</span>
-                </template>
-            </u-checkbox>
+            <div class="flex justify-between">
+                <u-checkbox
+                    v-model="credentials.remember"
+                    color="blue"
+                    class="text-gray-100"
+                >
+                    <template #label>
+                        <span class="italic text-gray-100">Remember me</span>
+                    </template>
+                </u-checkbox>
+
+                <nuxt-link to="/reset-password">
+                    <span class="text-sm text-gray-100 hover:underline">
+                        Forgot password?
+                    </span>
+                </nuxt-link>
+            </div>
 
             <div class="flex justify-center gap-4">
                 <u-button
