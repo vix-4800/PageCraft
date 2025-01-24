@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardHeader />
+        <dashboard-header />
 
         <div
             class="mx-auto flex min-h-screen w-full min-w-[320px] flex-col bg-slate-100"
@@ -8,7 +8,7 @@
             <div class="flex flex-col flex-auto max-w-full">
                 <div class="container p-4 mx-auto lg:p-8 xl:max-w-7xl">
                     <div class="grid grid-cols-1 md:gap-20 lg:grid-cols-12">
-                        <DashboardSidebar />
+                        <dashboard-sidebar />
 
                         <main class="lg:col-span-9">
                             <div
@@ -22,6 +22,6 @@
             </div>
         </div>
 
-        <DashboardFooter />
+        <dashboard-footer />
     </div>
 </template>

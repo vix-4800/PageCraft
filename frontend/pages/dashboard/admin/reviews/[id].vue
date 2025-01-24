@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Review" :subtitle="`#${review?.id}`" />
+        <dashboard-page-name title="Review" :subtitle="`#${review?.id}`" />
     </div>
 </template>
 

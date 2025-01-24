@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="My Orders" />
+        <dashboard-page-name title="My Orders" />
 
         <u-table
             :columns="ordersColumns"

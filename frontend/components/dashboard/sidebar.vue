@@ -10,9 +10,9 @@
 
                 <div class="space-y-1">
                     <div v-for="link in links" :key="link.label">
-                        <DashboardNavLink :to="link.to" :label="link.label">
+                        <dashboard-nav-link :to="link.to" :label="link.label">
                             <u-icon :name="link.icon" size="20" />
-                        </DashboardNavLink>
+                        </dashboard-nav-link>
                     </div>
                 </div>
             </div>

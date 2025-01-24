@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Product" :subtitle="product.name" />
+        <dashboard-page-name title="Product" :subtitle="product.name" />
 
         <u-form
             class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"

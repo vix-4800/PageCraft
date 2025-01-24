@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Products">
+        <dashboard-page-name title="Products">
             <template #actions>
                 <u-button
                     label="Update Search Indexes"
@@ -19,7 +19,7 @@
                     @click="navigateTo('/dashboard/admin/products/create')"
                 />
             </template>
-        </DashboardPageName>
+        </dashboard-page-name>
 
         <u-table
             :columns="columns"

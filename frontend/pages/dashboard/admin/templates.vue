@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Page Templates" />
+        <dashboard-page-name title="Page Templates" />
 
         <u-form
             :state="siteTemplatesState"

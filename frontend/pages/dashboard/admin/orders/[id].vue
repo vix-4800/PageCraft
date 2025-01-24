@@ -1,6 +1,6 @@
 <template>
     <div v-if="order">
-        <DashboardPageName
+        <dashboard-page-name
             title="Order"
             :subtitle="`#${order?.id}`"
             :description="new Date(order.created_at).toDateString()"
@@ -15,7 +15,7 @@
                     @click="generateInvoice"
                 />
             </template>
-        </DashboardPageName>
+        </dashboard-page-name>
 
         <div class="space-y-4">
             <section

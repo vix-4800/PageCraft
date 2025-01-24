@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Marketplace Accounts" />
+        <dashboard-page-name title="Marketplace Accounts" />
     </div>
 </template>
 

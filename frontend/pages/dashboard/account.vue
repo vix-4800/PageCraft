@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Account" />
+        <dashboard-page-name title="Account" />
 
         <div class="space-y-4">
             <u-card :ui="{ background: 'bg-slate-100' }">

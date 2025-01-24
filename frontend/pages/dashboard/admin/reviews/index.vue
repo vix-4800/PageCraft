@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Reviews" />
+        <dashboard-page-name title="Reviews" />
 
         <div>
             <h2 class="mb-6 text-xl font-extrabold text-gray-800">Pending</h2>

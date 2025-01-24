@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="User Questions" />
+        <dashboard-page-name title="User Questions" />
     </div>
 </template>
 

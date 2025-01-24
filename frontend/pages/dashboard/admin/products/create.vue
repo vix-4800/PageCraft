@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Create Product" />
+        <dashboard-page-name title="Create Product" />
 
         <u-form
             :schema="schema"

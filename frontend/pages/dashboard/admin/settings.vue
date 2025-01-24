@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Settings" />
+        <dashboard-page-name title="Settings" />
 
         <u-form
             :state="siteSettingsState"
