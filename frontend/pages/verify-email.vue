@@ -11,11 +11,13 @@
         </p>
         <div class="flex justify-center gap-4">
             <u-button
-                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                 size="lg"
                 label="Resend"
                 block
+                :loading="loading"
                 icon="material-symbols:refresh"
+                color="gray"
                 @click="resendCode"
             />
 
@@ -35,17 +37,31 @@
 definePageMeta({
     layout: 'auth',
     middleware: [
-        function (to, from) {
-            if (from.path !== '/login') {
+        function () {
+            const authStore = useAuthStore();
+
+            if (!authStore.isAuthenticated) {
                 return navigateTo('/login');
+            } else if (authStore.isVerified) {
+                return navigateTo(
+                    `/dashboard/${authStore.isAdmin ? 'admin' : 'user'}`
+                );
             }
         },
     ],
 });
 
 const authStore = useAuthStore();
+const loading = ref(false);
+const { $notify } = useNuxtApp();
+
 const resendCode = async () => {
+    loading.value = true;
+
     await authStore.resendVerificationEmail();
+
+    $notify('New verification email sent', 'success');
+    loading.value = false;
 };
 
 const route = useRoute();
