@@ -17,6 +17,7 @@ use App\Http\Controllers\SiteTemplateController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 
 Route::name('api.')->group(function (): void {
     Route::prefix('v1')->name('v1.')->group(function (): void {
@@ -53,6 +54,9 @@ Route::name('api.')->group(function (): void {
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
     Route::delete('user', [AuthenticatedUserController::class, 'destroy'])->middleware(['auth:sanctum', 'password.confirm']);
     Route::get('user/orders', [OrderController::class, 'userOrders'])->middleware('auth:sanctum');
+
+    $verificationLimiter = config('fortify.limiters.verification', '6,1');
+    Route::get('user/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), "throttle:{$verificationLimiter}"])->name('user.verify');
 
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
