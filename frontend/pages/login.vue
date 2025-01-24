@@ -111,7 +111,7 @@ definePageMeta({
     layout: 'auth',
 });
 
-const loading = ref(false);
+const authStore = useAuthStore();
 
 const schema = z.object({
     email: z.string().min(1, 'Email is required').email('Email is invalid'),
@@ -128,7 +128,7 @@ const credentials = reactive({
     remember: true as boolean | undefined,
 });
 
-const authStore = useAuthStore();
+const loading = ref(false);
 const submitForm = async (event: FormSubmitEvent<Schema>) => {
     form.value!.clear();
     loading.value = true;
