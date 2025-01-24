@@ -7,6 +7,7 @@ namespace App\Observers;
 use App\Models\User;
 use App\Notifications\AccountDeleted;
 use App\Notifications\AccountRegistered;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
 class UserObserver
 {
@@ -16,6 +17,7 @@ class UserObserver
     public function created(User $user): void
     {
         $user->notify(new AccountRegistered);
+        $user->notify(new VerifyEmail);
     }
 
     /**
