@@ -24,7 +24,7 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'image' => $this->image,
             'description' => $this->description,
-            'created_at' => $this->created_at?->toDateTimeString(),
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }

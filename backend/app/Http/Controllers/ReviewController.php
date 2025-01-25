@@ -18,13 +18,14 @@ class ReviewController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $query = ProductReview::query();
+        $query = ProductReview::query()->with('user', 'product');
+        $limit = $request->input('limit', 10);
 
         if ($request->has('status') && in_array($request->get('status'), ReviewStatus::values())) {
             $query->where('status', $request->get('status'));
         }
 
-        return ReviewResource::collection($query->get()->load(['user', 'product']));
+        return ReviewResource::collection($query->paginate($limit));
     }
 
     /**

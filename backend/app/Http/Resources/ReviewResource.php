@@ -32,7 +32,7 @@ class ReviewResource extends JsonResource
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }
