@@ -16,17 +16,17 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'details' => 'required|array',
-            'details.name' => 'required|string',
-            'details.email' => 'required|email',
-            'details.phone' => 'required|string',
+            'details' => ['required', 'array'],
+            'details.name' => ['required', 'string'],
+            'details.email' => ['required', 'string', 'email'],
+            'details.phone' => ['required', 'string'],
 
-            'products' => 'required|array',
+            'products' => ['required', 'array'],
 
-            'tax' => 'required|numeric',
-            'shipping' => 'required|numeric',
+            'tax' => ['required', 'numeric'],
+            'shipping' => ['required', 'numeric'],
 
-            'note' => 'nullable|string',
+            'note' => ['nullable', 'string'],
         ];
     }
 }

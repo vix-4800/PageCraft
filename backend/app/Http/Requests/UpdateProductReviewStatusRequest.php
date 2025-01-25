@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Enums\ReviewStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProductReviewStatusRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ class UpdateProductReviewStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|string|in:'.implode(',', ReviewStatus::values()),
+            'status' => ['required', 'string', Rule::in(ReviewStatus::values())],
         ];
     }
 }

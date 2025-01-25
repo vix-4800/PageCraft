@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
+use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
@@ -48,6 +49,8 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('orders', OrderController::class)->except('destroy');
 
         Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
+
+        Route::apiResource('feedback', FeedbackMessageController::class);
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

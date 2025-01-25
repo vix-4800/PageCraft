@@ -148,7 +148,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $product->delete();
 
-        return response()->noContent();
+        return ApiResponse::empty();
     }
 
     public function updateSearchIndexes(): Response

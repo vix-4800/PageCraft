@@ -118,7 +118,7 @@
                             />
                         </u-form-group>
 
-                        <div class="col-span-full">
+                        <u-form-group name="subject" class="col-span-full">
                             <u-radio-group
                                 v-model="state.subject"
                                 legend="Select Subject"
@@ -126,7 +126,7 @@
                                 color="blue"
                                 :disabled="loading"
                             />
-                        </div>
+                        </u-form-group>
                     </div>
 
                     <u-button
@@ -147,6 +147,8 @@
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types';
 
+const { $notify } = useNuxtApp();
+
 const loading = ref(false);
 const subjects = [
     { label: 'General', value: 'general' },
@@ -164,21 +166,29 @@ const state = reactive({
 type Schema = z.output<typeof schema>;
 
 const schema = z.object({
-    email: z.string().min(1, 'Email is required'),
-    phone: z.string().min(1, 'Phone number is required'),
-    message: z.string().min(1, 'Message is required'),
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    phone: z.string().nullable(),
+    message: z
+        .string()
+        .min(1, 'Message is required')
+        .min(8, 'Must be at least 8 characters'),
     subject: z.string().min(1, 'Subject is required'),
 });
 
 const submitForm = async (event: FormSubmitEvent<Schema>) => {
     loading.value = true;
 
-    await apiFetch('v1/contact', {
-        method: 'POST',
-        body: event.data,
-    });
-    loading.value = false;
+    try {
+        await apiFetch('v1/feedback', {
+            method: 'POST',
+            body: event.data,
+        });
 
-    $notify('Message sent successfully', 'success');
+        $notify('Message sent successfully', 'success');
+    } catch (error) {
+        $notify('Error sending message', 'error');
+    } finally {
+        loading.value = false;
+    }
 };
 </script>

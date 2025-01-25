@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Enums\ReviewReactionType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductReviewReactionRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ class StoreProductReviewReactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', 'string', 'in:'.implode(',', ReviewReactionType::values())],
+            'type' => ['required', 'string', Rule::in(ReviewReactionType::values())],
         ];
     }
 }
