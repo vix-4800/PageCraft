@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
+use App\Exceptions\DatabaseBackupException;
 use App\Helpers\ApiResponse;
 use App\Services\DatabaseBackupService;
 use Illuminate\Http\JsonResponse;
@@ -19,9 +21,13 @@ class BackupController extends Controller
 
     public function create(): Response
     {
-        $this->service->create();
+        try {
+            $this->service->create();
 
-        return ApiResponse::empty();
+            return ApiResponse::empty();
+        } catch (DatabaseBackupException $th) {
+            throw new ApiException($th->getMessage());
+        }
     }
 
     public function list(): JsonResponse

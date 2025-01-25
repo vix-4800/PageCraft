@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\ApiException;
-use App\Helpers\ApiResponse;
+use App\Exceptions\DatabaseBackupException;
 use Illuminate\Console\Command;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 
 class DatabaseBackupService
@@ -19,19 +17,16 @@ class DatabaseBackupService
         $this->backupDir = storage_path('app/backups');
     }
 
-    public function create(): Response
+    /**
+     * @throws DatabaseBackupException
+     */
+    public function create(): void
     {
-        try {
-            if (! is_dir($this->backupDir)) {
-                mkdir($this->backupDir, 0755, true);
-            }
-
-            throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new \Exception);
-
-            return ApiResponse::empty();
-        } catch (\Exception) {
-            throw new ApiException('Failed to create database backup.');
+        if (! is_dir($this->backupDir)) {
+            mkdir($this->backupDir, 0755, true);
         }
+
+        throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new DatabaseBackupException('Failed to create database backup.'));
     }
 
     public function list(): array
