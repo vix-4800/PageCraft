@@ -25,7 +25,7 @@ class FeedbackMessageResource extends JsonResource
             'phone' => $this->phone,
             'message' => $this->message,
             'subject' => $this->subject,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }
