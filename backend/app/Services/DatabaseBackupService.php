@@ -54,8 +54,9 @@ class DatabaseBackupService
 
     public function deleteAll(): void
     {
+        /** @var array $file */
         foreach ($this->list() as $file) {
-            $this->delete($file);
+            $this->delete($file['name']);
         }
     }
 

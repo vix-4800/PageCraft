@@ -34,4 +34,11 @@ class BackupController extends Controller
     {
         return ApiResponse::create($this->service->list());
     }
+
+    public function delete(): Response
+    {
+        $this->service->deleteAll();
+
+        return ApiResponse::empty();
+    }
 }
