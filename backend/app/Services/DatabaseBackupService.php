@@ -5,36 +5,30 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\ApiException;
+use App\Helpers\ApiResponse;
 use Illuminate\Console\Command;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
-use Str;
 
 class DatabaseBackupService
 {
-    private string $backupPath;
+    private string $backupDir;
 
     public function __construct()
     {
-        $this->backupPath = storage_path('app/backups');
+        $this->backupDir = storage_path('app/backups');
     }
 
-    public function create(): string
+    public function create(): Response
     {
         try {
-            if (! is_dir($this->backupPath)) {
-                mkdir($this->backupPath, 0755, true);
+            if (! is_dir($this->backupDir)) {
+                mkdir($this->backupDir, 0755, true);
             }
 
-            $createdBackupFile = 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8).'.sql';
-            $filepath = "{$this->backupPath}/{$createdBackupFile}";
+            throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new \Exception);
 
-            $returnVar = Artisan::call('backup:create', [
-                'filepath' => $filepath,
-            ]);
-
-            throw_if($returnVar !== Command::SUCCESS, new \Exception);
-
-            return $createdBackupFile;
+            return ApiResponse::empty();
         } catch (\Exception) {
             throw new ApiException('Failed to create database backup.');
         }
@@ -42,11 +36,11 @@ class DatabaseBackupService
 
     public function list(): array
     {
-        if (! is_dir($this->backupPath)) {
+        if (! is_dir($this->backupDir)) {
             return [];
         }
 
-        $backupFiles = scandir($this->backupPath);
+        $backupFiles = scandir($this->backupDir);
 
         return array_filter($backupFiles, function ($file): bool {
             return pathinfo($file, PATHINFO_EXTENSION) === 'sql';
@@ -55,7 +49,7 @@ class DatabaseBackupService
 
     public function delete(string $file): void
     {
-        unlink("{$this->backupPath}/{$file}");
+        unlink("{$this->backupDir}/{$file}");
     }
 
     public function deleteAll(): void
@@ -63,5 +57,13 @@ class DatabaseBackupService
         foreach ($this->list() as $file) {
             $this->delete($file);
         }
+    }
+
+    /**
+     * Get the backup directory path.
+     */
+    public function getBackupDirectory(): string
+    {
+        return $this->backupDir;
     }
 }
