@@ -69,6 +69,20 @@ export const useAuthStore = defineStore('auth', {
                 body: JSON.stringify({ name, email, phone }),
             });
         },
+        async updatePassword({
+            current_password,
+            password,
+            password_confirmation,
+        }: {
+            current_password: string;
+            password: string;
+            password_confirmation: string;
+        }) {
+            await apiFetch<{ data: User }>(`auth/user/password`, {
+                method: 'PUT',
+                body: { current_password, password, password_confirmation },
+            });
+        },
         async fetchUser() {
             const { data } = await apiFetch<{ data: User }>(`user`);
 
