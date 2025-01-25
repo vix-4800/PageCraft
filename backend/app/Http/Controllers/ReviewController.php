@@ -29,33 +29,17 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductReview $productReview): JsonResource
+    public function show(ProductReview $review): ReviewResource
     {
         return new ReviewResource(
-            $productReview->load(['user', 'product'])
+            $review->load(['user', 'product'])
         );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductReview $productReview)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ProductReview $productReview)
+    public function update(Request $request, ProductReview $review)
     {
         //
     }
