@@ -20,7 +20,7 @@ restart:
 	@docker compose restart
 
 shell:
-	@echo "\nEntering the Backend Frontend Container..."
+	@echo "\nEntering the Backend Container..."
 	@docker exec -it backend bash
 
 logs:
