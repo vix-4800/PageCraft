@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\ReviewStatus;
+use App\Http\Requests\UpdateProductReviewStatusRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\ProductReview;
 use Illuminate\Http\Request;
@@ -39,8 +40,12 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductReview $review)
+    public function update(UpdateProductReviewStatusRequest $request, ProductReview $review): ReviewResource
     {
-        //
+        $review->update($request->validated());
+
+        return new ReviewResource(
+            $review->load(['user', 'product'])
+        );
     }
 }
