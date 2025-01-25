@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\ApiException;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Str;
 
 class DatabaseBackupService
@@ -18,27 +20,24 @@ class DatabaseBackupService
 
     public function create(): string
     {
-        if (! is_dir($this->backupPath)) {
-            mkdir($this->backupPath, 0755, true);
+        try {
+            if (! is_dir($this->backupPath)) {
+                mkdir($this->backupPath, 0755, true);
+            }
+
+            $createdBackupFile = 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8).'.sql';
+            $filepath = "{$this->backupPath}/{$createdBackupFile}";
+
+            $returnVar = Artisan::call('backup:create', [
+                'filepath' => $filepath,
+            ]);
+
+            throw_if($returnVar !== Command::SUCCESS, new \Exception);
+
+            return $createdBackupFile;
+        } catch (\Exception) {
+            throw new ApiException('Failed to create database backup.');
         }
-
-        $createdBackupFile = 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8).'.sql';
-        $filePath = "{$this->backupPath}/{$createdBackupFile}";
-
-        $command = sprintf(
-            'mysqldump --user=%s --password=%s --host=%s %s > %s',
-            escapeshellarg(env('DB_USERNAME')),
-            escapeshellarg(env('DB_PASSWORD')),
-            escapeshellarg(env('DB_HOST')),
-            escapeshellarg(env('DB_DATABASE')),
-            escapeshellarg($filePath)
-        );
-
-        $returnVar = null;
-        exec($command, result_code: $returnVar);
-        throw_if($returnVar !== 0, new ApiException('Failed to create database backup.'));
-
-        return $createdBackupFile;
     }
 
     public function list(): array
