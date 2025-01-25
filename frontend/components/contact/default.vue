@@ -147,6 +147,7 @@
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types';
 
+const authStore = useAuthStore();
 const { $notify } = useNuxtApp();
 
 const loading = ref(false);
@@ -157,10 +158,10 @@ const subjects = [
 ];
 
 const state = reactive({
-    email: '',
-    phone: '',
+    email: authStore.isAuthenticated ? authStore.user?.email : '',
+    phone: authStore.isAuthenticated ? authStore.user?.phone : '',
     message: '',
-    subject: '',
+    subject: subjects[0].value,
 });
 
 type Schema = z.output<typeof schema>;
