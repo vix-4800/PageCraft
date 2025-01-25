@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Http\Resources\Order\OrderResource;
-use App\Models\Order;
+use App\Http\Resources\FeedbackMessageResource;
+use App\Models\FeedbackMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class OrderCreated extends Notification implements ShouldQueue
+class FeedbackMessageCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -18,7 +18,7 @@ class OrderCreated extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-        private readonly Order $order
+        private readonly FeedbackMessage $message
     ) {
         //
     }
@@ -41,9 +41,9 @@ class OrderCreated extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'New order created.',
-            'type' => 'order',
-            'details' => new OrderResource($this->order),
+            'message' => 'New feedback message received.',
+            'type' => 'feedback_message',
+            'details' => new FeedbackMessageResource($this->message),
         ];
     }
 }

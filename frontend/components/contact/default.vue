@@ -179,7 +179,7 @@ const submitForm = async (event: FormSubmitEvent<Schema>) => {
     loading.value = true;
 
     try {
-        await apiFetch('v1/feedback', {
+        await apiFetch('v1/feedback/messages', {
             method: 'POST',
             body: event.data,
         });

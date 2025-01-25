@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\FeedbackMessageObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
+#[ObservedBy(FeedbackMessageObserver::class)]
 class FeedbackMessage extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackMessageFactory> */

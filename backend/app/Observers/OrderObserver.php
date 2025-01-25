@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use App\Enums\UserRole;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\OrderCreated;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderObserver
 {
@@ -15,7 +17,9 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        User::first()->notify(new OrderCreated($order));
+        User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
+            ->first()
+            ->notify(new OrderCreated($order));
     }
 
     /**

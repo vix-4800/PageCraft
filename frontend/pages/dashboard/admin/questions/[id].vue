@@ -52,7 +52,7 @@ const question = ref<FeedbackQuestion | null>(null);
 
 onMounted(async () => {
     const { data } = await apiFetch<{ data: FeedbackQuestion }>(
-        `v1/feedback/questions/${route.params.id}`
+        `v1/feedback/messages/${route.params.id}`
     );
 
     question.value = data;

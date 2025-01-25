@@ -48,8 +48,8 @@ class FeedbackMessageController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      */
-    public function show(FeedbackMessage $question): JsonResource
+    public function show(FeedbackMessage $message): JsonResource
     {
-        return new FeedbackMessageResource($question);
+        return new FeedbackMessageResource($message);
     }
 }

@@ -4,7 +4,7 @@ export interface Notification {
     data: {
         message: string;
         type: string;
-        data: any;
+        details: any;
     };
     created_at: Date;
 }

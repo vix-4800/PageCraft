@@ -80,7 +80,7 @@ const getQuestions = async () => {
     const { data, meta } = await apiFetch<{
         data: FeedbackQuestion[];
         meta: Meta;
-    }>('v1/feedback/questions', {
+    }>('v1/feedback/messages', {
         params: {
             page: page.value,
         },

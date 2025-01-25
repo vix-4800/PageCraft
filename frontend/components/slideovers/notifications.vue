@@ -80,10 +80,19 @@ const readNotification = async (notification: Notification) => {
 
     switch (notification.data.type) {
         case 'order':
-            navigateTo('/dashboard/admin/orders/' + notification.data.data.id);
+            navigateTo(
+                `/dashboard/admin/orders/${notification.data.details.id}`
+            );
+            break;
+        case 'feedback_message':
+            navigateTo(
+                `/dashboard/admin/questions/${notification.data.details.id}`
+            );
             break;
         default:
             break;
     }
+
+    slideover.close();
 };
 </script>
