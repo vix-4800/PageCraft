@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Jobs\CreateDatabaseDump;
 use App\Services\DatabaseBackupService;
 use Illuminate\Console\Command;
 use Str;
@@ -33,24 +34,10 @@ class CreateDatabaseBackup extends Command
         $backupDir = (new DatabaseBackupService)->getBackupDirectory();
         $filepath = "{$backupDir}/{$filename}";
 
-        $command = sprintf(
-            'mysqldump --user=%s --password=%s --host=%s %s > %s',
-            escapeshellarg(env('DB_USERNAME')),
-            escapeshellarg(env('DB_PASSWORD')),
-            escapeshellarg(env('DB_HOST')),
-            escapeshellarg(env('DB_DATABASE')),
-            escapeshellarg($filepath)
-        );
+        CreateDatabaseDump::dispatchSync($filepath);
 
-        $returnVar = null;
-        exec($command, result_code: $returnVar);
+        $this->info("Database backup creation started. Filename: {$filename}");
 
-        if ($returnVar !== $this::SUCCESS) {
-            $this->error('Database backup failed.');
-        } else {
-            $this->info("Database backup created successfully: {$filename}");
-        }
-
-        return $returnVar;
+        return self::SUCCESS;
     }
 }
