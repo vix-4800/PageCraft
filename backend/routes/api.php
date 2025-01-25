@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\AuthenticatedUserController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotificationController;
@@ -30,6 +31,16 @@ Route::name('api.')->group(function (): void {
                 Route::get('overview', 'overview')->name('overview');
                 Route::get('sales/last-week', 'salesForLastSevenDays')->name('sales.lastSevenDays');
             });
+
+            Route::prefix('backups')->name('backup.')->group(function (): void {
+                Route::post('create', [BackupController::class, 'create'])->name('create');
+                Route::get('list', [BackupController::class, 'list'])->name('list');
+            });
+
+            Route::prefix('logs')->name('log.')->group(function (): void {
+                Route::get('/', [LogController::class, 'getLogs']);
+                Route::delete('/', [LogController::class, 'deleteLogs']);
+            });
         });
 
         Route::apiSingleton('settings', SettingController::class);
@@ -52,9 +63,6 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
 
         Route::apiResource('feedback/messages', FeedbackMessageController::class);
-
-        Route::get('logs', [LogController::class, 'getLogs'])->middleware('auth:sanctum');
-        Route::delete('logs', [LogController::class, 'deleteLogs'])->middleware('auth:sanctum');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
