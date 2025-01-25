@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\FeedbackMessageResource;
 use App\Models\FeedbackMessage;
 
@@ -11,9 +12,9 @@ class FeedbackMessageCreated extends BaseDatabaseNotification
 {
     protected FeedbackMessage $model;
 
-    protected function getType(): string
+    protected function getType(): DatabaseNotificationType
     {
-        return 'feedback_message';
+        return DatabaseNotificationType::FEEDBACK_MESSAGE;
     }
 
     protected function getMessage(): string

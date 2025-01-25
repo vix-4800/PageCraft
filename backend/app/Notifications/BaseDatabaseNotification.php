@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Enums\DatabaseNotificationType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
     /**
      * Get the type for the notification.
      */
-    abstract protected function getType(): string;
+    abstract protected function getType(): DatabaseNotificationType;
 
     /**
      * Get the details for the notification.
@@ -53,7 +54,7 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
     {
         return [
             'message' => $this->getMessage(),
-            'type' => $this->getType(),
+            'type' => $this->getType()->value,
             'details' => $this->getDetails(),
         ];
     }
