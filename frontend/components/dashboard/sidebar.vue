@@ -21,91 +21,12 @@
 </template>
 
 <script lang="ts" setup>
-const adminLinks = [
-    {
-        category: 'Dashboard',
-        label: 'Dashboard',
-        icon: 'material-symbols:dashboard',
-        to: '/dashboard/admin',
+defineProps({
+    groupedLinks: {
+        type: Object as () => {
+            [category: string]: { label: string; to: string; icon: string }[];
+        },
+        required: true,
     },
-    {
-        category: 'Orders',
-        label: 'Orders',
-        icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/admin/orders',
-    },
-    {
-        category: 'Orders',
-        label: 'My Orders',
-        icon: 'material-symbols:shopping-cart-outline',
-        to: '/dashboard/my-orders',
-    },
-    {
-        category: 'Products',
-        label: 'Products',
-        icon: 'material-symbols:storefront',
-        to: '/dashboard/admin/products',
-    },
-    {
-        category: 'Products',
-        label: 'Reviews',
-        icon: 'material-symbols:rate-review',
-        to: '/dashboard/admin/reviews',
-    },
-    {
-        category: 'Administration',
-        label: 'Marketplaces',
-        icon: 'material-symbols:storefront',
-        to: '/dashboard/admin/marketplaces',
-    },
-    {
-        category: 'Administration',
-        label: 'Users',
-        icon: 'material-symbols:groups',
-        to: '/dashboard/admin/users',
-    },
-    {
-        category: 'Administration',
-        label: 'User Questions',
-        icon: 'material-symbols:question-mark',
-        to: '/dashboard/admin/questions',
-    },
-    {
-        category: 'Settings',
-        label: 'Templates',
-        icon: 'material-symbols:design-services',
-        to: '/dashboard/admin/templates',
-    },
-    {
-        category: 'Settings',
-        label: 'Settings',
-        icon: 'material-symbols:settings-outline',
-        to: '/dashboard/admin/settings',
-    },
-];
-
-const userLinks = [
-    {
-        category: 'Dashboard',
-        label: 'Dashboard',
-        icon: 'material-symbols:dashboard',
-        to: '/dashboard/user',
-    },
-    {
-        category: 'Orders',
-        label: 'My Orders',
-        icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/my-orders',
-    },
-];
-
-const groupedLinks = computed(() => {
-    const links = useAuthStore().isAdmin ? adminLinks : userLinks;
-
-    return links.reduce((groups, link) => {
-        (groups[link.category] = groups[link.category] || []).push(link);
-
-        return groups;
-    }, {});
 });
 </script>
