@@ -7,11 +7,7 @@
                 <nuxt-img src="/logo.png" alt="logo" class="w-16" />
             </nuxt-link>
             <p class="mt-8 text-sm text-gray-300">
-                {{
-                    useSiteSettingsStore().getSetting(
-                        SettingKey.SiteDescription
-                    )
-                }}
+                {{ useSiteSettingsStore().getSetting(SettingKey.Description) }}
                 <nuxt-link
                     to="/about"
                     class="text-sm font-semibold text-blue-500"
@@ -20,38 +16,18 @@
                 </nuxt-link>
             </p>
 
-            <ul class="flex flex-wrap justify-center gap-6 mt-8">
-                <li>
-                    <nuxt-link href="" target="_blank">
-                        <u-icon
-                            name="mdi:facebook"
-                            class="w-10 h-10 bg-blue-600"
-                        />
-                    </nuxt-link>
-                </li>
-                <li>
-                    <a href="" target="_blank">
-                        <u-icon
-                            name="mdi:linkedin"
-                            class="w-10 h-10 bg-blue-600"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="" target="_blank">
-                        <u-icon
-                            name="mdi:instagram"
-                            class="w-10 h-10 bg-pink-600"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="" target="_blank">
-                        <u-icon
-                            name="hugeicons:new-twitter"
-                            class="w-10 h-10 bg-blue-400"
-                        />
-                    </a>
+            <ul class="flex flex-wrap justify-center gap-3 mt-8">
+                <li
+                    v-for="socialLink in settingsStore.getSocialLinks()"
+                    :key="socialLink.key"
+                >
+                    <u-button
+                        target="_blank"
+                        :to="socialLink.value"
+                        size="xl"
+                        :icon="socialLink.icon"
+                        class="bg-transparent hover:bg-transparent hover:text-blue-500"
+                    />
                 </li>
             </ul>
         </div>
@@ -167,6 +143,8 @@
 
 <script lang="ts" setup>
 import { SettingKey } from '~/types/site_setting';
+
+const settingsStore = useSiteSettingsStore();
 
 const appName: string = useRuntimeConfig().public.appName;
 

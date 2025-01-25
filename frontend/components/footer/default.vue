@@ -21,27 +21,15 @@
 
             <div class="lg:flex lg:items-center">
                 <ul class="flex space-x-1">
-                    <li>
+                    <li
+                        v-for="socialLink in settingsStore.getSocialLinks()"
+                        :key="socialLink.key"
+                    >
                         <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:instagram"
-                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:facebook"
-                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:twitter"
+                            :to="socialLink.value"
+                            size="xl"
+                            :icon="socialLink.icon"
+                            target="_blank"
                             class="bg-transparent hover:bg-transparent hover:text-yellow-500"
                         />
                     </li>
@@ -105,6 +93,8 @@
 </template>
 
 <script lang="ts" setup>
+const settingsStore = useSiteSettingsStore();
+
 const appName: string = useRuntimeConfig().public.appName;
 
 defineProps({

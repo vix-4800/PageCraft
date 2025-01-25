@@ -22,9 +22,7 @@
                             icon="material-symbols:mail"
                             variant="ghost"
                             to="mailto:info@example.com"
-                            :label="
-                                settingsStore.getSetting(SettingKey.SiteEmail)
-                            "
+                            :label="settingsStore.getSetting(SettingKey.Email)"
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
                     </li>
@@ -32,9 +30,7 @@
                         <u-button
                             to="tel:158996888"
                             icon="material-symbols:phone-enabled"
-                            :label="
-                                settingsStore.getSetting(SettingKey.SitePhone)
-                            "
+                            :label="settingsStore.getSetting(SettingKey.Phone)"
                             variant="ghost"
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
@@ -44,7 +40,7 @@
                             icon="material-symbols:location-on"
                             variant="ghost"
                             :label="
-                                settingsStore.getSetting(SettingKey.SiteAddress)
+                                settingsStore.getSetting(SettingKey.Address)
                             "
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
@@ -52,28 +48,13 @@
                 </ul>
 
                 <ul class="flex flex-wrap gap-4 mt-16">
-                    <li>
+                    <li
+                        v-for="socialLink in settingsStore.getSocialLinks()"
+                        :key="socialLink.key"
+                    >
                         <u-button
-                            to="https://www.facebook.com/"
-                            icon="mdi:facebook"
-                            :ui="{ rounded: 'rounded-full' }"
-                            target="_blank"
-                            color="blue"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="https://twitter.com/"
-                            icon="mdi:twitter"
-                            :ui="{ rounded: 'rounded-full' }"
-                            target="_blank"
-                            color="blue"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="https://www.instagram.com/"
-                            icon="mdi:instagram"
+                            :to="socialLink.value"
+                            :icon="socialLink.icon"
                             :ui="{ rounded: 'rounded-full' }"
                             target="_blank"
                             color="blue"
@@ -195,6 +176,8 @@ const submitForm = async (event: FormSubmitEvent<Schema>) => {
 
         $notify('Message sent successfully', 'success');
     } catch (error) {
+        console.error(error);
+
         $notify('Error sending message', 'error');
     } finally {
         loading.value = false;

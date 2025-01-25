@@ -28,15 +28,15 @@ useHead({
     meta: [
         {
             name: 'description',
-            content: settingsStore.getSetting(SettingKey.SiteDescription),
+            content: settingsStore.getSetting(SettingKey.Description),
         },
         {
             name: 'keywords',
-            content: settingsStore.getSetting(SettingKey.SiteKeywords),
+            content: settingsStore.getSetting(SettingKey.Keywords),
         },
         {
             name: 'author',
-            content: settingsStore.getSetting(SettingKey.SiteAuthor),
+            content: settingsStore.getSetting(SettingKey.Author),
         },
     ],
     script: [
@@ -78,8 +78,8 @@ const footerPages = ref([
     { name: 'Privacy Policy', href: '/privacy' },
 ]);
 const footerContacts = reactive({
-    email: settingsStore.getSetting(SettingKey.SiteEmail),
-    phone: settingsStore.getSetting(SettingKey.SitePhone),
-    address: settingsStore.getSetting(SettingKey.SiteAddress),
+    email: settingsStore.getSetting(SettingKey.Email),
+    phone: settingsStore.getSetting(SettingKey.Phone),
+    address: settingsStore.getSetting(SettingKey.Address),
 });
 </script>

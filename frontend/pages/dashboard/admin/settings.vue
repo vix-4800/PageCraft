@@ -13,7 +13,12 @@
                 :label="capitalize(setting.key.replace('_', ' '))"
                 required
             >
-                <u-input v-model="setting.value" color="blue" size="lg" />
+                <u-input
+                    v-model="setting.value"
+                    color="blue"
+                    size="lg"
+                    :placeholder="capitalize(setting.key.replace('_', ' '))"
+                />
             </u-form-group>
 
             <u-button

@@ -4,10 +4,16 @@ export interface SiteSetting {
 }
 
 export enum SettingKey {
-    SiteDescription = 'site_description',
-    SiteKeywords = 'site_keywords',
-    SiteAuthor = 'site_author',
-    SiteEmail = 'site_email',
-    SitePhone = 'site_phone',
-    SiteAddress = 'site_address',
+    Description = 'description',
+    Keywords = 'keywords',
+    Author = 'author',
+    Email = 'email',
+    Phone = 'phone',
+    Address = 'address',
+    SocialFacebook = 'social_facebook',
+    SocialTwitter = 'social_twitter',
+    SocialInstagram = 'social_instagram',
+    SocialVk = 'social_vk',
+    SocialYoutube = 'social_youtube',
+    SocialTelegram = 'social_telegram',
 }
