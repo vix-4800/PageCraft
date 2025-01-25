@@ -86,12 +86,19 @@ const deleteBackups = async () => {
     deleting.value = true;
 
     try {
-        await apiFetch('v1/backups', {
-            method: 'DELETE',
-        });
+        withPasswordConfirmation(
+            async () => {
+                await apiFetch('v1/backups', {
+                    method: 'DELETE',
+                });
 
-        $notify('Backups cleared successfully', 'success');
-        backups.value = [];
+                $notify('Backups cleared successfully', 'success');
+                backups.value = [];
+            },
+            'Confirm backups deletion',
+            'Are you sure you want to delete all backups?',
+            true
+        );
     } catch (error) {
         console.error(error);
 

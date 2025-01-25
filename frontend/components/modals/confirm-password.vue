@@ -33,7 +33,7 @@
                         size="md"
                         icon="material-symbols:send"
                         color="blue"
-                        label="Update"
+                        label="Confirm"
                         :loading="loading"
                         type="submit"
                     />
