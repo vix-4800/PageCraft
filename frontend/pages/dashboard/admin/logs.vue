@@ -1,6 +1,9 @@
 <template>
     <div>
-        <dashboard-page-name title="Application Logs" />
+        <dashboard-page-name
+            title="Application Logs"
+            description="Latest logs"
+        />
 
         <u-table
             :columns="columns"
