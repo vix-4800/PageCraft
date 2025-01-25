@@ -50,7 +50,7 @@ Route::name('api.')->group(function (): void {
 
         Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
 
-        Route::apiResource('feedback', FeedbackMessageController::class);
+        Route::apiResource('feedback/questions', FeedbackMessageController::class);
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

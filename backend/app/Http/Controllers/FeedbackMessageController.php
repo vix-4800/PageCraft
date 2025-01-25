@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponse;
 use App\Http\Requests\StoreFeedbackMessageRequest;
-use App\Http\Requests\UpdateFeedbackMessageRequest;
 use App\Http\Resources\FeedbackMessageResource;
 use App\Models\FeedbackMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -51,28 +48,8 @@ class FeedbackMessageController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      */
-    public function show(FeedbackMessage $feedbackMessage): JsonResource
+    public function show(FeedbackMessage $question): JsonResource
     {
-        return new FeedbackMessageResource($feedbackMessage);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateFeedbackMessageRequest $request, FeedbackMessage $feedbackMessage): JsonResource
-    {
-        $feedbackMessage->update($request->validated());
-
-        return new FeedbackMessageResource($feedbackMessage);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(FeedbackMessage $feedbackMessage): Response
-    {
-        $feedbackMessage->delete();
-
-        return ApiResponse::empty();
+        return new FeedbackMessageResource($question);
     }
 }
