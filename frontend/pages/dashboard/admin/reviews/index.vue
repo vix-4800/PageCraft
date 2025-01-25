@@ -22,7 +22,7 @@
             />
 
             <div
-                v-if="pendingReviews.length > 0"
+                v-if="pendingReviewsTotal > 10"
                 class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
             >
                 <u-pagination
@@ -54,7 +54,7 @@
             />
 
             <div
-                v-if="allReviews.length > 0"
+                v-if="allReviewsTotal > 10"
                 class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
             >
                 <u-pagination
