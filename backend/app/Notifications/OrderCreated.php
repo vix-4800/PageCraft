@@ -6,12 +6,9 @@ namespace App\Notifications;
 
 use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\Order\OrderResource;
-use App\Models\Order;
 
 class OrderCreated extends BaseDatabaseNotification
 {
-    protected Order $model;
-
     protected function getType(): DatabaseNotificationType
     {
         return DatabaseNotificationType::ORDER;
