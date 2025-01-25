@@ -88,6 +88,12 @@ const adminLinks = [
         icon: 'material-symbols:settings-outline',
         to: '/dashboard/admin/settings',
     },
+    {
+        category: 'Settings',
+        label: 'Application Logs',
+        icon: 'material-symbols:bug-report',
+        to: '/dashboard/admin/logs',
+    },
 ];
 
 const userLinks = [
