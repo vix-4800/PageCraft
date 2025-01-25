@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -31,6 +33,7 @@ class UserFactory extends Factory
             'phone' => fake()->phoneNumber,
             'password' => static::$password ??= bcrypt('password'),
             'remember_token' => Str::random(10),
+            'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
         ];
     }
 
@@ -41,6 +44,13 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes): array => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'role_id' => Role::firstWhere('name', UserRole::ADMIN)->id,
         ]);
     }
 }
