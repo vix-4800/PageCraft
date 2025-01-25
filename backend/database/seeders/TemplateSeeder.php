@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\SiteTemplate;
+use App\Models\Template;
 use Illuminate\Database\Seeder;
 
-class SiteTemplateSeeder extends Seeder
+class TemplateSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        SiteTemplate::insert([
+        Template::insert([
             [
                 'block' => 'header',
                 'template' => 'default',

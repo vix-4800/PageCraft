@@ -8,7 +8,7 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
     actions: {
         async fetch() {
             const { data } = await apiFetch<{ data: SiteTemplate[] }>(
-                `v1/site-templates`
+                `v1/templates`
             );
 
             this.setTemplates(data);
@@ -17,7 +17,7 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
             withPasswordConfirmation(
                 async () => {
                     const { data } = await apiFetch<{ data: SiteTemplate[] }>(
-                        `v1/site-templates`,
+                        `v1/templates`,
                         {
                             method: 'PUT',
                             body: templates,

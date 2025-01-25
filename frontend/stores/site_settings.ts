@@ -8,7 +8,7 @@ export const useSiteSettingsStore = defineStore('site_settings', {
     actions: {
         async fetch() {
             const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                `v1/site-settings`
+                `v1/settings`
             );
 
             this.setSettings(data);
@@ -17,7 +17,7 @@ export const useSiteSettingsStore = defineStore('site_settings', {
             withPasswordConfirmation(
                 async () => {
                     const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                        `v1/site-settings`,
+                        `v1/settings`,
                         {
                             method: 'PUT',
                             body: settings,

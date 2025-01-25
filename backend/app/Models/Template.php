@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class SiteTemplate extends Model
+class Template extends Model
 {
     /**
      * The attributes that are mass assignable.

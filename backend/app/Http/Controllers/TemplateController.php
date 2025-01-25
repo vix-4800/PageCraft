@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateSiteTemplateRequest;
-use App\Http\Resources\SiteTemplateResource;
-use App\Models\SiteTemplate;
+use App\Http\Requests\Template\UpdateTemplateRequest;
+use App\Http\Resources\TemplateResource;
+use App\Models\Template;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
-class SiteTemplateController extends Controller implements HasMiddleware
+class TemplateController extends Controller
 {
     /**
      * Get the middleware that should be assigned to the controller.
@@ -29,22 +28,22 @@ class SiteTemplateController extends Controller implements HasMiddleware
      */
     public function show(): JsonResource
     {
-        return SiteTemplateResource::collection(SiteTemplate::all());
+        return TemplateResource::collection(Template::all());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSiteTemplateRequest $request): JsonResource
+    public function update(UpdateTemplateRequest $request): JsonResource
     {
         $validated = $request->validated();
 
         DB::transaction(function () use ($validated): void {
             foreach ($validated as $setting) {
-                SiteTemplate::firstWhere('block', $setting['block'])->update(['template' => $setting['template']]);
+                Template::firstWhere('block', $setting['block'])->update(['template' => $setting['template']]);
             }
         });
 
-        return SiteTemplateResource::collection(SiteTemplate::all());
+        return TemplateResource::collection(Template::all());
     }
 }

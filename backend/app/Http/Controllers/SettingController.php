@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateSiteSettingRequest;
-use App\Http\Resources\SiteSettingResource;
-use App\Models\SiteSetting;
+use App\Http\Requests\Setting\UpdateSettingRequest;
+use App\Http\Resources\SettingResource;
+use App\Models\Setting;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
-class SiteSettingController extends Controller implements HasMiddleware
+class SettingController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
@@ -29,22 +29,22 @@ class SiteSettingController extends Controller implements HasMiddleware
      */
     public function show(): JsonResource
     {
-        return SiteSettingResource::collection(SiteSetting::all());
+        return SettingResource::collection(Setting::all());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSiteSettingRequest $request): JsonResource
+    public function update(UpdateSettingRequest $request): JsonResource
     {
         $validated = $request->validated();
 
         DB::transaction(function () use ($validated): void {
             foreach ($validated as $setting) {
-                SiteSetting::firstWhere('key', $setting['key'])->update(['value' => $setting['value']]);
+                Setting::firstWhere('key', $setting['key'])->update(['value' => $setting['value']]);
             }
         });
 
-        return SiteSettingResource::collection(SiteSetting::all());
+        return SettingResource::collection(Setting::all());
     }
 }

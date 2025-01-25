@@ -14,9 +14,9 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductReviewReactionController;
 use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\SiteSettingController;
-use App\Http\Controllers\SiteTemplateController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +32,8 @@ Route::name('api.')->group(function (): void {
             });
         });
 
-        Route::apiSingleton('site-settings', SiteSettingController::class);
-        Route::apiSingleton('site-templates', SiteTemplateController::class);
+        Route::apiSingleton('settings', SettingController::class);
+        Route::apiSingleton('templates', TemplateController::class);
 
         Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
         Route::get('products/best', [ProductController::class, 'best'])->name('products.best');

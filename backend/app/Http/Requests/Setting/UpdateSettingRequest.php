@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSiteTemplateRequest extends FormRequest
+class UpdateSettingRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,8 +16,8 @@ class UpdateSiteTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            '*.block' => ['required', 'string', 'max:255'],
-            '*.template' => ['required', 'string', 'max:255'],
+            '*.key' => ['required', 'string', 'max:255'],
+            '*.value' => ['required', 'string', 'max:255'],
         ];
     }
 }

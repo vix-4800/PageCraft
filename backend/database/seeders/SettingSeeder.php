@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\SiteSetting;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
-class SiteSettingSeeder extends Seeder
+class SettingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        SiteSetting::insert([
+        Setting::insert([
             [
                 'key' => 'site_description',
                 'value' => 'PageCraft is a lightweight, free and open source CMS for your website.',
