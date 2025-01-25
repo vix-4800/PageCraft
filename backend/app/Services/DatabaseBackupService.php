@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\DatabaseBackupException;
+use App\Helpers\DatabaseBackup;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -35,11 +36,15 @@ class DatabaseBackupService
             return [];
         }
 
-        $backupFiles = scandir($this->backupDir);
+        $backups = collect();
+        $files = scandir($this->backupDir);
+        $files = array_filter($files, fn ($file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
 
-        return array_filter($backupFiles, function ($file): bool {
-            return pathinfo($file, PATHINFO_EXTENSION) === 'sql';
-        });
+        foreach ($files as $file) {
+            $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
+        }
+
+        return $backups->toArray();
     }
 
     public function delete(string $file): void
