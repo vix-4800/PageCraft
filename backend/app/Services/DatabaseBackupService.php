@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Exceptions\DatabaseBackupException;
 use App\Helpers\DatabaseBackup;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 
 class DatabaseBackupService
@@ -30,7 +31,7 @@ class DatabaseBackupService
         throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new DatabaseBackupException('Failed to create database backup.'));
     }
 
-    public function list(): array
+    public function list(): Collection
     {
         if (! is_dir($this->backupDir)) {
             return [];
@@ -44,7 +45,7 @@ class DatabaseBackupService
             $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
         }
 
-        return $backups->toArray();
+        return $backups;
     }
 
     public function delete(string $file): void

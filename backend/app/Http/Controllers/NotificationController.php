@@ -14,9 +14,7 @@ class NotificationController extends Controller
 {
     public function notifications(Request $request): JsonResponse
     {
-        return (new ApiResponse)->create(
-            $this->getUserNotifications($request->user())->toArray()
-        );
+        return (new ApiResponse)->create($this->getUserNotifications($request->user()));
     }
 
     public function readNotification(Request $request, string $id): JsonResponse
@@ -24,9 +22,7 @@ class NotificationController extends Controller
         $notification = $request->user()->unreadNotifications->find($id);
         $notification->markAsRead();
 
-        return (new ApiResponse)->create(
-            $this->getUserNotifications($request->user())->toArray()
-        );
+        return (new ApiResponse)->create($this->getUserNotifications($request->user()));
     }
 
     private function getUserNotifications(User $user): Collection
