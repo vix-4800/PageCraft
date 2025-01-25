@@ -3,6 +3,7 @@
         <dashboard-page-name title="Application Logs" description="Latest logs">
             <template #actions>
                 <u-button
+                    v-if="logs.length > 0"
                     color="red"
                     size="md"
                     icon="material-symbols:delete"
@@ -62,6 +63,7 @@ const loading = ref(false);
 const logs = ref<Log[]>([]);
 onMounted(async () => {
     loading.value = true;
+
     const { data } = await apiFetch<{ data: Log[] }>('v1/logs');
 
     logs.value = data;

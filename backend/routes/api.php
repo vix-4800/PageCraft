@@ -33,8 +33,8 @@ Route::name('api.')->group(function (): void {
             });
 
             Route::prefix('backups')->name('backup.')->group(function (): void {
-                Route::post('create', [BackupController::class, 'create'])->name('create');
-                Route::get('list', [BackupController::class, 'list'])->name('list');
+                Route::get('/', [BackupController::class, 'list'])->name('list');
+                Route::post('/', [BackupController::class, 'create'])->name('create');
             });
 
             Route::prefix('logs')->name('log.')->group(function (): void {

@@ -94,6 +94,12 @@ const adminLinks = [
         icon: 'material-symbols:bug-report',
         to: '/dashboard/admin/logs',
     },
+    {
+        category: 'Settings',
+        label: 'Backups',
+        icon: 'material-symbols:cloud-download',
+        to: '/dashboard/admin/backups',
+    },
 ];
 
 const userLinks = [
