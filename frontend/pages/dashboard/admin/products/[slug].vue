@@ -156,6 +156,7 @@
                                         color="orange"
                                         size="md"
                                         label="Add Attribute"
+                                        icon="material-symbols:add"
                                         @click="addAttribute(variation)"
                                     />
 
@@ -163,6 +164,7 @@
                                         v-if="variation.attributes.length > 0"
                                         color="red"
                                         size="md"
+                                        icon="material-symbols:remove"
                                         label="Remove Attribute"
                                         @click="removeAttribute(variation)"
                                     />
@@ -176,6 +178,7 @@
                     <u-button
                         color="orange"
                         size="md"
+                        icon="material-symbols:add"
                         label="Add Variation"
                         @click="addVariation"
                     />
@@ -183,6 +186,7 @@
                         v-if="variations.length > 0"
                         color="red"
                         size="md"
+                        icon="material-symbols:remove"
                         label="Remove Variation"
                         @click="removeVariation"
                     />
@@ -190,10 +194,17 @@
             </div>
 
             <div class="flex gap-2">
-                <u-button color="blue" size="md" label="Save" type="submit" />
+                <u-button
+                    color="blue"
+                    size="md"
+                    label="Save"
+                    icon="material-symbols:save"
+                    type="submit"
+                />
                 <u-button
                     color="red"
                     size="md"
+                    icon="material-symbols:delete"
                     label="Delete"
                     @click="deleteProduct"
                 />
