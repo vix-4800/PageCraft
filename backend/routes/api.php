@@ -53,7 +53,8 @@ Route::name('api.')->group(function (): void {
 
         Route::apiResource('feedback/messages', FeedbackMessageController::class);
 
-        Route::get('logs', LogController::class)->middleware('auth:sanctum');
+        Route::get('logs', [LogController::class, 'getLogs'])->middleware('auth:sanctum');
+        Route::delete('logs', [LogController::class, 'deleteLogs'])->middleware('auth:sanctum');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

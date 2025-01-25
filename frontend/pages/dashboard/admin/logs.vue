@@ -1,9 +1,17 @@
 <template>
     <div>
-        <dashboard-page-name
-            title="Application Logs"
-            description="Latest logs"
-        />
+        <dashboard-page-name title="Application Logs" description="Latest logs">
+            <template #actions>
+                <u-button
+                    color="red"
+                    size="md"
+                    icon="material-symbols:delete"
+                    :loading="deleting"
+                    label="Clear"
+                    @click="clearLogs"
+                />
+            </template>
+        </dashboard-page-name>
 
         <u-table
             :columns="columns"
@@ -16,7 +24,7 @@
             :progress="{ color: 'blue', animation: 'carousel' }"
             class="w-full"
             :empty-state="{
-                icon: 'material-symbols:remove-shopping-cart',
+                icon: 'material-symbols:info',
                 label: 'No logs',
             }"
         />
@@ -48,6 +56,8 @@ const columns = [
     },
 ];
 
+const { $notify } = useNuxtApp();
+
 const loading = ref(false);
 const logs = ref<Log[]>([]);
 onMounted(async () => {
@@ -57,4 +67,24 @@ onMounted(async () => {
     logs.value = data;
     loading.value = false;
 });
+
+const deleting = ref(false);
+const clearLogs = async () => {
+    deleting.value = true;
+
+    try {
+        await apiFetch('v1/logs', {
+            method: 'DELETE',
+        });
+
+        $notify('Logs cleared successfully', 'success');
+        logs.value = [];
+    } catch (error) {
+        console.error(error);
+
+        $notify('Error clearing logs', 'error');
+    } finally {
+        deleting.value = false;
+    }
+};
 </script>
