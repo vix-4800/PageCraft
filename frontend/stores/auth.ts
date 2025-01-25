@@ -146,6 +146,27 @@ export const useAuthStore = defineStore('auth', {
                 true
             );
         },
+        async sendPasswordResetLink(email: string) {
+            await apiFetch('auth/forgot-password', {
+                method: 'POST',
+                body: { email },
+            });
+
+            navigateTo('/login');
+        },
+        async resetPassword(
+            email: string,
+            password: string,
+            password_confirmation: string,
+            token: string
+        ) {
+            await apiFetch('auth/reset-password', {
+                method: 'POST',
+                body: { email, token, password, password_confirmation },
+            });
+
+            navigateTo('/login');
+        },
     },
     getters: {
         isAuthenticated: (state): boolean => !!state.user,

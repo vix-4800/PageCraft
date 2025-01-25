@@ -42,7 +42,7 @@
                     </template>
                 </u-checkbox>
 
-                <nuxt-link to="/reset-password">
+                <nuxt-link to="/forgot-password">
                     <span class="text-sm text-gray-100 hover:underline">
                         Forgot password?
                     </span>
