@@ -15,7 +15,7 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
     use Queueable;
 
     public function __construct(
-        protected Model $model
+        protected ?Model $model = null
     ) {
         //
     }

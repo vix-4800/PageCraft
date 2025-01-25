@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Events\DatabaseDumpCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -34,6 +35,11 @@ class CreateDatabaseDump implements ShouldQueue
             escapeshellarg($this->filepath)
         );
 
-        exec($command);
+        $returnVar = null;
+        exec($command, result_code: $returnVar);
+
+        if ($returnVar == 0) {
+            DatabaseDumpCreated::dispatch();
+        }
     }
 }

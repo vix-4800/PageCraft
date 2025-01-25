@@ -89,6 +89,9 @@ const readNotification = async (notification: Notification) => {
                 `/dashboard/admin/questions/${notification.data.details.id}`
             );
             break;
+        case 'database_backup':
+            navigateTo(`/dashboard/admin/backups`);
+            break;
         default:
             break;
     }
