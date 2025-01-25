@@ -3,13 +3,15 @@
         class="px-10 py-10 font-sans tracking-wide bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900"
     >
         <div class="max-w-2xl mx-auto text-center">
-            <a href="javascript:void(0)" class="inline-block">
+            <nuxt-link to="/" class="inline-block">
                 <nuxt-img src="/logo.png" alt="logo" class="w-16" />
-            </a>
+            </nuxt-link>
             <p class="mt-8 text-sm text-gray-300">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-                gravida, mi eu pulvinar cursus, sem elit interdum mauris
-                dipiscing elit. Aenean gravida, mi eu pulvinar cursus.
+                {{
+                    useSiteSettingsStore().getSetting(
+                        SettingKey.SiteDescription
+                    )
+                }}
                 <nuxt-link
                     to="/about"
                     class="text-sm font-semibold text-blue-500"
@@ -20,12 +22,12 @@
 
             <ul class="flex flex-wrap justify-center gap-6 mt-8">
                 <li>
-                    <a href="" target="_blank">
+                    <nuxt-link href="" target="_blank">
                         <u-icon
                             name="mdi:facebook"
                             class="w-10 h-10 bg-blue-600"
                         />
-                    </a>
+                    </nuxt-link>
                 </li>
                 <li>
                     <a href="" target="_blank">
@@ -55,9 +57,9 @@
         </div>
 
         <ul
-            class="grid gap-12 mt-20 max-sm:grid-cols-1 max-lg:grid-cols-2 lg:grid-cols-4"
+            class="grid gap-12 mt-20 max-sm:grid-cols-1 max-lg:grid-cols-2 lg:grid-cols-3"
         >
-            <li class="flex items-center">
+            <li class="flex items-center justify-center">
                 <div
                     class="flex items-center justify-center w-10 h-10 bg-gray-900 rounded-full shrink-0"
                 >
@@ -74,12 +76,15 @@
                         />
                     </svg>
                 </div>
-                <a href="javascript:void(0)" class="ml-3 text-sm text-gray-300">
+                <nuxt-link
+                    :to="`tel:${footerContacts.phone}`"
+                    class="ml-3 text-sm text-gray-300"
+                >
                     <small class="block">Tel</small>
-                    <strong>180-548-2588</strong>
-                </a>
+                    <strong>{{ footerContacts.phone }}</strong>
+                </nuxt-link>
             </li>
-            <li class="flex items-center">
+            <li class="flex items-center justify-center">
                 <div
                     class="flex items-center justify-center w-10 h-10 bg-gray-900 rounded-full shrink-0"
                 >
@@ -96,12 +101,15 @@
                         />
                     </svg>
                 </div>
-                <a href="javascript:void(0)" class="ml-3 text-sm text-gray-300">
+                <nuxt-link
+                    :to="`mailto:${footerContacts.email}`"
+                    class="ml-3 text-sm text-gray-300"
+                >
                     <small class="block">Mail</small>
-                    <strong>info@example.com</strong>
-                </a>
+                    <strong>{{ footerContacts.email }}</strong>
+                </nuxt-link>
             </li>
-            <li class="flex items-center">
+            <li class="flex items-center justify-center">
                 <div
                     class="flex items-center justify-center w-10 h-10 bg-gray-900 rounded-full shrink-0"
                 >
@@ -122,32 +130,14 @@
                         />
                     </svg>
                 </div>
-                <a href="javascript:void(0)" class="ml-3 text-sm text-gray-300">
-                    <small class="block">Address</small>
-                    <strong>123 Main Street City, Country</strong>
-                </a>
-            </li>
-            <li class="flex items-center">
-                <div
-                    class="flex items-center justify-center w-10 h-10 bg-gray-900 rounded-full shrink-0"
+                <nuxt-link
+                    :to="`https://maps.google.com/?q=${footerContacts.address}`"
+                    target="_blank"
+                    class="ml-3 text-sm text-gray-300"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20px"
-                        height="20px"
-                        fill="#007bff"
-                        viewBox="0 0 100 100"
-                    >
-                        <path
-                            d="M83 23h-3V11c0-3.309-2.692-6-6-6H26c-3.308 0-6 2.691-6 6v12h-3C8.729 23 2 29.729 2 38v30c0 4.963 4.037 9 9 9h9v12c0 3.309 2.692 6 6 6h48c3.308 0 6-2.691 6-6V77h9c4.963 0 9-4.037 9-9V38c0-8.271-6.729-15-15-15zM26 11h48v12H26zm0 78V59h48v30zm66-21c0 1.654-1.345 3-3 3h-9V59h3a3 3 0 1 0 0-6H17a3 3 0 1 0 0 6h3v12h-9c-1.655 0-3-1.346-3-3V38c0-4.963 4.037-9 9-9h66c4.963 0 9 4.037 9 9zm-27 0a3 3 0 0 1-3 3H38a3 3 0 1 1 0-6h24a3 3 0 0 1 3 3zm0 12a3 3 0 0 1-3 3H38a3 3 0 1 1 0-6h24a3 3 0 0 1 3 3zm21-42a3 3 0 0 1-3 3h-6a3 3 0 1 1 0-6h6a3 3 0 0 1 3 3z"
-                            data-original="#000000"
-                        />
-                    </svg>
-                </div>
-                <a href="javascript:void(0)" class="ml-3 text-sm text-gray-300">
-                    <small class="block">Fax</small>
-                    <strong>+1-548-2588</strong>
-                </a>
+                    <small class="block">Address</small>
+                    <strong>{{ footerContacts.address }}</strong>
+                </nuxt-link>
             </li>
         </ul>
 
@@ -176,6 +166,8 @@
 </template>
 
 <script lang="ts" setup>
+import { SettingKey } from '~/types/site_setting';
+
 const appName: string = useRuntimeConfig().public.appName;
 
 defineProps({
@@ -184,6 +176,14 @@ defineProps({
             name: string;
             href: string;
         }[],
+        required: true,
+    },
+    footerContacts: {
+        type: Object as () => {
+            email: string;
+            phone: string;
+            address: string;
+        },
         required: true,
     },
 });

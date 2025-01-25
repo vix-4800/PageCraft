@@ -54,28 +54,29 @@
                 </h4>
                 <ul class="space-y-4">
                     <li>
-                        <a
-                            href="mailto:test@example.com"
+                        <nuxt-link
+                            :to="`mailto:${footerContacts.email}`"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Email
-                        </a>
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            :to="`tel:${footerContacts.phone}`"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Phone
-                        </a>
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            :to="`https://maps.google.com/?q=${footerContacts.address}`"
+                            target="_blank"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Address
-                        </a>
+                        </nuxt-link>
                     </li>
                 </ul>
             </div>
@@ -112,6 +113,14 @@ defineProps({
             name: string;
             href: string;
         }[],
+        required: true,
+    },
+    footerContacts: {
+        type: Object as () => {
+            email: string;
+            phone: string;
+            address: string;
+        },
         required: true,
     },
 });

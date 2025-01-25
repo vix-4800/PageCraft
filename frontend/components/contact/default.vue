@@ -22,7 +22,9 @@
                             icon="material-symbols:mail"
                             variant="ghost"
                             to="mailto:info@example.com"
-                            label="info@example.com"
+                            :label="
+                                settingsStore.getSetting(SettingKey.SiteEmail)
+                            "
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
                     </li>
@@ -30,7 +32,9 @@
                         <u-button
                             to="tel:158996888"
                             icon="material-symbols:phone-enabled"
-                            label="+158 996 888"
+                            :label="
+                                settingsStore.getSetting(SettingKey.SitePhone)
+                            "
                             variant="ghost"
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
@@ -39,7 +43,9 @@
                         <u-button
                             icon="material-symbols:location-on"
                             variant="ghost"
-                            label="New York, USA"
+                            :label="
+                                settingsStore.getSetting(SettingKey.SiteAddress)
+                            "
                             class="text-white bg-transparent hover:bg-transparent hover:text-blue-300"
                         />
                     </li>
@@ -146,9 +152,11 @@
 <script lang="ts" setup>
 import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types';
+import { SettingKey } from '~/types/site_setting';
 
 const authStore = useAuthStore();
 const { $notify } = useNuxtApp();
+const settingsStore = useSiteSettingsStore();
 
 const loading = ref(false);
 const subjects = [

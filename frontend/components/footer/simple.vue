@@ -46,5 +46,13 @@ defineProps({
         }[],
         required: true,
     },
+    footerContacts: {
+        type: Object as () => {
+            email: string;
+            phone: string;
+            address: string;
+        },
+        required: true,
+    },
 });
 </script>

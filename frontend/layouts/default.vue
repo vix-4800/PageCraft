@@ -6,7 +6,11 @@
             <slot></slot>
         </main>
 
-        <component :is="footerComponent" :footer-pages="footerPages" />
+        <component
+            :is="footerComponent"
+            :footer-pages="footerPages"
+            :footer-contacts="footerContacts"
+        />
     </div>
 </template>
 
@@ -73,4 +77,9 @@ const footerPages = ref([
     { name: 'Terms & Conditions', href: '/terms' },
     { name: 'Privacy Policy', href: '/privacy' },
 ]);
+const footerContacts = reactive({
+    email: settingsStore.getSetting(SettingKey.SiteEmail),
+    phone: settingsStore.getSetting(SettingKey.SitePhone),
+    address: settingsStore.getSetting(SettingKey.SiteAddress),
+});
 </script>
