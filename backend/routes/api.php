@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\MarketplaceAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
@@ -42,6 +43,8 @@ Route::name('api.')->group(function (): void {
                 Route::get('/', [LogController::class, 'getLogs']);
                 Route::delete('/', [LogController::class, 'deleteLogs']);
             });
+
+            Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);
         });
 
         Route::apiSingleton('settings', SettingController::class);

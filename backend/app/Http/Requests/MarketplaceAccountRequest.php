@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMarketplaceAccountSettingRequest extends FormRequest
+class MarketplaceAccountRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,8 +16,11 @@ class StoreMarketplaceAccountSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => ['required', 'string', 'max:255'],
-            'value' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+
+            'settings' => ['required', 'array'],
+            'settings.*.key' => ['required', 'string', 'max:255'],
+            'settings.*.value' => ['required', 'string', 'max:255'],
         ];
     }
 }
