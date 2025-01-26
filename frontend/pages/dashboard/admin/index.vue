@@ -69,7 +69,7 @@
 
                 <iframe
                     width="100%"
-                    height="350"
+                    height="500"
                     src="http://localhost:8082/index.php?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=1&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=day&date=yesterday"
                     scrolling="yes"
                     marginheight="0"
