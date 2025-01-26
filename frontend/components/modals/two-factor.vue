@@ -12,7 +12,7 @@
             <div
                 class="flex items-center justify-center w-full h-56"
                 v-html="qrCode"
-            />
+            ></div>
 
             <u-divider class="my-4" />
 
