@@ -2,7 +2,7 @@
     <aside class="hidden rounded-lg lg:col-span-3 lg:block">
         <nav>
             <div
-                v-for="(links, category) in groupedLinks"
+                v-for="(links, category) in categories"
                 :key="category"
                 class="mb-4"
             >
@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 defineProps({
-    groupedLinks: {
+    categories: {
         type: Object as () => {
             [category: string]: { label: string; to: string; icon: string }[];
         },

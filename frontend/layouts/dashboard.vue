@@ -8,7 +8,7 @@
             <div class="flex flex-col flex-auto max-w-full">
                 <div class="container p-4 mx-auto lg:p-8 xl:max-w-7xl">
                     <div class="grid grid-cols-1 md:gap-20 lg:grid-cols-12">
-                        <dashboard-sidebar :grouped-links="groupedLinks" />
+                        <dashboard-sidebar :categories="categories" />
 
                         <main class="lg:col-span-9">
                             <div
@@ -29,136 +29,131 @@
 <script lang="ts" setup>
 const authStore = useAuthStore();
 
-const sharedLinks = [
-    {
-        category: 'My Account',
-        label: 'My Orders',
-        icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/my-orders',
-    },
-    {
-        category: 'My Account',
-        label: 'My Reviews',
-        icon: 'material-symbols:rate-review',
-        to: '/dashboard/my-reviews',
-    },
-];
+const sharedCategories = {
+    'My Account': [
+        {
+            label: 'My Orders',
+            icon: 'material-symbols:shopping-cart',
+            to: '/dashboard/my-orders',
+        },
+        {
+            label: 'My Reviews',
+            icon: 'material-symbols:rate-review',
+            to: '/dashboard/my-reviews',
+        },
+    ],
+};
 
-const adminLinks = [
-    {
-        category: 'Orders',
-        label: 'Orders',
-        icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/admin/orders',
-    },
-    {
-        category: 'Products',
-        label: 'Products',
-        icon: 'material-symbols:storefront',
-        to: '/dashboard/admin/products',
-    },
-    {
-        category: 'Content',
-        label: 'Articles',
-        icon: 'material-symbols:article',
-        to: '/dashboard/admin/articles',
-    },
-    {
-        category: 'Integrations',
-        label: 'Marketplaces',
-        icon: 'material-symbols:storefront',
-        to: '/dashboard/admin/marketplaces',
-    },
-    {
-        category: 'Management',
-        label: 'Users',
-        icon: 'material-symbols:groups',
-        to: '/dashboard/admin/users',
-    },
-    {
-        category: 'Management',
-        label: 'Activity History',
-        icon: 'material-symbols:history',
-        to: '/dashboard/admin/activity-history',
-    },
-    {
-        category: 'Management',
-        label: 'Statistics',
-        icon: 'material-symbols:analytics',
-        to: '/dashboard/admin/statistics',
-    },
-    {
-        category: 'Feedback',
-        label: 'Reviews',
-        icon: 'material-symbols:rate-review',
-        to: '/dashboard/admin/reviews',
-    },
-    {
-        category: 'Feedback',
-        label: 'User Questions',
-        icon: 'material-symbols:question-mark',
-        to: '/dashboard/admin/questions',
-    },
-    {
-        category: 'Settings',
-        label: 'Templates',
-        icon: 'material-symbols:design-services',
-        to: '/dashboard/admin/templates',
-    },
-    {
-        category: 'Settings',
-        label: 'Settings',
-        icon: 'material-symbols:settings-outline',
-        to: '/dashboard/admin/settings',
-    },
-    {
-        category: 'Settings',
-        label: 'Email Templates',
-        icon: 'material-symbols:mail',
-        to: '/dashboard/admin/email-templates',
-    },
-    {
-        category: 'Settings',
-        label: 'Banners',
-        icon: 'material-symbols:brand-awareness-rounded',
-        to: '/dashboard/admin/banners',
-    },
-    {
-        category: 'System Monitoring',
-        label: 'Backups',
-        icon: 'material-symbols:cloud-download',
-        to: '/dashboard/admin/backups',
-    },
-    {
-        category: 'System Monitoring',
-        label: 'Application Logs',
-        icon: 'material-symbols:bug-report',
-        to: '/dashboard/admin/logs',
-    },
-    {
-        category: 'System Monitoring',
-        label: 'Queue Logs',
-        icon: 'material-symbols:timeline',
-        to: '/dashboard/admin/queue-logs',
-    },
-];
+const adminCategories = {
+    Orders: [
+        {
+            label: 'Orders',
+            icon: 'material-symbols:shopping-cart',
+            to: '/dashboard/admin/orders',
+        },
+    ],
+    Products: [
+        {
+            label: 'Products',
+            icon: 'material-symbols:storefront',
+            to: '/dashboard/admin/products',
+        },
+    ],
+    Content: [
+        {
+            label: 'Articles',
+            icon: 'material-symbols:article',
+            to: '/dashboard/admin/articles',
+        },
+    ],
+    Integrations: [
+        {
+            label: 'Marketplaces',
+            icon: 'material-symbols:storefront',
+            to: '/dashboard/admin/marketplaces',
+        },
+    ],
+    Management: [
+        {
+            label: 'Users',
+            icon: 'material-symbols:groups',
+            to: '/dashboard/admin/users',
+        },
+        {
+            label: 'Activity History',
+            icon: 'material-symbols:history',
+            to: '/dashboard/admin/activity-history',
+        },
+        {
+            label: 'Statistics',
+            icon: 'material-symbols:analytics',
+            to: '/dashboard/admin/statistics',
+        },
+    ],
+    Feedback: [
+        {
+            label: 'Reviews',
+            icon: 'material-symbols:rate-review',
+            to: '/dashboard/admin/reviews',
+        },
+        {
+            label: 'User Questions',
+            icon: 'material-symbols:question-mark',
+            to: '/dashboard/admin/questions',
+        },
+    ],
+    Customization: [
+        {
+            label: 'Templates',
+            icon: 'material-symbols:design-services',
+            to: '/dashboard/admin/templates',
+        },
+        {
+            label: 'Email Templates',
+            icon: 'material-symbols:mail',
+            to: '/dashboard/admin/email-templates',
+        },
+        {
+            label: 'Banners',
+            icon: 'material-symbols:brand-awareness-rounded',
+            to: '/dashboard/admin/banners',
+        },
+    ],
+    Settings: [
+        {
+            label: 'Settings',
+            icon: 'material-symbols:settings-outline',
+            to: '/dashboard/admin/settings',
+        },
+    ],
+    'System Monitoring': [
+        {
+            label: 'Backups',
+            icon: 'material-symbols:cloud-download',
+            to: '/dashboard/admin/backups',
+        },
+        {
+            label: 'Application Logs',
+            icon: 'material-symbols:bug-report',
+            to: '/dashboard/admin/logs',
+        },
+        {
+            label: 'Queue Logs',
+            icon: 'material-symbols:timeline',
+            to: '/dashboard/admin/queue-logs',
+        },
+    ],
+};
 
-const links = [
-    {
-        category: 'Dashboard',
-        label: 'Dashboard',
-        icon: 'material-symbols:dashboard',
-        to: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
-    },
-    ...sharedLinks,
-    ...(authStore.isAdmin ? adminLinks : []),
-];
-
-const groupedLinks = computed(() => {
-    return links.reduce((groups, link) => {
-        (groups[link.category] = groups[link.category] || []).push(link);
-
-        return groups;
-    }, {});
-});
+const categories = {
+    Dashboard: [
+        {
+            label: 'Dashboard',
+            icon: 'material-symbols:dashboard',
+            to: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
+        },
+    ],
+    ...sharedCategories,
+    ...(authStore.isAdmin ? adminCategories : []),
+};
 </script>
