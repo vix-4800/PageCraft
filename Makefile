@@ -26,7 +26,7 @@ build:
 start_frontend:
 	@echo "\nStarting Frontend..."
 	@docker compose -f $(FRONTEND_DOCKER_FILE) up -d
-	@echo "\nFrontend can be accessed at http://localhost:80"
+	@echo "\nFrontend can be accessed at http://localhost"
 stop_frontend:
 	@echo "\nStopping Frontend..."
 	@docker compose -f $(FRONTEND_DOCKER_FILE) down

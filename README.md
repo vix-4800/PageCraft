@@ -1,5 +1,7 @@
 # PageCraft
 
+PageCraft is a lightweight, free and open source CMS for your website.
+
 <p align="center">
     <img src="https://img.shields.io/badge/In Development-red" alt="Static Badge" />
 </p>
@@ -15,6 +17,10 @@
 -   **Контроль версий:** Git
 -   **Автоматизация и CI/CD:** GitHub Actions, GitLab CI
 -   **Полнотекстовый поиск:** Meilisearch
+
+<p align="center">
+    <img src="./assets/dashboard_preview.png" alt="Dashboard" style="border-radius: 10px" />
+</p>
 
 ## Управление приложением
 
@@ -45,6 +51,14 @@
 
 ## Дополнительные возможности
 
+### Matomo
+
+Для сбора веб-аналитики в приложении установлен **Matomo**. Получить доступ к его веб-интерфейсу можно по адресу: [localhost:8082](http://localhost:8082)
+
+<p align="center">
+    <img src="./assets/matomo_preview.png" alt="Matomo" style="border-radius: 10px" />
+</p>
+
 ### PhpMyAdmin
 
 Для облегчения управления базой MySQL в приложении установлен **PhpMyAdmin**. Получить доступ к веб-интерфейсу можно по адресу: [localhost:8081](http://localhost:8081)
@@ -53,18 +67,26 @@
 
 Для управления Redis в приложении установлен **RedisInsight**. Получить доступ к его веб-интерфейсу можно по адресу: [localhost:5540](http://localhost:5540). В качестве хоста для подключения нужно использовать **redis**
 
+<p align="center">
+    <img src="./assets/redisinsight_preview.png" style="border-radius: 10px" alt="RedisInsight" />
+</p>
+
 ### MailHog
 
 Для отслеживания отправки почты в приложении установлен **Mailhog**. Получить доступ к его веб-интерфейсу можно по адресу: [localhost:8025](http://localhost:8025)
 
-### Supervisor
-
-Для управления ассинхронными задачами в приложении установлен **Supervisor**
+<p align="center">
+    <img src="./assets/mailhog_preview.png" alt="MailHog" style="border-radius: 10px" />
+</p>
 
 ### Meilisearch
 
 Для управления поиском в приложении установлен **Meilisearch**. Получить доступ к его веб-интерфейсу можно по адресу: [localhost:7700](http://localhost:7700)
 
-### Matomo
+<p align="center">
+    <img src="./assets/meilisearch_preview.png" style="border-radius: 10px" alt="Meilisearch" />
+</p>
 
-Для сбора веб-аналитики в приложении установлен **Matomo**. Получить доступ к его веб-интерфейсу можно по адресу: [localhost:8082](http://localhost:8082)
+### Supervisor
+
+Для управления ассинхронными задачами в приложении установлен **Supervisor**
