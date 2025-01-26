@@ -27,24 +27,29 @@
 </template>
 
 <script lang="ts" setup>
-const adminLinks = [
+const authStore = useAuthStore();
+
+const sharedLinks = [
     {
-        category: 'Dashboard',
-        label: 'Dashboard',
-        icon: 'material-symbols:dashboard',
-        to: '/dashboard/admin',
+        category: 'My Account',
+        label: 'My Orders',
+        icon: 'material-symbols:shopping-cart',
+        to: '/dashboard/my-orders',
     },
+    {
+        category: 'My Account',
+        label: 'My Reviews',
+        icon: 'material-symbols:rate-review',
+        to: '/dashboard/my-reviews',
+    },
+];
+
+const adminLinks = [
     {
         category: 'Orders',
         label: 'Orders',
         icon: 'material-symbols:shopping-cart',
         to: '/dashboard/admin/orders',
-    },
-    {
-        category: 'Orders',
-        label: 'My Orders',
-        icon: 'material-symbols:shopping-cart-outline',
-        to: '/dashboard/my-orders',
     },
     {
         category: 'Products',
@@ -53,25 +58,43 @@ const adminLinks = [
         to: '/dashboard/admin/products',
     },
     {
-        category: 'Products',
-        label: 'Reviews',
-        icon: 'material-symbols:rate-review',
-        to: '/dashboard/admin/reviews',
+        category: 'Content',
+        label: 'Articles',
+        icon: 'material-symbols:article',
+        to: '/dashboard/admin/articles',
     },
     {
-        category: 'Administration',
+        category: 'Integrations',
         label: 'Marketplaces',
         icon: 'material-symbols:storefront',
         to: '/dashboard/admin/marketplaces',
     },
     {
-        category: 'Administration',
+        category: 'Management',
         label: 'Users',
         icon: 'material-symbols:groups',
         to: '/dashboard/admin/users',
     },
     {
-        category: 'Administration',
+        category: 'Management',
+        label: 'Activity History',
+        icon: 'material-symbols:history',
+        to: '/dashboard/admin/activity-history',
+    },
+    {
+        category: 'Management',
+        label: 'Statistics',
+        icon: 'material-symbols:analytics',
+        to: '/dashboard/admin/statistics',
+    },
+    {
+        category: 'Feedback',
+        label: 'Reviews',
+        icon: 'material-symbols:rate-review',
+        to: '/dashboard/admin/reviews',
+    },
+    {
+        category: 'Feedback',
         label: 'User Questions',
         icon: 'material-symbols:question-mark',
         to: '/dashboard/admin/questions',
@@ -90,36 +113,48 @@ const adminLinks = [
     },
     {
         category: 'Settings',
+        label: 'Email Templates',
+        icon: 'material-symbols:mail',
+        to: '/dashboard/admin/email-templates',
+    },
+    {
+        category: 'Settings',
+        label: 'Banners',
+        icon: 'material-symbols:brand-awareness-rounded',
+        to: '/dashboard/admin/banners',
+    },
+    {
+        category: 'System Monitoring',
+        label: 'Backups',
+        icon: 'material-symbols:cloud-download',
+        to: '/dashboard/admin/backups',
+    },
+    {
+        category: 'System Monitoring',
         label: 'Application Logs',
         icon: 'material-symbols:bug-report',
         to: '/dashboard/admin/logs',
     },
     {
-        category: 'Settings',
-        label: 'Backups',
-        icon: 'material-symbols:cloud-download',
-        to: '/dashboard/admin/backups',
+        category: 'System Monitoring',
+        label: 'Queue Logs',
+        icon: 'material-symbols:timeline',
+        to: '/dashboard/admin/queue-logs',
     },
 ];
 
-const userLinks = [
+const links = [
     {
         category: 'Dashboard',
         label: 'Dashboard',
         icon: 'material-symbols:dashboard',
-        to: '/dashboard/user',
+        to: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
     },
-    {
-        category: 'Orders',
-        label: 'My Orders',
-        icon: 'material-symbols:shopping-cart',
-        to: '/dashboard/my-orders',
-    },
+    ...sharedLinks,
+    ...(authStore.isAdmin ? adminLinks : []),
 ];
 
 const groupedLinks = computed(() => {
-    const links = useAuthStore().isAdmin ? adminLinks : userLinks;
-
     return links.reduce((groups, link) => {
         (groups[link.category] = groups[link.category] || []).push(link);
 
