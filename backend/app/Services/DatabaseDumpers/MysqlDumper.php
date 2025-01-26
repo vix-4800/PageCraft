@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\DatabaseDumpers;
 
 use App\Exceptions\DatabaseBackupException;
 use App\Helpers\DatabaseBackup;
@@ -10,24 +10,10 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 
-class DatabaseBackupService
+class MysqlDumper extends DatabaseDumper
 {
-    private string $backupDir;
-
-    public function __construct()
-    {
-        $this->backupDir = storage_path('app/backups');
-    }
-
-    /**
-     * @throws DatabaseBackupException
-     */
     public function create(): void
     {
-        if (! is_dir($this->backupDir)) {
-            mkdir($this->backupDir, 0755, true);
-        }
-
         throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new DatabaseBackupException('Failed to create database backup.'));
     }
 
@@ -59,13 +45,5 @@ class DatabaseBackupService
         foreach ($this->list() as $file) {
             $this->delete($file['name']);
         }
-    }
-
-    /**
-     * Get the backup directory path.
-     */
-    public function getBackupDirectory(): string
-    {
-        return $this->backupDir;
     }
 }

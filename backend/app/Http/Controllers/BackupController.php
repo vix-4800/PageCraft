@@ -7,14 +7,14 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Exceptions\DatabaseBackupException;
 use App\Helpers\ApiResponse;
-use App\Services\DatabaseBackupService;
+use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class BackupController extends Controller
 {
     public function __construct(
-        private readonly DatabaseBackupService $service
+        private readonly DatabaseDumper $service
     ) {
         //
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Jobs\CreateDatabaseDump;
-use App\Services\DatabaseBackupService;
+use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Console\Command;
 use Str;
 
@@ -31,7 +31,7 @@ class CreateDatabaseBackup extends Command
     public function handle(): int
     {
         $filename = $this->option('filename') ?? 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8).'.sql';
-        $backupDir = (new DatabaseBackupService)->getBackupDirectory();
+        $backupDir = resolve(DatabaseDumper::class)->getBackupDirectory();
         $filepath = "{$backupDir}/{$filename}";
 
         CreateDatabaseDump::dispatchSync($filepath);
