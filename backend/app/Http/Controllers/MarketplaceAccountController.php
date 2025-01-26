@@ -18,7 +18,7 @@ class MarketplaceAccountController extends Controller
      */
     public function index(): JsonResource
     {
-        return new MarketplaceAccountResource(MarketplaceAccount::all());
+        return MarketplaceAccountResource::collection(MarketplaceAccount::all());
     }
 
     /**

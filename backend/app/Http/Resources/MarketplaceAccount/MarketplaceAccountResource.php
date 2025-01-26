@@ -23,6 +23,8 @@ class MarketplaceAccountResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'settings' => MarketplaceAccountSettingResource::collection($this->settings),
+            'marketplace' => $this->marketplace->name,
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }
