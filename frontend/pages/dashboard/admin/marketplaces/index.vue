@@ -48,6 +48,11 @@ const columns = [
         label: 'Marketplace',
         sortable: true,
     },
+    {
+        key: 'created_at',
+        label: 'Created At',
+        sortable: true,
+    },
 ];
 
 const loading = ref(false);

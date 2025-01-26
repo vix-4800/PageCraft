@@ -51,7 +51,7 @@ class MarketplaceAccountController extends Controller
     {
         $validated = $request->validated();
 
-        $account->update($validated['name']);
+        $account->update([$validated['name']]);
 
         $account->settings()->delete();
         $account->settings()->createMany($validated['settings']);
