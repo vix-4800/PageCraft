@@ -33,7 +33,11 @@ onMounted(async () => {
 const getArticles = async () => {
     articlesLoading.value = true;
 
-    const { data } = await apiFetch<{ data: Article[] }>('v1/articles');
+    const { data } = await apiFetch<{ data: Article[] }>('v1/articles', {
+        params: {
+            limit: 9,
+        },
+    });
 
     articles.value = data;
     articlesLoading.value = false;

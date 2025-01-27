@@ -93,7 +93,11 @@ const getNewProducts = async () => {
 const getArticles = async () => {
     articlesLoading.value = true;
 
-    const { data } = await apiFetch<{ data: Article[] }>('v1/articles');
+    const { data } = await apiFetch<{ data: Article[] }>('v1/articles', {
+        params: {
+            limit: 6,
+        },
+    });
 
     articles.value = data;
     articlesLoading.value = false;
