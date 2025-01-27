@@ -1,10 +1,11 @@
 <template>
-    <div>
+    <div v-if="product">
         <dashboard-page-name title="Product" :subtitle="product.name" />
 
         <u-form
+            :state="product"
             class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"
-            @submit="submitForm"
+            @submit="save"
         >
             <div class="px-1 space-y-2">
                 <h3 class="text-xl font-bold text-gray-800">Details</h3>
@@ -222,7 +223,7 @@ definePageMeta({
 
 const route = useRoute();
 
-const product = ref<Product>({});
+const product = ref<Product>();
 const variations = ref<ProductVariation[]>([]);
 const currentShownVariation = ref(-1);
 
@@ -245,7 +246,7 @@ onMounted(async () => {
     variations.value = data.variations ?? [];
 });
 
-const submitForm = async () => {
+const save = async () => {
     await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
         method: 'PUT',
         body: product.value,
@@ -268,7 +269,7 @@ function addVariation() {
             sku: '',
             price: 0,
             stock: 0,
-            image: '',
+            image: null,
             attributes: [],
         },
     ];

@@ -312,10 +312,6 @@ const editor = useEditor({
 
 const emit = defineEmits(['update:modelValue']);
 
-onBeforeUnmount(() => {
-    editor.destroy();
-});
-
 watch(
     () => editor.value?.getHTML(),
     (value) => {
