@@ -1,5 +1,9 @@
 <template>
     <div class="page-transition layout-transition">
+        <banner-announcement
+            text="Don't miss out on our amazing summer sale! Get up to 50% off on a wide range of products. Make the most of your summer shopping."
+        />
+
         <component :is="headerComponent" :header-pages="headerPages" />
 
         <main
