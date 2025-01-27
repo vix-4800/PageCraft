@@ -11,6 +11,15 @@
                         <dashboard-sidebar :categories="categories" />
 
                         <main class="lg:col-span-9">
+                            <div v-if="showWelcomeMessage" class="p-6">
+                                <p class="text-2xl font-semibold">
+                                    Welcome back,
+                                    <span class="text-indigo-600">
+                                        {{ authStore.user.name }}!
+                                    </span>
+                                </p>
+                            </div>
+
                             <div
                                 class="p-6 overflow-hidden bg-white border rounded-xl border-slate-200"
                             >
@@ -28,6 +37,11 @@
 
 <script lang="ts" setup>
 const authStore = useAuthStore();
+const route = useRoute();
+
+const showWelcomeMessage = computed(() =>
+    ['/dashboard/admin', '/dashboard/user'].includes(route.fullPath)
+);
 
 const sharedCategories = {
     'My Account': [

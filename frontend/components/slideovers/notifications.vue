@@ -1,6 +1,6 @@
 <template>
     <u-slideover>
-        <div class="flex-1 p-4 bg-slate-400">
+        <div class="flex-1 p-4 overflow-y-auto bg-slate-400">
             <u-card
                 class="flex flex-col flex-1 shadow-sm bg-slate-200"
                 :ui="{
