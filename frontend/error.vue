@@ -1,10 +1,10 @@
 <template>
-    <nuxt-layout>
+    <nuxt-layout name="blank">
         <div
             class="w-full flex-col justify-start items-center lg:gap-16 gap-10 inline-flex lg:pt-[180px] pt-12 lg:pb-28 pb-12"
         >
             <div class="h-[550px] rounded-lg w-full">
-                <div class="h-[calc(550px-85px)]">
+                <div class="h-[calc(550px-85px)] content-center">
                     <div
                         v-if="error.statusCode === 404"
                         class="relative flex flex-col items-center justify-center"
@@ -100,8 +100,16 @@
                                 It seems like you've taken a wrong turn
                             </h5>
                             <p class="text-gray-500 text-md">
-                                We're working to bring it back.
+                                We're working to bring you back.
                             </p>
+
+                            <u-button
+                                to="/"
+                                size="xl"
+                                color="indigo"
+                                class="mt-5 font-semibold"
+                                label="Go Home"
+                            />
                         </div>
                     </div>
 
