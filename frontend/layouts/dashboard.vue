@@ -63,7 +63,7 @@ const adminCategories = {
         },
         {
             label: 'Coupons',
-            icon: 'ic:baseline-discount',
+            icon: 'mdi:tag',
             to: '/dashboard/admin/coupons',
         },
     ],

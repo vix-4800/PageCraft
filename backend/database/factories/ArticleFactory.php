@@ -27,6 +27,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'content' => $this->faker->text,
             'author' => $this->faker->name,
+            'image' => $this->faker->imageUrl(category: 'articles'),
         ];
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->text('content');
+            $table->string('image')->nullable();
             $table->string('author');
             $table->enum('status', ArticleStatus::values())->default(ArticleStatus::DRAFT);
 
