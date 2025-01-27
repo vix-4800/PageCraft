@@ -70,6 +70,8 @@ const templateOptions = {
     ],
     contact: [{ value: 'default', label: 'Default' }],
     about: [{ value: 'default', label: 'Default' }],
+    article_list: [{ value: 'default', label: 'Default' }],
+    article_detail: [{ value: 'default', label: 'Default' }],
 };
 
 const loading = ref(false);

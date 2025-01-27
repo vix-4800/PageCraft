@@ -43,6 +43,14 @@ class TemplateSeeder extends Seeder
                 'block' => 'about',
                 'template' => 'default',
             ],
+            [
+                'block' => 'article_list',
+                'template' => 'default',
+            ],
+            [
+                'block' => 'article_detail',
+                'template' => 'default',
+            ],
         ]);
     }
 }
