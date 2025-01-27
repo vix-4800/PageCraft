@@ -1,10 +1,10 @@
 <template>
     <div>
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
+        <nuxt-layout>
+            <nuxt-page />
+        </nuxt-layout>
 
-        <UModals />
-        <USlideovers />
+        <u-modals />
+        <u-slideovers />
     </div>
 </template>
