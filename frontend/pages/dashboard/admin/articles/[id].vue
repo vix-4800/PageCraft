@@ -22,6 +22,10 @@
                 </u-form-group>
             </div>
 
+            <u-form-group label="Description" name="description">
+                <u-textarea v-model="article.description" color="blue" />
+            </u-form-group>
+
             <inputs-tiptap-editor v-model="article.content" />
 
             <u-button
@@ -66,6 +70,7 @@ const schema = z.object({
     title: z.string().min(1, 'Title is required'),
     content: z.string().min(1, 'Content is required'),
     author: z.string().min(1, 'Content is required'),
+    description: z.string().min(1, 'Description is required'),
 });
 
 type Schema = z.output<typeof schema>;

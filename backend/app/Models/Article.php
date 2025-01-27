@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $slug
  * @property string $title
  * @property string $content
+ * @property string $description
  * @property string $author
  * @property string|null $image
  * @property ArticleStatus $status
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereDescription($value)
  *
  * @mixin \Eloquent
  */
@@ -52,6 +54,7 @@ class Article extends Model
         'author',
         'status',
         'image',
+        'description',
     ];
 
     /**

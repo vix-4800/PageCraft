@@ -26,6 +26,7 @@ class ArticleFactory extends Factory
             'slug' => Str::slug($title),
             'title' => $title,
             'content' => $this->faker->text,
+            'description' => $this->faker->text,
             'author' => $this->faker->name,
             'image' => $this->faker->imageUrl(category: 'articles'),
         ];

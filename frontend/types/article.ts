@@ -5,6 +5,7 @@ export interface Article {
     content: string;
     author: string;
     status: ArticleStatus;
+    description: string;
     image: string | File | null;
     created_at: Date;
 }
