@@ -162,6 +162,7 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
+import type { Article } from '~/types/article';
 
 defineProps({
     headerPages: {
@@ -184,29 +185,20 @@ const toggleMenu = () => {
 
 const selected = ref();
 const loadingSearch = ref(false);
-async function onSearchChange(q: string) {
+const onSearchChange = async (q: string) => {
     if (q) {
         loadingSearch.value = true;
 
-        const { data } = await apiFetch<{ data: Product[] }>(
-            `v1/products/search`,
-            {
-                params: {
-                    q,
-                },
-            }
-        );
+        const { data } = await apiFetch<{
+            data: { products: Product[]; articles: Article[] };
+        }>(`v1/search`, {
+            params: {
+                q,
+            },
+        });
 
         loadingSearch.value = false;
-        return data;
+        return data.products.concat(data.articles);
     }
-}
-
-watch(selected, () => {
-    if (selected.value) {
-        navigateTo(`/products/${selected.value.slug}`);
-
-        selected.value = undefined;
-    }
-});
+};
 </script>

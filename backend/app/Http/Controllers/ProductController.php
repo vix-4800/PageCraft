@@ -94,20 +94,6 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * TODO Add filter by active products
-     */
-    public function search(Request $request): JsonResource
-    {
-        return ProductResource::collection(
-            Product::search(
-                trim($request->get('q') ?? '')
-            )->get()
-        );
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request): JsonResource

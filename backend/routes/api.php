@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductReviewReactionController;
 use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\TemplateController;
@@ -51,7 +52,6 @@ Route::name('api.')->group(function (): void {
         Route::apiSingleton('settings', SettingController::class);
         Route::apiSingleton('templates', TemplateController::class);
 
-        Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
         Route::get('products/best', [ProductController::class, 'best'])->name('products.best');
         Route::get('products/new', [ProductController::class, 'new'])->name('products.new');
         Route::get('products/popular', [ProductController::class, 'popular'])->name('products.popular');
@@ -71,6 +71,8 @@ Route::name('api.')->group(function (): void {
 
         Route::post('articles/update-search-indexes', [ArticleController::class, 'updateSearchIndexes'])->name('articles.updateSearchIndexes');
         Route::apiResource('articles', ArticleController::class);
+
+        Route::get('search', SearchController::class)->name('search');
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
