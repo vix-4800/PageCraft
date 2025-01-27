@@ -211,7 +211,7 @@ import type { FormSubmitEvent } from '#ui/types';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 type Schema = z.output<typeof schema>;

@@ -46,7 +46,7 @@ import type { Article } from '~/types/article';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const { $notify } = useNuxtApp();

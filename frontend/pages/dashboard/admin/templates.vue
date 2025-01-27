@@ -38,7 +38,7 @@ import type { SiteTemplate } from '~/types/site_template';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const templatesStore = useSiteTemplatesStore();

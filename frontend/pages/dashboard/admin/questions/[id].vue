@@ -44,7 +44,7 @@ import type { FeedbackQuestion } from '~/types/feedback_question';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const route = useRoute();

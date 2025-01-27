@@ -107,6 +107,17 @@ import { OAuthProvider } from '~/types/oauth_provider';
 
 definePageMeta({
     layout: 'auth',
+    middleware: [
+        function () {
+            const authStore = useAuthStore();
+
+            if (authStore.isAuthenticated) {
+                return navigateTo(
+                    `/dashboard/${authStore.isAdmin ? 'admin' : 'user'}`
+                );
+            }
+        },
+    ],
 });
 
 const authStore = useAuthStore();

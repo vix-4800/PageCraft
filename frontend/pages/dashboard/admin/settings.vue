@@ -39,7 +39,7 @@ import type { SiteSetting } from '~/types/site_setting';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const settingStore = useSiteSettingsStore();

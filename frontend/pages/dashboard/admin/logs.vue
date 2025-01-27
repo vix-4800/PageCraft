@@ -37,7 +37,7 @@ import type { Log } from '~/types/log';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const columns = [

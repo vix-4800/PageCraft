@@ -74,7 +74,7 @@ import { ReviewStatus, type Review } from '~/types/review';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const columns = [

@@ -57,6 +57,6 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 </script>

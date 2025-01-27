@@ -25,7 +25,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['auth', 'verified'],
 });
 
 const ordersColumns = [

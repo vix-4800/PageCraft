@@ -182,7 +182,7 @@ import TwoFactor from '~/components/modals/two-factor.vue';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['verified'],
+    middleware: ['auth', 'verified'],
 });
 
 const authStore = useAuthStore();

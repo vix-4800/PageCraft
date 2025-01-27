@@ -58,7 +58,7 @@ import type { Meta } from '~/types/pagination';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const columns = [

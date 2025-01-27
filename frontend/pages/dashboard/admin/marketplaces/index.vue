@@ -29,7 +29,7 @@ import type { MarketplaceAccount } from '~/types/marketplace_account';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const columns = [
