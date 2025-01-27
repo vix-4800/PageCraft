@@ -289,6 +289,8 @@
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Placeholder from '@tiptap/extension-placeholder';
 
 const { modelValue } = defineProps({
     modelValue: {
@@ -299,7 +301,22 @@ const { modelValue } = defineProps({
 
 const editor = useEditor({
     content: modelValue,
-    extensions: [StarterKit, Underline],
+    extensions: [
+        StarterKit,
+        Underline,
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+        }),
+        Placeholder.configure({
+            placeholder: ({ node }) => {
+                if (node.type.name === 'heading') {
+                    return "What's the title?";
+                }
+
+                return 'Write something!';
+            },
+        }),
+    ],
     editorProps: {
         attributes: {
             class: 'border max-w-full p-4 prose border-blue-500 h-[12rem] rounded-lg overflow-y-auto',
@@ -319,3 +336,17 @@ watch(
     }
 );
 </script>
+
+<style>
+.tiptap p.is-empty::before,
+.tiptap h1.is-empty::before,
+.tiptap h2.is-empty::before,
+.tiptap h3.is-empty::before,
+.tiptap h4.is-empty::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+</style>
