@@ -12,6 +12,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 
 class ArticleController extends Controller
 {
@@ -63,6 +64,15 @@ class ArticleController extends Controller
     public function destroy(Article $article): Response
     {
         $article->delete();
+
+        return ApiResponse::empty();
+    }
+
+    public function updateSearchIndexes(): Response
+    {
+        Artisan::call('scout:update-indexes', [
+            'model' => "App\Models\Article",
+        ]);
 
         return ApiResponse::empty();
     }

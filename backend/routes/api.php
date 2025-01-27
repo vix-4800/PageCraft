@@ -69,6 +69,7 @@ Route::name('api.')->group(function (): void {
 
         Route::apiResource('feedback/messages', FeedbackMessageController::class);
 
+        Route::post('articles/update-search-indexes', [ArticleController::class, 'updateSearchIndexes'])->name('articles.updateSearchIndexes');
         Route::apiResource('articles', ArticleController::class);
     });
 
