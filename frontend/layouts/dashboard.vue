@@ -41,22 +41,30 @@ const sharedCategories = {
             icon: 'material-symbols:rate-review',
             to: '/dashboard/my-reviews',
         },
+        {
+            label: 'Saved Addresses',
+            icon: 'material-symbols:location-on',
+            to: '/dashboard/my-addresses',
+        },
     ],
 };
 
 const adminCategories = {
-    Orders: [
+    Store: [
         {
             label: 'Orders',
             icon: 'material-symbols:shopping-cart',
             to: '/dashboard/admin/orders',
         },
-    ],
-    Products: [
         {
             label: 'Products',
             icon: 'material-symbols:storefront',
             to: '/dashboard/admin/products',
+        },
+        {
+            label: 'Coupons',
+            icon: 'ic:baseline-discount',
+            to: '/dashboard/admin/coupons',
         },
     ],
     Content: [
@@ -98,8 +106,13 @@ const adminCategories = {
         },
         {
             label: 'User Questions',
-            icon: 'material-symbols:question-mark',
+            icon: 'material-symbols:feedback',
             to: '/dashboard/admin/questions',
+        },
+        {
+            label: 'FAQ',
+            icon: 'material-symbols:question-mark',
+            to: '/dashboard/admin/faq',
         },
     ],
     Customization: [
