@@ -1,6 +1,6 @@
 <template>
     <header
-        class="flex shadow-md py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50"
+        class="flex shadow-md py-4 px-4 sm:px-10 bg-white min-h-[70px] tracking-wide relative z-50"
     >
         <div class="flex flex-wrap items-center justify-between w-full gap-5">
             <nuxt-link to="/" class="items-center hidden gap-4 sm:flex group">

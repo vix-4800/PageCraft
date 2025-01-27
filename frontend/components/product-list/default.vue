@@ -1,8 +1,8 @@
 <template>
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
+    <div class="max-w-lg py-4 mx-auto lg:max-w-6xl md:max-w-full">
+        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
+            {{ title }}
+        </h2>
 
         <div
             v-if="loading"

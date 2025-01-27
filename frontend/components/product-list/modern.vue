@@ -1,7 +1,5 @@
 <template>
-    <div
-        class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-    >
+    <div class="max-w-lg py-4 mx-auto lg:max-w-6xl md:max-w-full">
         <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
 
         <div
@@ -18,7 +16,7 @@
             <div
                 v-for="product in products"
                 :key="product.slug"
-                class="bg-white shadow-xl w-full py-6 max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4"
+                class="w-full max-w-sm py-6 mx-auto mt-4 overflow-hidden bg-white rounded-lg shadow-xl"
             >
                 <div class="flex items-center gap-2 px-6">
                     <h3 class="flex-1 text-xl font-bold text-gray-800">

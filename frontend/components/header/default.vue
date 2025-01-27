@@ -1,7 +1,7 @@
 <template>
-    <header class="shadow-md font-[sans-serif] tracking-wide relative z-50">
+    <header class="relative z-50 tracking-wide shadow-md">
         <section
-            class="md:flex lg:items-center relative py-3 lg:px-10 px-4 bg-gradient-to-br from-gray-900 to-gray-700 lg:min-h-[80px] max-lg:min-h-[60px]"
+            class="md:flex lg:items-center md:gap-6 relative py-3 lg:px-10 px-4 bg-gradient-to-br from-gray-900 to-gray-700 lg:min-h-[80px] max-lg:min-h-[60px]"
         >
             <nuxt-link
                 to="/"
@@ -21,19 +21,7 @@
             </nuxt-link>
 
             <div class="flex flex-wrap items-center w-full">
-                <u-input-menu
-                    v-model="selected"
-                    placeholder="Search"
-                    size="md"
-                    color="yellow"
-                    option-attribute="name"
-                    class="bg-white rounded-md lg:w-96 max-md:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4"
-                    :loading="loadingSearch"
-                    :search="onSearchChange"
-                    trailing
-                    :debounce="700"
-                    :search-lazy="true"
-                />
+                <inputs-search-bar />
 
                 <div class="ml-auto max-lg:mt-4">
                     <ul class="flex items-center space-x-6">
@@ -161,9 +149,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { Product } from '~/types/product';
-import type { Article } from '~/types/article';
-
 defineProps({
     headerPages: {
         type: Array as () => {
@@ -181,24 +166,5 @@ const appName: string = useRuntimeConfig().public.appName;
 const isCollapseMenuVisible = ref(false);
 const toggleMenu = () => {
     isCollapseMenuVisible.value = !isCollapseMenuVisible.value;
-};
-
-const selected = ref();
-const loadingSearch = ref(false);
-const onSearchChange = async (q: string) => {
-    if (q) {
-        loadingSearch.value = true;
-
-        const { data } = await apiFetch<{
-            data: { products: Product[]; articles: Article[] };
-        }>(`v1/search`, {
-            params: {
-                q,
-            },
-        });
-
-        loadingSearch.value = false;
-        return data.products.concat(data.articles);
-    }
 };
 </script>

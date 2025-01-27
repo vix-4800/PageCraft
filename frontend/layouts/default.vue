@@ -2,7 +2,9 @@
     <div class="page-transition layout-transition">
         <component :is="headerComponent" :header-pages="headerPages" />
 
-        <main class="min-h-screen p-4 mx-auto lg:max-w-7xl sm:px-6">
+        <main
+            class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
+        >
             <slot></slot>
         </main>
 

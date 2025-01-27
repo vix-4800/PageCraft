@@ -1,5 +1,5 @@
 <template>
-    <div v-if="product !== null">
+    <div v-if="product">
         <div class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5">
             <div
                 class="top-0 w-full p-6 bg-gray-100 border border-orange-300 rounded-lg lg:col-span-3 lg:sticky"

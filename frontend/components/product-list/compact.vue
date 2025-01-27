@@ -1,5 +1,5 @@
 <template>
-    <div class="font-[sans-serif]">
+    <div>
         <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
             <h2
                 class="mb-6 text-2xl font-extrabold text-gray-800 sm:text-3xl sm:mb-10"
