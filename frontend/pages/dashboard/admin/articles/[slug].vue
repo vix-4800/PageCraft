@@ -2,7 +2,7 @@
     <div v-if="article">
         <dashboard-page-name
             title="Article"
-            :subtitle="`#${article?.id}`"
+            :subtitle="article?.slug || ''"
             :description="`Created on ${article?.created_at || ''}`"
         />
 
@@ -59,7 +59,7 @@ onMounted(async () => {
     loading.value = true;
 
     const { data } = await apiFetch<{ data: Article }>(
-        `v1/articles/${route.params.id}`
+        `v1/articles/${route.params.slug}`
     );
 
     article.value = data;
@@ -78,7 +78,7 @@ type Schema = z.output<typeof schema>;
 const save = async (event: FormSubmitEvent<Schema>) => {
     loading.value = true;
 
-    await apiFetch(`v1/articles/${route.params.id}`, {
+    await apiFetch(`v1/articles/${route.params.slug}`, {
         method: 'PUT',
         body: event.data,
     });

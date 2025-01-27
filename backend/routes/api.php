@@ -70,7 +70,7 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('feedback/messages', FeedbackMessageController::class);
 
         Route::post('articles/update-search-indexes', [ArticleController::class, 'updateSearchIndexes'])->name('articles.updateSearchIndexes');
-        Route::apiResource('articles', ArticleController::class);
+        Route::apiResource('articles', ArticleController::class)->scoped(['article' => 'slug']);
 
         Route::get('search', SearchController::class)->name('search');
     });

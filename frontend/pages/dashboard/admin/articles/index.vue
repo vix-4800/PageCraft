@@ -63,11 +63,6 @@ definePageMeta({
 
 const columns = [
     {
-        key: 'id',
-        label: 'ID',
-        sortable: true,
-    },
-    {
         key: 'title',
         label: 'Title',
         sortable: true,
@@ -124,7 +119,7 @@ const getArticles = async () => {
 };
 
 function select(row: Article) {
-    return navigateTo('/dashboard/admin/articles/' + row.id);
+    return navigateTo('/dashboard/admin/articles/' + row.slug);
 }
 
 const updatingIndexes = ref(false);

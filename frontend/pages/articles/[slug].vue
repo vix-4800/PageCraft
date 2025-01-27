@@ -26,6 +26,7 @@ onMounted(async () => {
     const { data } = await apiFetch<{ data: Article }>(
         `v1/articles/${route.params.slug}`
     );
+
     article.value = data;
 });
 </script>
