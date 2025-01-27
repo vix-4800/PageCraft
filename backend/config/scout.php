@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Article;
 use App\Models\Product;
 
 return [
@@ -142,6 +143,10 @@ return [
         'index-settings' => [
             Product::class => [
                 'filterableAttributes' => ['name', 'description'],
+                'sortableAttributes' => ['created_at'],
+            ],
+            Article::class => [
+                'filterableAttributes' => ['title', 'description', 'content'],
                 'sortableAttributes' => ['created_at'],
             ],
         ],

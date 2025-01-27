@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * @property int $id
@@ -40,7 +41,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     /** @use HasFactory<\Database\Factories\ArticleFactory> */
-    use HasFactory;
+    use HasFactory, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -65,4 +66,31 @@ class Article extends Model
     protected $casts = [
         'status' => ArticleStatus::class,
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->getKey(),
+            'title' => $this->title,
+            'content' => $this->content,
+            'description' => $this->description,
+            'author' => $this->author,
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->isPublished();
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === ArticleStatus::PUBLISHED;
+    }
 }
