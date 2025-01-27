@@ -1,29 +1,47 @@
 <template>
     <div>
-        <component
-            :is="productListComponent"
-            :products="newProducts"
-            title="New Arrivals"
-            :loading="newProductsLoading"
-        />
+        <section id="new">
+            <page-title
+                title="New Arrivals"
+                subtitle="New products from our store"
+            />
 
-        <hr class="my-10" />
+            <component
+                :is="productListComponent"
+                :products="newProducts"
+                title="New Arrivals"
+                :loading="newProductsLoading"
+            />
+        </section>
 
-        <component
-            :is="productListComponent"
-            :products="popularProducts"
-            title="Popular Products"
-            :loading="popularProductsLoading"
-        />
+        <u-divider class="my-10" />
 
-        <hr class="my-10" />
+        <section id="popular">
+            <page-title
+                title="Popular Products"
+                subtitle="Products that are currently popular"
+            />
 
-        <component
-            :is="articleListComponent"
-            :articles="articles"
-            title="Articles"
-            :loading="articlesLoading"
-        />
+            <component
+                :is="productListComponent"
+                :products="popularProducts"
+                title="Popular Products"
+                :loading="popularProductsLoading"
+            />
+        </section>
+
+        <u-divider class="my-10" />
+
+        <section id="articles">
+            <page-title title="Articles" subtitle="Articles from our blog" />
+
+            <component
+                :is="articleListComponent"
+                :articles="articles"
+                title="Articles"
+                :loading="articlesLoading"
+            />
+        </section>
     </div>
 </template>
 

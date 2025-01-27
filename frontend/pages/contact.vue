@@ -1,5 +1,12 @@
 <template>
-    <component :is="contactComponent" />
+    <div>
+        <page-title
+            title="Contact Us"
+            subtitle="Have some big idea or brand to develop and need help?"
+        />
+
+        <component :is="contactComponent" />
+    </div>
 </template>
 
 <script lang="ts" setup>

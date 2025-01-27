@@ -1,9 +1,12 @@
 <template>
-    <component
-        :is="productListComponent"
-        :products="products"
-        title="Favorite Products"
-    />
+    <div>
+        <page-title title="Your Favorites" />
+        <component
+            :is="productListComponent"
+            :products="products"
+            title="Favorite Products"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>

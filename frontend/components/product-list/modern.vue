@@ -1,7 +1,5 @@
 <template>
-    <div class="max-w-lg py-4 mx-auto lg:max-w-6xl md:max-w-full">
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">{{ title }}</h2>
-
+    <div>
         <div
             v-if="loading"
             class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
@@ -85,10 +83,6 @@ import type { Product } from '~/types/product';
 defineProps({
     products: {
         type: Array as () => Product[],
-        required: true,
-    },
-    title: {
-        type: String,
         required: true,
     },
     loading: {

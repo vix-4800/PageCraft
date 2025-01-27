@@ -1,5 +1,8 @@
 <template>
-    <component :is="cartComponent" />
+    <div>
+        <page-title title="Shopping Cart" />
+        <component :is="cartComponent" />
+    </div>
 </template>
 
 <script lang="ts" setup>

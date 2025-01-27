@@ -1,10 +1,14 @@
 <template>
-    <component
-        :is="articleListComponent"
-        :articles="articles"
-        title="Articles"
-        :loading="articlesLoading"
-    />
+    <div>
+        <page-title title="Articles" subtitle="Our latest news and updates" />
+
+        <component
+            :is="articleListComponent"
+            :articles="articles"
+            title="Articles"
+            :loading="articlesLoading"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>

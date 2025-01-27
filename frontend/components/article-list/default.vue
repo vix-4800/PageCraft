@@ -1,9 +1,5 @@
 <template>
-    <div class="max-w-6xl mx-auto">
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
-            {{ title }}
-        </h2>
-
+    <div>
         <div v-if="loading">
             <u-skeleton v-for="i in 6" :key="i" class="h-96 rounded-xl" />
         </div>

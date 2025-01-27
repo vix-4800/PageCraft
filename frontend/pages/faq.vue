@@ -1,8 +1,9 @@
 <template>
     <div>
-        <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
-            Frequently asked questions
-        </h2>
+        <page-title
+            title="Frequently asked questions"
+            subtitle="Find answers to common queries"
+        />
 
         <u-accordion
             :items="questions"

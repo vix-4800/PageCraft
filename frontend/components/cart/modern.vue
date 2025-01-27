@@ -1,9 +1,6 @@
 <template>
     <div class="grid gap-4 font-sans md:grid-cols-3">
         <div class="p-4 bg-gray-100 rounded-md md:col-span-2">
-            <h2 class="text-2xl font-bold text-gray-800">Cart</h2>
-            <hr class="mt-4 mb-8 border-gray-300" />
-
             <div class="space-y-4">
                 <div
                     v-for="item in cartItems"

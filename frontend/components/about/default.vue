@@ -1,14 +1,10 @@
 <template>
     <div>
-        <section id="team" class="font-sans">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-gray-800">
-                    Meet our team
-                </h2>
-                <p class="mt-4 text-sm leading-relaxed text-gray-800">
-                    Meet our team of professionals to serve you.
-                </p>
-            </div>
+        <section id="team">
+            <page-title
+                title="Meet our team"
+                subtitle="Meet the team of professionals to serve you"
+            />
 
             <div
                 class="grid gap-6 mt-12 lg:grid-cols-4 md:grid-cols-3 max-md:justify-center"
@@ -62,17 +58,10 @@
         </section>
 
         <section id="reviews" class="my-12 text-center">
-            <div class="max-w-2xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    What our happy client say
-                </h2>
-                <p class="mt-6 text-sm leading-relaxed text-gray-500">
-                    Veniam proident aute magna anim excepteur et ex consectetur
-                    velit ullamco veniam minim aute sit. Elit occaecat officia
-                    et laboris Lorem minim. Officia do aliqua adipisicing
-                    ullamco in
-                </p>
-            </div>
+            <page-title
+                title="What our happy client say"
+                subtitle="Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit. Elit occaecat officia et laboris Lorem minim. Officia do aliqua adipisicing ullamco in"
+            />
 
             <div
                 class="grid gap-6 mx-auto mt-16 md:grid-cols-2 lg:grid-cols-3 max-lg:gap-12 max-md:justify-center max-lg:max-w-3xl max-md:max-w-lg"
@@ -119,11 +108,9 @@
 
         <section
             id="stats"
-            class="min-h-[250px] flex flex-col items-center justify-center font-sans"
+            class="min-h-[250px] flex flex-col items-center justify-center"
         >
-            <h2 class="mb-8 text-3xl font-bold text-center text-gray-800">
-                Application Metrics
-            </h2>
+            <page-title title="Application Metrics" />
 
             <div class="grid gap-6 lg:grid-cols-4 sm:grid-cols-2 max-lg:gap-12">
                 <div
