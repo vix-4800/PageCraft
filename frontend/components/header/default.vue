@@ -140,7 +140,7 @@
                 <li
                     v-for="page in headerPages"
                     :key="page.name"
-                    class="px-3 max-lg:border-b max-lg:py-3"
+                    class="px-2 max-lg:border-b max-lg:py-3"
                 >
                     <u-link
                         :to="page.href"

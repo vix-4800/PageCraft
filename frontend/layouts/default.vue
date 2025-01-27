@@ -67,6 +67,13 @@ const headerPages = ref([
         href: '/articles',
         icon: 'material-symbols:article',
     },
+    { name: 'About', href: '/about', icon: 'material-symbols:info' },
+    {
+        name: 'Contact',
+        href: '/contact',
+        icon: 'material-symbols:contact-page',
+    },
+    { name: 'FAQ', href: '/faq', icon: 'material-symbols:help' },
 ]);
 
 const footer = ref(templateStore.getTemplate(TemplateBlock.Footer));
