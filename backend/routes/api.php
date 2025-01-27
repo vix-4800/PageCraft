@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Exceptions\ApiException;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\FeedbackMessageController;
@@ -67,6 +68,8 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
 
         Route::apiResource('feedback/messages', FeedbackMessageController::class);
+
+        Route::apiResource('articles', ArticleController::class);
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
