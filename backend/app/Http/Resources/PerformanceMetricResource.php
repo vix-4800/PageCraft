@@ -22,7 +22,7 @@ class PerformanceMetricResource extends JsonResource
         return [
             'cpu_usage' => $this->cpu_usage,
             'memory_usage' => $this->memory_usage,
-            'collected_at' => $this->collected_at?->toDateTimeString() ?? null,
+            'collected_at' => $this->collected_at?->format('Y-m-d H:i') ?? null,
         ];
     }
 }
