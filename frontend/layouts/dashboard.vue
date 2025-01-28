@@ -169,6 +169,11 @@ const adminCategories = {
             icon: 'material-symbols:timeline',
             to: '/dashboard/admin/queue-logs',
         },
+        {
+            label: 'System Information',
+            icon: 'material-symbols:system-update',
+            to: '/dashboard/admin/system-info',
+        },
     ],
 };
 

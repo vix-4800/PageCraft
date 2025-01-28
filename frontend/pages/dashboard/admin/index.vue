@@ -136,7 +136,7 @@ const statistics = reactive({
 });
 
 const earningsLoading = ref(true);
-const earningsOption = ref({
+const earningsOption = ref<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
@@ -150,6 +150,9 @@ const earningsOption = ref({
             type: 'line',
         },
     ],
+    tooltip: {
+        trigger: 'axis',
+    },
 });
 
 onMounted(async () => {
