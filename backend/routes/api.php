@@ -12,6 +12,7 @@ use App\Http\Controllers\MarketplaceAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PerformanceMetricController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductReviewReactionController;
@@ -47,6 +48,8 @@ Route::name('api.')->group(function (): void {
             });
 
             Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);
+
+            Route::get('metrics', PerformanceMetricController::class);
         });
 
         Route::apiSingleton('settings', SettingController::class);
