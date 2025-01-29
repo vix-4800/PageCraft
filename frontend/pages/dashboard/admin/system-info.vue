@@ -122,17 +122,23 @@ onMounted(async () => {
         'v1/metrics'
     );
 
-    metricsOption.value.xAxis[0].data = data.map(
-        (metric) => metric.collected_at
-    );
-    metricsOption.value.xAxis[1].data = data.map(
-        (metric) => metric.collected_at
-    );
+    if (data.length > 0) {
+        metricsOption.value.xAxis[0].data = data.map(
+            (metric) => metric.collected_at
+        );
+        metricsOption.value.xAxis[1].data = data.map(
+            (metric) => metric.collected_at
+        );
 
-    metricsOption.value.series[0].data = data.map((metric) => metric.cpu_usage);
-    metricsOption.value.series[1].data = data.map((metric) => metric.ram_usage);
-    metricsOption.value.visualMap[1].max = data[0].ram_total;
-    metricsOption.value.yAxis[1].max = data[0].ram_total;
+        metricsOption.value.series[0].data = data.map(
+            (metric) => metric.cpu_usage
+        );
+        metricsOption.value.series[1].data = data.map(
+            (metric) => metric.ram_usage
+        );
+        metricsOption.value.visualMap[1].max = data[0].ram_total;
+        metricsOption.value.yAxis[1].max = data[0].ram_total;
+    }
 
     metricsLoading.value = false;
 });
