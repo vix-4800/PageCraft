@@ -15,11 +15,19 @@
                             width="40px"
                             height="40px"
                         />
-                        <span
-                            class="text-2xl font-bold text-white group-hover:text-indigo-300"
+                        <u-chip
+                            size="lg"
+                            :color="
+                                settingStore.isMaintenance ? 'red' : 'green'
+                            "
+                            :ui="{ base: '-mx-2 ring-0' }"
                         >
-                            {{ appName }}
-                        </span>
+                            <span
+                                class="text-2xl font-bold text-white group-hover:text-indigo-300"
+                            >
+                                {{ appName }}
+                            </span>
+                        </u-chip>
                     </nuxt-link>
                 </div>
 
@@ -94,10 +102,12 @@
 import Notifications from '~/components/slideovers/notifications.vue';
 
 const config = useRuntimeConfig();
-const appName: string = config.public.appName;
 
 const authStore = useAuthStore();
+const settingStore = useSiteSettingsStore();
+
 const userName = computed(() => authStore.user?.name || 'User');
+const appName: string = config.public.appName;
 
 const slideover = useSlideover();
 

@@ -118,7 +118,11 @@
                         class="flex flex-col items-center justify-center"
                     >
                         <div class="flex flex-col items-center">
-                            <!-- Image -->
+                            <nuxt-img
+                                src="/images/server_error.png"
+                                alt="Error"
+                                width="500"
+                            />
                         </div>
                         <div class="block mt-5 text-center">
                             <h5

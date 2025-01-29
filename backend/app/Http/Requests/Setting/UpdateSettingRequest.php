@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Setting;
 
+use App\Rules\SettingValueType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSettingRequest extends FormRequest
@@ -17,7 +18,7 @@ class UpdateSettingRequest extends FormRequest
     {
         return [
             '*.key' => ['required', 'string', 'max:255'],
-            '*.value' => ['nullable', 'string', 'max:255'],
+            '*.value' => ['nullable', new SettingValueType, 'max:255'],
         ];
     }
 }

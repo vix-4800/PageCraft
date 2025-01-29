@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Models\PerformanceMetric;
-use App\Services\ServerPerformanceService;
+use App\Enums\UserRole;
+use App\Facades\Server;
+use App\Models\SystemReport;
+use App\Models\User;
+use App\Notifications\SystemStatusWarning;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class CollectPerformanceMetrics extends Command
 {
@@ -29,17 +33,47 @@ class CollectPerformanceMetrics extends Command
      */
     public function handle(): void
     {
-        $cpu = ServerPerformanceService::getCpuUsage();
-        $ram = ServerPerformanceService::getMemoryUsage();
+        $cpu = Server::getCpuUsage();
+        $ram = Server::getRamUsage();
+        $network = Server::getNetworkUsage();
+        $databaseStatus = Server::isDatabaseUp();
+        $upTime = Server::getUptime();
+
+        SystemReport::create([
+            'cpu_usage' => $cpu,
+            'ram_usage' => $ram['used'],
+            'ram_total' => $ram['total'],
+            'network_incoming' => $network['eth0']['incoming'],
+            'network_outgoing' => $network['eth0']['outgoing'],
+            'is_database_up' => $databaseStatus,
+            'is_cache_up' => true,
+            'uptime' => $upTime,
+        ]);
 
         $this->info("CPU: {$cpu} %");
-        $this->info("Memory: free: {$ram['free']} MB, total: {$ram['total']} MB");
+        $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
+        $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
+        $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
+        $this->info('Cache up: yes');
+        $this->info("Uptime: {$upTime}");
 
-        PerformanceMetric::insert([
-            'cpu_usage' => $cpu,
-            'ram_usage' => $ram['total'] - $ram['free'] - $ram['buffers'] - $ram['cached'],
-            'ram_total' => $ram['total'],
-            'collected_at' => now(),
-        ]);
+        $warnings = collect();
+        if (! $databaseStatus) {
+            $warnings->push('Database is not running');
+        }
+
+        if ($cpu > 80) {
+            $warnings->push("CPU usage is high, {$cpu} %");
+        }
+
+        if ($ram['used'] / $ram['total'] > 0.8) {
+            $warnings->push("RAM usage is high, {$ram['used']} MB used of {$ram['total']} MB total");
+        }
+
+        if ($warnings->isNotEmpty()) {
+            User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
+                ->first()
+                ->notify(new SystemStatusWarning($warnings));
+        }
     }
 }

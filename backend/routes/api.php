@@ -13,7 +13,6 @@ use App\Http\Controllers\MarketplaceAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PerformanceMetricController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductReviewReactionController;
@@ -22,6 +21,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\SystemReportController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +53,10 @@ Route::name('api.')->group(function (): void {
 
             Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);
 
-            Route::get('metrics', PerformanceMetricController::class);
+            Route::prefix('reports')->name('reports.')->group(function (): void {
+                Route::get('/', [SystemReportController::class, 'index'])->name('index');
+                Route::post('refresh', [SystemReportController::class, 'refresh'])->name('reports.refresh');
+            });
         });
 
         Route::apiSingleton('settings', SettingController::class);

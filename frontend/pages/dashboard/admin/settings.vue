@@ -7,19 +7,33 @@
             class="flex flex-col gap-2 px-1"
             @submit="save"
         >
-            <u-form-group
-                v-for="(setting, index) in siteSettingsState"
-                :key="index"
-                :label="capitalize(setting.key.replace('_', ' '))"
-                required
-            >
-                <u-input
-                    v-model="setting.value"
-                    color="blue"
-                    size="lg"
-                    :placeholder="capitalize(setting.key.replace('_', ' '))"
-                />
-            </u-form-group>
+            <div v-for="(setting, index) in siteSettingsState" :key="index">
+                <u-form-group
+                    v-if="setting.type === SettingType.TEXT"
+                    :label="capitalize(setting.key.replace('_', ' '))"
+                    required
+                >
+                    <u-input
+                        v-model="setting.value"
+                        color="blue"
+                        size="lg"
+                        :placeholder="capitalize(setting.key.replace('_', ' '))"
+                    />
+                </u-form-group>
+
+                <u-form-group
+                    v-if="setting.type === SettingType.BOOLEAN"
+                    :label="capitalize(setting.key.replace('_', ' '))"
+                >
+                    <u-toggle
+                        v-model="setting.value"
+                        color="blue"
+                        size="lg"
+                        on-icon="material-symbols:check"
+                        off-icon="material-symbols:close"
+                    />
+                </u-form-group>
+            </div>
 
             <u-button
                 icon="material-symbols:save"
@@ -36,6 +50,7 @@
 
 <script lang="ts" setup>
 import type { SiteSetting } from '~/types/site_setting';
+import { SettingType } from '~/types/site_setting';
 
 definePageMeta({
     layout: 'dashboard',

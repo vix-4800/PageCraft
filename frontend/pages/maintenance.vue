@@ -27,23 +27,18 @@
 </template>
 
 <script lang="ts" setup>
-import { SettingKey } from '~/types/site_setting';
-
 definePageMeta({
     layout: 'blank',
     middleware: [
         function () {
             const settingStore = useSiteSettingsStore();
-            // const inMaintenance = settingStore.getSetting(SettingKey.Maintenance);
 
-            // if (!inMaintenance) {
-            //     return navigateTo('/');
-            // }
+            if (!settingStore.isMaintenance) {
+                return navigateTo('/');
+            }
         },
     ],
 });
-
-const settingStore = useSiteSettingsStore();
 
 const maintenanceTitle = ref(
     "Please bear with us! We're currently under maintenance."

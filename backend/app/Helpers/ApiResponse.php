@@ -24,8 +24,15 @@ class ApiResponse extends JsonResponse
      * @param  array|Collection  $data  The response data.
      * @param  int  $status  The HTTP status code.
      */
-    public static function create(array|Collection $data = [], int $status = 200): JsonResponse
+    public static function create(array|Collection $data = [], int $status = 200, array|Collection $meta = []): JsonResponse
     {
-        return new JsonResponse(['data' => is_array($data) ? $data : $data->toArray()], $status);
+        $response = [];
+        $response['data'] = is_array($data) ? $data : $data->toArray();
+
+        if (! empty($meta)) {
+            $response['meta'] = is_array($meta) ? $meta : $meta->toArray();
+        }
+
+        return new JsonResponse($response, $status);
     }
 }

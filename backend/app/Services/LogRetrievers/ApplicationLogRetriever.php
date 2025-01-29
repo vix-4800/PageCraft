@@ -23,4 +23,15 @@ class ApplicationLogRetriever extends LogRetriever
             ]
             : null;
     }
+
+    public function getErrorLogsCount(): int
+    {
+        if ($this->checkLogFile()) {
+            $content = file_get_contents($this->logFile);
+
+            return substr_count($content, 'ERROR');
+        }
+
+        return 0;
+    }
 }

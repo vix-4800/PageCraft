@@ -1,145 +1,223 @@
 <template>
     <div>
-        <dashboard-page-name title="System Info" />
+        <dashboard-page-name title="System Info">
+            <template #actions>
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:refresh"
+                    :loading="refreshing"
+                    label="Refresh Now"
+                    @click="refreshLogs"
+                />
+            </template>
+        </dashboard-page-name>
 
-        <div class="h-[40rem]">
+        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-9 md:gap-6">
+            <card-mini
+                label="Database Status"
+                :value="isDatabaseHealthy ? 'Healthy' : 'Not Healthy'"
+                :value-color="isDatabaseHealthy ? 'green-500' : 'red-500'"
+            />
+
+            <card-mini
+                label="Cache Status"
+                :value="isCacheHealthy ? 'Healthy' : 'Not Healthy'"
+                :value-color="isCacheHealthy ? 'green-500' : 'red-500'"
+            />
+
+            <card-mini label="Uptime" :value="uptime" />
+        </div>
+
+        <section id="cpu-metrics" class="h-96">
             <v-chart
-                :option="metricsOption"
-                :loading="metricsLoading"
+                :option="cpuMetricsOption"
+                :loading="loading"
                 :autoresize="true"
             />
-        </div>
+        </section>
+
+        <section id="ram-metrics" class="h-96">
+            <v-chart
+                :option="ramMetricsOption"
+                :loading="loading"
+                :autoresize="true"
+            />
+        </section>
+
+        <section id="network-metrics" class="h-96">
+            <v-chart
+                :option="networkMetricsOption"
+                :loading="loading"
+                :autoresize="true"
+            />
+        </section>
     </div>
 </template>
 
 <script lang="ts" setup>
-import type { PerformanceMetric } from '~/types/site_metric';
+import type { SystemReport } from '~/types/system_report';
 
 definePageMeta({
     layout: 'dashboard',
     middleware: ['auth', 'dashboard', 'verified'],
 });
 
-const metricsLoading = ref(false);
-const metricsOption = ref<ECOption>({
-    xAxis: [
-        {
-            data: [],
-            type: 'category',
-        },
-        {
-            data: [],
-            type: 'category',
-            gridIndex: 1,
-        },
-    ],
-    yAxis: [
-        {
-            type: 'value',
-            max: 100,
-            min: 0,
-        },
-        {
-            type: 'value',
-            max: 0,
-            min: 0,
-            gridIndex: 1,
-        },
-    ],
+const visualMap = {
+    show: false,
+    type: 'continuous',
+    min: 0,
+    max: 100,
+    inRange: {
+        colorAlpha: [0.25, 1],
+        color: ['#00ff00', '#ffff00', '#ff0000'],
+    },
+};
+
+const toolbox = {
+    right: 10,
+    feature: {
+        saveAsImage: {},
+    },
+};
+
+const tooltip = {
+    trigger: 'axis',
+};
+
+const loading = ref(false);
+const cpuMetricsOption = reactive<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        max: 100,
+        min: 0,
+    },
+    series: {
+        data: [],
+        type: 'line',
+        showSymbol: false,
+        name: 'CPU Usage',
+    },
+    title: {
+        left: 'center',
+        text: 'CPU Usage (%)',
+    },
+    tooltip: tooltip,
+    toolbox: toolbox,
+    visualMap: visualMap,
+    animationEasing: 'quadraticIn',
+});
+const ramMetricsOption = reactive<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        max: 100,
+        min: 0,
+    },
+    series: {
+        data: [],
+        type: 'line',
+        showSymbol: false,
+        name: 'RAM Usage',
+    },
+    title: {
+        left: 'center',
+        text: 'RAM Usage (MB)',
+    },
+    tooltip: tooltip,
+    toolbox: toolbox,
+    visualMap: visualMap,
+    animationEasing: 'quadraticIn',
+});
+const networkMetricsOption = reactive<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        min: 0,
+    },
     series: [
         {
             data: [],
             type: 'line',
             showSymbol: false,
+            name: 'Incoming',
+            stack: 'Total',
         },
         {
             data: [],
             type: 'line',
             showSymbol: false,
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            name: 'Outgoing',
+            stack: 'Total',
         },
     ],
-    title: [
-        {
-            left: 'center',
-            text: 'CPU Usage (%)',
-        },
-        {
-            top: '50%',
-            left: 'center',
-            text: 'RAM Usage (MB)',
-        },
-    ],
-    tooltip: {
-        trigger: 'axis',
+    title: {
+        left: 'center',
+        text: 'Network Usage (B)',
     },
-    visualMap: [
-        {
-            seriesIndex: 0,
-            show: false,
-            type: 'continuous',
-            min: 0,
-            max: 100,
-            inRange: {
-                colorAlpha: [0.25, 1],
-                color: ['#00ff00', '#ffff00', '#ff0000'],
-            },
-        },
-        {
-            seriesIndex: 1,
-            show: false,
-            type: 'continuous',
-            min: 0,
-            max: 0,
-            inRange: {
-                colorAlpha: [0.25, 1],
-                color: ['#00ff00', '#ffff00', '#ff0000'],
-            },
-        },
-    ],
-    toolbox: {
-        right: 10,
-        feature: {
-            saveAsImage: {},
-        },
-    },
-    grid: [
-        {
-            bottom: '60%',
-        },
-        {
-            top: '60%',
-        },
-    ],
+    tooltip: tooltip,
+    toolbox: toolbox,
     animationEasing: 'quadraticIn',
 });
 
 onMounted(async () => {
-    metricsLoading.value = true;
+    loading.value = true;
 
-    const { data } = await apiFetch<{ data: PerformanceMetric[] }>(
-        'v1/metrics'
-    );
+    await fetchMetrics();
+
+    loading.value = false;
+});
+
+const isDatabaseHealthy = ref(false);
+const isCacheHealthy = ref(false);
+const uptime = ref('');
+const fetchMetrics = async () => {
+    const { data } = await apiFetch<{ data: SystemReport[] }>('v1/reports');
 
     if (data.length > 0) {
-        metricsOption.value.xAxis[0].data = data.map(
-            (metric) => metric.collected_at
+        cpuMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
+        cpuMetricsOption.series.data = data.map((metric) => metric.cpu_usage);
+
+        ramMetricsOption.series.data = data.map((metric) => metric.ram_usage);
+        ramMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
+        ramMetricsOption.visualMap.max = data[0].ram_total;
+        ramMetricsOption.yAxis.max = data[0].ram_total;
+
+        networkMetricsOption.series[0].data = data.map(
+            (metric) => metric.network_incoming
         );
-        metricsOption.value.xAxis[1].data = data.map(
+        networkMetricsOption.series[1].data = data.map(
+            (metric) => metric.network_outgoing
+        );
+        networkMetricsOption.xAxis.data = data.map(
             (metric) => metric.collected_at
         );
 
-        metricsOption.value.series[0].data = data.map(
-            (metric) => metric.cpu_usage
-        );
-        metricsOption.value.series[1].data = data.map(
-            (metric) => metric.ram_usage
-        );
-        metricsOption.value.visualMap[1].max = data[0].ram_total;
-        metricsOption.value.yAxis[1].max = data[0].ram_total;
+        isDatabaseHealthy.value = data[data.length - 1].is_database_up;
+        isCacheHealthy.value = data[data.length - 1].is_cache_up;
+
+        uptime.value = data[data.length - 1].uptime;
     }
+};
 
-    metricsLoading.value = false;
-});
+const refreshing = ref(false);
+const refreshLogs = async () => {
+    refreshing.value = true;
+    await apiFetch('v1/reports/refresh', { method: 'POST' });
+    await fetchMetrics();
+    refreshing.value = false;
+};
 </script>
