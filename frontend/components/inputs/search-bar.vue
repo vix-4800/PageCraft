@@ -81,23 +81,29 @@ const search = ref('');
 const searching = ref(false);
 const results = ref<{ products: Product[]; articles: Article[] }>();
 
+const debounceTimeout = ref<number>();
+
 watch(
     () => search.value,
-    async () => {
-        if (search.value) {
-            searching.value = true;
+    () => {
+        if (debounceTimeout.value) clearTimeout(debounceTimeout.value);
 
-            const { data } = await apiFetch<{
-                data: { products: Product[]; articles: Article[] };
-            }>(`v1/search`, {
-                params: {
-                    q: search.value,
-                },
-            });
+        debounceTimeout.value = window.setTimeout(async () => {
+            if (search.value) {
+                searching.value = true;
 
-            searching.value = false;
-            results.value = data;
-        }
+                const { data } = await apiFetch<{
+                    data: { products: Product[]; articles: Article[] };
+                }>(`v1/search`, {
+                    params: {
+                        q: search.value,
+                    },
+                });
+
+                searching.value = false;
+                results.value = data;
+            }
+        }, 500);
     }
 );
 

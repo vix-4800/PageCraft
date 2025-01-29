@@ -63,12 +63,12 @@ const metricsOption = ref<ECOption>({
     title: [
         {
             left: 'center',
-            text: 'CPU Usage',
+            text: 'CPU Usage (%)',
         },
         {
             top: '50%',
             left: 'center',
-            text: 'RAM Usage',
+            text: 'RAM Usage (MB)',
         },
     ],
     tooltip: {
