@@ -43,8 +43,11 @@ Route::name('api.')->group(function (): void {
             });
 
             Route::prefix('logs')->name('log.')->group(function (): void {
-                Route::get('/', [LogController::class, 'getLogs']);
-                Route::delete('/', [LogController::class, 'deleteLogs']);
+                Route::get('app', [LogController::class, 'getAppLogs']);
+                Route::delete('app', [LogController::class, 'deleteAppLogs']);
+
+                Route::get('queue', [LogController::class, 'getQueueLogs']);
+                Route::delete('queue', [LogController::class, 'deleteQueueLogs']);
             });
 
             Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);

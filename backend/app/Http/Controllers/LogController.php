@@ -5,52 +5,44 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
+use App\Services\LogRetrievers\ApplicationLogRetriever;
+use App\Services\LogRetrievers\QueueLogRetriever;
 use Illuminate\Http\JsonResponse;
 
 class LogController extends Controller
 {
+    private QueueLogRetriever $queueLogs;
+
+    public function __construct(
+        private readonly ApplicationLogRetriever $appLogs,
+    ) {
+        $this->queueLogs = new QueueLogRetriever('worker.log');
+    }
+
     /**
      * Get latest logs.
      */
-    public function getLogs(): JsonResponse
+    public function getAppLogs(): JsonResponse
     {
-        $logFile = storage_path('logs/laravel.log');
-
-        if (! file_exists($logFile)) {
-            return ApiResponse::create();
-        }
-
-        $logs = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        $parsedLogs = array_map(fn ($log): ?array => $this->parseLogLine($log), $logs);
-
-        $filteredLogs = array_filter($parsedLogs);
-        $recentLogs = array_slice(array_reverse($filteredLogs), 0, 15);
-
-        return ApiResponse::create($recentLogs);
+        return ApiResponse::create($this->appLogs->retrieve());
     }
 
-    public function deleteLogs(): JsonResponse
+    public function deleteAppLogs(): JsonResponse
     {
-        $logFile = storage_path('logs/laravel.log');
-
-        if (file_exists($logFile)) {
-            unlink($logFile);
-        }
+        $this->appLogs->clear();
 
         return ApiResponse::create();
     }
 
-    private function parseLogLine(string $log): ?array
+    public function getQueueLogs(): JsonResponse
     {
-        $pattern = '/^\[(.*?)\]\s(\w+)\.(\w+):\s(.*)$/';
+        return ApiResponse::create($this->queueLogs->retrieve());
+    }
 
-        return preg_match($pattern, $log, $matches)
-            ? [
-                'date' => $matches[1],
-                'level' => $matches[3],
-                'message' => $matches[4],
-            ]
-            : null;
+    public function deleteQueueLogs(): JsonResponse
+    {
+        $this->queueLogs->clear();
+
+        return ApiResponse::create();
     }
 }

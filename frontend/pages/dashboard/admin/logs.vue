@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Log } from '~/types/log';
+import type { ApplicationLog } from '~/types/log';
 
 definePageMeta({
     layout: 'dashboard',
@@ -60,11 +60,11 @@ const columns = [
 const { $notify } = useNuxtApp();
 
 const loading = ref(false);
-const logs = ref<Log[]>([]);
+const logs = ref<ApplicationLog[]>([]);
 onMounted(async () => {
     loading.value = true;
 
-    const { data } = await apiFetch<{ data: Log[] }>('v1/logs');
+    const { data } = await apiFetch<{ data: ApplicationLog[] }>('v1/logs/app');
 
     logs.value = data;
     loading.value = false;
@@ -75,7 +75,7 @@ const clearLogs = async () => {
     deleting.value = true;
 
     try {
-        await apiFetch('v1/logs', {
+        await apiFetch('v1/logs/app', {
             method: 'DELETE',
         });
 
