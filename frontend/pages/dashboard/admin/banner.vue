@@ -2,13 +2,30 @@
     <div>
         <dashboard-page-name title="Banner" />
 
-        <u-form v-if="banner" :state="banner" class="space-y-4">
+        <u-form
+            v-if="banner"
+            ref="form"
+            :schema="schema"
+            :state="banner"
+            class="space-y-4"
+            @submit="save"
+        >
             <u-form-group label="Text" name="text">
-                <u-input v-model="banner.text" color="blue" size="md" />
+                <u-input
+                    v-model="banner.text"
+                    placeholder="Banner text"
+                    color="blue"
+                    size="md"
+                />
             </u-form-group>
 
             <u-form-group label="Link" name="link">
-                <u-input v-model="banner.link" color="blue" size="md" />
+                <u-input
+                    v-model="banner.link"
+                    placeholder="Banner link"
+                    color="blue"
+                    size="md"
+                />
             </u-form-group>
 
             <u-form-group label="Is Banner Active" name="is_active">
@@ -27,13 +44,14 @@
                 icon="material-symbols:save"
                 size="md"
                 label="Save"
-                @click="save"
             />
         </u-form>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { z } from 'zod';
+import type { FormSubmitEvent, Form } from '#ui/types';
 import type { Banner } from '~/types/banner';
 
 definePageMeta({
@@ -45,6 +63,15 @@ const loading = ref(false);
 const banner = ref<Banner>();
 const { $notify } = useNuxtApp();
 
+const schema = z.object({
+    text: z.string().min(1, 'Banner text is required'),
+    link: z.union([z.string().url().nullish(), z.literal('')]),
+    is_active: z.boolean(),
+});
+
+const form = ref<Form<Schema>>();
+type Schema = z.output<typeof schema>;
+
 onMounted(async () => {
     loading.value = true;
 
@@ -54,16 +81,28 @@ onMounted(async () => {
     loading.value = false;
 });
 
-const save = async () => {
+const save = async (event: FormSubmitEvent<Schema>) => {
     loading.value = true;
 
-    await apiFetch('v1/banners', {
-        method: 'PUT',
-        body: banner.value,
-    });
+    try {
+        const { data } = await apiFetch('v1/banners', {
+            method: 'PUT',
+            body: event.data,
+        });
 
-    loading.value = false;
-
-    $notify('Banner updated successfully', 'success');
+        banner.value = data;
+        $notify('Banner updated successfully', 'success');
+    } catch (error) {
+        if (error?.statusCode === 422) {
+            form.value!.setErrors([
+                {
+                    path: 'text',
+                    message: error.data.errors.text[0],
+                },
+            ]);
+        }
+    } finally {
+        loading.value = false;
+    }
 };
 </script>
