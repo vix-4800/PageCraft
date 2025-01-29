@@ -31,9 +31,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request): JsonResource
     {
-        $validated = $request->validated();
-
-        $article = Article::create($validated);
+        $article = Article::create($request->validated());
 
         return new ArticleResource($article);
     }
@@ -51,9 +49,7 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, Article $article): JsonResource
     {
-        $validated = $request->validated();
-
-        $article->update($validated);
+        $article->update($request->validated());
 
         return new ArticleResource($article);
     }
