@@ -1,5 +1,10 @@
 <template>
     <div class="page-transition layout-transition">
+        <banner-maintenance
+            v-if="settingsStore.isMaintenance"
+            text="The site is currently under maintenance."
+        />
+
         <banner-announcement
             v-if="banner && banner.is_active"
             :text="banner.text"
