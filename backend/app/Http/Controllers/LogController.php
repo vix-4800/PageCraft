@@ -24,7 +24,11 @@ class LogController extends Controller
      */
     public function getAppLogs(): JsonResponse
     {
-        return ApiResponse::create($this->appLogs->retrieve());
+        return ApiResponse::create($this->appLogs->retrieve(), meta: [
+            'total' => [
+                'errors' => $this->appLogs->getErrorLogsCount(),
+            ],
+        ]);
     }
 
     public function deleteAppLogs(): JsonResponse
