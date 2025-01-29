@@ -1,6 +1,17 @@
 <template>
     <div>
-        <dashboard-page-name title="System Info" />
+        <dashboard-page-name title="System Info">
+            <template #actions>
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:refresh"
+                    :loading="refreshing"
+                    label="Refresh Now"
+                    @click="refreshLogs"
+                />
+            </template>
+        </dashboard-page-name>
 
         <section id="cpu-metrics" class="h-96">
             <v-chart
@@ -187,5 +198,13 @@ const fetchMetrics = async () => {
             (metric) => metric.collected_at
         );
     }
+};
+
+const refreshing = ref(false);
+const refreshLogs = async () => {
+    refreshing.value = true;
+    await apiFetch('v1/metrics/refresh', { method: 'POST' });
+    await fetchMetrics();
+    refreshing.value = false;
 };
 </script>

@@ -53,7 +53,10 @@ Route::name('api.')->group(function (): void {
 
             Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);
 
-            Route::get('metrics', PerformanceMetricController::class);
+            Route::prefix('metrics')->name('metrics.')->group(function (): void {
+                Route::get('/', [PerformanceMetricController::class, 'index'])->name('index');
+                Route::post('refresh', [PerformanceMetricController::class, 'refresh'])->name('metrics.refresh');
+            });
         });
 
         Route::apiSingleton('settings', SettingController::class);
