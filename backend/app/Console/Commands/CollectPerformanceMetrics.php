@@ -31,14 +31,18 @@ class CollectPerformanceMetrics extends Command
     {
         $cpu = Server::getCpuUsage();
         $ram = Server::getRamUsage();
+        $network = Server::getNetworkUsage();
 
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
+        $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
 
         PerformanceMetric::create([
             'cpu_usage' => $cpu,
             'ram_usage' => $ram['used'],
             'ram_total' => $ram['total'],
+            'network_incoming' => $network['eth0']['incoming'],
+            'network_outgoing' => $network['eth0']['outgoing'],
         ]);
     }
 }

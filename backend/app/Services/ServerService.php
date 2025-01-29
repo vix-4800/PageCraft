@@ -84,4 +84,28 @@ class ServerService
             'available' => $memInfo['MemAvailable'] ?? 0,
         ];
     }
+
+    public function getNetworkUsage(): array
+    {
+        $networkStats = [];
+        $file = fopen('/proc/net/dev', 'r');
+
+        if ($file) {
+            while (($line = fgets($file)) !== false) {
+                if (preg_match('/^\s*(\w+):\s+(\d+)\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d+)/', $line, $matches)) {
+                    $interface = $matches[1];
+                    $rxBytes = (int) $matches[2]; // Incoming traffic.
+                    $txBytes = (int) $matches[3]; // Outgoing traffic.
+
+                    $networkStats[$interface] = [
+                        'incoming' => round($rxBytes, 2),
+                        'outgoing' => round($txBytes, 2),
+                    ];
+                }
+            }
+            fclose($file);
+        }
+
+        return $networkStats;
+    }
 }

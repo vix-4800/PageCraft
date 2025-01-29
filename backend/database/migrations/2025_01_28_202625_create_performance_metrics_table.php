@@ -17,8 +17,12 @@ return new class extends Migration
             $table->id();
 
             $table->float('cpu_usage', 2);
+
             $table->float('ram_usage', 2);
             $table->float('ram_total', 2);
+
+            $table->float('network_incoming', 2);
+            $table->float('network_outgoing', 2);
 
             $table->timestamp('collected_at');
         });
