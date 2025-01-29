@@ -40,7 +40,7 @@ class OrderFactory extends Factory
      */
     public function withStatus(OrderStatus $status): static
     {
-        return $this->state(fn (array $attributes): array => [
+        return $this->state([
             'status' => $status,
         ]);
     }

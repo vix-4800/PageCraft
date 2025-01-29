@@ -6,6 +6,7 @@ use App\Exceptions\ApiException;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MarketplaceAccountController;
@@ -79,6 +80,8 @@ Route::name('api.')->group(function (): void {
         Route::apiResource('articles', ArticleController::class)->scoped(['article' => 'slug']);
 
         Route::get('search', SearchController::class)->name('search');
+
+        Route::apiSingleton('banners', BannerController::class)->only(['show', 'update']);
     });
 
     Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');

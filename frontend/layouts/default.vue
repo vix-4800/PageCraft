@@ -1,7 +1,9 @@
 <template>
     <div class="page-transition layout-transition">
         <banner-announcement
-            text="Don't miss out on our amazing summer sale! Get up to 50% off on a wide range of products. Make the most of your summer shopping."
+            v-if="banner && banner.is_active"
+            :text="banner.text"
+            :link="banner.link"
         />
 
         <component :is="headerComponent" :header-pages="headerPages" />
@@ -26,8 +28,12 @@ import { TemplateBlock } from '~/types/site_template';
 
 const settingsStore = useSiteSettingsStore();
 
-onMounted(() => {
-    settingsStore.fetch();
+const banner = ref<Banner | null>();
+onMounted(async () => {
+    await settingsStore.fetch();
+
+    const { data } = await apiFetch<{ data: Banner }>(`v1/banners`);
+    banner.value = data;
 });
 
 useHead({

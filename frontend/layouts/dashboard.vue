@@ -141,9 +141,9 @@ const adminCategories = {
             to: '/dashboard/admin/email-templates',
         },
         {
-            label: 'Banners',
+            label: 'Banner',
             icon: 'material-symbols:brand-awareness-rounded',
-            to: '/dashboard/admin/banners',
+            to: '/dashboard/admin/banner',
         },
     ],
     Settings: [

@@ -42,14 +42,14 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes): array => [
+        return $this->state([
             'email_verified_at' => null,
         ]);
     }
 
     public function admin(): static
     {
-        return $this->state(fn (array $attributes): array => [
+        return $this->state([
             'role_id' => Role::firstWhere('name', UserRole::ADMIN)->id,
         ]);
     }

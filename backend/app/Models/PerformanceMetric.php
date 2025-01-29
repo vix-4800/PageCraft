@@ -20,7 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereCpuUsage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamUsage($value)
- *                                                                                                      method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamUsage($value)
  *
  * @mixin \Eloquent
  */

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             MarketplaceAccountSeeder::class,
             FeedbackMessageSeeder::class,
             ArticleSeeder::class,
+            BannerSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {

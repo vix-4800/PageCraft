@@ -37,7 +37,7 @@ class ArticleFactory extends Factory
      */
     public function published(): static
     {
-        return $this->state(fn (array $attributes): array => [
+        return $this->state([
             'status' => ArticleStatus::PUBLISHED,
         ]);
     }
@@ -47,7 +47,7 @@ class ArticleFactory extends Factory
      */
     public function archived(): static
     {
-        return $this->state(fn (array $attributes): array => [
+        return $this->state([
             'status' => ArticleStatus::ARCHIVED,
         ]);
     }
