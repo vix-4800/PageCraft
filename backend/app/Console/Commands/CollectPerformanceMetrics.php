@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\UserRole;
 use App\Facades\Server;
 use App\Models\PerformanceMetric;
+use App\Models\User;
+use App\Notifications\SystemStatusWarning;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class CollectPerformanceMetrics extends Command
 {
@@ -34,11 +38,6 @@ class CollectPerformanceMetrics extends Command
         $network = Server::getNetworkUsage();
         $databaseStatus = Server::isDatabaseUp();
 
-        $this->info("CPU: {$cpu} %");
-        $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
-        $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
-        $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
-
         PerformanceMetric::create([
             'cpu_usage' => $cpu,
             'ram_usage' => $ram['used'],
@@ -47,5 +46,29 @@ class CollectPerformanceMetrics extends Command
             'network_outgoing' => $network['eth0']['outgoing'],
             'is_database_up' => $databaseStatus,
         ]);
+
+        $this->info("CPU: {$cpu} %");
+        $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
+        $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
+        $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
+
+        $warnings = collect();
+        if (! $databaseStatus) {
+            $warnings->push('Database is not running');
+        }
+
+        if ($cpu > 80) {
+            $warnings->push("CPU usage is high, {$cpu} %");
+        }
+
+        if ($ram['used'] / $ram['total'] > 0.8) {
+            $warnings->push("RAM usage is high, {$ram['used']} MB used of {$ram['total']} MB total");
+        }
+
+        if ($warnings->isNotEmpty()) {
+            User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
+                ->first()
+                ->notify(new SystemStatusWarning($warnings));
+        }
     }
 }
