@@ -15,7 +15,9 @@ class SystemReportController extends Controller
 {
     public function index(): JsonResource
     {
-        return SystemReportResource::collection(SystemReport::take(50)->get());
+        $orders = SystemReport::orderBy('collected_at', 'desc')->take(50)->get();
+
+        return SystemReportResource::collection($orders->reverse());
     }
 
     public function refresh(): Response
