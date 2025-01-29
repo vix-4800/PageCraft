@@ -20,11 +20,13 @@ class ProductVariationFactory extends Factory
      */
     public function definition(): array
     {
+        $sku = (new GenerateSku(ProductVariation::class))->handle();
+
         return [
-            'sku' => (new GenerateSku(ProductVariation::class))->handle(),
+            'sku' => $sku,
             'price' => $this->faker->numberBetween(50, 1000),
             'stock' => $this->faker->numberBetween(0, 100),
-            'image' => $this->faker->imageUrl,
+            'image' => "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$sku}",
         ];
     }
 }

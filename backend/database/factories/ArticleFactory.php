@@ -28,7 +28,7 @@ class ArticleFactory extends Factory
             'content' => $this->faker->text,
             'description' => $this->faker->text,
             'author' => $this->faker->name,
-            'image' => $this->faker->imageUrl(category: 'articles'),
+            'image' => "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$title}",
         ];
     }
 
