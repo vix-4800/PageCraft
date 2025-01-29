@@ -13,6 +13,20 @@
             </template>
         </dashboard-page-name>
 
+        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-6 md:gap-6">
+            <card-mini
+                label="Database Status"
+                :value="isDatabaseHealthy ? 'Healthy' : 'Not Healthy'"
+                :value-color="isDatabaseHealthy ? 'green-500' : 'red-500'"
+            />
+
+            <card-mini
+                label="Cache Status"
+                :value="isCacheHealthy ? 'Healthy' : 'Not Healthy'"
+                :value-color="isCacheHealthy ? 'green-500' : 'red-500'"
+            />
+        </div>
+
         <section id="cpu-metrics" class="h-96">
             <v-chart
                 :option="cpuMetricsOption"
@@ -166,6 +180,8 @@ onMounted(async () => {
     loading.value = false;
 });
 
+const isDatabaseHealthy = ref(false);
+const isCacheHealthy = ref(false);
 const fetchMetrics = async () => {
     const { data } = await apiFetch<{ data: PerformanceMetric[] }>(
         'v1/metrics'
@@ -197,6 +213,8 @@ const fetchMetrics = async () => {
         networkMetricsOption.value.xAxis.data = data.map(
             (metric) => metric.collected_at
         );
+
+        isDatabaseHealthy.value = data[data.length - 1].is_database_up;
     }
 };
 
