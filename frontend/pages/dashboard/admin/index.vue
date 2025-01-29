@@ -140,16 +140,17 @@ const earningsOption = ref<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
+        boundaryGap: false,
     },
     yAxis: {
         type: 'value',
     },
-    series: [
-        {
-            data: [],
-            type: 'line',
-        },
-    ],
+    series: {
+        data: [],
+        type: 'line',
+        showSymbol: false,
+        name: 'Earnings',
+    },
     tooltip: {
         trigger: 'axis',
     },
@@ -190,7 +191,7 @@ async function getWeekSales() {
     const { data } = await apiFetch(`v1/statistics/sales/last-week`);
 
     earningsOption.value.xAxis.data = Object.keys(data);
-    earningsOption.value.series[0].data = Object.values(data);
+    earningsOption.value.series.data = Object.values(data);
     earningsLoading.value = false;
 }
 

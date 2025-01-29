@@ -2,13 +2,29 @@
     <div>
         <dashboard-page-name title="System Info" />
 
-        <div class="h-[40rem]">
+        <section id="cpu-metrics" class="h-96">
             <v-chart
-                :option="metricsOption"
-                :loading="metricsLoading"
+                :option="cpuMetricsOption"
+                :loading="loading"
                 :autoresize="true"
             />
-        </div>
+        </section>
+
+        <section id="ram-metrics" class="h-96">
+            <v-chart
+                :option="ramMetricsOption"
+                :loading="loading"
+                :autoresize="true"
+            />
+        </section>
+
+        <section id="network-metrics" class="h-96">
+            <v-chart
+                :option="networkMetricsOption"
+                :loading="loading"
+                :autoresize="true"
+            />
+        </section>
     </div>
 </template>
 
@@ -20,126 +36,156 @@ definePageMeta({
     middleware: ['auth', 'dashboard', 'verified'],
 });
 
-const metricsLoading = ref(false);
-const metricsOption = ref<ECOption>({
-    xAxis: [
-        {
-            data: [],
-            type: 'category',
-        },
-        {
-            data: [],
-            type: 'category',
-            gridIndex: 1,
-        },
-    ],
-    yAxis: [
-        {
-            type: 'value',
-            max: 100,
-            min: 0,
-        },
-        {
-            type: 'value',
-            max: 0,
-            min: 0,
-            gridIndex: 1,
-        },
-    ],
+const visualMap = {
+    show: false,
+    type: 'continuous',
+    min: 0,
+    max: 100,
+    inRange: {
+        colorAlpha: [0.25, 1],
+        color: ['#00ff00', '#ffff00', '#ff0000'],
+    },
+};
+
+const toolbox = {
+    right: 10,
+    feature: {
+        saveAsImage: {},
+    },
+};
+
+const tooltip = {
+    trigger: 'axis',
+};
+
+const loading = ref(false);
+const cpuMetricsOption = ref<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        max: 100,
+        min: 0,
+    },
+    series: {
+        data: [],
+        type: 'line',
+        showSymbol: false,
+        name: 'CPU Usage',
+    },
+    title: {
+        left: 'center',
+        text: 'CPU Usage (%)',
+    },
+    tooltip: tooltip,
+    toolbox: toolbox,
+    visualMap: visualMap,
+    animationEasing: 'quadraticIn',
+});
+const ramMetricsOption = ref<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        max: 100,
+        min: 0,
+    },
+    series: {
+        data: [],
+        type: 'line',
+        showSymbol: false,
+        name: 'RAM Usage',
+    },
+    title: {
+        left: 'center',
+        text: 'RAM Usage (MB)',
+    },
+    tooltip: tooltip,
+    toolbox: toolbox,
+    visualMap: visualMap,
+    animationEasing: 'quadraticIn',
+});
+const networkMetricsOption = ref<ECOption>({
+    xAxis: {
+        data: [],
+        type: 'category',
+        boundaryGap: false,
+    },
+    yAxis: {
+        type: 'value',
+        min: 0,
+    },
     series: [
         {
             data: [],
             type: 'line',
             showSymbol: false,
+            name: 'Incoming',
+            stack: 'Total',
         },
         {
             data: [],
             type: 'line',
             showSymbol: false,
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            name: 'Outgoing',
+            stack: 'Total',
         },
     ],
-    title: [
-        {
-            left: 'center',
-            text: 'CPU Usage (%)',
-        },
-        {
-            top: '50%',
-            left: 'center',
-            text: 'RAM Usage (MB)',
-        },
-    ],
-    tooltip: {
-        trigger: 'axis',
+    title: {
+        left: 'center',
+        text: 'Network Usage (B)',
     },
-    visualMap: [
-        {
-            seriesIndex: 0,
-            show: false,
-            type: 'continuous',
-            min: 0,
-            max: 100,
-            inRange: {
-                colorAlpha: [0.25, 1],
-                color: ['#00ff00', '#ffff00', '#ff0000'],
-            },
-        },
-        {
-            seriesIndex: 1,
-            show: false,
-            type: 'continuous',
-            min: 0,
-            max: 0,
-            inRange: {
-                colorAlpha: [0.25, 1],
-                color: ['#00ff00', '#ffff00', '#ff0000'],
-            },
-        },
-    ],
-    toolbox: {
-        right: 10,
-        feature: {
-            saveAsImage: {},
-        },
-    },
-    grid: [
-        {
-            bottom: '60%',
-        },
-        {
-            top: '60%',
-        },
-    ],
+    tooltip: tooltip,
+    toolbox: toolbox,
     animationEasing: 'quadraticIn',
 });
 
 onMounted(async () => {
-    metricsLoading.value = true;
+    loading.value = true;
 
+    await fetchMetrics();
+    setInterval(fetchMetrics, 15000);
+
+    loading.value = false;
+});
+
+const fetchMetrics = async () => {
     const { data } = await apiFetch<{ data: PerformanceMetric[] }>(
         'v1/metrics'
     );
 
     if (data.length > 0) {
-        metricsOption.value.xAxis[0].data = data.map(
+        cpuMetricsOption.value.xAxis.data = data.map(
             (metric) => metric.collected_at
         );
-        metricsOption.value.xAxis[1].data = data.map(
-            (metric) => metric.collected_at
-        );
-
-        metricsOption.value.series[0].data = data.map(
+        cpuMetricsOption.value.series.data = data.map(
             (metric) => metric.cpu_usage
         );
-        metricsOption.value.series[1].data = data.map(
+
+        ramMetricsOption.value.series.data = data.map(
             (metric) => metric.ram_usage
         );
-        metricsOption.value.visualMap[1].max = data[0].ram_total;
-        metricsOption.value.yAxis[1].max = data[0].ram_total;
-    }
+        ramMetricsOption.value.xAxis.data = data.map(
+            (metric) => metric.collected_at
+        );
+        ramMetricsOption.value.visualMap.max = data[0].ram_total;
+        ramMetricsOption.value.yAxis.max = data[0].ram_total;
 
-    metricsLoading.value = false;
-});
+        networkMetricsOption.value.series[0].data = data.map(
+            (metric) => metric.network_incoming
+        );
+        networkMetricsOption.value.series[1].data = data.map(
+            (metric) => metric.network_outgoing
+        );
+        networkMetricsOption.value.xAxis.data = data.map(
+            (metric) => metric.collected_at
+        );
+    }
+};
 </script>
