@@ -19,7 +19,8 @@ PageCraft is a lightweight, free and open source CMS for your website.
 -   **Полнотекстовый поиск:** Meilisearch
 
 <p align="center">
-    <img src="./assets/dashboard_preview.png" alt="Dashboard" style="border-radius: 10px" />
+    <img src="./assets/dashboard_preview.png" alt="Dashboard" style="border-radius: 10px; margin-bottom: 10px" />
+	 <img src="./assets/metrics_preview.png" alt="Dashboard" style="border-radius: 10px" />
 </p>
 
 ## Управление приложением
