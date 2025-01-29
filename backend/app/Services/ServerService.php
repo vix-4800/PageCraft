@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class ServerPerformanceService
+class ServerService
 {
     /**
      * Get the current CPU usage.
      *
      * @return float The current CPU load average over the last minute, or 0 if not available.
      */
-    public static function getCpuUsage(): float
+    public function getCpuUsage(): float
     {
-        $stat1 = self::readCpuStats();
+        $stat1 = $this->readCpuStats();
         sleep(1);
-        $stat2 = self::readCpuStats();
+        $stat2 = $this->readCpuStats();
 
         $deltaTotal = array_sum($stat2) - array_sum($stat1);
         $deltaIdle = $stat2['idle'] - $stat1['idle'];
@@ -30,7 +30,7 @@ class ServerPerformanceService
      *
      * @return array Associative array of CPU stats.
      */
-    private static function readCpuStats(): array
+    private function readCpuStats(): array
     {
         $cpuStats = [];
         $statFile = fopen('/proc/stat', 'r');
@@ -59,7 +59,7 @@ class ServerPerformanceService
      *
      * @return array Associative array with RAM details in MB.
      */
-    public static function getMemoryUsage(): array
+    public function getMemoryUsage(): array
     {
         $memInfo = [];
         $file = fopen('/proc/meminfo', 'r');

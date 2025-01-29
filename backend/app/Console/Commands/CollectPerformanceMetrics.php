@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Facades\Server;
 use App\Models\PerformanceMetric;
-use App\Services\ServerPerformanceService;
 use Illuminate\Console\Command;
 
 class CollectPerformanceMetrics extends Command
@@ -29,8 +29,8 @@ class CollectPerformanceMetrics extends Command
      */
     public function handle(): void
     {
-        $cpu = ServerPerformanceService::getCpuUsage();
-        $ram = ServerPerformanceService::getMemoryUsage();
+        $cpu = Server::getCpuUsage();
+        $ram = Server::getMemoryUsage();
 
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: free: {$ram['free']} MB, total: {$ram['total']} MB");
