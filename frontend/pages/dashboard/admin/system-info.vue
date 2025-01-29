@@ -41,9 +41,9 @@ const metricsOption = ref<ECOption>({
         },
         {
             type: 'value',
-            gridIndex: 1,
             max: 0,
             min: 0,
+            gridIndex: 1,
         },
     ],
     series: [
@@ -55,9 +55,9 @@ const metricsOption = ref<ECOption>({
         {
             data: [],
             type: 'line',
+            showSymbol: false,
             xAxisIndex: 1,
             yAxisIndex: 1,
-            showSymbol: false,
         },
     ],
     title: [
@@ -76,18 +76,26 @@ const metricsOption = ref<ECOption>({
     },
     visualMap: [
         {
+            seriesIndex: 0,
             show: false,
             type: 'continuous',
-            seriesIndex: 0,
             min: 0,
             max: 100,
+            inRange: {
+                colorAlpha: [0.25, 1],
+                color: ['#00ff00', '#ffff00', '#ff0000'],
+            },
         },
         {
+            seriesIndex: 1,
             show: false,
             type: 'continuous',
-            seriesIndex: 1,
             min: 0,
             max: 0,
+            inRange: {
+                colorAlpha: [0.25, 1],
+                color: ['#00ff00', '#ffff00', '#ff0000'],
+            },
         },
     ],
     toolbox: {
