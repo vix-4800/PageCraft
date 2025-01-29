@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "--login", "-c"]
 
 # Update and install dependencies
 RUN apt update \
-    && apt install -y openssl zip unzip libzip-dev libicu-dev postgresql-client libpq-dev
+    && apt install -y openssl zip unzip libzip-dev libicu-dev postgresql-client libpq-dev default-mysql-client
 
 # Configure and install PHP extensions
 RUN docker-php-ext-configure intl \

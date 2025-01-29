@@ -1,7 +1,7 @@
 export interface Product {
     name: string;
     slug: string;
-    image: string;
+    image: string | null | File;
     additional_images: string[];
     description: string;
     variations: ProductVariation[];
@@ -22,7 +22,7 @@ export interface Product {
 export interface ProductVariation {
     sku: string;
     price: number;
-    image: string;
+    image: string | null | File;
     stock: number;
     attributes: ProductVariantAttribute[];
     product: Product;

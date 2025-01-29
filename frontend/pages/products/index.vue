@@ -1,5 +1,9 @@
 <template>
     <div>
+        <page-title
+            title="Products"
+            subtitle="Explore our wide range of products"
+        />
         <component
             :is="productListComponent"
             :products="products"

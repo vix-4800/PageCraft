@@ -19,15 +19,17 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->name;
+
         return [
-            'name' => $this->faker->name,
-            'slug' => fn (array $attributes): string => Str::slug($attributes['name']),
+            'name' => $name,
+            'slug' => Str::slug($name),
             'description' => $this->faker->text,
-            'image' => $this->faker->imageUrl(category: 'products'),
+            'image' => "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
             'additional_images' => [
-                $this->faker->imageUrl(category: 'products'),
-                $this->faker->imageUrl(category: 'products'),
-                $this->faker->imageUrl(category: 'products'),
+                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
+                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
+                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
             ],
         ];
     }

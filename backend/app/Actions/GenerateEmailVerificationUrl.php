@@ -22,6 +22,6 @@ class GenerateEmailVerificationUrl
             ]
         );
 
-        return $frontendUrl.'?verify_url='.urlencode($verifyUrl);
+        return $frontendUrl.'?verify_url='.base64_encode($verifyUrl);
     }
 }

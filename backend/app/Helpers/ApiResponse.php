@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 class ApiResponse extends JsonResponse
 {
@@ -20,11 +21,11 @@ class ApiResponse extends JsonResponse
     /**
      * Return a JSON response.
      *
-     * @param  array<string, mixed>  $data  The response data.
+     * @param  array|Collection  $data  The response data.
      * @param  int  $status  The HTTP status code.
      */
-    public static function create(array $data = [], int $status = 200): JsonResponse
+    public static function create(array|Collection $data = [], int $status = 200): JsonResponse
     {
-        return new JsonResponse(['data' => $data], $status);
+        return new JsonResponse(['data' => is_array($data) ? $data : $data->toArray()], $status);
     }
 }

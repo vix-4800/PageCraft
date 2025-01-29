@@ -1,6 +1,6 @@
 <template>
     <footer
-        class="bg-gradient-to-br from-gray-900 to-gray-700 p-10 font-[sans-serif] tracking-wide"
+        class="p-10 tracking-wide bg-gradient-to-br from-gray-900 to-gray-700"
     >
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:flex lg:items-center">
@@ -21,27 +21,15 @@
 
             <div class="lg:flex lg:items-center">
                 <ul class="flex space-x-1">
-                    <li>
+                    <li
+                        v-for="socialLink in settingsStore.getSocialLinks()"
+                        :key="socialLink.key"
+                    >
                         <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:instagram"
-                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:facebook"
-                            class="bg-transparent hover:bg-transparent hover:text-yellow-500"
-                        />
-                    </li>
-                    <li>
-                        <u-button
-                            to="/"
-                            size="lg"
-                            icon="mdi:twitter"
+                            :to="socialLink.value"
+                            size="xl"
+                            :icon="socialLink.icon"
+                            target="_blank"
                             class="bg-transparent hover:bg-transparent hover:text-yellow-500"
                         />
                     </li>
@@ -54,28 +42,29 @@
                 </h4>
                 <ul class="space-y-4">
                     <li>
-                        <a
-                            href="mailto:test@example.com"
+                        <nuxt-link
+                            :to="`mailto:${footerContacts.email}`"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Email
-                        </a>
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            :to="`tel:${footerContacts.phone}`"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Phone
-                        </a>
+                        </nuxt-link>
                     </li>
                     <li>
-                        <a
-                            href="javascript:void(0)"
+                        <nuxt-link
+                            :to="`https://maps.google.com/?q=${footerContacts.address}`"
+                            target="_blank"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
                             Address
-                        </a>
+                        </nuxt-link>
                     </li>
                 </ul>
             </div>
@@ -85,28 +74,12 @@
                     Information
                 </h4>
                 <ul class="space-y-4">
-                    <li>
+                    <li v-for="page in footerPages" :key="page.name">
                         <nuxt-link
-                            to="/contact"
+                            :to="page.href"
                             class="text-sm text-gray-300 hover:text-yellow-500"
                         >
-                            Contact
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/terms"
-                            class="text-sm text-gray-300 hover:text-yellow-500"
-                        >
-                            Terms &amp; Conditions
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/privacy"
-                            class="text-sm text-gray-300 hover:text-yellow-500"
-                        >
-                            Privacy Policy
+                            {{ page.name }}
                         </nuxt-link>
                     </li>
                 </ul>
@@ -120,5 +93,25 @@
 </template>
 
 <script lang="ts" setup>
+const settingsStore = useSiteSettingsStore();
+
 const appName: string = useRuntimeConfig().public.appName;
+
+defineProps({
+    footerPages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+        }[],
+        required: true,
+    },
+    footerContacts: {
+        type: Object as () => {
+            email: string;
+            phone: string;
+            address: string;
+        },
+        required: true,
+    },
+});
 </script>

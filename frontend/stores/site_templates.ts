@@ -8,21 +8,29 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
     actions: {
         async fetch() {
             const { data } = await apiFetch<{ data: SiteTemplate[] }>(
-                `v1/site-templates`
+                `v1/templates`
             );
 
             this.setTemplates(data);
         },
         async save(templates: SiteTemplate[]) {
-            const { data } = await apiFetch<{ data: SiteTemplate[] }>(
-                `v1/site-templates`,
-                {
-                    method: 'PUT',
-                    body: templates,
-                }
-            );
+            withPasswordConfirmation(
+                async () => {
+                    const { data } = await apiFetch<{ data: SiteTemplate[] }>(
+                        `v1/templates`,
+                        {
+                            method: 'PUT',
+                            body: templates,
+                        }
+                    );
 
-            this.setTemplates(data);
+                    this.setTemplates(data);
+                },
+                'Confirm site templates update',
+                'Are you sure you want to save the changes?',
+                false,
+                'Templates saved successfully'
+            );
         },
         setTemplates(templates: SiteTemplate[]) {
             this.templates = templates;

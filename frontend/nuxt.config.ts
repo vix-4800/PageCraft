@@ -16,10 +16,12 @@ export default defineNuxtConfig({
         '@nuxt/ui',
         'nuxt-echarts',
         'pinia-plugin-persistedstate/nuxt',
+        '@nuxtjs/seo',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
         head: {
+            charset: 'utf-8',
             title: process.env.APP_NAME || 'PageCraft',
             meta: [
                 {
@@ -28,9 +30,6 @@ export default defineNuxtConfig({
                 },
             ],
             script: [
-                {
-                    src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
-                },
                 {
                     children: `var _paq = window._paq = window._paq || [];
                             _paq.push(['trackPageView']);
@@ -88,5 +87,11 @@ export default defineNuxtConfig({
             'VisualMapComponent',
             'LegendComponent',
         ],
+    },
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
     },
 });

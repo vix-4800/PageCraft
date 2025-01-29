@@ -1,6 +1,6 @@
 #!make
 
-.PHONY: start stop restart shell logs
+.PHONY: start stop restart shell logs update install pull build
 
 include .env
 
@@ -8,7 +8,7 @@ include .env
 start:
 	@echo "\nStarting Frontend..."
 	@docker compose up -d
-	@echo "\nYou can access your app at http://localhost:${APP_PORT}/welcome"
+	@echo "\nYou can access your app at http://localhost/welcome"
 
 stop:
 	@echo "\nStopping Frontend..."
@@ -25,3 +25,19 @@ shell:
 logs:
 	@echo "\nShowing Frontend Logs..."
 	@docker logs -f frontend
+
+update:
+	@echo "\nUpdating..."
+	@docker exec -it frontend npm update --force
+
+install:
+	@echo "\nInstalling..."
+	@docker exec -it frontend npm install --force
+
+pull:
+	@echo "\nPulling images..."
+	@docker compose pull
+
+build:
+	@echo "\nBuilding images..."
+	@docker compose build

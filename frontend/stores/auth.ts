@@ -42,13 +42,17 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchUser();
             navigateTo('/verify-email');
         },
-        async logout() {
-            await apiFetch('auth/logout', {
-                method: 'POST',
-            });
+        async logout(withBackend: boolean = true) {
+            if (withBackend) {
+                await apiFetch('auth/logout', {
+                    method: 'POST',
+                });
+            }
 
             this.setUser(null);
             useCartDetailsStore().clear();
+            useCookie('XSRF-TOKEN').value = '';
+
             navigateTo('/');
         },
         async update({
@@ -63,6 +67,20 @@ export const useAuthStore = defineStore('auth', {
             await apiFetch<{ data: User }>(`auth/user/profile-information`, {
                 method: 'PUT',
                 body: JSON.stringify({ name, email, phone }),
+            });
+        },
+        async updatePassword({
+            current_password,
+            password,
+            password_confirmation,
+        }: {
+            current_password: string;
+            password: string;
+            password_confirmation: string;
+        }) {
+            await apiFetch<{ data: User }>(`auth/user/password`, {
+                method: 'PUT',
+                body: { current_password, password, password_confirmation },
             });
         },
         async fetchUser() {
@@ -129,11 +147,39 @@ export const useAuthStore = defineStore('auth', {
             });
         },
         async deleteUser() {
-            await this.logout();
+            withPasswordConfirmation(
+                async () => {
+                    await apiFetch('user', {
+                        method: 'DELETE',
+                    });
 
-            await apiFetch('user', {
-                method: 'DELETE',
+                    await this.logout(false);
+                },
+                'Confirm user deletion',
+                'Are you sure you want to delete your account?',
+                true
+            );
+        },
+        async sendPasswordResetLink(email: string) {
+            await apiFetch('auth/forgot-password', {
+                method: 'POST',
+                body: { email },
             });
+
+            navigateTo('/login');
+        },
+        async resetPassword(
+            email: string,
+            password: string,
+            password_confirmation: string,
+            token: string
+        ) {
+            await apiFetch('auth/reset-password', {
+                method: 'POST',
+                body: { email, token, password, password_confirmation },
+            });
+
+            navigateTo('/login');
         },
     },
     getters: {

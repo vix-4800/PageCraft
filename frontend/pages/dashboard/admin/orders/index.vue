@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Orders" />
+        <dashboard-page-name title="Orders" />
 
         <u-table
             :columns="ordersColumns"
@@ -26,7 +26,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const ordersColumns = [

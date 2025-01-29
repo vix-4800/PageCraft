@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserShowResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -47,8 +49,10 @@ class UserController extends Controller
         return new UserShowResource($user);
     }
 
-    public function destroy(User $user): void
+    public function destroy(User $user): Response
     {
         $user->delete();
+
+        return ApiResponse::empty();
     }
 }

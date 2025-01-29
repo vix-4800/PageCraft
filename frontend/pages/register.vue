@@ -1,18 +1,9 @@
 <template>
     <div>
-        <div class="flex justify-center mb-4">
-            <nuxt-link
-                to="/"
-                class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
-            >
-                <nuxt-img
-                    src="/logo.png"
-                    :alt="useRuntimeConfig().public.appName"
-                />
-            </nuxt-link>
-        </div>
+        <auth-home-logo />
 
         <u-form
+            ref="form"
             :state="credentials"
             :schema="schema"
             :validate="validate"
@@ -74,12 +65,14 @@
 
             <div class="flex justify-center gap-4">
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                     size="lg"
                     block
                     label="Register"
                     type="submit"
                     icon="material-symbols:person-add"
+                    :loading="loading"
+                    color="gray"
                 />
 
                 <u-button
@@ -97,11 +90,24 @@
 
 <script lang="ts" setup>
 import { z } from 'zod';
-import type { FormError, FormSubmitEvent } from '#ui/types';
+import type { FormError, FormSubmitEvent, Form } from '#ui/types';
 
 definePageMeta({
     layout: 'auth',
+    middleware: [
+        function () {
+            const authStore = useAuthStore();
+
+            if (authStore.isAuthenticated) {
+                return navigateTo(
+                    `/dashboard/${authStore.isAdmin ? 'admin' : 'user'}`
+                );
+            }
+        },
+    ],
 });
+
+const authStore = useAuthStore();
 
 const schema = z.object({
     name: z
@@ -125,12 +131,14 @@ const schema = z.object({
 
 const validate = (state: Schema): FormError[] => {
     const errors = [];
+
     if (state.password !== state.password_confirmation) {
         errors.push({
             path: 'password_confirmation',
             message: 'Passwords do not match',
         });
     }
+
     return errors;
 };
 
@@ -142,9 +150,27 @@ const credentials = reactive({
     password_confirmation: '' as string | undefined,
 });
 
+const form = ref<Form<Schema>>();
 type Schema = z.output<typeof schema>;
 
+const loading = ref(false);
 const submitForm = async (event: FormSubmitEvent<Schema>) => {
-    await useAuthStore().register(event.data);
+    form.value!.clear();
+    loading.value = true;
+
+    try {
+        await authStore.register(event.data);
+    } catch (err) {
+        if (err?.statusCode === 422) {
+            form.value!.setErrors([
+                {
+                    path: 'name',
+                    message: err.data.message,
+                },
+            ]);
+        }
+    } finally {
+        loading.value = false;
+    }
 };
 </script>

@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
+    // use WithoutModelEvents;
 
     /**
      * Seed the application's database.
@@ -22,11 +22,14 @@ class DatabaseSeeder extends Seeder
             ProductAttributeSeeder::class,
             ProductSeeder::class,
             ProductReviewSeeder::class,
-            SiteSettingSeeder::class,
-            SiteTemplateSeeder::class,
+            SettingSeeder::class,
+            TemplateSeeder::class,
             OrderSeeder::class,
             MarketplaceSeeder::class,
             MarketplaceAccountSeeder::class,
+            FeedbackMessageSeeder::class,
+            ArticleSeeder::class,
+            BannerSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {

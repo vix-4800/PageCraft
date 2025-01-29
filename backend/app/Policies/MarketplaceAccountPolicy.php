@@ -48,20 +48,4 @@ class MarketplaceAccountPolicy
     {
         return $this->viewAny($user);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, MarketplaceAccount $marketplaceAccount): bool
-    {
-        return $this->viewAny($user);
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, MarketplaceAccount $marketplaceAccount): bool
-    {
-        return $this->viewAny($user);
-    }
 }

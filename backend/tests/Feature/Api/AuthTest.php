@@ -11,9 +11,10 @@ class AuthTest extends TestCase
 {
     public function test_register_with_invalid_data_fails(): void
     {
-        $this->postJson(route('api.register'), [
+        $this->postJson(route('register.store'), [
             'name' => '',
             'email' => 'invalid-email',
+            'phone' => 'invalid-phone',
             'password' => 'short',
         ])
             ->assertUnprocessable()
@@ -26,9 +27,10 @@ class AuthTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        $this->postJson(route('api.register'), [
+        $this->postJson(route('register.store'), [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'phone' => '1234567890',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ])
@@ -38,48 +40,38 @@ class AuthTest extends TestCase
 
     public function test_login_returns_error_when_credentials_are_invalid(): void
     {
-        $this->postJson(route('api.login'), [
+        $this->postJson(route('login.store'), [
             'email' => 'test@example.com',
             'password' => 'wrongpassword',
         ])
             ->assertUnprocessable()
-            ->assertExactJson([
-                'data' => [],
-                'error' => true,
-                'message' => 'Invalid credentials',
+            ->assertJsonStructure([
+                'message',
+                'errors',
             ]);
     }
 
-    public function test_login_returns_token_for_valid_user(): void
+    public function test_login_succeeds(): void
     {
         $password = 'password';
         $user = User::factory()->create([
             'password' => bcrypt($password),
         ]);
 
-        $this->postJson(route('api.login'), [
+        $this->postJson(route('login.store'), [
             'email' => $user->email,
             'password' => $password,
         ])
-            ->assertOk()
-            ->assertJsonStructure([
-                'data' => [
-                    'token',
-                ],
-            ]);
+            ->assertOk();
     }
 
     public function test_logout_returns_no_content_and_deletes_tokens(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
-        $user->createToken($user->email);
-
-        $this->assertTrue($user->tokens()->get()->isNotEmpty());
 
         $this->actingAs($user)
-            ->postJson(route('api.logout'))
+            ->postJson(route('logout'))
             ->assertNoContent();
-
-        $this->assertTrue($user->tokens()->get()->isEmpty());
     }
 }

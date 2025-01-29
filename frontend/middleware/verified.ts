@@ -1,7 +1,5 @@
 export default defineNuxtRouteMiddleware(() => {
-    const authStore = useAuthStore();
-
-    if (!authStore.isVerified) {
+    if (!useAuthStore().isVerified) {
         return navigateTo('/verify-email');
     }
 });

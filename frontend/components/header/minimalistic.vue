@@ -1,6 +1,6 @@
 <template>
     <header
-        class="flex shadow-md py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50"
+        class="flex shadow-md py-4 px-4 sm:px-10 bg-white min-h-[70px] tracking-wide relative z-50"
     >
         <div class="flex flex-wrap items-center justify-between w-full gap-5">
             <nuxt-link to="/" class="items-center hidden gap-4 sm:flex group">
@@ -48,17 +48,17 @@
                         </nuxt-link>
                     </li>
                     <li
-                        v-for="category in pages"
-                        :key="category.name"
+                        v-for="page in headerPages"
+                        :key="page.name"
                         class="px-3 border-gray-300 max-lg:border-b max-lg:py-3"
                     >
                         <u-link
-                            :to="category.href"
+                            :to="page.href"
                             class="block font-semibold text-[15px]"
                             active-class="text-blue-500"
                             inactive-class="text-gray-500 hover:text-blue-500"
                         >
-                            {{ category.name }}
+                            {{ page.name }}
                         </u-link>
                     </li>
                 </ul>
@@ -107,7 +107,7 @@
 const appName: string = useRuntimeConfig().public.appName;
 
 defineProps({
-    pages: {
+    headerPages: {
         type: Array as () => {
             name: string;
             href: string;

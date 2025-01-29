@@ -30,7 +30,7 @@ class OrderResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
             'note' => $this->note,
-            'created_at' => $this->created_at?->toDateTimeString(),
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }

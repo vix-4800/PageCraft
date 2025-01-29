@@ -5,7 +5,9 @@
         >
             <dl>
                 <dt class="text-2xl font-bold">{{ statistics.users.today }}</dt>
-                <dd class="text-sm font-medium text-slate-500">Users today</dd>
+                <dd class="text-sm font-medium text-slate-500">
+                    Registered today
+                </dd>
             </dl>
         </div>
 
@@ -14,7 +16,9 @@
         >
             <dl>
                 <dt class="text-2xl font-bold">{{ statistics.users.total }}</dt>
-                <dd class="text-sm font-medium text-slate-500">Users total</dd>
+                <dd class="text-sm font-medium text-slate-500">
+                    Registered total
+                </dd>
             </dl>
         </div>
 
@@ -57,6 +61,24 @@
         </div>
 
         <div
+            id="widgetIframe"
+            class="col-span-12 border rounded-xl border-slate-200"
+        >
+            <div class="px-6 pt-6">
+                <span class="text-2xl font-bold">Visits</span>
+
+                <iframe
+                    width="100%"
+                    height="500"
+                    src="http://localhost:8082/index.php?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=1&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=day&date=yesterday"
+                    scrolling="yes"
+                    marginheight="0"
+                    marginwidth="0"
+                ></iframe>
+            </div>
+        </div>
+
+        <div
             class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
         >
             <div class="px-6 pt-6">
@@ -95,7 +117,7 @@ import { OrderStatus, type Order } from '~/types/order';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const statistics = reactive({
@@ -114,7 +136,7 @@ const statistics = reactive({
 });
 
 const earningsLoading = ref(true);
-const earningsOption = ref({
+const earningsOption = ref<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
@@ -128,6 +150,15 @@ const earningsOption = ref({
             type: 'line',
         },
     ],
+    tooltip: {
+        trigger: 'axis',
+    },
+    toolbox: {
+        right: 10,
+        feature: {
+            saveAsImage: {},
+        },
+    },
 });
 
 onMounted(async () => {

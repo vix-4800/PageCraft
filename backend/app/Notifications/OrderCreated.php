@@ -4,46 +4,23 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\Order\OrderResource;
-use App\Models\Order;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 
-class OrderCreated extends Notification implements ShouldQueue
+class OrderCreated extends BaseDatabaseNotification
 {
-    use Queueable;
-
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct(
-        private readonly Order $order
-    ) {
-        //
+    protected function getType(): DatabaseNotificationType
+    {
+        return DatabaseNotificationType::ORDER;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
+    protected function getMessage(): string
     {
-        return ['database'];
+        return 'Order created';
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
+    protected function getDetails(): OrderResource
     {
-        return [
-            'message' => 'New order created.',
-            'type' => 'order',
-            'data' => new OrderResource($this->order),
-        ];
+        return new OrderResource($this->model);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="product !== null">
+    <div v-if="product">
         <div class="grid items-start grid-cols-1 gap-12 lg:grid-cols-5">
             <div
                 class="top-0 w-full p-6 bg-gray-100 border border-orange-300 rounded-lg lg:col-span-3 lg:sticky"
@@ -180,9 +180,20 @@
         </div>
 
         <div class="mt-8">
-            <h3 class="text-xl font-bold text-gray-800">
-                Reviews ({{ product.reviews.count }})
-            </h3>
+            <div class="flex justify-between w-1/2">
+                <h3 class="text-xl font-bold text-gray-800">
+                    Reviews ({{ product.reviews.count }})
+                </h3>
+
+                <u-button
+                    v-if="authStore.isAuthenticated"
+                    color="orange"
+                    label="Write a review"
+                    size="md"
+                    icon="material-symbols:edit"
+                    @click="reviewModalOpen = true"
+                />
+            </div>
 
             <div class="w-1/2 mt-4 space-y-3">
                 <div class="flex items-center gap-2">
@@ -328,20 +339,96 @@
                                 }}
                             </p>
                         </div>
+
                         <p class="mt-2 text-xs">
                             {{ review.text }}
                         </p>
+
+                        <div class="flex items-center mt-2 space-x-2">
+                            <div class="flex items-center">
+                                <u-button
+                                    icon="line-md:thumbs-down"
+                                    :padded="false"
+                                    variant="ghost"
+                                    color="black"
+                                    :label="review.reactions.dislikes"
+                                    @click="react('dislike', review)"
+                                />
+                            </div>
+
+                            <div class="flex items-center">
+                                <u-button
+                                    icon="line-md:thumbs-up"
+                                    :padded="false"
+                                    variant="ghost"
+                                    color="black"
+                                    :label="review.reactions.likes"
+                                    @click="react('like', review)"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <u-modal v-if="authStore.isAuthenticated" v-model="reviewModalOpen">
+            <div class="p-4">
+                <h3 class="mb-4 text-lg font-bold text-gray-800 sm:text-xl">
+                    Add Review
+                </h3>
+
+                <u-form
+                    class="space-y-2"
+                    :state="reviewForm"
+                    :schema="schema"
+                    @submit="submitReview"
+                >
+                    <u-form-group label="Text" name="text">
+                        <u-textarea
+                            v-model="reviewForm.text"
+                            color="orange"
+                            placeholder="Write your review here..."
+                            autoresize
+                        />
+                    </u-form-group>
+
+                    <u-form-group
+                        :label="'Rating' + ' (' + reviewForm.rating + ')'"
+                        name="rating"
+                    >
+                        <u-range
+                            v-model="reviewForm.rating"
+                            color="orange"
+                            :min="1"
+                            :max="5"
+                        />
+                    </u-form-group>
+
+                    <div class="flex mt-4">
+                        <u-button
+                            icon="material-symbols:send"
+                            type="submit"
+                            color="orange"
+                            :loading="reviewSending"
+                            :disabled="reviewSending"
+                        >
+                            Submit
+                        </u-button>
+                    </div>
+                </u-form>
+            </div>
+        </u-modal>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { Product, ProductVariation } from '~/types/product';
 import type { Review } from '~/types/review';
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
 
+const authStore = useAuthStore();
 const cartStore = useCartStore();
 const favoriteStore = useFavoriteStore();
 
@@ -411,5 +498,57 @@ const addToCart = () => {
     if (Object.keys(selectedVariation.value).length === 0) return;
 
     cartStore.increaseProductQuantity(selectedVariation.value);
+};
+
+const reviewModalOpen = ref(false);
+const reviewForm = reactive({
+    text: '',
+    rating: 3,
+});
+
+const schema = z.object({
+    text: z.string().min(5, 'Review text must be at least 5 characters'),
+    rating: z
+        .number()
+        .min(1, 'Minimum rating is 1')
+        .max(5, 'Maximum rating is 5'),
+});
+
+type Schema = z.output<typeof schema>;
+
+const { $notify } = useNuxtApp();
+const reviewSending = ref(false);
+const submitReview = async (event: FormSubmitEvent<Schema>) => {
+    reviewSending.value = true;
+
+    await apiFetch(`v1/products/${props.product.slug}/reviews`, {
+        method: 'POST',
+        body: {
+            text: event.data.text,
+            rating: event.data.rating,
+        },
+    });
+
+    reviewModalOpen.value = false;
+    reviewSending.value = false;
+
+    $notify('Review submitted successfully', 'success');
+};
+
+const react = async (type: 'like' | 'dislike', review: Review) => {
+    if (!authStore.isAuthenticated) {
+        $notify('You must be logged in to react to a review', 'error');
+        return;
+    }
+
+    await apiFetch(
+        `v1/products/${props.product.slug}/reviews/${review.id}/reactions`,
+        {
+            method: 'POST',
+            body: {
+                type,
+            },
+        }
+    );
 };
 </script>

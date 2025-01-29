@@ -1,12 +1,6 @@
 <template>
-    <div class="font-[sans-serif]">
+    <div>
         <div class="p-4 mx-auto font-sans lg:max-w-6xl md:max-w-4xl">
-            <h2
-                class="mb-6 text-2xl font-extrabold text-gray-800 sm:text-3xl sm:mb-10"
-            >
-                {{ title }}
-            </h2>
-
             <div
                 class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6"
             >
@@ -86,10 +80,6 @@ import type { Product } from '~/types/product';
 defineProps({
     products: {
         type: Array as () => Product[],
-        required: true,
-    },
-    title: {
-        type: String,
         required: true,
     },
     loading: {

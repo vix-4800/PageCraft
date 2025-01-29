@@ -1,6 +1,25 @@
 <template>
     <div>
-        <DashboardPageName title="Products" />
+        <dashboard-page-name title="Products">
+            <template #actions>
+                <u-button
+                    label="Update Search Indexes"
+                    icon="material-symbols:refresh"
+                    color="blue"
+                    size="md"
+                    :loading="updatingIndexes"
+                    @click="updateSearchIndexes"
+                />
+
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:add"
+                    label="Add Product"
+                    @click="navigateTo('/dashboard/admin/products/create')"
+                />
+            </template>
+        </dashboard-page-name>
 
         <u-table
             :columns="columns"
@@ -20,6 +39,7 @@
         />
 
         <div
+            v-if="total > 10"
             class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
         >
             <u-pagination
@@ -27,18 +47,6 @@
                 :active-button="{ variant: 'outline', color: 'blue' }"
                 :inactive-button="{ color: 'gray' }"
                 :total="total"
-            />
-        </div>
-
-        <div class="w-full px-1 mt-4">
-            <u-button
-                color="blue"
-                block
-                size="md"
-                :loading="status === 'pending'"
-                type="button"
-                label="Add Product"
-                @click="navigateTo('/dashboard/admin/products/create')"
             />
         </div>
     </div>
@@ -50,7 +58,7 @@ import type { Meta } from '~/types/pagination';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const columns = [
@@ -68,6 +76,8 @@ const columns = [
         label: 'Description',
     },
 ];
+
+const { $notify } = useNuxtApp();
 
 const products = ref<Product[]>([]);
 const status = ref('pending');
@@ -108,5 +118,17 @@ watch(page, async () => {
 
 function select(row: Product) {
     return navigateTo('/dashboard/admin/products/' + row.slug);
+}
+
+const updatingIndexes = ref(false);
+async function updateSearchIndexes() {
+    updatingIndexes.value = true;
+
+    await apiFetch(`v1/products/update-search-indexes`, {
+        method: 'POST',
+    });
+
+    updatingIndexes.value = false;
+    $notify('Products Search Indexes Updated', 'success');
 }
 </script>

@@ -48,20 +48,4 @@ class ProductReviewPolicy
     {
         return $this->update($user, $productReview);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, ProductReview $productReview): bool
-    {
-        return $this->update($user, $productReview);
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, ProductReview $productReview): bool
-    {
-        return $this->update($user, $productReview);
-    }
 }

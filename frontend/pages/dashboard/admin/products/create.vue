@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DashboardPageName title="Create Product" />
+        <dashboard-page-name title="Create Product" />
 
         <u-form
             :schema="schema"
@@ -153,6 +153,7 @@
                                     <u-button
                                         color="orange"
                                         size="md"
+                                        icon="material-symbols:add"
                                         label="Add Attribute"
                                         @click="addAttribute(variation)"
                                     />
@@ -161,6 +162,7 @@
                                         v-if="variation.attributes.length > 0"
                                         color="red"
                                         size="md"
+                                        icon="material-symbols:remove"
                                         label="Remove Attribute"
                                         @click="removeAttribute(variation)"
                                     />
@@ -174,6 +176,7 @@
                     <u-button
                         color="orange"
                         size="md"
+                        icon="material-symbols:add"
                         label="Add Variation"
                         @click="addVariation"
                     />
@@ -181,6 +184,7 @@
                         v-if="product.variations.length > 0"
                         color="red"
                         size="md"
+                        icon="material-symbols:remove"
                         label="Remove Variation"
                         @click="removeVariation"
                     />
@@ -192,6 +196,7 @@
                 :disabled="product.variations.length === 0"
                 color="blue"
                 size="md"
+                icon="material-symbols:save"
                 label="Submit"
                 type="submit"
             />
@@ -206,7 +211,7 @@ import type { FormSubmitEvent } from '#ui/types';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 type Schema = z.output<typeof schema>;

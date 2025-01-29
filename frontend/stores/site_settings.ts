@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { SiteSetting } from '~/types/site_setting';
+import { SettingKey, type SiteSetting } from '~/types/site_setting';
 
 export const useSiteSettingsStore = defineStore('site_settings', {
     state: () => ({
@@ -8,25 +8,75 @@ export const useSiteSettingsStore = defineStore('site_settings', {
     actions: {
         async fetch() {
             const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                `v1/site-settings`
+                `v1/settings`
             );
 
             this.setSettings(data);
         },
         async save(settings: SiteSetting[]) {
-            const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                `v1/site-settings`,
-                {
-                    method: 'PUT',
-                    body: settings,
-                }
-            );
+            withPasswordConfirmation(
+                async () => {
+                    const { data } = await apiFetch<{ data: SiteSetting[] }>(
+                        `v1/settings`,
+                        {
+                            method: 'PUT',
+                            body: settings,
+                        }
+                    );
 
-            this.setSettings(data);
+                    this.setSettings(data);
+                },
+                'Confirm site settings update',
+                'Are you sure you want to save the changes?',
+                false,
+                'Settings saved successfully'
+            );
         },
         setSettings(settings: SiteSetting[]) {
             this.settings = settings;
         },
+        getSetting(key: string) {
+            return this.settings.find((setting) => setting.key === key)?.value;
+        },
+        getSocialLinks() {
+            const links = [
+                {
+                    key: 'facebook',
+                    value: this.getSetting(SettingKey.SocialFacebook),
+                    icon: 'mdi:facebook',
+                },
+                {
+                    key: 'twitter',
+                    value: this.getSetting(SettingKey.SocialTwitter),
+                    icon: 'mdi:twitter',
+                },
+                {
+                    key: 'instagram',
+                    value: this.getSetting(SettingKey.SocialInstagram),
+                    icon: 'mdi:instagram',
+                },
+                {
+                    key: 'vk',
+                    value: this.getSetting(SettingKey.SocialVk),
+                    icon: 'mdi:vk',
+                },
+                {
+                    key: 'youtube',
+                    value: this.getSetting(SettingKey.SocialYoutube),
+                    icon: 'mdi:youtube',
+                },
+                {
+                    key: 'telegram',
+                    value: this.getSetting(SettingKey.SocialTelegram),
+                    icon: 'mdi:telegram',
+                },
+            ];
+
+            return links.filter((link) => link.value);
+        },
+    },
+    getters: {
+        fetched: (state) => state.settings.length > 0,
     },
     persist: true,
 });

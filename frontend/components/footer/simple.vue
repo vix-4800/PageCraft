@@ -15,37 +15,12 @@
                 <ul
                     class="flex flex-wrap items-center justify-center space-x-6 gap-y-2 md:justify-end"
                 >
-                    <li>
+                    <li v-for="page in footerPages" :key="page.name">
                         <nuxt-link
-                            to="/"
+                            :to="page.href"
                             class="text-base text-gray-300 hover:underline"
                         >
-                            Home
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/about"
-                            class="text-base text-gray-300 hover:underline"
-                        >
-                            About
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/terms"
-                            class="text-base text-gray-300 hover:underline"
-                        >
-                            Terms of Service
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link
-                            to="/contact"
-                            href="javascript:void(0)"
-                            class="text-base text-gray-300 hover:underline"
-                        >
-                            Contact
+                            {{ page.name }}
                         </nuxt-link>
                     </li>
                 </ul>
@@ -62,4 +37,22 @@
 
 <script lang="ts" setup>
 const appName: string = useRuntimeConfig().public.appName;
+
+defineProps({
+    footerPages: {
+        type: Array as () => {
+            name: string;
+            href: string;
+        }[],
+        required: true,
+    },
+    footerContacts: {
+        type: Object as () => {
+            email: string;
+            phone: string;
+            address: string;
+        },
+        required: true,
+    },
+});
 </script>

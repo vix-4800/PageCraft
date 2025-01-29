@@ -1,10 +1,11 @@
 <template>
-    <div>
-        <DashboardPageName title="Product" :subtitle="product.name" />
+    <div v-if="product">
+        <dashboard-page-name title="Product" :subtitle="product.name" />
 
         <u-form
+            :state="product"
             class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"
-            @submit="submitForm"
+            @submit="save"
         >
             <div class="px-1 space-y-2">
                 <h3 class="text-xl font-bold text-gray-800">Details</h3>
@@ -156,6 +157,7 @@
                                         color="orange"
                                         size="md"
                                         label="Add Attribute"
+                                        icon="material-symbols:add"
                                         @click="addAttribute(variation)"
                                     />
 
@@ -163,6 +165,7 @@
                                         v-if="variation.attributes.length > 0"
                                         color="red"
                                         size="md"
+                                        icon="material-symbols:remove"
                                         label="Remove Attribute"
                                         @click="removeAttribute(variation)"
                                     />
@@ -176,6 +179,7 @@
                     <u-button
                         color="orange"
                         size="md"
+                        icon="material-symbols:add"
                         label="Add Variation"
                         @click="addVariation"
                     />
@@ -183,6 +187,7 @@
                         v-if="variations.length > 0"
                         color="red"
                         size="md"
+                        icon="material-symbols:remove"
                         label="Remove Variation"
                         @click="removeVariation"
                     />
@@ -190,10 +195,17 @@
             </div>
 
             <div class="flex gap-2">
-                <u-button color="blue" size="md" label="Save" type="submit" />
+                <u-button
+                    color="blue"
+                    size="md"
+                    label="Save"
+                    icon="material-symbols:save"
+                    type="submit"
+                />
                 <u-button
                     color="red"
                     size="md"
+                    icon="material-symbols:delete"
                     label="Delete"
                     @click="deleteProduct"
                 />
@@ -206,12 +218,12 @@
 import type { Product, ProductVariation } from '~/types/product';
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const route = useRoute();
 
-const product = ref<Product>({});
+const product = ref<Product>();
 const variations = ref<ProductVariation[]>([]);
 const currentShownVariation = ref(-1);
 
@@ -234,7 +246,7 @@ onMounted(async () => {
     variations.value = data.variations ?? [];
 });
 
-const submitForm = async () => {
+const save = async () => {
     await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
         method: 'PUT',
         body: product.value,
@@ -257,7 +269,7 @@ function addVariation() {
             sku: '',
             price: 0,
             stock: 0,
-            image: '',
+            image: null,
             attributes: [],
         },
     ];

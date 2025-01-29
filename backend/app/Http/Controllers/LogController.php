@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Helpers\ApiResponse;
+use App\Services\LogRetrievers\ApplicationLogRetriever;
+use App\Services\LogRetrievers\QueueLogRetriever;
+use Illuminate\Http\JsonResponse;
+
+class LogController extends Controller
+{
+    private QueueLogRetriever $queueLogs;
+
+    public function __construct(
+        private readonly ApplicationLogRetriever $appLogs,
+    ) {
+        $this->queueLogs = new QueueLogRetriever('worker.log');
+    }
+
+    /**
+     * Get latest logs.
+     */
+    public function getAppLogs(): JsonResponse
+    {
+        return ApiResponse::create($this->appLogs->retrieve());
+    }
+
+    public function deleteAppLogs(): JsonResponse
+    {
+        $this->appLogs->clear();
+
+        return ApiResponse::create();
+    }
+
+    public function getQueueLogs(): JsonResponse
+    {
+        return ApiResponse::create($this->queueLogs->retrieve());
+    }
+
+    public function deleteQueueLogs(): JsonResponse
+    {
+        $this->queueLogs->clear();
+
+        return ApiResponse::create();
+    }
+}

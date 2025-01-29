@@ -1,37 +1,52 @@
 <template>
     <div>
-        <component
-            :is="productListComponent"
-            :products="newProducts"
-            title="New Arrivals"
-            :loading="newProductsLoading"
-        />
+        <section id="new">
+            <page-title
+                title="New Arrivals"
+                subtitle="New products from our store"
+            />
 
-        <hr class="my-10" />
+            <component
+                :is="productListComponent"
+                :products="newProducts"
+                title="New Arrivals"
+                :loading="newProductsLoading"
+            />
+        </section>
 
-        <component
-            :is="productListComponent"
-            :products="popularProducts"
-            title="Popular Products"
-            :loading="popularProductsLoading"
-        />
+        <u-divider class="my-10" />
 
-        <hr class="my-10" />
+        <section id="popular">
+            <page-title
+                title="Popular Products"
+                subtitle="Products that are currently popular"
+            />
 
-        <div
-            class="font-[sans-serif] py-4 mx-auto lg:max-w-6xl max-w-lg md:max-w-full"
-        >
-            <h2 class="mb-6 text-4xl font-extrabold text-gray-800">
-                Latest News
-            </h2>
-            <p class="text-2xl font-bold text-center text-gray-800">
-                Coming soon...
-            </p>
-        </div>
+            <component
+                :is="productListComponent"
+                :products="popularProducts"
+                title="Popular Products"
+                :loading="popularProductsLoading"
+            />
+        </section>
+
+        <u-divider class="my-10" />
+
+        <section id="articles">
+            <page-title title="Articles" subtitle="Articles from our blog" />
+
+            <component
+                :is="articleListComponent"
+                :articles="articles"
+                title="Articles"
+                :loading="articlesLoading"
+            />
+        </section>
     </div>
 </template>
 
 <script lang="ts" setup>
+import type { Article } from '~/types/article';
 import type { Product } from '~/types/product';
 import { TemplateBlock } from '~/types/site_template';
 
@@ -51,8 +66,25 @@ const popularProductsLoading = ref(true);
 const newProducts = ref<Product[]>([]);
 const newProductsLoading = ref(true);
 
+const articles = ref<Article[]>([]);
+const articlesLoading = ref(false);
+
+const articleList = ref(templateStore.getTemplate(TemplateBlock.ArticleList));
+const articleListComponent = defineAsyncComponent({
+    loader: () => import(`@/components/article-list/${articleList.value}.vue`),
+    delay: 200,
+    errorComponent: () => import(`@/components/article-list/default.vue`),
+    timeout: 3000,
+});
+
 onMounted(async () => {
-    const { data: popularProductsData } = await apiFetch<{ data: Product[] }>(
+    await getPopularProducts();
+    await getNewProducts();
+    await getArticles();
+});
+
+const getPopularProducts = async () => {
+    const { data } = await apiFetch<{ data: Product[] }>(
         `v1/products/popular`,
         {
             params: {
@@ -61,19 +93,31 @@ onMounted(async () => {
         }
     );
 
-    popularProducts.value = popularProductsData;
+    popularProducts.value = data;
     popularProductsLoading.value = false;
+};
 
-    const { data: newProductsData } = await apiFetch<{ data: Product[] }>(
-        `v1/products/new`,
-        {
-            params: {
-                limit: productList.value === 'compact' ? 4 : 6,
-            },
-        }
-    );
+const getNewProducts = async () => {
+    const { data } = await apiFetch<{ data: Product[] }>(`v1/products/new`, {
+        params: {
+            limit: productList.value === 'compact' ? 4 : 6,
+        },
+    });
 
-    newProducts.value = newProductsData;
+    newProducts.value = data;
     newProductsLoading.value = false;
-});
+};
+
+const getArticles = async () => {
+    articlesLoading.value = true;
+
+    const { data } = await apiFetch<{ data: Article[] }>('v1/articles', {
+        params: {
+            limit: 6,
+        },
+    });
+
+    articles.value = data;
+    articlesLoading.value = false;
+};
 </script>

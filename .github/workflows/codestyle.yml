@@ -15,7 +15,7 @@ jobs:
                   node-version: 22
             - name: Install Dependencies
               working-directory: frontend
-              run: npm install
+              run: npm install --force
             - name: Run Eslint
               working-directory: frontend
               run: npm run lint

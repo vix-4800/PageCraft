@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <DashboardPageName
+        <dashboard-page-name
             title="User"
             :subtitle="`#${user?.id}`"
             :description="
@@ -25,7 +25,7 @@
                     @click="deleteUser"
                 />
             </template>
-        </DashboardPageName>
+        </dashboard-page-name>
 
         <div>
             <u-card :ui="{ background: 'bg-slate-100' }">
@@ -80,7 +80,7 @@ import type { FormSubmitEvent } from '#ui/types';
 
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['dashboard', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 
 const { $notify } = useNuxtApp();

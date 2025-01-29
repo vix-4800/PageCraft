@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\User\UserShortResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,10 +24,15 @@ class ReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => UserShortResource::make($this->whenLoaded('user')),
+            'product' => ProductResource::make($this->whenLoaded('product')),
+            'reactions' => [
+                'likes' => $this->likesCount(),
+                'dislikes' => $this->dislikesCount(),
+            ],
             'rating' => $this->rating,
             'text' => $this->text,
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }
 }

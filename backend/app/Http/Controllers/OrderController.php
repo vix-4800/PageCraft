@@ -24,7 +24,7 @@ class OrderController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(['auth:sanctum', 'admin'], except: ['store']),
+            new Middleware(['auth:sanctum', 'admin'], except: ['store', 'userOrders']),
         ];
     }
 

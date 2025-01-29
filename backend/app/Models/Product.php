@@ -47,6 +47,7 @@ use Laravel\Scout\Searchable;
  */
 class Product extends Model
 {
+    /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory, Searchable;
 
     /**

@@ -17,12 +17,16 @@ pull:
 	@echo "\nPulling images..."
 	@docker compose -f $(FRONTEND_DOCKER_FILE) pull
 	@docker compose -f $(BACKEND_DOCKER_FILE) pull
+build:
+	@echo "\nBuilding images..."
+	@docker compose -f $(FRONTEND_DOCKER_FILE) build
+	@docker compose -f $(BACKEND_DOCKER_FILE) build
 
 # Frontend
 start_frontend:
 	@echo "\nStarting Frontend..."
 	@docker compose -f $(FRONTEND_DOCKER_FILE) up -d
-	@echo "\nFrontend can be accessed at http://localhost:80"
+	@echo "\nFrontend can be accessed at http://localhost"
 stop_frontend:
 	@echo "\nStopping Frontend..."
 	@docker compose -f $(FRONTEND_DOCKER_FILE) down

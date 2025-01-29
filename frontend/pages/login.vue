@@ -1,18 +1,9 @@
 <template>
     <div>
-        <div class="flex justify-center mb-4">
-            <nuxt-link
-                to="/"
-                class="w-24 transition duration-200 opacity-50 hover:opacity-100 max-h-24"
-            >
-                <nuxt-img
-                    src="/logo.png"
-                    :alt="useRuntimeConfig().public.appName"
-                />
-            </nuxt-link>
-        </div>
+        <auth-home-logo />
 
         <u-form
+            ref="form"
             :state="credentials"
             :schema="schema"
             class="space-y-4"
@@ -40,24 +31,34 @@
                 />
             </u-form-group>
 
-            <u-checkbox
-                v-model="credentials.remember"
-                color="blue"
-                class="text-gray-100"
-            >
-                <template #label>
-                    <span class="italic text-gray-100">Remember me</span>
-                </template>
-            </u-checkbox>
+            <div class="flex justify-between">
+                <u-checkbox
+                    v-model="credentials.remember"
+                    color="blue"
+                    class="text-gray-100"
+                >
+                    <template #label>
+                        <span class="italic text-gray-100">Remember me</span>
+                    </template>
+                </u-checkbox>
+
+                <nuxt-link to="/forgot-password">
+                    <span class="text-sm text-gray-100 hover:underline">
+                        Forgot password?
+                    </span>
+                </nuxt-link>
+            </div>
 
             <div class="flex justify-center gap-4">
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                     size="lg"
                     label="Login"
                     block
                     type="submit"
                     icon="material-symbols:login-rounded"
+                    :loading="loading"
+                    color="gray"
                 />
 
                 <u-button
@@ -101,22 +102,33 @@
 
 <script lang="ts" setup>
 import { z } from 'zod';
-import type { FormSubmitEvent } from '#ui/types';
+import type { FormSubmitEvent, Form } from '#ui/types';
 import { OAuthProvider } from '~/types/oauth_provider';
 
 definePageMeta({
     layout: 'auth',
+    middleware: [
+        function () {
+            const authStore = useAuthStore();
+
+            if (authStore.isAuthenticated) {
+                return navigateTo(
+                    `/dashboard/${authStore.isAdmin ? 'admin' : 'user'}`
+                );
+            }
+        },
+    ],
 });
+
+const authStore = useAuthStore();
 
 const schema = z.object({
     email: z.string().min(1, 'Email is required').email('Email is invalid'),
-    password: z
-        .string()
-        .min(1, 'Password is required')
-        .min(8, 'Password must be at least 8 characters'),
+    password: z.string().min(1, 'Password is required'),
     remember: z.boolean(),
 });
 
+const form = ref<Form<Schema>>();
 type Schema = z.output<typeof schema>;
 
 const credentials = reactive({
@@ -125,9 +137,25 @@ const credentials = reactive({
     remember: true as boolean | undefined,
 });
 
-const authStore = useAuthStore();
+const loading = ref(false);
 const submitForm = async (event: FormSubmitEvent<Schema>) => {
-    await authStore.login(event.data);
+    form.value!.clear();
+    loading.value = true;
+
+    try {
+        await authStore.login(event.data);
+    } catch (err) {
+        if (err?.statusCode === 422) {
+            form.value!.setErrors([
+                {
+                    path: 'email',
+                    message: err.data.errors.email[0],
+                },
+            ]);
+        }
+    } finally {
+        loading.value = false;
+    }
 };
 
 const githubLogin = async () => {
