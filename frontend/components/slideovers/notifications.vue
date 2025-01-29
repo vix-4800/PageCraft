@@ -21,20 +21,42 @@
                         @click="slideover.close()"
                     />
 
-                    <h3 class="text-2xl font-semibold">Notifications</h3>
-                    <p
-                        v-if="notifications.length > 0"
-                        class="text-gray-600 text-md"
-                    >
-                        You have
-                        <span class="font-semibold">
-                            {{ notifications.length }}
-                        </span>
-                        unread notifications
-                    </p>
-                    <p v-else class="text-gray-600 text-md">
-                        You don't have any new notifications
-                    </p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-semibold">
+                                Notifications
+                            </h3>
+                            <p
+                                v-if="notifications.length > 0"
+                                class="text-gray-600 text-md"
+                            >
+                                You have
+                                <span class="font-semibold">
+                                    {{ notifications.length }}
+                                </span>
+                                unread notifications
+                            </p>
+                            <p v-else class="text-gray-600 text-md">
+                                You don't have any new notifications
+                            </p>
+                        </div>
+
+                        <u-tooltip
+                            v-if="notifications.length > 0"
+                            text="Mark all as read"
+                            :popper="{ placement: 'top' }"
+                        >
+                            <u-button
+                                class="hidden sm:flex"
+                                color="gray"
+                                variant="ghost"
+                                icon="material-symbols:mark-chat-read"
+                                square
+                                padded
+                                @click="readAll"
+                            />
+                        </u-tooltip>
+                    </div>
                 </template>
 
                 <div class="h-full space-y-2 overflow-y-auto">
@@ -97,5 +119,13 @@ const readNotification = async (notification: Notification) => {
     }
 
     slideover.close();
+};
+
+const readAll = async () => {
+    await apiFetch<{ data: Notification[] }>(`user/notifications`, {
+        method: 'PATCH',
+    });
+
+    notifications.value = [];
 };
 </script>

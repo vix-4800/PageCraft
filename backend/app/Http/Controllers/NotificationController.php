@@ -8,6 +8,7 @@ use App\Helpers\ApiResponse;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 class NotificationController extends Controller
@@ -28,5 +29,12 @@ class NotificationController extends Controller
     private function getUserNotifications(User $user): Collection
     {
         return $user->unreadNotifications()->get();
+    }
+
+    public function readAllNotifications(Request $request): Response
+    {
+        $request->user()->unreadNotifications->markAsRead();
+
+        return ApiResponse::empty();
     }
 }

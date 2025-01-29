@@ -90,6 +90,7 @@ Route::name('api.')->group(function (): void {
 
     Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
+    Route::patch('user/notifications', [NotificationController::class, 'readAllNotifications'])->name('user.notifications.read-all');
 
     Route::prefix('oauth/{provider}')->name('oauth.')->group(function (): void {
         Route::get('redirect', [OAuthController::class, 'oauthRedirect'])->name('redirect');
