@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $ram_total
  * @property float $network_incoming
  * @property float $network_outgoing
+ * @property bool $is_database_up
  * @property \Illuminate\Support\Carbon $collected_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric newModelQuery()
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamUsage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereNetworkIncoming($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereNetworkOutgoing($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereIsDatabaseUp($value)
  *
  * @mixin \Eloquent
  */
@@ -44,6 +46,7 @@ class PerformanceMetric extends Model
         'ram_total',
         'network_incoming',
         'network_outgoing',
+        'is_database_up',
         'collected_at',
     ];
 
@@ -58,6 +61,7 @@ class PerformanceMetric extends Model
         'ram_total' => 'float',
         'network_incoming' => 'float',
         'network_outgoing' => 'float',
+        'is_database_up' => 'boolean',
         'collected_at' => 'datetime',
     ];
 

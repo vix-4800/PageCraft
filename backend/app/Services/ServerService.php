@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
+
 class ServerService
 {
     /**
@@ -85,6 +87,12 @@ class ServerService
         ];
     }
 
+    /**
+     * Read network interface statistics from /proc/net/dev.
+     *
+     * @return array Associative array with network interface as key, and an
+     *               associative array as value with 'incoming' and 'outgoing' keys (in bytes).
+     */
     public function getNetworkUsage(): array
     {
         $networkStats = [];
@@ -107,5 +115,19 @@ class ServerService
         }
 
         return $networkStats;
+    }
+
+    /**
+     * Checks if the database connection is up.
+     */
+    public function isDatabaseUp(): bool
+    {
+        try {
+            DB::connection()->getPdo();
+
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 }

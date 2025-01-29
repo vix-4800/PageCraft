@@ -32,10 +32,12 @@ class CollectPerformanceMetrics extends Command
         $cpu = Server::getCpuUsage();
         $ram = Server::getRamUsage();
         $network = Server::getNetworkUsage();
+        $databaseStatus = Server::isDatabaseUp();
 
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
         $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
+        $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
 
         PerformanceMetric::create([
             'cpu_usage' => $cpu,
@@ -43,6 +45,7 @@ class CollectPerformanceMetrics extends Command
             'ram_total' => $ram['total'],
             'network_incoming' => $network['eth0']['incoming'],
             'network_outgoing' => $network['eth0']['outgoing'],
+            'is_database_up' => $databaseStatus,
         ]);
     }
 }

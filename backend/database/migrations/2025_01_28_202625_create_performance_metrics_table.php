@@ -24,6 +24,8 @@ return new class extends Migration
             $table->float('network_incoming', 2);
             $table->float('network_outgoing', 2);
 
+            $table->boolean('is_database_up');
+
             $table->timestamp('collected_at');
         });
     }
