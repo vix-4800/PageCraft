@@ -130,4 +130,12 @@ class ServerService
             return false;
         }
     }
+
+    public function getUptime(): string
+    {
+        $uptime = file_get_contents('/proc/uptime');
+        $uptime = (float) explode(' ', $uptime)[0];
+
+        return gmdate('H:i:s', (int) $uptime);
+    }
 }

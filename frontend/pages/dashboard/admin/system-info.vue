@@ -13,7 +13,7 @@
             </template>
         </dashboard-page-name>
 
-        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-6 md:gap-6">
+        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-9 md:gap-6">
             <card-mini
                 label="Database Status"
                 :value="isDatabaseHealthy ? 'Healthy' : 'Not Healthy'"
@@ -25,6 +25,8 @@
                 :value="isCacheHealthy ? 'Healthy' : 'Not Healthy'"
                 :value-color="isCacheHealthy ? 'green-500' : 'red-500'"
             />
+
+            <card-mini label="Uptime" :value="uptime" />
         </div>
 
         <section id="cpu-metrics" class="h-96">
@@ -54,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PerformanceMetric } from '~/types/site_metric';
+import type { SystemReport } from '~/types/system_report';
 
 definePageMeta({
     layout: 'dashboard',
@@ -84,7 +86,7 @@ const tooltip = {
 };
 
 const loading = ref(false);
-const cpuMetricsOption = ref<ECOption>({
+const cpuMetricsOption = reactive<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
@@ -110,7 +112,7 @@ const cpuMetricsOption = ref<ECOption>({
     visualMap: visualMap,
     animationEasing: 'quadraticIn',
 });
-const ramMetricsOption = ref<ECOption>({
+const ramMetricsOption = reactive<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
@@ -136,7 +138,7 @@ const ramMetricsOption = ref<ECOption>({
     visualMap: visualMap,
     animationEasing: 'quadraticIn',
 });
-const networkMetricsOption = ref<ECOption>({
+const networkMetricsOption = reactive<ECOption>({
     xAxis: {
         data: [],
         type: 'category',
@@ -175,53 +177,46 @@ onMounted(async () => {
     loading.value = true;
 
     await fetchMetrics();
-    setInterval(fetchMetrics, 15000);
 
     loading.value = false;
 });
 
 const isDatabaseHealthy = ref(false);
 const isCacheHealthy = ref(false);
+const uptime = ref('');
 const fetchMetrics = async () => {
-    const { data } = await apiFetch<{ data: PerformanceMetric[] }>(
-        'v1/metrics'
-    );
+    const { data } = await apiFetch<{ data: SystemReport[] }>('v1/reports');
 
     if (data.length > 0) {
-        cpuMetricsOption.value.xAxis.data = data.map(
-            (metric) => metric.collected_at
-        );
-        cpuMetricsOption.value.series.data = data.map(
-            (metric) => metric.cpu_usage
-        );
+        cpuMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
+        cpuMetricsOption.series.data = data.map((metric) => metric.cpu_usage);
 
-        ramMetricsOption.value.series.data = data.map(
-            (metric) => metric.ram_usage
-        );
-        ramMetricsOption.value.xAxis.data = data.map(
-            (metric) => metric.collected_at
-        );
-        ramMetricsOption.value.visualMap.max = data[0].ram_total;
-        ramMetricsOption.value.yAxis.max = data[0].ram_total;
+        ramMetricsOption.series.data = data.map((metric) => metric.ram_usage);
+        ramMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
+        ramMetricsOption.visualMap.max = data[0].ram_total;
+        ramMetricsOption.yAxis.max = data[0].ram_total;
 
-        networkMetricsOption.value.series[0].data = data.map(
+        networkMetricsOption.series[0].data = data.map(
             (metric) => metric.network_incoming
         );
-        networkMetricsOption.value.series[1].data = data.map(
+        networkMetricsOption.series[1].data = data.map(
             (metric) => metric.network_outgoing
         );
-        networkMetricsOption.value.xAxis.data = data.map(
+        networkMetricsOption.xAxis.data = data.map(
             (metric) => metric.collected_at
         );
 
         isDatabaseHealthy.value = data[data.length - 1].is_database_up;
+        isCacheHealthy.value = data[data.length - 1].is_cache_up;
+
+        uptime.value = data[data.length - 1].uptime;
     }
 };
 
 const refreshing = ref(false);
 const refreshLogs = async () => {
     refreshing.value = true;
-    await apiFetch('v1/metrics/refresh', { method: 'POST' });
+    await apiFetch('v1/reports/refresh', { method: 'POST' });
     await fetchMetrics();
     refreshing.value = false;
 };

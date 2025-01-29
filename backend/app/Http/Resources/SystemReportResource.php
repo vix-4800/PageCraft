@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\PerformanceMetric
+ * @mixin \App\Models\SystemReport
  */
-class PerformanceMetricResource extends JsonResource
+class SystemReportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,6 +26,8 @@ class PerformanceMetricResource extends JsonResource
             'network_incoming' => $this->network_incoming,
             'network_outgoing' => $this->network_outgoing,
             'is_database_up' => $this->is_database_up,
+            'is_cache_up' => $this->is_cache_up,
+            'uptime' => $this->uptime,
             'collected_at' => $this->collected_at?->format('Y-m-d H:i') ?? null,
         ];
     }

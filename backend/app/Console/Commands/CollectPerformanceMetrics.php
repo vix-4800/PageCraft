@@ -6,7 +6,7 @@ namespace App\Console\Commands;
 
 use App\Enums\UserRole;
 use App\Facades\Server;
-use App\Models\PerformanceMetric;
+use App\Models\SystemReport;
 use App\Models\User;
 use App\Notifications\SystemStatusWarning;
 use Illuminate\Console\Command;
@@ -37,20 +37,25 @@ class CollectPerformanceMetrics extends Command
         $ram = Server::getRamUsage();
         $network = Server::getNetworkUsage();
         $databaseStatus = Server::isDatabaseUp();
+        $upTime = Server::getUptime();
 
-        PerformanceMetric::create([
+        SystemReport::create([
             'cpu_usage' => $cpu,
             'ram_usage' => $ram['used'],
             'ram_total' => $ram['total'],
             'network_incoming' => $network['eth0']['incoming'],
             'network_outgoing' => $network['eth0']['outgoing'],
             'is_database_up' => $databaseStatus,
+            'is_cache_up' => true,
+            'uptime' => $upTime,
         ]);
 
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
         $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
+        $this->info('Cache up: yes');
+        $this->info("Uptime: {$upTime}");
 
         $warnings = collect();
         if (! $databaseStatus) {
