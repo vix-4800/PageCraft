@@ -30,7 +30,7 @@ class ServerService
      *
      * @return array Associative array of CPU stats.
      */
-    private function readCpuStats(): array
+    protected function readCpuStats(): array
     {
         $cpuStats = [];
         $statFile = fopen('/proc/stat', 'r');
@@ -59,7 +59,7 @@ class ServerService
      *
      * @return array Associative array with RAM details in MB.
      */
-    public function getMemoryUsage(): array
+    public function getRamUsage(): array
     {
         $memInfo = [];
         $file = fopen('/proc/meminfo', 'r');
@@ -68,8 +68,8 @@ class ServerService
             while (($line = fgets($file)) !== false) {
                 if (preg_match('/^(\w+):\s+(\d+)/', $line, $matches)) {
                     $key = $matches[1];
-                    $value = (int) $matches[2]; // Значение в кБ.
-                    $memInfo[$key] = round($value / 1024, 2); // Переводим в МБ.
+                    $value = (int) $matches[2];
+                    $memInfo[$key] = round($value / 1024, 2);
                 }
             }
             fclose($file);
@@ -77,6 +77,7 @@ class ServerService
 
         return [
             'total' => $memInfo['MemTotal'] ?? 0,
+            'used' => round($memInfo['MemTotal'] - $memInfo['MemFree'] - $memInfo['Buffers'] - $memInfo['Cached'], 2),
             'free' => $memInfo['MemFree'] ?? 0,
             'buffers' => $memInfo['Buffers'] ?? 0,
             'cached' => $memInfo['Cached'] ?? 0,

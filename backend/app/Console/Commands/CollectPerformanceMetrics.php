@@ -30,16 +30,15 @@ class CollectPerformanceMetrics extends Command
     public function handle(): void
     {
         $cpu = Server::getCpuUsage();
-        $ram = Server::getMemoryUsage();
+        $ram = Server::getRamUsage();
 
         $this->info("CPU: {$cpu} %");
-        $this->info("Memory: free: {$ram['free']} MB, total: {$ram['total']} MB");
+        $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
 
-        PerformanceMetric::insert([
+        PerformanceMetric::create([
             'cpu_usage' => $cpu,
-            'ram_usage' => $ram['total'] - $ram['free'] - $ram['buffers'] - $ram['cached'],
+            'ram_usage' => $ram['used'],
             'ram_total' => $ram['total'],
-            'collected_at' => now(),
         ]);
     }
 }

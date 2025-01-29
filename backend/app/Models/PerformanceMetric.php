@@ -52,4 +52,11 @@ class PerformanceMetric extends Model
         'ram_total' => 'float',
         'collected_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $metric): void {
+            $metric->collected_at = now();
+        });
+    }
 }
