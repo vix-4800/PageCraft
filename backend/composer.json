@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.9",
         "laravolt/avatar": "^6.0",
         "meilisearch/meilisearch-php": "^1.11",
-        "predis/predis": "^2.2"
+        "predis/predis": "^2.2",
+        "stevebauman/purify": "^6.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",

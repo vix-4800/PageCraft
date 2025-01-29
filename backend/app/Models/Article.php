@@ -8,6 +8,7 @@ use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Stevebauman\Purify\Facades\Purify;
 
 /**
  * @property int $id
@@ -92,5 +93,10 @@ class Article extends Model
     public function isPublished(): bool
     {
         return $this->status === ArticleStatus::PUBLISHED;
+    }
+
+    public function setContentAttribute($value): void
+    {
+        $this->attributes['content'] = Purify::clean($value);
     }
 }
