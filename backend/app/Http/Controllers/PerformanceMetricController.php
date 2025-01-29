@@ -12,6 +12,6 @@ class PerformanceMetricController extends Controller
 {
     public function __invoke(): JsonResource
     {
-        return PerformanceMetricResource::collection(PerformanceMetric::orderBy('collected_at', 'desc')->take(15)->get());
+        return PerformanceMetricResource::collection(PerformanceMetric::take(50)->get());
     }
 }

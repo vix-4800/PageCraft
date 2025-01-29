@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property float $cpu_usage
- * @property float $memory_usage
+ * @property float $ram_usage
+ * @property float $ram_total
  * @property \Illuminate\Support\Carbon $collected_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric newModelQuery()
@@ -18,7 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereCollectedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereCpuUsage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereMemoryUsage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamUsage($value)
+ *                                                                                                      method static \Illuminate\Database\Eloquent\Builder<static>|PerformanceMetric whereRamTotal($value)
  *
  * @mixin \Eloquent
  */
@@ -33,7 +35,8 @@ class PerformanceMetric extends Model
      */
     protected $fillable = [
         'cpu_usage',
-        'memory_usage',
+        'ram_usage',
+        'ram_total',
         'collected_at',
     ];
 
@@ -44,7 +47,8 @@ class PerformanceMetric extends Model
      */
     protected $casts = [
         'cpu_usage' => 'float',
-        'memory_usage' => 'float',
+        'ram_usage' => 'float',
+        'ram_total' => 'float',
         'collected_at' => 'datetime',
     ];
 }

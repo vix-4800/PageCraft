@@ -42,18 +42,22 @@ const metricsOption = ref<ECOption>({
         {
             type: 'value',
             gridIndex: 1,
+            max: 0,
+            min: 0,
         },
     ],
     series: [
         {
             data: [],
             type: 'line',
+            showSymbol: false,
         },
         {
             data: [],
             type: 'line',
             xAxisIndex: 1,
             yAxisIndex: 1,
+            showSymbol: false,
         },
     ],
     title: [
@@ -82,10 +86,16 @@ const metricsOption = ref<ECOption>({
             show: false,
             type: 'continuous',
             seriesIndex: 1,
-            dimension: 0,
             min: 0,
+            max: 0,
         },
     ],
+    toolbox: {
+        right: 10,
+        feature: {
+            saveAsImage: {},
+        },
+    },
     grid: [
         {
             bottom: '60%',
@@ -104,8 +114,6 @@ onMounted(async () => {
         'v1/metrics'
     );
 
-    console.log(metricsOption.value);
-
     metricsOption.value.xAxis[0].data = data.map(
         (metric) => metric.collected_at
     );
@@ -114,9 +122,10 @@ onMounted(async () => {
     );
 
     metricsOption.value.series[0].data = data.map((metric) => metric.cpu_usage);
-    metricsOption.value.series[1].data = data.map(
-        (metric) => metric.memory_usage
-    );
+    metricsOption.value.series[1].data = data.map((metric) => metric.ram_usage);
+    metricsOption.value.visualMap[1].max = data[0].ram_total;
+    metricsOption.value.yAxis[1].max = data[0].ram_total;
+
     metricsLoading.value = false;
 });
 </script>

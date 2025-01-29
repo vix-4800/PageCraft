@@ -153,6 +153,12 @@ const earningsOption = ref<ECOption>({
     tooltip: {
         trigger: 'axis',
     },
+    toolbox: {
+        right: 10,
+        feature: {
+            saveAsImage: {},
+        },
+    },
 });
 
 onMounted(async () => {

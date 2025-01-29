@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('performance_metrics', function (Blueprint $table): void {
             $table->id();
 
-            $table->float('cpu_usage');
-            $table->float('memory_usage');
+            $table->float('cpu_usage', 2);
+            $table->float('ram_usage', 2);
+            $table->float('ram_total', 2);
 
             $table->timestamp('collected_at');
         });

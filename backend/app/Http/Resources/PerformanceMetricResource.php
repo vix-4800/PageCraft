@@ -21,7 +21,8 @@ class PerformanceMetricResource extends JsonResource
     {
         return [
             'cpu_usage' => $this->cpu_usage,
-            'memory_usage' => $this->memory_usage,
+            'ram_usage' => $this->ram_usage,
+            'ram_total' => $this->ram_total,
             'collected_at' => $this->collected_at?->format('Y-m-d H:i') ?? null,
         ];
     }
