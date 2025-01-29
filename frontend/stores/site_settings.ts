@@ -77,6 +77,11 @@ export const useSiteSettingsStore = defineStore('site_settings', {
     },
     getters: {
         fetched: (state) => state.settings.length > 0,
+        isMaintenance: (state) => {
+            return state.settings.find(
+                (setting) => setting.key === SettingKey.IsMaintenance
+            )?.value;
+        },
     },
     persist: true,
 });

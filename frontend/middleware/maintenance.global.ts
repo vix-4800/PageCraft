@@ -1,10 +1,25 @@
-import { SettingKey } from '~/types/site_setting';
-
 export default defineNuxtRouteMiddleware((to) => {
     const settingStore = useSiteSettingsStore();
-    // const inMaintenance = settingStore.getSetting(SettingKey.Maintenance);
+    const authStore = useAuthStore();
 
-    // if (inMaintenance && to.path !== '/maintenance') {
-    //     return navigateTo('/maintenance');
-    // }
+    if (!settingStore.fetched) {
+        settingStore.fetch().catch(() => {
+            throw new Error('Setting fetch failed');
+        });
+    }
+
+    if (
+        !authStore.isAuthenticated ||
+        !authStore.isAdmin ||
+        !authStore.isVerified
+    ) {
+        if (
+            settingStore.isMaintenance &&
+            !['/maintenance', '/login', '/verify-email', 'two-factor'].includes(
+                to.path
+            )
+        ) {
+            return navigateTo('/maintenance');
+        }
+    }
 });

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\SettingType;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        Setting::insert([
+        $settings = [
             [
                 'key' => 'description',
                 'value' => 'PageCraft is a lightweight, free and open source CMS for your website.',
@@ -63,6 +64,15 @@ class SettingSeeder extends Seeder
                 'key' => 'social_telegram',
                 'value' => 'https://t.me/pagecraft',
             ],
-        ]);
+            [
+                'key' => 'is_maintenance',
+                'value' => false,
+                'type' => SettingType::BOOLEAN,
+            ],
+        ];
+
+        foreach ($settings as $setting) {
+            Setting::insert($setting);
+        }
     }
 }
