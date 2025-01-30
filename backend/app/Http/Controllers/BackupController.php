@@ -10,6 +10,7 @@ use App\Helpers\ApiResponse;
 use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 
 class BackupController extends Controller
 {
@@ -22,7 +23,7 @@ class BackupController extends Controller
     public function create(): Response
     {
         try {
-            $this->service->create();
+            Artisan::call('backup:create');
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $th) {

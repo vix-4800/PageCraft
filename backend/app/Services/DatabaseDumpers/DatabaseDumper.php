@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\DatabaseDumpers;
 
+use App\Helpers\DatabaseBackup;
 use Illuminate\Support\Collection;
 
 abstract class DatabaseDumper
@@ -32,20 +33,44 @@ abstract class DatabaseDumper
      *
      * @throws \App\Exceptions\DatabaseBackupException
      */
-    abstract public function create(): void;
+    abstract public function create(string $filename): void;
 
     /**
      * Get a list of all available backups.
      */
-    abstract public function list(): Collection;
+    public function list(): Collection
+    {
+        if (! is_dir($this->backupDir)) {
+            return [];
+        }
+
+        $backups = collect();
+        $files = scandir($this->backupDir);
+        $files = array_filter($files, fn ($file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
+
+        foreach ($files as $file) {
+            $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
+        }
+
+        return $backups;
+    }
 
     /**
      * Delete a database backup.
      */
-    abstract public function delete(string $file): void;
+    public function delete(string $file): void
+    {
+        unlink("{$this->backupDir}/{$file}");
+    }
 
     /**
      * Delete all database backups.
      */
-    abstract public function deleteAll(): void;
+    public function deleteAll(): void
+    {
+        /** @var array $file */
+        foreach ($this->list() as $file) {
+            $this->delete($file['name']);
+        }
+    }
 }

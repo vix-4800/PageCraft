@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Events\DatabaseDumpCreated;
+use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -16,7 +17,7 @@ class CreateDatabaseDump implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        private readonly string $filepath
+        private readonly string $filename
     ) {
         //
     }
@@ -26,20 +27,8 @@ class CreateDatabaseDump implements ShouldQueue
      */
     public function handle(): void
     {
-        $command = sprintf(
-            'mysqldump --user=%s --password=%s --host=%s %s > %s',
-            escapeshellarg(env('DB_USERNAME')),
-            escapeshellarg(env('DB_PASSWORD')),
-            escapeshellarg(env('DB_HOST')),
-            escapeshellarg(env('DB_DATABASE')),
-            escapeshellarg($this->filepath)
-        );
+        resolve(DatabaseDumper::class)->create($this->filename);
 
-        $returnVar = null;
-        exec($command, result_code: $returnVar);
-
-        if ($returnVar == 0) {
-            DatabaseDumpCreated::dispatch();
-        }
+        DatabaseDumpCreated::dispatch();
     }
 }
