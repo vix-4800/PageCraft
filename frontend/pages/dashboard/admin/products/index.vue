@@ -15,7 +15,7 @@
                     color="blue"
                     size="md"
                     icon="material-symbols:add"
-                    label="Add Product"
+                    label="Create Product"
                     @click="navigateTo('/dashboard/admin/products/create')"
                 />
             </template>

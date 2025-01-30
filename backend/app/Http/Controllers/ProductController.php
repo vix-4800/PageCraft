@@ -8,7 +8,6 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\Product\ProductShowResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -100,7 +99,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return new ProductShowResource(
+        return new ProductResource(
             $this->service->storeProduct($validated)
         );
     }
@@ -110,7 +109,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return new ProductShowResource(
+        return new ProductResource(
             $product->load('variations.productVariationAttributes')
         );
     }
@@ -122,7 +121,7 @@ class ProductController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return new ProductShowResource(
+        return new ProductResource(
             $this->service->updateProduct($validated, $product)
         );
     }

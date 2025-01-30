@@ -28,9 +28,11 @@ class ProductService
         try {
             DB::beginTransaction();
 
-            $imagePath = null;
-            if (isset($productData['image'])) {
-                $imagePath = Storage::put('products', $productData['image']);
+            $images = collect();
+            if (isset($productData['product_images'])) {
+                foreach ($productData['product_images'] as $index => $image) {
+                    $images->push(Storage::disk('public')->put('products', $productData['product_images'][$index]));
+                }
             }
 
             /** @var Product $product */
@@ -38,7 +40,7 @@ class ProductService
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $imagePath,
+                'product_images' => $images->toArray(),
             ]);
 
             $this->addVariationsToProduct($product, collect($productData['variations']));
@@ -63,11 +65,18 @@ class ProductService
         try {
             DB::beginTransaction();
 
+            $images = collect();
+            if (isset($productData['product_images'])) {
+                foreach ($productData['product_images'] as $index => $image) {
+                    $images->push(Storage::disk('public')->put('products', $productData['product_images'][$index]));
+                }
+            }
+
             $product->update([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $productData['image'] ?? null,
+                'product_images' => $images->toArray(),
             ]);
 
             $product->variations()->delete();
