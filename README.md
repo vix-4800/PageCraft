@@ -17,6 +17,7 @@ PageCraft is a lightweight, free and open source CMS for your website.
 -   **Контроль версий:** Git
 -   **Автоматизация и CI/CD:** GitHub Actions, GitLab CI
 -   **Полнотекстовый поиск:** Meilisearch
+-   **Веб-аналитика:** Matomo
 
 <p align="center">
     <img src="./assets/dashboard_preview.png" alt="Dashboard" style="border-radius: 10px; margin-bottom: 10px" />
