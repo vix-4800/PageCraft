@@ -37,7 +37,17 @@
                 icon: 'material-symbols:info',
                 label: 'No backups',
             }"
-        />
+        >
+            <template #actions-data="{ row }">
+                <u-dropdown :items="actions(row)">
+                    <u-button
+                        color="gray"
+                        variant="ghost"
+                        icon="i-heroicons-ellipsis-horizontal-20-solid"
+                    />
+                </u-dropdown>
+            </template>
+        </u-table>
     </div>
 </template>
 
@@ -62,6 +72,19 @@ const columns = [
         label: 'Size',
         sortable: true,
     },
+    {
+        key: 'actions',
+    },
+];
+
+const actions = (row) => [
+    [
+        {
+            label: 'Restore',
+            icon: 'material-symbols:restore-page',
+            click: () => restoreBackup(row.name),
+        },
+    ],
 ];
 
 const { $notify } = useNuxtApp();
@@ -113,7 +136,7 @@ const createBackup = async () => {
     creating.value = true;
 
     try {
-        await apiFetch('v1/backups', {
+        await apiFetch('v1/backups/create', {
             method: 'POST',
         });
 
@@ -126,6 +149,37 @@ const createBackup = async () => {
         $notify('Failed to create backup', 'error');
     } finally {
         creating.value = false;
+    }
+};
+
+const restoring = ref(false);
+const restoreBackup = async (backup: string) => {
+    restoring.value = true;
+
+    try {
+        withPasswordConfirmation(
+            async () => {
+                await apiFetch(`v1/backups/restore`, {
+                    method: 'POST',
+                    body: {
+                        filename: backup,
+                    },
+                });
+
+                $notify('Backup restored successfully', 'success');
+
+                await fetchBackups();
+            },
+            'Confirm backup restore',
+            'Are you sure you want to restore this backup?',
+            true
+        );
+    } catch (error) {
+        console.error(error);
+
+        $notify('Failed to restore backup', 'error');
+    } finally {
+        restoring.value = false;
     }
 };
 </script>

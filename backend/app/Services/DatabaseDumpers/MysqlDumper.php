@@ -24,4 +24,25 @@ class MysqlDumper extends DatabaseDumper
 
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup.'));
     }
+
+    public function restore(string $filename): void
+    {
+        $filePath = "{$this->backupDir}/{$filename}";
+
+        throw_unless(is_file($filePath), new DatabaseBackupException("Backup file {$filename} not found."));
+
+        $command = sprintf(
+            'mysql --user=%s --password=%s --host=%s %s < %s',
+            escapeshellarg(env('DB_USERNAME')),
+            escapeshellarg(env('DB_PASSWORD')),
+            escapeshellarg(env('DB_HOST')),
+            escapeshellarg(env('DB_DATABASE')),
+            escapeshellarg($filePath)
+        );
+
+        $returnVar = null;
+        exec($command, result_code: $returnVar);
+
+        throw_unless($returnVar === 0, new DatabaseBackupException("Failed to restore database from {$filename}."));
+    }
 }

@@ -38,7 +38,8 @@ Route::name('api.')->group(function (): void {
 
             Route::prefix('backups')->name('backup.')->group(function (): void {
                 Route::get('/', [BackupController::class, 'list'])->name('list');
-                Route::post('/', [BackupController::class, 'create'])->name('create');
+                Route::post('create', [BackupController::class, 'create'])->name('create');
+                Route::post('restore', [BackupController::class, 'restore'])->middleware('password.confirm')->name('restore');
                 Route::delete('/', [BackupController::class, 'delete'])->middleware('password.confirm')->name('delete');
             });
 

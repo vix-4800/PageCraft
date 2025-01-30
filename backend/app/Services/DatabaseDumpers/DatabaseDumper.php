@@ -36,6 +36,13 @@ abstract class DatabaseDumper
     abstract public function create(string $filename): void;
 
     /**
+     * Restore a database backup.
+     *
+     * @throws \App\Exceptions\DatabaseBackupException
+     */
+    abstract public function restore(string $filename): void;
+
+    /**
      * Get a list of all available backups.
      */
     public function list(): Collection
