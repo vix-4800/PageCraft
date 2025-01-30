@@ -1,8 +1,8 @@
 <template>
-    <div class="space-y-6">
+    <div>
         <auth-form-header
-            title="Two-Factor Authentication"
-            subtitle="Please enter the code from your authenticator application"
+            title="One-Time Password"
+            subtitle="Please enter the code from email"
         />
 
         <u-form :state="state" class="space-y-6" @submit="submitForm">
@@ -63,32 +63,33 @@ definePageMeta({
     ],
 });
 
+const authStore = useAuthStore();
+
 onMounted(() => {
     document.getElementById('code_input_0').focus();
 });
 
-const authStore = useAuthStore();
 const state = reactive(['', '', '', '', '', '']);
 
-const submitForm = async () => {
-    if (state.join('').length === 6) {
-        await authStore.confirmTwoFactorCode(state.join(''));
-    } else {
-        $notify('Please enter all digits of the code.', 'error');
-    }
-};
-
-function handleInput(index) {
+const handleInput = (index) => {
     if (index < 5) {
         document.getElementById('code_input_' + (index + 1)).focus();
     }
-}
+};
 
-function handleKeydown(index, event) {
+const handleKeydown = (index, event) => {
     const currentElement = document.getElementById('code_input_' + index);
 
     if (event.key === 'Backspace' && index > 0 && !currentElement.value) {
         document.getElementById('code_input_' + (index - 1)).focus();
     }
-}
+};
+
+const submitForm = async () => {
+    if (state.join('').length === 6) {
+        await authStore.otpVerify(state.join(''));
+    } else {
+        $notify('Please enter all digits of the code.', 'error');
+    }
+};
 </script>

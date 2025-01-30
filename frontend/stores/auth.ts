@@ -181,6 +181,20 @@ export const useAuthStore = defineStore('auth', {
 
             navigateTo('/login');
         },
+        async otpRequest() {
+            await apiFetch('auth/otp/request', {
+                method: 'POST',
+            });
+        },
+        async otpVerify(code: string) {
+            await apiFetch('auth/otp/verify', {
+                method: 'POST',
+                body: { code },
+            });
+
+            await this.fetchUser();
+            navigateTo(`/dashboard/${this.isAdmin ? 'admin' : 'user'}`);
+        },
     },
     getters: {
         isAuthenticated: (state): boolean => !!state.user,
