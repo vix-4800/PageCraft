@@ -32,6 +32,8 @@ import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
 
 const settingsStore = useSiteSettingsStore();
+const templateStore = useSiteTemplatesStore();
+const config = useRuntimeConfig();
 
 const banner = ref<Banner | null>();
 onMounted(async () => {
@@ -61,9 +63,25 @@ useHead({
             src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
         },
     ],
+    htmlAttrs: {
+        lang: 'en',
+    },
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/favicon.png',
+        },
+    ],
 });
 
-const templateStore = useSiteTemplatesStore();
+useSeoMeta({
+    ogImage: '[og:image]',
+    twitterTitle: config.public.appName,
+    twitterDescription: settingsStore.getSetting(SettingKey.Description),
+    twitterImage: '../public/logo.png',
+    twitterCard: 'summary',
+});
 
 const header = ref(templateStore.getTemplate(TemplateBlock.Header));
 const headerComponent = defineAsyncComponent({

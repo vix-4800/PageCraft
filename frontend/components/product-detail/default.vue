@@ -343,30 +343,6 @@
                         <p class="mt-2 text-xs">
                             {{ review.text }}
                         </p>
-
-                        <div class="flex items-center mt-2 space-x-2">
-                            <div class="flex items-center">
-                                <u-button
-                                    icon="line-md:thumbs-down"
-                                    :padded="false"
-                                    variant="ghost"
-                                    color="black"
-                                    :label="review.reactions.dislikes"
-                                    @click="react('dislike', review)"
-                                />
-                            </div>
-
-                            <div class="flex items-center">
-                                <u-button
-                                    icon="line-md:thumbs-up"
-                                    :padded="false"
-                                    variant="ghost"
-                                    color="black"
-                                    :label="review.reactions.likes"
-                                    @click="react('like', review)"
-                                />
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -533,22 +509,5 @@ const submitReview = async (event: FormSubmitEvent<Schema>) => {
     reviewSending.value = false;
 
     $notify('Review submitted successfully', 'success');
-};
-
-const react = async (type: 'like' | 'dislike', review: Review) => {
-    if (!authStore.isAuthenticated) {
-        $notify('You must be logged in to react to a review', 'error');
-        return;
-    }
-
-    await apiFetch(
-        `v1/products/${props.product.slug}/reviews/${review.id}/reactions`,
-        {
-            method: 'POST',
-            body: {
-                type,
-            },
-        }
-    );
 };
 </script>

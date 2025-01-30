@@ -36,8 +36,6 @@ use Laravolt\Avatar\Avatar;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
  * @property-read int|null $orders_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReviewReaction> $productReviewReactions
- * @property-read int|null $product_review_reactions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $productReviews
  * @property-read int|null $product_reviews_count
  * @property-read Role $role
@@ -126,11 +124,6 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn (): string => $avatar->create($this->email)->toGravatar(['d' => 'identicon', 'r' => 'g', 's' => 100]),
         );
-    }
-
-    public function productReviewReactions(): HasMany
-    {
-        return $this->hasMany(ProductReviewReaction::class);
     }
 
     public function productReviews(): HasMany

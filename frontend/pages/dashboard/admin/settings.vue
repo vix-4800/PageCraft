@@ -2,37 +2,43 @@
     <div>
         <dashboard-page-name title="Settings" />
 
-        <u-form
-            :state="siteSettingsState"
-            class="flex flex-col gap-2 px-1"
-            @submit="save"
-        >
-            <div v-for="(setting, index) in siteSettingsState" :key="index">
-                <u-form-group
-                    v-if="setting.type === SettingType.TEXT"
-                    :label="capitalize(setting.key.replace('_', ' '))"
-                    required
-                >
-                    <u-input
-                        v-model="setting.value"
-                        color="blue"
-                        size="lg"
-                        :placeholder="capitalize(setting.key.replace('_', ' '))"
-                    />
-                </u-form-group>
+        <u-form :state="siteSettingsState" class="space-y-4" @submit="save">
+            <div
+                v-for="(settings, category) in groupedSettings"
+                :key="category"
+                class="space-y-2"
+            >
+                <u-divider :label="capitalize(category.replace('_', ' '))" />
 
-                <u-form-group
-                    v-if="setting.type === SettingType.BOOLEAN"
-                    :label="capitalize(setting.key.replace('_', ' '))"
-                >
-                    <u-toggle
-                        v-model="setting.value"
-                        color="blue"
-                        size="lg"
-                        on-icon="material-symbols:check"
-                        off-icon="material-symbols:close"
-                    />
-                </u-form-group>
+                <div v-for="(setting, index) in settings" :key="index">
+                    <u-form-group
+                        v-if="setting.type === SettingType.TEXT"
+                        :label="capitalize(setting.key.replace('_', ' '))"
+                        required
+                    >
+                        <u-input
+                            v-model="setting.value"
+                            color="blue"
+                            size="lg"
+                            :placeholder="
+                                capitalize(setting.key.replace('_', ' '))
+                            "
+                        />
+                    </u-form-group>
+
+                    <u-form-group
+                        v-if="setting.type === SettingType.BOOLEAN"
+                        :label="capitalize(setting.key.replace('_', ' '))"
+                    >
+                        <u-toggle
+                            v-model="setting.value"
+                            color="blue"
+                            size="lg"
+                            on-icon="material-symbols:check"
+                            off-icon="material-symbols:close"
+                        />
+                    </u-form-group>
+                </div>
             </div>
 
             <u-button
@@ -59,6 +65,7 @@ definePageMeta({
 
 const settingStore = useSiteSettingsStore();
 const siteSettingsState = ref<SiteSetting[]>([]);
+const groupedSettings = ref([]);
 
 const loading = ref(false);
 onMounted(async () => {
@@ -66,6 +73,16 @@ onMounted(async () => {
 
     await settingStore.fetch();
     siteSettingsState.value = settingStore.settings;
+
+    groupedSettings.value = siteSettingsState.value.reduce(
+        (result, setting) => {
+            result[setting.category] = result[setting.category] || [];
+            result[setting.category].push(setting);
+            return result;
+        },
+        {} as { [category: string]: SiteSetting[] }
+    );
+    console.log(groupedSettings.value);
 
     loading.value = false;
 });

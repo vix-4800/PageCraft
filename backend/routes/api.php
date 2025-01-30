@@ -15,7 +15,6 @@ use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
-use App\Http\Controllers\ProductReviewReactionController;
 use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -39,7 +38,8 @@ Route::name('api.')->group(function (): void {
 
             Route::prefix('backups')->name('backup.')->group(function (): void {
                 Route::get('/', [BackupController::class, 'list'])->name('list');
-                Route::post('/', [BackupController::class, 'create'])->name('create');
+                Route::post('create', [BackupController::class, 'create'])->name('create');
+                Route::post('restore', [BackupController::class, 'restore'])->middleware('password.confirm')->name('restore');
                 Route::delete('/', [BackupController::class, 'delete'])->middleware('password.confirm')->name('delete');
             });
 
@@ -68,7 +68,6 @@ Route::name('api.')->group(function (): void {
         Route::post('products/update-search-indexes', [ProductController::class, 'updateSearchIndexes'])->name('products.updateSearchIndexes');
         Route::apiResource('products', ProductController::class)->scoped(['product' => 'slug']);
         Route::apiResource('products.reviews', ProductReviewController::class)->shallow()->scoped(['product' => 'slug']);
-        Route::apiResource('products.reviews.reactions', ProductReviewReactionController::class)->shallow()->scoped(['product' => 'slug'])->only('store')->middleware('auth:sanctum');
         Route::apiResource('variations', ProductVariationController::class)->scoped(['variation' => 'sku'])->only('index');
 
         Route::get('orders/latest', [OrderController::class, 'latest'])->name('orders.latest');

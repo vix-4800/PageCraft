@@ -1,27 +1,27 @@
 # PageCraft Frontend
 
-Приложение можно запустить как с помощью Docker:
+The application can be started with docker by running:
 
 ```bash
 docker compose up -d
 ```
 
-так и без него:
+Or with npm:
 
 ```bash
 npm install && npm run dev
 ```
 
-**Стартовая страница приложения по умолчанию: [welcome](http://localhost:3000/welcome)**
+**Default application start page: [welcome](http://localhost/welcome)**
 
-Порт фронтенда можно отредактировать в файле `.env` (в `.env.example` - пример конфигурации)
+The frontend port can be edited in the `.env` file (see `.env.example` for a configuration example)
 
-## Управление
+## Management
 
-Доступные `make` команды и их аналоги:
+Available `make` commands and their analogues:
 
--   `make start` - запустить фронтенд (`docker compose up -d`)
--   `make stop` - остановить фронтенд (`docker compose down`)
--   `make restart` - перезапустить фронтенд (`docker compose restart`)
--   `make logs` - просмотреть логи фронтенда (`docker compose logs -f frontend`)
--   `make shell` - открыть терминал внутри контейнера фронтенда (`docker exec -it frontend sh`)
+-   `make start` - start the frontend (`docker compose up -d`)
+-   `make stop` - stop the frontend (`docker compose down`)
+-   `make restart` - restart the frontend (`docker compose restart`)
+-   `make logs` - view frontend logs (`docker compose logs -f frontend`)
+-   `make shell` - open a terminal inside the frontend container (`docker exec -it frontend sh`)

@@ -5,45 +5,44 @@ declare(strict_types=1);
 namespace App\Services\DatabaseDumpers;
 
 use App\Exceptions\DatabaseBackupException;
-use App\Helpers\DatabaseBackup;
-use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 
 class MysqlDumper extends DatabaseDumper
 {
-    public function create(): void
+    public function create(string $filename): void
     {
-        throw_unless(Artisan::call('backup:create') == Command::SUCCESS, new DatabaseBackupException('Failed to create database backup.'));
+        $command = sprintf(
+            'mysqldump --user=%s --password=%s --host=%s %s > %s',
+            escapeshellarg(env('DB_USERNAME')),
+            escapeshellarg(env('DB_PASSWORD')),
+            escapeshellarg(env('DB_HOST')),
+            escapeshellarg(env('DB_DATABASE')),
+            escapeshellarg("{$this->backupDir}/{$filename}")
+        );
+
+        $returnVar = null;
+        exec($command, result_code: $returnVar);
+
+        throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup.'));
     }
 
-    public function list(): Collection
+    public function restore(string $filename): void
     {
-        if (! is_dir($this->backupDir)) {
-            return [];
-        }
+        $filePath = "{$this->backupDir}/{$filename}";
 
-        $backups = collect();
-        $files = scandir($this->backupDir);
-        $files = array_filter($files, fn ($file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
+        throw_unless(is_file($filePath), new DatabaseBackupException("Backup file {$filename} not found."));
 
-        foreach ($files as $file) {
-            $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
-        }
+        $command = sprintf(
+            'mysql --user=%s --password=%s --host=%s %s < %s',
+            escapeshellarg(env('DB_USERNAME')),
+            escapeshellarg(env('DB_PASSWORD')),
+            escapeshellarg(env('DB_HOST')),
+            escapeshellarg(env('DB_DATABASE')),
+            escapeshellarg($filePath)
+        );
 
-        return $backups;
-    }
+        $returnVar = null;
+        exec($command, result_code: $returnVar);
 
-    public function delete(string $file): void
-    {
-        unlink("{$this->backupDir}/{$file}");
-    }
-
-    public function deleteAll(): void
-    {
-        /** @var array $file */
-        foreach ($this->list() as $file) {
-            $this->delete($file['name']);
-        }
+        throw_unless($returnVar === 0, new DatabaseBackupException("Failed to restore database from {$filename}."));
     }
 }

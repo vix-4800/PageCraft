@@ -2,6 +2,11 @@ export interface SiteSetting {
     key: string;
     value: string;
     type: SettingType;
+    category: SiteSettingCategory;
+}
+
+export interface SiteSettingCategory {
+    name: string;
 }
 
 export enum SettingKey {

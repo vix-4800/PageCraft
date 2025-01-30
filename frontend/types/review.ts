@@ -9,10 +9,6 @@ export interface Review {
     status: string;
     created_at: Date;
     product: Product;
-    reactions: {
-        likes: number;
-        dislikes: number;
-    };
 }
 
 export enum ReviewStatus {

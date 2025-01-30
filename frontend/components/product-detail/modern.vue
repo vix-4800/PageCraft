@@ -394,10 +394,6 @@ watch(
     { immediate: true }
 );
 
-const selectVariation = (variation: ProductVariation) => {
-    selectedVariation.value = variation;
-};
-
 const addToCart = () => {
     if (!selectedVariation.value) return;
     if (Object.keys(selectedVariation.value).length === 0) return;

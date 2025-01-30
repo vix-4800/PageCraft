@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Events\DatabaseDumpCreated;
 use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class CreateDatabaseDump implements ShouldQueue
+class RestoreDatabase implements ShouldQueue
 {
     use Queueable;
 
@@ -27,8 +26,8 @@ class CreateDatabaseDump implements ShouldQueue
      */
     public function handle(): void
     {
-        resolve(DatabaseDumper::class)->create($this->filename);
+        resolve(DatabaseDumper::class)->restore($this->filename);
 
-        DatabaseDumpCreated::dispatch();
+        // DatabaseRestored::dispatch();
     }
 }

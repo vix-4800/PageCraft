@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\SettingType;
-use App\Models\Setting;
+use App\Models\SettingCategory;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
@@ -15,64 +15,72 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        $settings = [
-            [
-                'key' => 'description',
-                'value' => 'PageCraft is a lightweight, free and open source CMS for your website.',
+        $groupedSettings = [
+            'general' => [
+                [
+                    'key' => 'description',
+                    'value' => 'PageCraft is a lightweight, free and open source CMS for your website.',
+                ],
+                [
+                    'key' => 'keywords',
+                    'value' => 'pagecraft, cms, website, website builder, open source, free',
+                ],
+                [
+                    'key' => 'author',
+                    'value' => 'Vix',
+                ],
+                [
+                    'key' => 'is_maintenance',
+                    'value' => false,
+                    'type' => SettingType::BOOLEAN,
+                ],
             ],
-            [
-                'key' => 'keywords',
-                'value' => 'pagecraft, cms, website, website builder, open source, free',
+            'contact_info' => [
+                [
+                    'key' => 'email',
+                    'value' => 'email@example.com',
+                ],
+                [
+                    'key' => 'phone',
+                    'value' => '+41 79 123 45 67',
+                ],
+                [
+                    'key' => 'address',
+                    'value' => '123 Main Street, City, Country',
+                ],
             ],
-            [
-                'key' => 'author',
-                'value' => 'Vix',
+            'social_media' => [
+                [
+                    'key' => 'social_facebook',
+                    'value' => 'https://www.facebook.com/pagecraft',
+                ],
+                [
+                    'key' => 'social_twitter',
+                    'value' => 'https://twitter.com/pagecraft',
+                ],
+                [
+                    'key' => 'social_instagram',
+                    'value' => 'https://www.instagram.com/pagecraft',
+                ],
+                [
+                    'key' => 'social_vk',
+                    'value' => 'https://vk.com/pagecraft',
+                ],
+                [
+                    'key' => 'social_youtube',
+                    'value' => 'https://www.youtube.com/channel/pagecraft',
+                ],
+                [
+                    'key' => 'social_telegram',
+                    'value' => 'https://t.me/pagecraft',
+                ],
             ],
-            [
-                'key' => 'email',
-                'value' => 'email@example.com',
-            ],
-            [
-                'key' => 'phone',
-                'value' => '+41 79 123 45 67',
-            ],
-            [
-                'key' => 'address',
-                'value' => '123 Main Street, City, Country',
-            ],
-            [
-                'key' => 'social_facebook',
-                'value' => 'https://www.facebook.com/pagecraft',
-            ],
-            [
-                'key' => 'social_twitter',
-                'value' => 'https://twitter.com/pagecraft',
-            ],
-            [
-                'key' => 'social_instagram',
-                'value' => 'https://www.instagram.com/pagecraft',
-            ],
-            [
-                'key' => 'social_vk',
-                'value' => 'https://vk.com/pagecraft',
-            ],
-            [
-                'key' => 'social_youtube',
-                'value' => 'https://www.youtube.com/channel/pagecraft',
-            ],
-            [
-                'key' => 'social_telegram',
-                'value' => 'https://t.me/pagecraft',
-            ],
-            [
-                'key' => 'is_maintenance',
-                'value' => false,
-                'type' => SettingType::BOOLEAN,
-            ],
+
         ];
 
-        foreach ($settings as $setting) {
-            Setting::insert($setting);
+        foreach ($groupedSettings as $categoryName => $categorySettings) {
+            $category = SettingCategory::create(['name' => $categoryName]);
+            $category->settings()->createMany($categorySettings);
         }
     }
 }
