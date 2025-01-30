@@ -6,24 +6,28 @@ namespace App\Models;
 
 use App\Enums\SettingType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
  * @property string $key
  * @property string|bool|null $value
  * @property SettingType $type
+ * @property int $setting_category_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read SettingCategory $settingCategory
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteSetting whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereSettingCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereValue($value)
  *
  * @mixin \Eloquent
  */
@@ -52,5 +56,10 @@ class Setting extends Model
     public function getValueAttribute($value): string|bool|null
     {
         return $this->type === SettingType::BOOLEAN ? (bool) $value : $value;
+    }
+
+    public function settingCategory(): BelongsTo
+    {
+        return $this->belongsTo(SettingCategory::class);
     }
 }
