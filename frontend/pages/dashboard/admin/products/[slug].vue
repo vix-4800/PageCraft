@@ -25,13 +25,19 @@
                 </u-form-group>
             </div>
 
-            <nuxt-img
-                v-for="(image, index) in product.product_images"
-                :key="index"
-                :src="product.product_images[index]"
-                :alt="product.name"
-                class="object-contain w-full h-96"
-            />
+            <div class="grid grid-cols-2 grid-rows-3 gap-4">
+                <nuxt-img
+                    v-for="(image, index) in product.product_images"
+                    :key="index"
+                    :src="product.product_images[index]"
+                    :alt="product.name"
+                    class="object-contain w-full"
+                    :class="{
+                        'col-span-2 max-h-64':
+                            index === product.product_images.length - 1,
+                    }"
+                />
+            </div>
 
             <div class="space-y-3">
                 <h3 class="text-xl font-bold text-gray-800">
