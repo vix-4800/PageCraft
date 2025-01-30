@@ -16,8 +16,7 @@ use Laravel\Scout\Searchable;
  * @property string $name
  * @property string $slug
  * @property string $description
- * @property string|null $image
- * @property array|null $additional_images
+ * @property array<array-key, mixed>|null $product_images
  * @property bool $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -33,13 +32,12 @@ use Laravel\Scout\Searchable;
  * @method static Builder<static>|Product newModelQuery()
  * @method static Builder<static>|Product newQuery()
  * @method static Builder<static>|Product query()
- * @method static Builder<static>|Product whereAdditionalImages($value)
  * @method static Builder<static>|Product whereCreatedAt($value)
  * @method static Builder<static>|Product whereDescription($value)
  * @method static Builder<static>|Product whereId($value)
- * @method static Builder<static>|Product whereImage($value)
  * @method static Builder<static>|Product whereIsArchived($value)
  * @method static Builder<static>|Product whereName($value)
+ * @method static Builder<static>|Product whereProductImages($value)
  * @method static Builder<static>|Product whereSlug($value)
  * @method static Builder<static>|Product whereUpdatedAt($value)
  *
@@ -58,10 +56,9 @@ class Product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'image',
+        'product_images',
         'description',
         'is_archived',
-        'additional_images',
     ];
 
     /**
@@ -71,7 +68,7 @@ class Product extends Model
      */
     protected $casts = [
         'is_archived' => 'boolean',
-        'additional_images' => 'array',
+        'product_images' => 'array',
     ];
 
     public function variations(): HasMany
@@ -101,6 +98,7 @@ class Product extends Model
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
+            'product_images' => $this->product_images,
             'created_at' => $this->created_at,
         ];
     }

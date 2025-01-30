@@ -11,7 +11,7 @@
                         ref="carouselRef"
                         v-slot="{ item }"
                         class="overflow-hidden rounded-lg"
-                        :items="[product.image]"
+                        :items="[product.product_images[0]]"
                         :ui="{ item: 'basis-full' }"
                     >
                         <nuxt-img

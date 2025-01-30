@@ -26,7 +26,7 @@
             </div>
 
             <nuxt-img
-                :src="product.image"
+                :src="product.product_images[0]"
                 :alt="product.name"
                 class="object-contain w-full h-96"
             />

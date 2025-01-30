@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->image,
+            'product_images' => $this->product_images,
             'description' => $this->description,
             'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];

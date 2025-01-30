@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->string('image')->nullable();
-            $table->json('additional_images')->nullable();
+            $table->json('product_images')->nullable();
             $table->boolean('is_archived')->default(false);
 
             $table->timestamps();

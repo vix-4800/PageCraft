@@ -10,17 +10,7 @@
                             class="flex flex-col w-16 gap-2 max-sm:w-14 shrink-0"
                         >
                             <u-button
-                                :padded="false"
-                                @click="selectedImage = product.image"
-                            >
-                                <nuxt-img
-                                    :src="product.image"
-                                    :alt="product.name"
-                                    class="aspect-[64/85] w-full cursor-pointer border-b-2 border-black"
-                                />
-                            </u-button>
-                            <u-button
-                                v-for="image in product.additional_images"
+                                v-for="image in product.product_images"
                                 :key="image"
                                 :padded="false"
                                 :ui="{ rounded: 'rounded-lg' }"
@@ -378,7 +368,7 @@ watch(
     () => props.product,
     (newProduct) => {
         if (newProduct !== null) {
-            selectedImage.value = newProduct.image;
+            selectedImage.value = newProduct.product_images[0];
         }
     },
     { immediate: true }

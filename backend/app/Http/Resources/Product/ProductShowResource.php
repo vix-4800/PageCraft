@@ -23,8 +23,7 @@ class ProductShowResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->image,
-            'additional_images' => $this->additional_images,
+            'product_images' => $this->product_images,
             'description' => $this->description,
             'variations' => ProductVariationResource::collection($this->whenLoaded('variations')),
             'reviews' => (new ProductService)->getProductReviewsStatistics($this->id),

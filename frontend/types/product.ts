@@ -1,8 +1,7 @@
 export interface Product {
     name: string;
     slug: string;
-    image: string | null | File;
-    additional_images: string[];
+    product_images: string[] | File[];
     description: string;
     variations: ProductVariation[];
     reviews: {
