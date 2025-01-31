@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\SystemReportObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
+#[ObservedBy(SystemReportObserver::class)]
 class SystemReport extends Model
 {
     public $timestamps = false;
@@ -71,11 +74,4 @@ class SystemReport extends Model
         'is_cache_up' => 'boolean',
         'collected_at' => 'datetime',
     ];
-
-    protected static function booted(): void
-    {
-        static::creating(function (self $metric): void {
-            $metric->collected_at = now();
-        });
-    }
 }

@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Exceptions\ApiException;
 use App\Models\User;
-use App\Notifications\OtpCode;
 use Illuminate\Support\Facades\Auth;
 use Str;
 
@@ -30,8 +29,6 @@ class OTPService
             'code' => $otp,
             'expires_at' => now()->addMinutes($this->configData['expire']),
         ]);
-
-        $user->notify(new OtpCode($otp));
     }
 
     public function verify(User $user, string $code): void

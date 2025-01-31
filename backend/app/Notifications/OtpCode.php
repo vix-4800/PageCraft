@@ -38,8 +38,8 @@ class OtpCode extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('OTP Code')
-            ->line("Your OTP code is {$this->otp}")
+            ->subject('One-Time Password')
+            ->line("Your One-Time Password is {$this->otp}")
             ->line('If you did not request this code, please ignore this email.');
     }
 
