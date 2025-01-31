@@ -87,7 +87,7 @@
                 size="lg"
                 label="Email Code"
                 icon="ri:mail-line"
-                @click="sendOtp"
+                @click="navigateTo('/login/otp')"
             />
             <u-button
                 class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
@@ -127,7 +127,6 @@ definePageMeta({
     ],
 });
 
-const { $notify } = useNuxtApp();
 const authStore = useAuthStore();
 
 const schema = z.object({
@@ -172,12 +171,5 @@ const githubLogin = async () => {
 
 const googleLogin = async () => {
     await authStore.oauthLogin(OAuthProvider.GOOGLE);
-};
-
-const sendOtp = async () => {
-    await authStore.otpRequest();
-
-    $notify('Code sent successfully', 'success');
-    navigateTo('/login/otp');
 };
 </script>

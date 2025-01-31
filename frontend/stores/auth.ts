@@ -181,15 +181,16 @@ export const useAuthStore = defineStore('auth', {
 
             navigateTo('/login');
         },
-        async otpRequest() {
+        async otpRequest(email: string) {
             await apiFetch('auth/otp/request', {
                 method: 'POST',
+                body: { email },
             });
         },
-        async otpVerify(code: string) {
+        async otpVerify(email: string, code: string) {
             await apiFetch('auth/otp/verify', {
                 method: 'POST',
-                body: { code },
+                body: { email, code },
             });
 
             await this.fetchUser();
