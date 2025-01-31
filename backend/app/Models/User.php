@@ -25,15 +25,17 @@ use Laravolt\Avatar\Avatar;
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string|null $phone
  * @property string|null $password
+ * @property int $role_id
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
- * @property int $role_id
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $avatar
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, OneTimePassword> $oneTimePasswords
+ * @property-read int|null $one_time_passwords_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
  * @property-read int|null $orders_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $productReviews
@@ -129,5 +131,10 @@ class User extends Authenticatable
     public function productReviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    public function oneTimePasswords(): HasMany
+    {
+        return $this->hasMany(OneTimePassword::class);
     }
 }

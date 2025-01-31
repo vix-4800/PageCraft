@@ -13,6 +13,7 @@ use App\Http\Controllers\MarketplaceAccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OTPController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProductVariationController;
@@ -98,6 +99,9 @@ Route::name('api.')->group(function (): void {
         Route::get('redirect', [OAuthController::class, 'oauthRedirect'])->name('redirect');
         Route::get('callback', [OAuthController::class, 'oauthCallback'])->name('callback');
     });
+
+    Route::post('auth/otp/request', [OTPController::class, 'request']);
+    Route::post('auth/otp/verify', [OTPController::class, 'verify']);
 });
 
 Route::fallback(function (): never {
