@@ -12,15 +12,23 @@ use Str;
 
 class OTPService
 {
+    protected array $configData = [];
+
+    public function __construct()
+    {
+        $this->configData = config('auth.otp');
+    }
+
     public function request(User $user): void
     {
         $user->oneTimePasswords()->delete();
 
-        $otp = strtoupper(Str::random(6));
+        $otp = Str::random($this->configData['length']);
+        $otp = $this->configData['uppercase'] ? strtoupper($otp) : $otp;
 
         $user->oneTimePasswords()->create([
             'code' => $otp,
-            'expires_at' => now()->addMinutes(5),
+            'expires_at' => now()->addMinutes($this->configData['expire']),
         ]);
 
         $user->notify(new OtpCode($otp));
