@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\ApiException;
 use App\Models\User;
 use App\Notifications\OtpCode;
+use Illuminate\Support\Facades\Auth;
 use Str;
 
 class OTPService
@@ -14,7 +16,7 @@ class OTPService
     {
         $user->oneTimePasswords()->delete();
 
-        $otp = Str::random(6);
+        $otp = strtoupper(Str::random(6));
 
         $user->oneTimePasswords()->create([
             'code' => $otp,
@@ -24,8 +26,14 @@ class OTPService
         $user->notify(new OtpCode($otp));
     }
 
-    public function verify(User $user, string $otp): void
+    public function verify(User $user, string $code): void
     {
-        $password = $user->oneTimePasswords()->firstWhere('code', $otp);
+        /** @var \App\Models\OneTimePassword $password */
+        $password = $user->oneTimePasswords()->active()->firstWhere('code', $code);
+
+        throw_if(! $password, new ApiException('Invalid OTP', 422));
+        $user->oneTimePasswords()->delete();
+
+        Auth::login($user);
     }
 }

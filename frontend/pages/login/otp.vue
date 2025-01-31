@@ -186,9 +186,9 @@ watch(
     }
 );
 
-const verifyCode = async (event: FormSubmitEvent<Schema>) => {
+const verifyCode = async () => {
     if (verifyState.join('').length === 6) {
-        await authStore.otpVerify(event.data.email, verifyState.join(''));
+        await authStore.otpVerify(requestState.email, verifyState.join(''));
     } else {
         $notify('Please enter all digits of the code.', 'error');
     }
