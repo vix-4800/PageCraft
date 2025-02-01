@@ -112,4 +112,19 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | OTP
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options specify the behavior of OTP functionality.
+    | You can change the length, expire time (in minutes), and whether to use only uppercase letters.
+    |
+    */
+
+    'otp' => [
+        'length' => 6,
+        'expire' => 5,
+        'uppercase' => true,
+    ],
 ];

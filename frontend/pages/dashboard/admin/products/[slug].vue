@@ -25,11 +25,19 @@
                 </u-form-group>
             </div>
 
-            <nuxt-img
-                :src="product.image"
-                :alt="product.name"
-                class="object-contain w-full h-96"
-            />
+            <div class="grid grid-cols-2 grid-rows-3 gap-4">
+                <nuxt-img
+                    v-for="(image, index) in product.product_images"
+                    :key="index"
+                    :src="product.product_images[index]"
+                    :alt="product.name"
+                    class="object-contain w-full"
+                    :class="{
+                        'col-span-2 max-h-64':
+                            index === product.product_images.length - 1,
+                    }"
+                />
+            </div>
 
             <div class="space-y-3">
                 <h3 class="text-xl font-bold text-gray-800">
@@ -247,19 +255,54 @@ onMounted(async () => {
 });
 
 const save = async () => {
+    const formData = new FormData();
+    formData.append('name', product.value.name);
+    formData.append('slug', product.value.slug);
+    formData.append('description', product.value.description);
+
+    if (product.value.product_images.length > 0) {
+        product.value.product_images.forEach((image, index) => {
+            formData.append(`product_images[${index}]`, image);
+        });
+    }
+
+    product.value.variations.forEach((variation, index) => {
+        formData.append(`variations[${index}][sku]`, variation.sku);
+        formData.append(`variations[${index}][price]`, variation.price);
+        formData.append(`variations[${index}][stock]`, variation.stock);
+
+        variation.attributes.forEach((attribute, attrIndex) => {
+            formData.append(
+                `variations[${index}][attributes][${attrIndex}][name]`,
+                attribute.name
+            );
+            formData.append(
+                `variations[${index}][attributes][${attrIndex}][value]`,
+                attribute.value
+            );
+        });
+    });
+
     await apiFetch<{ data: Product }>(`v1/products/${route.params.slug}`, {
         method: 'PUT',
-        body: product.value,
+        body: formData,
     });
 };
 
 const deleteProduct = async () => {
-    await apiFetch(`v1/products/${route.params.slug}`, {
-        method: 'DELETE',
-    });
+    withPasswordConfirmation(
+        async () => {
+            await apiFetch(`v1/products/${route.params.slug}`, {
+                method: 'DELETE',
+            });
 
-    navigateTo(`/dashboard/admin/products`);
-    $notify('Product created successfully', 'success');
+            navigateTo(`/dashboard/admin/products`);
+            $notify('Product deleted successfully', 'success');
+        },
+        'Confirm product deletion',
+        'Are you sure you want to delete this product?',
+        true
+    );
 };
 
 function addVariation() {

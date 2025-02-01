@@ -11,7 +11,7 @@
                 >
                     <div class="w-full">
                         <nuxt-img
-                            :src="product.image"
+                            :src="product.product_images[0]"
                             :alt="product.name"
                             class="w-full object-cover object-top aspect-[230/307]"
                         />

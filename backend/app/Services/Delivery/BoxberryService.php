@@ -19,6 +19,9 @@ final class BoxberryService implements DeliveryService
     }
 
     /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     *
      * @throws \Illuminate\Http\Client\RequestException
      */
     protected function makeRequest(string $url, string $method, string $serviceMethod, array $data): array

@@ -21,6 +21,14 @@ class ProductService
     /**
      * Store a newly created resource in storage.
      *
+     * @param array{
+     *     name: string,
+     *     slug: string,
+     *     description: string,
+     *     product_images: array<string>|null,
+     *     variations: array<array<string>>
+     * } $productData
+     *
      * @throws Throwable
      */
     public function storeProduct(array $productData): Product
@@ -28,9 +36,11 @@ class ProductService
         try {
             DB::beginTransaction();
 
-            $imagePath = null;
-            if (isset($productData['image'])) {
-                $imagePath = Storage::put('products', $productData['image']);
+            $images = collect();
+            if (isset($productData['product_images'])) {
+                foreach ($productData['product_images'] as $index => $image) {
+                    $images->push(Storage::disk('public')->put('products', $productData['product_images'][$index]));
+                }
             }
 
             /** @var Product $product */
@@ -38,7 +48,7 @@ class ProductService
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $imagePath,
+                'product_images' => $images->toArray(),
             ]);
 
             $this->addVariationsToProduct($product, collect($productData['variations']));
@@ -56,6 +66,14 @@ class ProductService
     /**
      * Update the specified product.
      *
+     * @param array{
+     *     name: string,
+     *     slug: string,
+     *     description: string,
+     *     product_images: array<string>|null,
+     *     variations: array<array<string>>
+     * } $productData
+     *
      * @throws ApiException
      */
     public function updateProduct(array $productData, Product $product): Product
@@ -63,11 +81,18 @@ class ProductService
         try {
             DB::beginTransaction();
 
+            $images = collect();
+            if (isset($productData['product_images'])) {
+                foreach ($productData['product_images'] as $index => $image) {
+                    $images->push(Storage::disk('public')->put('products', $productData['product_images'][$index]));
+                }
+            }
+
             $product->update([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
                 'description' => $productData['description'],
-                'image' => $productData['image'] ?? null,
+                'product_images' => $images->toArray(),
             ]);
 
             $product->variations()->delete();
@@ -85,6 +110,9 @@ class ProductService
         }
     }
 
+    /**
+     * @param  Collection<array<string>>  $variations
+     */
     private function addVariationsToProduct(Product $product, Collection $variations): void
     {
         $variations->each(function (array $variation) use ($product): void {
@@ -96,23 +124,18 @@ class ProductService
                 'image' => $variation['image'] ?? null,
             ]);
 
-            $this->addAttributesToVariation($createdVariation, collect($variation['attributes']));
-        });
-    }
+            collect((array) $variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
+                /** @var ProductAttribute $attributeFromDb */
+                $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
 
-    private function addAttributesToVariation(ProductVariation $variation, Collection $attributes): void
-    {
-        $attributes->each(function (array $attribute) use ($variation): void {
-            /** @var ProductAttribute $attributeFromDb */
-            $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
+                /** @var ProductAttributeValue $attributeValueFromDb */
+                $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
 
-            /** @var ProductAttributeValue $attributeValueFromDb */
-            $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
-
-            ProductVariationAttribute::insert([
-                'product_variation_id' => $variation->id,
-                'product_attribute_value_id' => $attributeValueFromDb->id,
-            ]);
+                ProductVariationAttribute::insert([
+                    'product_variation_id' => $createdVariation->id,
+                    'product_attribute_value_id' => $attributeValueFromDb->id,
+                ]);
+            });
         });
     }
 
@@ -138,7 +161,7 @@ class ProductService
 
         return [
             'count' => $product->reviews->count(),
-            'average' => $product->reviews->avg('rating'),
+            'average' => $product->reviews->avg('rating') ?? 0,
             'stars' => [
                 'five_stars' => $product->reviews->where('rating', 5)->count(),
                 'four_stars' => $product->reviews->where('rating', 4)->count(),

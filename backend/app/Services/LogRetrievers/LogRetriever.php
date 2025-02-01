@@ -21,6 +21,8 @@ abstract class LogRetriever
      *
      * Returns an array of log entries, each of which is an associative array.
      * If the log file does not exist or is empty, an empty array will be returned.
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function retrieve(int $limit = 15): array
     {
@@ -29,6 +31,9 @@ abstract class LogRetriever
         }
 
         $logs = file($this->logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (empty($logs)) {
+            return [];
+        }
 
         $parsedLogs = array_map(fn ($log): ?array => $this->parseLogLine($log), $logs);
 
@@ -57,5 +62,11 @@ abstract class LogRetriever
         }
     }
 
+    /**
+     * Parse a log line into an array of log data.
+     *
+     * @param  string  $log  The log line to parse.
+     * @return array<string, mixed>|null An array of log data, or null if the log line could not be parsed.
+     */
     abstract protected function parseLogLine(string $log): ?array;
 }

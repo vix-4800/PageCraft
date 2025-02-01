@@ -219,7 +219,7 @@ class Installer
 
     protected function storageLink(int $progress): self
     {
-        shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link");
+        shell_exec("cd {$this->installPath}/backend && docker exec -it backend php artisan storage:link --relative");
 
         $this->logger->write("Storage linked.", $progress);
 

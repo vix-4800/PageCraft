@@ -85,6 +85,13 @@
             <u-button
                 class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                 size="lg"
+                label="Email Code"
+                icon="ri:mail-line"
+                @click="navigateTo('/login/otp')"
+            />
+            <u-button
+                class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                size="lg"
                 label="Google"
                 icon="ri:google-fill"
                 @click="googleLogin"

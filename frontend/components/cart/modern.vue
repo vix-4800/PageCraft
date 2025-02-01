@@ -11,7 +11,7 @@
                         <div class="w-32 h-32 p-2 bg-white rounded-md shrink-0">
                             <nuxt-link :to="`/products/${item.product.slug}`">
                                 <nuxt-img
-                                    :src="item.product.image"
+                                    :src="item.product.product_images[0]"
                                     class="object-contain w-full h-full"
                                 />
                             </nuxt-link>

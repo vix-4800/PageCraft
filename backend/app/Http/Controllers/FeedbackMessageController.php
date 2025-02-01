@@ -15,6 +15,8 @@ class FeedbackMessageController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
+     *
+     * @return array<int, Middleware|string>
      */
     public static function middleware(): array
     {
@@ -26,7 +28,7 @@ class FeedbackMessageController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResource
     {
         $limit = request()->get('limit', 10);
 

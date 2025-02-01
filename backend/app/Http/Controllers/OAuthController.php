@@ -20,7 +20,10 @@ class OAuthController extends Controller
             new ApiException('Invalid provider', 400)
         );
 
-        $redirectUrl = Socialite::driver($provider)
+        /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+        $driver = Socialite::driver($provider);
+
+        $redirectUrl = $driver
             // ->with(['redirect_uri' => route('api.oauth.redirect', ['provider' => $provider])])
             ->stateless()
             ->redirect()
@@ -38,8 +41,10 @@ class OAuthController extends Controller
             new ApiException('Invalid provider', 400)
         );
 
-        $socialUser = Socialite::driver($provider)
-            ->with(['code' => $request['code']])
+        /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+        $driver = Socialite::driver($provider);
+
+        $socialUser = $driver->with(['code' => $request['code']])
             ->stateless()
             ->user();
 

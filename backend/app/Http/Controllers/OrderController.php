@@ -20,6 +20,8 @@ class OrderController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
+     *
+     * @return array<int, Middleware|string>
      */
     public static function middleware(): array
     {
@@ -63,6 +65,22 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function store(StoreOrderRequest $request): JsonResource
     {
+        /**
+         * @var array{
+         *      details: array{
+         *          name: string,
+         *          email: string,
+         *          phone: string
+         *      },
+         *      products: array<array{
+         *          quantity: int,
+         *          sku: string
+         *      }>,
+         *      tax: float,
+         *      shipping: float,
+         *      note: string|null
+         * } $validated
+         */
         $validated = $request->validated();
 
         return new OrderResource(

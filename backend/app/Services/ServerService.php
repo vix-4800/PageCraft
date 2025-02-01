@@ -30,26 +30,40 @@ class ServerService
     /**
      * Read CPU stats from /proc/stat.
      *
-     * @return array Associative array of CPU stats.
+     * @return array{
+     *      user: int,
+     *      nice: int,
+     *      system: int,
+     *      idle: int,
+     *      iowait: int,
+     *      irq: int,
+     *      softirq: int
+     * } Associative array of CPU stats.
      */
     protected function readCpuStats(): array
     {
-        $cpuStats = [];
+        $cpuStats = [
+            'user' => 0,
+            'nice' => 0,
+            'system' => 0,
+            'idle' => 0,
+            'iowait' => 0,
+            'irq' => 0,
+            'softirq' => 0,
+        ];
         $statFile = fopen('/proc/stat', 'r');
         if ($statFile) {
             $line = fgets($statFile);
             fclose($statFile);
 
-            if (preg_match('/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/', $line, $matches)) {
-                $cpuStats = [
-                    'user' => (int) $matches[1],
-                    'nice' => (int) $matches[2],
-                    'system' => (int) $matches[3],
-                    'idle' => (int) $matches[4],
-                    'iowait' => (int) $matches[5],
-                    'irq' => (int) $matches[6],
-                    'softirq' => (int) $matches[7],
-                ];
+            if ($line && preg_match('/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/', $line, $matches)) {
+                $cpuStats['user'] = (int) $matches[1];
+                $cpuStats['nice'] = (int) $matches[2];
+                $cpuStats['system'] = (int) $matches[3];
+                $cpuStats['idle'] = (int) $matches[4];
+                $cpuStats['iowait'] = (int) $matches[5];
+                $cpuStats['irq'] = (int) $matches[6];
+                $cpuStats['softirq'] = (int) $matches[7];
             }
         }
 
@@ -59,7 +73,14 @@ class ServerService
     /**
      * Get RAM usage details from /proc/meminfo.
      *
-     * @return array Associative array with RAM details in MB.
+     * @return array{
+     *      total: float,
+     *      used: float,
+     *      free: float,
+     *      buffers: float,
+     *      cached: float,
+     *      available: float
+     * } Associative array with RAM details in MB.
      */
     public function getRamUsage(): array
     {
@@ -90,8 +111,7 @@ class ServerService
     /**
      * Read network interface statistics from /proc/net/dev.
      *
-     * @return array Associative array with network interface as key, and an
-     *               associative array as value with 'incoming' and 'outgoing' keys (in bytes).
+     * @return array<string, array{ incoming: float, outgoing: float }> Associative array with network interface as key
      */
     public function getNetworkUsage(): array
     {
@@ -131,11 +151,19 @@ class ServerService
         }
     }
 
+    /**
+     * Returns the system uptime in the format H:i:s.
+     */
     public function getUptime(): string
     {
         $uptime = file_get_contents('/proc/uptime');
-        $uptime = (float) explode(' ', $uptime)[0];
 
-        return gmdate('H:i:s', (int) $uptime);
+        if ($uptime) {
+            $uptime = (float) explode(' ', $uptime)[0];
+
+            return gmdate('H:i:s', (int) $uptime);
+        }
+
+        return '00:00:00';
     }
 }

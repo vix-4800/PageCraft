@@ -53,7 +53,7 @@ class Setting extends Model
         'type' => SettingType::class,
     ];
 
-    public function getValueAttribute($value): string|bool|null
+    public function getValueAttribute(string|bool|null $value): string|bool|null
     {
         return $this->type === SettingType::BOOLEAN ? (bool) $value : $value;
     }

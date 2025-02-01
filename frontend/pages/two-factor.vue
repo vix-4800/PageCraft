@@ -74,7 +74,7 @@ const submitForm = async () => {
     if (state.join('').length === 6) {
         await authStore.confirmTwoFactorCode(state.join(''));
     } else {
-        alert('Please enter all digits of the code.');
+        $notify('Please enter all digits of the code.', 'error');
     }
 };
 

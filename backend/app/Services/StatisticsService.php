@@ -9,6 +9,14 @@ use InvalidArgumentException;
 
 class StatisticsService
 {
+    /**
+     * @return array{
+     *      total: int,
+     *      today: int,
+     *      this_week: int,
+     *      this_month: int
+     * }
+     */
     public function getMetrics(Builder $query, string $operation = 'count', string $column = '*'): array
     {
         return [
@@ -19,6 +27,9 @@ class StatisticsService
         ];
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getMetricsPerDay(Builder $query, int $days = 7, string $operation = 'sum', string $column = 'total'): array
     {
         if (! in_array($operation, ['sum', 'count', 'avg', 'max', 'min'])) {

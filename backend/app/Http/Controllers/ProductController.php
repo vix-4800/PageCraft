@@ -8,7 +8,6 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Resources\Product\ProductShowResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -22,6 +21,8 @@ class ProductController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
+     *
+     * @return array<int, Middleware|string>
      */
     public static function middleware(): array
     {
@@ -45,8 +46,10 @@ class ProductController extends Controller implements HasMiddleware
 
         $products = Product::query()->active();
 
-        $slugs = array_filter(explode(',', $request->query('slugs', '')));
+        $slugs = $request->query('slugs', '');
         if (! empty($slugs)) {
+            $slugs = is_string($slugs) ? explode(',', $slugs) : $slugs;
+            $slugs = array_filter($slugs);
             $products->whereIn('slug', $slugs);
         }
 
@@ -98,9 +101,18 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request): JsonResource
     {
+        /**
+         * @var array{
+         *     name: string,
+         *     slug: string,
+         *     description: string,
+         *     product_images: array<string>|null,
+         *     variations: array<array<string>>
+         * } $validated
+         */
         $validated = $request->validated();
 
-        return new ProductShowResource(
+        return new ProductResource(
             $this->service->storeProduct($validated)
         );
     }
@@ -110,7 +122,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $product): JsonResource
     {
-        return new ProductShowResource(
+        return new ProductResource(
             $product->load('variations.productVariationAttributes')
         );
     }
@@ -120,9 +132,18 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function update(UpdateProductRequest $request, Product $product): JsonResource
     {
+        /**
+         * @var array{
+         *     name: string,
+         *     slug: string,
+         *     description: string,
+         *     product_images: array<string>|null,
+         *     variations: array<array<string>>
+         * } $validated
+         */
         $validated = $request->validated();
 
-        return new ProductShowResource(
+        return new ProductResource(
             $this->service->updateProduct($validated, $product)
         );
     }

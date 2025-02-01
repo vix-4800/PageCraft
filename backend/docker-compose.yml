@@ -1,15 +1,15 @@
 services:
     nginx:
         container_name: nginx
-        build:
-            context: ./docker/nginx
-            dockerfile: Dockerfile
+        image: nginx:latest
         ports:
             - "${APP_PORT:-8080}:80"
             - "${APP_SSL_PORT:-443}:443"
         volumes:
             - "./:/var/www/html"
-            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
+            - "./nginx/certbot/conf:/etc/letsencrypt"
+            - "./nginx/certbot/www:/var/www/certbot"
         networks:
             - backend_network
         restart: unless-stopped
@@ -17,6 +17,14 @@ services:
         working_dir: /var/www/html
         depends_on:
             - php-fpm
+
+    certbot:
+        image: certbot/certbot:latest
+        container_name: certbot
+        volumes:
+            - "./nginx/certbot/conf:/etc/letsencrypt"
+            - "./nginx/certbot/www:/var/www/certbot"
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
     php-fpm:
         container_name: backend

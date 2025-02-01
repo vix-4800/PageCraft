@@ -19,7 +19,8 @@ class UpdateProductRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'slug' => ['required', 'string', 'min:3', 'max:255', 'unique:products,slug,'.$this->product->id],
             'description' => ['required', 'string', 'min:3'],
-            'image' => ['nullable', 'string', 'min:3', 'max:255'],
+            'product_images' => ['nullable', 'array'],
+            'product_images.*' => ['image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
 
             'variations' => ['required', 'array'],
             'variations.*.sku' => ['required', 'string', 'min:3', 'max:255'],
