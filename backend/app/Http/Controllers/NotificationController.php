@@ -35,7 +35,13 @@ class NotificationController extends Controller
 
     public function readAllNotifications(Request $request): Response
     {
-        $request->user()->unreadNotifications->markAsRead();
+        /** @var User $user */
+        $user = $request->user();
+
+        /** @var DatabaseNotification $notification */
+        foreach ($user->unreadNotifications()->get() as $notification) {
+            $notification->markAsRead();
+        }
 
         return ApiResponse::empty();
     }

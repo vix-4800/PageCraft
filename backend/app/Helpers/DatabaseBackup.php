@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Helpers;
 
 use Illuminate\Support\Carbon;
+use SplFileInfo;
 
 class DatabaseBackup
 {
@@ -14,14 +15,24 @@ class DatabaseBackup
 
     private readonly float|int $size;
 
-    public function __construct(
-        private readonly string $filepath
-    ) {
-        $this->date = Carbon::createFromTimestamp(filemtime($filepath));
-        $this->name = pathinfo($filepath, PATHINFO_BASENAME);
-        $this->size = filesize($filepath);
+    public function __construct(string $filepath)
+    {
+        $fileInfo = new SplFileInfo($filepath);
+
+        $creationDate = $fileInfo->getMTime();
+        $this->date = $creationDate ? Carbon::createFromTimestamp($creationDate) : new Carbon;
+
+        $this->name = $fileInfo->getBasename();
+        $this->size = $fileInfo->getSize();
     }
 
+    /**
+     * @return array{
+     *     date: string,
+     *     name: string,
+     *     size: string,
+     * }
+     */
     public function toArray(): array
     {
         return [

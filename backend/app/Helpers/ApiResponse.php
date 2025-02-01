@@ -21,7 +21,7 @@ class ApiResponse extends JsonResponse
     /**
      * Return a JSON response.
      *
-     * @param  array<string, mixed>|Collection  $data  The response data.
+     * @param  array<string|int, mixed>|Collection  $data  The response data.
      * @param  int  $status  The HTTP status code.
      * @param  array<string, mixed>|Collection  $meta  The response meta data.
      */
