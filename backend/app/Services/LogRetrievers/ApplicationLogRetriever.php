@@ -11,6 +11,13 @@ class ApplicationLogRetriever extends LogRetriever
         $this->logFile = storage_path('logs/laravel.log');
     }
 
+    /**
+     * @return array{
+     *     date: string,
+     *     level: string,
+     *     message: string
+     * }|null
+     */
     protected function parseLogLine(string $log): ?array
     {
         $pattern = '/^\[(.*?)\]\s(\w+)\.(\w+):\s(.*)$/';
@@ -28,6 +35,10 @@ class ApplicationLogRetriever extends LogRetriever
     {
         if ($this->checkLogFile()) {
             $content = file_get_contents($this->logFile);
+
+            if ($content === false) {
+                return 0;
+            }
 
             return substr_count($content, 'ERROR');
         }

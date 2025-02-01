@@ -28,7 +28,7 @@ class SystemReportResource extends JsonResource
             'is_database_up' => $this->is_database_up,
             'is_cache_up' => $this->is_cache_up,
             'uptime' => $this->uptime,
-            'collected_at' => $this->collected_at?->format('Y-m-d H:i') ?? null,
+            'collected_at' => $this->collected_at->format('Y-m-d H:i'),
         ];
     }
 }

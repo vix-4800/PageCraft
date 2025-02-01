@@ -18,6 +18,21 @@ class OrderService
     /**
      * Store a newly created resource in storage.
      *
+     * @param array{
+     *      details: array{
+     *          name: string,
+     *          email: string,
+     *          phone: string
+     *      },
+     *      products: array<array{
+     *          quantity: int,
+     *          sku: string
+     *      }>,
+     *      tax: float,
+     *      shipping: float,
+     *      note: string|null
+     * } $orderData
+     *
      * @throws Throwable
      */
     public function storeOrder(array $orderData): Order
@@ -37,7 +52,7 @@ class OrderService
             );
 
             $products = collect($orderData['products']);
-            $subTotal = $products->sum(function (array $product): float|int {
+            $subTotal = $products->sum(function (array $product): float {
                 return $product['quantity'] * ProductVariation::firstWhere('sku', $product['sku'])->price;
             });
 

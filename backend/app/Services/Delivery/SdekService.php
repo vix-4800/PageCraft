@@ -25,6 +25,9 @@ final class SdekService implements DeliveryService
     }
 
     /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     *
      * @throws \Illuminate\Http\Client\RequestException
      */
     protected function makeRequest(string $url, string $method, array $data = []): array

@@ -18,6 +18,9 @@ class DatabaseBackupCreated extends BaseDatabaseNotification
         return 'Database backup created';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getDetails(): array
     {
         return [];

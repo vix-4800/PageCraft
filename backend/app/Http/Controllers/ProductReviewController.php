@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Http\Requests\StoreProductReviewRequest;
 use App\Http\Requests\UpdateProductReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\ProductReview;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -17,6 +19,8 @@ class ProductReviewController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
+     *
+     * @return array<int, Middleware|string>
      */
     public static function middleware(): array
     {
@@ -40,27 +44,26 @@ class ProductReviewController extends Controller implements HasMiddleware
     {
         $validated = $request->validated();
 
-        return new ReviewResource(
-            $product->reviews()->create(array_merge(
-                $validated,
-                ['user_id' => $request->user()->id]
-            ))
-        );
+        return new ReviewResource($product->reviews()->create(
+            array_merge($validated, ['user_id' => $request->user()->id])
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductReviewRequest $request, ProductReview $productReview)
+    public function update(UpdateProductReviewRequest $request, ProductReview $productReview): void
     {
-        //
+        // TODO
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductReview $productReview)
+    public function destroy(ProductReview $productReview): Response
     {
-        //
+        // TODO
+
+        return ApiResponse::empty();
     }
 }

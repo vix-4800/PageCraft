@@ -11,6 +11,7 @@ use Str;
 
 class OTPService
 {
+    /** @var array<string, mixed> */
     protected array $configData = [];
 
     public function __construct()
@@ -33,10 +34,10 @@ class OTPService
 
     public function verify(User $user, string $code): void
     {
-        /** @var \App\Models\OneTimePassword $password */
+        /** @var \App\Models\OneTimePassword|null $password */
         $password = $user->oneTimePasswords()->active()->firstWhere('code', $code);
 
-        throw_if(! $password, new ApiException('Invalid OTP', 422));
+        throw_if($password === null, new ApiException('Invalid OTP', 422));
         $user->oneTimePasswords()->delete();
 
         Auth::login($user);

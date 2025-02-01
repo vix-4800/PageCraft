@@ -20,8 +20,8 @@ class ProductVariationAttributeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->productAttributeValue?->productAttribute->name,
-            'value' => $this->productAttributeValue?->value,
+            'name' => $this->productAttributeValue->productAttribute->name,
+            'value' => $this->productAttributeValue->value,
         ];
     }
 }

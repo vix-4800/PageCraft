@@ -8,6 +8,7 @@ use App\Enums\DatabaseNotificationType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Notifications\Notification;
 
 abstract class BaseDatabaseNotification extends Notification implements ShouldQueue
@@ -42,8 +43,10 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
 
     /**
      * Get the details for the notification.
+     *
+     * @return array<string, mixed>|JsonResource
      */
-    abstract protected function getDetails(): mixed;
+    abstract protected function getDetails(): array|JsonResource;
 
     /**
      * Get the array representation of the notification.
