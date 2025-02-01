@@ -95,7 +95,7 @@ class Article extends Model
         return $this->status === ArticleStatus::PUBLISHED;
     }
 
-    public function setContentAttribute($value): void
+    public function setContentAttribute(string $value): void
     {
         $this->attributes['content'] = Purify::clean($value);
     }

@@ -26,7 +26,7 @@ class FeedbackMessageController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResource
     {
         $limit = request()->get('limit', 10);
 

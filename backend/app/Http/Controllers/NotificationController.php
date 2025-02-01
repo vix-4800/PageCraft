@@ -9,26 +9,28 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationController extends Controller
 {
     public function notifications(Request $request): JsonResponse
     {
-        return (new ApiResponse)->create($this->getUserNotifications($request->user()));
+        /** @var User $user */
+        $user = $request->user();
+
+        return (new ApiResponse)->create($user->unreadNotifications()->get());
     }
 
     public function readNotification(Request $request, string $id): JsonResponse
     {
-        $notification = $request->user()->unreadNotifications->find($id);
+        /** @var User $user */
+        $user = $request->user();
+
+        /** @var DatabaseNotification $notification */
+        $notification = $user->unreadNotifications()->find($id);
         $notification->markAsRead();
 
-        return (new ApiResponse)->create($this->getUserNotifications($request->user()));
-    }
-
-    private function getUserNotifications(User $user): Collection
-    {
-        return $user->unreadNotifications()->get();
+        return (new ApiResponse)->create($user->unreadNotifications()->get());
     }
 
     public function readAllNotifications(Request $request): Response
