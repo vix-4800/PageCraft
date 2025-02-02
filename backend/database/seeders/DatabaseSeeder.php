@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $seeders = [
             RoleSeeder::class,
             UserSeeder::class,
+            UserAddressSeeder::class,
             ProductAttributeSeeder::class,
             ProductSeeder::class,
             ProductReviewSeeder::class,

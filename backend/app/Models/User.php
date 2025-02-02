@@ -43,6 +43,8 @@ use Laravolt\Avatar\Avatar;
  * @property-read Role $role
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, UserAddress> $userAddresses
+ * @property-read int|null $user_addresses_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -89,6 +91,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
@@ -96,13 +100,10 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     public function orders(): HasMany
     {
@@ -136,5 +137,10 @@ class User extends Authenticatable
     public function oneTimePasswords(): HasMany
     {
         return $this->hasMany(OneTimePassword::class);
+    }
+
+    public function userAddresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
     }
 }
