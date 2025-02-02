@@ -15,6 +15,7 @@
         "@nuxt/ui": "^2.18.4",
         "@nuxtjs/color-mode": "^3.5.1",
         "@nuxtjs/google-fonts": "^3.2.0",
+        "@nuxtjs/i18n": "^9.1.4",
         "@tiptap/extension-placeholder": "^2.11.3",
         "@tiptap/extension-text-align": "^2.11.3",
         "@tiptap/extension-underline": "^2.11.3",
