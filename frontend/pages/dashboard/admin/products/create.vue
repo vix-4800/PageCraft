@@ -13,16 +13,53 @@
                 <h3 class="text-xl font-bold text-gray-800">Details</h3>
 
                 <div class="flex w-full gap-2">
-                    <u-form-group label="Name" class="w-1/2" name="name">
+                    <u-form-group
+                        label="Name"
+                        class="w-1/2"
+                        name="name"
+                        required
+                    >
                         <u-input v-model="product.name" color="blue" />
                     </u-form-group>
 
-                    <u-form-group label="Slug" class="w-1/2" name="slug">
-                        <u-input v-model="product.slug" color="blue" />
+                    <u-form-group
+                        label="Slug"
+                        class="w-1/2"
+                        name="slug"
+                        required
+                    >
+                        <u-input
+                            v-model="product.slug"
+                            color="blue"
+                            autocomplete="off"
+                            :ui="{ icon: { trailing: { pointer: '' } } }"
+                        >
+                            <template #trailing>
+                                <u-tooltip
+                                    text="Auto Generate"
+                                    :popper="{ placement: 'top' }"
+                                >
+                                    <u-button
+                                        :color="
+                                            autoGenerateSlug ? 'green' : 'red'
+                                        "
+                                        variant="link"
+                                        :icon="
+                                            autoGenerateSlug
+                                                ? 'i-heroicons-check-circle-20-solid'
+                                                : 'i-heroicons-x-circle-20-solid'
+                                        "
+                                        @click="
+                                            autoGenerateSlug = !autoGenerateSlug
+                                        "
+                                    />
+                                </u-tooltip>
+                            </template>
+                        </u-input>
                     </u-form-group>
                 </div>
 
-                <u-form-group label="Description" name="description">
+                <u-form-group label="Description" name="description" required>
                     <u-textarea v-model="product.description" color="blue" />
                 </u-form-group>
 
@@ -286,15 +323,15 @@ const schema = z.object({
 });
 
 const product = reactive({
-    name: undefined,
-    slug: undefined,
-    description: undefined,
+    name: '',
+    slug: '',
+    description: '',
     product_images: [] as File[],
     variations: [] as ProductVariation[],
 });
 
 const { $notify } = useNuxtApp();
-async function submitForm(event: FormSubmitEvent<Schema>) {
+const submitForm = async (event: FormSubmitEvent<Schema>) => {
     const formData = new FormData();
     formData.append('name', event.data.name);
     formData.append('slug', event.data.slug);
@@ -330,30 +367,30 @@ async function submitForm(event: FormSubmitEvent<Schema>) {
 
     navigateTo(`/dashboard/admin/products`);
     $notify('Product created successfully', 'success');
-}
+};
 
 const maxFiles = 5;
 const imageInputDisabled = computed(() => {
     return product.product_images.length >= maxFiles;
 });
-function onFilesChange(event: Event) {
+const onFilesChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     const files = input.files;
 
-    if (files.length > 0) {
+    if (files && files.length > 0) {
         for (const file of files) {
             if (product.product_images.length < maxFiles) {
                 product.product_images.push(file);
             }
         }
     }
-}
+};
 
-function removeImage(index: number) {
+const removeImage = (index: number) => {
     product.product_images.splice(index, 1);
-}
+};
 
-function addVariation() {
+const addVariation = () => {
     product.variations.push({
         sku: '',
         price: 0,
@@ -361,20 +398,40 @@ function addVariation() {
         image: '',
         attributes: [],
     });
-}
+};
 
-function removeVariation() {
+const removeVariation = () => {
     product.variations.pop();
-}
+};
 
-function addAttribute(variation: ProductVariation) {
+const addAttribute = (variation: ProductVariation) => {
     variation.attributes.push({
         name: '',
         value: '',
     });
-}
+};
 
-function removeAttribute(variation: ProductVariation) {
+const removeAttribute = (variation: ProductVariation) => {
     variation.attributes.pop();
-}
+};
+
+const autoGenerateSlug = ref(true);
+const generateSlug = (name: string) => {
+    return name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+};
+
+watch(
+    () => product.name,
+    (name) => {
+        if (autoGenerateSlug.value) {
+            product.slug = generateSlug(name);
+        }
+    }
+);
 </script>

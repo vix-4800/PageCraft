@@ -46,7 +46,7 @@ class ProductService
             /** @var Product $product */
             $product = Product::create([
                 'name' => $productData['name'],
-                'slug' => Str::slug($productData['name']),
+                'slug' => Str::slug($productData['slug']),
                 'description' => $productData['description'],
                 'product_images' => $images->toArray(),
             ]);
@@ -90,7 +90,7 @@ class ProductService
 
             $product->update([
                 'name' => $productData['name'],
-                'slug' => Str::slug($productData['name']),
+                'slug' => Str::slug($productData['slug']),
                 'description' => $productData['description'],
                 'product_images' => $images->toArray(),
             ]);
