@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Exceptions\ApiException;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\BackupController;
@@ -87,13 +88,16 @@ Route::name('api.')->group(function (): void {
         Route::apiSingleton('banners', BannerController::class)->only(['show', 'update']);
     });
 
-    Route::get('user', [AuthenticatedUserController::class, 'show'])->middleware('auth:sanctum');
-    Route::delete('user', [AuthenticatedUserController::class, 'destroy'])->middleware(['auth:sanctum', 'password.confirm']);
-    Route::get('user/orders', [OrderController::class, 'userOrders'])->middleware('auth:sanctum');
+    Route::prefix('user')->name('user.')->middleware('auth:sanctum')->group(function (): void {
+        Route::get('/', [AuthenticatedUserController::class, 'show']);
+        Route::delete('/', [AuthenticatedUserController::class, 'destroy'])->middleware('password.confirm');
+        Route::get('orders', [OrderController::class, 'userOrders']);
+        Route::apiResource('addresses', AddressController::class);
 
-    Route::get('user/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
-    Route::patch('user/notifications/{id}', [NotificationController::class, 'readNotification'])->name('user.notifications.read');
-    Route::patch('user/notifications', [NotificationController::class, 'readAllNotifications'])->name('user.notifications.read-all');
+        Route::get('notifications', [NotificationController::class, 'notifications'])->name('notifications');
+        Route::patch('notifications/{id}', [NotificationController::class, 'readNotification'])->name('notifications.read');
+        Route::patch('notifications', [NotificationController::class, 'readAllNotifications'])->name('notifications.read-all');
+    });
 
     Route::prefix('oauth/{provider}')->name('oauth.')->group(function (): void {
         Route::get('redirect', [OAuthController::class, 'oauthRedirect'])->name('redirect');
