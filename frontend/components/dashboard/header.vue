@@ -31,6 +31,8 @@
                     </nuxt-link>
                 </div>
 
+                <inputs-page-search :pages="pages" />
+
                 <div class="flex items-center gap-1 lg:gap-5">
                     <nav class="flex items-center gap-2">
                         <u-button
@@ -100,6 +102,13 @@
 
 <script lang="ts" setup>
 import Notifications from '~/components/slideovers/notifications.vue';
+
+defineProps({
+    pages: {
+        type: Object as () => { label: string; href: string }[],
+        required: true,
+    },
+});
 
 const config = useRuntimeConfig();
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dashboard-header />
+        <dashboard-header :pages="pages" />
 
         <div
             class="mx-auto flex min-h-screen w-full min-w-[320px] flex-col bg-slate-100"
@@ -48,17 +48,17 @@ const sharedCategories = {
         {
             label: 'My Orders',
             icon: 'material-symbols:shopping-cart',
-            to: '/dashboard/my-orders',
+            href: '/dashboard/my-orders',
         },
         {
             label: 'My Reviews',
             icon: 'material-symbols:rate-review',
-            to: '/dashboard/my-reviews',
+            href: '/dashboard/my-reviews',
         },
         {
             label: 'Saved Addresses',
             icon: 'material-symbols:location-on',
-            to: '/dashboard/my-addresses',
+            href: '/dashboard/my-addresses',
         },
     ],
 };
@@ -68,111 +68,111 @@ const adminCategories = {
         {
             label: 'Orders',
             icon: 'material-symbols:shopping-cart',
-            to: '/dashboard/admin/orders',
+            href: '/dashboard/admin/orders',
         },
         {
             label: 'Products',
             icon: 'material-symbols:storefront',
-            to: '/dashboard/admin/products',
+            href: '/dashboard/admin/products',
         },
         {
             label: 'Coupons',
             icon: 'mdi:tag',
-            to: '/dashboard/admin/coupons',
+            href: '/dashboard/admin/coupons',
         },
     ],
     Content: [
         {
             label: 'Articles',
             icon: 'material-symbols:article',
-            to: '/dashboard/admin/articles',
+            href: '/dashboard/admin/articles',
         },
     ],
     Integrations: [
         {
             label: 'Marketplaces',
             icon: 'material-symbols:storefront',
-            to: '/dashboard/admin/marketplaces',
+            href: '/dashboard/admin/marketplaces',
         },
     ],
     Management: [
         {
             label: 'Users',
             icon: 'material-symbols:groups',
-            to: '/dashboard/admin/users',
+            href: '/dashboard/admin/users',
         },
         {
             label: 'Activity History',
             icon: 'material-symbols:history',
-            to: '/dashboard/admin/activity-history',
+            href: '/dashboard/admin/activity-history',
         },
         {
             label: 'Statistics',
             icon: 'material-symbols:analytics',
-            to: '/dashboard/admin/statistics',
+            href: '/dashboard/admin/statistics',
         },
     ],
     Feedback: [
         {
             label: 'Reviews',
             icon: 'material-symbols:rate-review',
-            to: '/dashboard/admin/reviews',
+            href: '/dashboard/admin/reviews',
         },
         {
             label: 'User Questions',
             icon: 'material-symbols:feedback',
-            to: '/dashboard/admin/questions',
+            href: '/dashboard/admin/questions',
         },
         {
             label: 'FAQ',
             icon: 'material-symbols:question-mark',
-            to: '/dashboard/admin/faq',
+            href: '/dashboard/admin/faq',
         },
     ],
     Customization: [
         {
             label: 'Templates',
             icon: 'material-symbols:design-services',
-            to: '/dashboard/admin/templates',
+            href: '/dashboard/admin/templates',
         },
         {
             label: 'Email Templates',
             icon: 'material-symbols:mail',
-            to: '/dashboard/admin/email-templates',
+            href: '/dashboard/admin/email-templates',
         },
         {
             label: 'Banner',
             icon: 'material-symbols:brand-awareness-rounded',
-            to: '/dashboard/admin/banner',
+            href: '/dashboard/admin/banner',
         },
     ],
     Settings: [
         {
             label: 'Settings',
             icon: 'material-symbols:settings-outline',
-            to: '/dashboard/admin/settings',
+            href: '/dashboard/admin/settings',
         },
     ],
     'System Monitoring': [
         {
             label: 'Backups',
             icon: 'material-symbols:cloud-download',
-            to: '/dashboard/admin/backups',
+            href: '/dashboard/admin/backups',
         },
         {
             label: 'Application Logs',
             icon: 'material-symbols:bug-report',
-            to: '/dashboard/admin/logs',
+            href: '/dashboard/admin/logs',
         },
         {
             label: 'Queue Logs',
             icon: 'material-symbols:timeline',
-            to: '/dashboard/admin/queue-logs',
+            href: '/dashboard/admin/queue-logs',
         },
         {
             label: 'System Information',
             icon: 'material-symbols:system-update',
-            to: '/dashboard/admin/system-info',
+            href: '/dashboard/admin/system-info',
         },
     ],
 };
@@ -182,10 +182,14 @@ const categories = {
         {
             label: 'Dashboard',
             icon: 'material-symbols:dashboard',
-            to: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
+            href: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
         },
     ],
     ...sharedCategories,
     ...(authStore.isAdmin ? adminCategories : []),
 };
+
+const pages = computed(() => {
+    return Object.values(categories).flat();
+});
 </script>
