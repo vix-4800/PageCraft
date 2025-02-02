@@ -89,12 +89,9 @@
                                 :value-attribute="'code'"
                             >
                                 <template #label>
-                                    <nuxt-link
-                                        :to="switchLocalePath(locale)"
-                                        class="font-semibold text-gray-200"
-                                    >
+                                    <span class="font-semibold text-gray-200">
                                         {{ selectedLocaleLabel }}
-                                    </nuxt-link>
+                                    </span>
                                 </template>
 
                                 <template #option="{ option: localeOption }">
@@ -192,7 +189,6 @@ const toggleMenu = () => {
 };
 
 const { locale, locales } = useI18n();
-const switchLocalePath = useSwitchLocalePath();
 
 const availableLocales = computed(() => {
     return locales.value.filter((i) => i.code !== locale.value);
