@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -25,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, OrderItem> $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, PromoCode> $promoCodes
+ * @property-read int|null $promo_codes_count
  * @property-read User $user
  *
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
@@ -85,5 +88,20 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function promoCodes(): BelongsToMany
+    {
+        return $this->belongsToMany(PromoCode::class);
+    }
+
+    public function applyPromoCode(PromoCode $promoCode): void
+    {
+        $this->total -= $promoCode->calculateDiscount($this->total);
+        $this->save();
+
+        $this->promoCodes()->attach($promoCode);
+
+        $promoCode->increment('used_count');
     }
 }
