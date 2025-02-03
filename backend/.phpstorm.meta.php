@@ -2922,8 +2922,9 @@ namespace PHPSTORM_META {
 'api.v1.orders.store','api.v1.orders.show','api.v1.orders.update','api.v1.reviews.index','api.v1.reviews.store',
 'api.v1.messages.index','api.v1.messages.store','api.v1.messages.show','api.v1.messages.update','api.v1.messages.destroy',
 'api.v1.articles.updateSearchIndexes','api.v1.articles.index','api.v1.articles.store','api.v1.articles.show','api.v1.articles.update',
-'api.v1.articles.destroy','api.v1.search','api.v1.banners.show','api.v1.banners.update','api.',
-'api.','api.','api.user.notifications','api.user.notifications.read','api.user.notifications.read-all',
+'api.v1.articles.destroy','api.v1.search','api.v1.banners.show','api.v1.banners.update','api.user.',
+'api.user.','api.user.','api.user.addresses.index','api.user.addresses.store','api.user.addresses.show',
+'api.user.addresses.update','api.user.addresses.destroy','api.user.notifications','api.user.notifications.read','api.user.notifications.read-all',
 'api.oauth.redirect','api.oauth.callback','api.','api.','storage.local',);
         registerArgumentsSet('views', 
 'mail.account-deleted','mail.account-password-reset','mail.account-registered','mail.system-status-warning','pdf.invoice',

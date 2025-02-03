@@ -26,6 +26,7 @@ use Laravolt\Avatar\Avatar;
  * @property string|null $phone
  * @property string|null $password
  * @property int $role_id
+ * @property \Illuminate\Support\Carbon|null $last_sign_in_at
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
@@ -54,6 +55,7 @@ use Laravolt\Avatar\Avatar;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastSignInAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
@@ -81,6 +83,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'role_id',
+        'last_sign_in_at',
     ];
 
     /**
@@ -103,6 +106,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'last_sign_in_at' => 'datetime',
     ];
 
     public function orders(): HasMany
@@ -142,5 +146,10 @@ class User extends Authenticatable
     public function userAddresses(): HasMany
     {
         return $this->hasMany(UserAddress::class);
+    }
+
+    public function updateLastSignInTimestamp(): void
+    {
+        $this->update(['last_sign_in_at' => now()]);
     }
 }
