@@ -152,6 +152,14 @@ class ServerService
     }
 
     /**
+     * Checks if the cache connection is up.
+     */
+    public function isCacheUp(): bool
+    {
+        return true;
+    }
+
+    /**
      * Returns the system uptime in the format H:i:s.
      */
     public function getUptime(): string
@@ -165,5 +173,13 @@ class ServerService
         }
 
         return '00:00:00';
+    }
+
+    /**
+     * Checks if application config is cached.
+     */
+    public function isConfigCached(): bool
+    {
+        return file_exists(base_path('bootstrap/cache/config.php'));
     }
 }

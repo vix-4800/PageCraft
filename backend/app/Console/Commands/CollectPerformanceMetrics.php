@@ -37,7 +37,9 @@ class CollectPerformanceMetrics extends Command
         $ram = Server::getRamUsage();
         $network = Server::getNetworkUsage();
         $databaseStatus = Server::isDatabaseUp();
+        $cacheStatus = Server::isCacheUp();
         $upTime = Server::getUptime();
+        $configCached = Server::isConfigCached();
 
         SystemReport::create([
             'cpu_usage' => $cpu,
@@ -46,29 +48,34 @@ class CollectPerformanceMetrics extends Command
             'network_incoming' => $network['eth0']['incoming'],
             'network_outgoing' => $network['eth0']['outgoing'],
             'is_database_up' => $databaseStatus,
-            'is_cache_up' => true,
+            'is_cache_up' => $cacheStatus,
             'uptime' => $upTime,
         ]);
 
-        $this->sendWarnings($databaseStatus, $cpu, $ram);
-        $this->printResults($databaseStatus, $cpu, $ram, $network, $upTime);
+        $this->sendWarnings($databaseStatus, $cacheStatus, $cpu, $ram);
+        $this->printResults($databaseStatus, $cacheStatus, $cpu, $ram, $network, $upTime, $configCached);
     }
 
-    private function printResults(bool $databaseStatus, float $cpu, array $ram, array $network, string $upTime): void
+    private function printResults(bool $databaseStatus, bool $cacheStatus, float $cpu, array $ram, array $network, string $upTime, bool $configCached): void
     {
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
         $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
-        $this->info('Cache up: yes');
+        $this->info('Cache up: '.($cacheStatus ? 'yes' : 'no'));
         $this->info("Uptime: {$upTime}");
+        $this->info('Config cached: '.($configCached ? 'yes' : 'no'));
     }
 
-    private function sendWarnings(bool $databaseStatus, float $cpu, array $ram): void
+    private function sendWarnings(bool $databaseStatus, bool $cacheStatus, float $cpu, array $ram): void
     {
         $warnings = collect();
         if (! $databaseStatus) {
-            $warnings->push('Database is not running');
+            $warnings->push('Database connection is down');
+        }
+
+        if (! $cacheStatus) {
+            $warnings->push('Cache connection is down');
         }
 
         if ($cpu > 80) {
