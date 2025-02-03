@@ -14,6 +14,7 @@
                             :src="product.product_images[0]"
                             :alt="product.name"
                             class="w-full object-cover object-top aspect-[230/307]"
+                            placeholder="/placeholder.png"
                         />
                     </div>
 
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         <u-button
-                            :to="`/products/${product.slug}`"
+                            :to="`/products/${product.category.slug}/${product.slug}`"
                             label="Add to Cart"
                             block
                             class="mt-4 font-semibold"

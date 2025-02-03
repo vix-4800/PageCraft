@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'variations' => ProductVariationResource::collection($this->whenLoaded('variations')),
             'reviews' => (new ProductService)->getProductReviewsStatistics($this->id),
+            'category' => $this->productCategory,
             'created_at' => $this->created_at?->toDateTimeString() ?? null,
         ];
     }

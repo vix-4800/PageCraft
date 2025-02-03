@@ -30,7 +30,7 @@
                     />
 
                     <nuxt-link
-                        :to="`/products/${product.slug}`"
+                        :to="`/products/${product.category.slug}/${product.slug}`"
                         class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-transparent"
                     >
                         <nuxt-img
@@ -56,7 +56,7 @@
                     </div>
 
                     <u-button
-                        :to="`/products/${product.slug}`"
+                        :to="`/products/${product.category.slug}/${product.slug}`"
                         block
                         size="lg"
                         color="orange"

@@ -10,7 +10,9 @@
                     <div
                         class="p-2 bg-white border-2 border-gray-300 rounded-md w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0"
                     >
-                        <nuxt-link :to="`/products/${item.product.slug}`">
+                        <nuxt-link
+                            :to="`/products/${item.product.category.slug}/${item.product.slug}`"
+                        >
                             <nuxt-img
                                 :src="item.product.product_images[0]"
                                 class="object-contain w-full h-full"
