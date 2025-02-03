@@ -69,7 +69,7 @@
 
         <div class="flex justify-center w-full mt-6">
             <u-pagination
-                v-if="withPagination && pageCount > 0"
+                v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
                 :active-button="{ variant: 'outline', color: 'orange' }"

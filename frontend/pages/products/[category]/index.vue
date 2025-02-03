@@ -4,6 +4,7 @@
             title="Products"
             subtitle="Explore our wide range of products"
         />
+
         <component
             :is="productListComponent"
             :products="products"
@@ -42,7 +43,7 @@ async function fetchProducts(page: number) {
     const { data, meta } = await apiFetch<{
         data: Product[];
         meta: { last_page: number };
-    }>(`v1/products/${route.params.category}`, {
+    }>(`v1/product-categories/${route.params.category}`, {
         params: {
             page,
             limit: productList.value === 'compact' ? 12 : 9,
