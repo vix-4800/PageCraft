@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Exceptions\DatabaseBackupException;
 use App\Helpers\ApiResponse;
+use App\Helpers\DatabaseBackup;
 use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class BackupController extends Controller
     public function restore(Request $request): Response
     {
         try {
-            Artisan::call('backup:restore', ['filename' => $request->input('filename')]);
+            Artisan::queue('backup:restore', ['filename' => $request->input('filename')]);
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $th) {
@@ -45,7 +46,9 @@ class BackupController extends Controller
 
     public function list(): JsonResponse
     {
-        return ApiResponse::create($this->service->list());
+        return ApiResponse::create(
+            collect($this->service->list()->map(fn (DatabaseBackup $backup): array => $backup->toArray()))
+        );
     }
 
     public function delete(): Response

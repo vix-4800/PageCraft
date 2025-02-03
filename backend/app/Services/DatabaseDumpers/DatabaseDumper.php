@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\DatabaseDumpers;
 
 use App\Helpers\DatabaseBackup;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 abstract class DatabaseDumper
@@ -45,6 +44,8 @@ abstract class DatabaseDumper
 
     /**
      * Get a list of all available backups.
+     *
+     * @return Collection<DatabaseBackup>
      */
     public function list(): Collection
     {
@@ -61,7 +62,7 @@ abstract class DatabaseDumper
 
         $files = array_filter($files, fn (string $file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
         foreach ($files as $file) {
-            $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
+            $backups->push(new DatabaseBackup("{$this->backupDir}/{$file}"));
         }
 
         return $backups;
@@ -70,9 +71,9 @@ abstract class DatabaseDumper
     /**
      * Delete a database backup.
      */
-    public function delete(string $file): void
+    public function delete(string $filename): void
     {
-        unlink("{$this->backupDir}/{$file}");
+        unlink("{$this->backupDir}/{$filename}");
     }
 
     /**
@@ -80,9 +81,6 @@ abstract class DatabaseDumper
      */
     public function deleteAll(): void
     {
-        /** @var array{name: string, size: int|float, date: Carbon} $backupFile */
-        foreach ($this->list() as $backupFile) {
-            $this->delete($backupFile['name']);
-        }
+        $this->list()->each(fn (DatabaseBackup $backupFile) => $this->delete($backupFile->getName()));
     }
 }

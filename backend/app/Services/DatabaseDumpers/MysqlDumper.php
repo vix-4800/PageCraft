@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\DatabaseDumpers;
 
+use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
 class MysqlDumper extends DatabaseDumper
@@ -23,6 +24,8 @@ class MysqlDumper extends DatabaseDumper
         exec($command, result_code: $returnVar);
 
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup.'));
+
+        DatabaseDumpCreated::dispatch();
     }
 
     public function restore(string $filename): void

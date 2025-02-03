@@ -41,4 +41,19 @@ class DatabaseBackup
             'size' => round($this->size / 1048576, 2).' MB',
         ];
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDate(): Carbon
+    {
+        return $this->date;
+    }
+
+    public function getSize(): float|int
+    {
+        return $this->size;
+    }
 }

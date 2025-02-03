@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\DatabaseDumpers;
 
+use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
 class PostgresDumper extends DatabaseDumper
@@ -22,6 +23,8 @@ class PostgresDumper extends DatabaseDumper
         exec($command, $output, $returnVar);
 
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup: '.implode("\n", $output)));
+
+        DatabaseDumpCreated::dispatch();
     }
 
     public function restore(string $filename): void

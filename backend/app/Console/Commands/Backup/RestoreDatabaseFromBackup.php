@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Backup;
 
-use App\Jobs\RestoreDatabase;
+use App\Services\DatabaseDumpers\DatabaseDumper;
 use Illuminate\Console\Command;
 
 class RestoreDatabaseFromBackup extends Command
@@ -31,7 +31,7 @@ class RestoreDatabaseFromBackup extends Command
         $filename = $this->argument('filename');
         $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
 
-        RestoreDatabase::dispatchSync($filename);
+        resolve(DatabaseDumper::class)->restore($filename);
 
         $this->info("Database restore started. Filename: {$filename}");
 

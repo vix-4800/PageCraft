@@ -50,13 +50,22 @@ class CollectPerformanceMetrics extends Command
             'uptime' => $upTime,
         ]);
 
+        $this->sendWarnings($databaseStatus, $cpu, $ram);
+        $this->printResults($databaseStatus, $cpu, $ram, $network, $upTime);
+    }
+
+    private function printResults(bool $databaseStatus, float $cpu, array $ram, array $network, string $upTime): void
+    {
         $this->info("CPU: {$cpu} %");
         $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
         $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
         $this->info('Cache up: yes');
         $this->info("Uptime: {$upTime}");
+    }
 
+    private function sendWarnings(bool $databaseStatus, float $cpu, array $ram): void
+    {
         $warnings = collect();
         if (! $databaseStatus) {
             $warnings->push('Database is not running');
