@@ -40,18 +40,28 @@ onMounted(async () => {
 });
 
 async function fetchProducts(page: number) {
-    const { data, meta } = await apiFetch<{
-        data: Product[];
-        meta: { last_page: number };
-    }>(`v1/product-categories/${route.params.category}`, {
-        params: {
-            page,
-            limit: productList.value === 'compact' ? 12 : 9,
-        },
-    });
+    try {
+        const { data, meta } = await apiFetch<{
+            data: Product[];
+            meta: { last_page: number };
+        }>(`v1/product-categories/${route.params.category}`, {
+            params: {
+                page,
+                limit: productList.value === 'compact' ? 12 : 9,
+            },
+        });
 
-    products.value = data;
-    pageCount.value = meta.last_page;
+        products.value = data;
+        pageCount.value = meta.last_page;
+    } catch (error) {
+        if (error.status === 404) {
+            throw createError({
+                statusCode: 404,
+                statusMessage: 'Category not found',
+                fatal: true,
+            });
+        }
+    }
 }
 
 watch(

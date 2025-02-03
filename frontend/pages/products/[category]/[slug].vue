@@ -32,17 +32,27 @@ const reviews = ref<Review[]>([]);
 
 const route = useRoute();
 onMounted(async () => {
-    const { data: productData } = await apiFetch<{ data: Product }>(
-        `v1/products/${route.params.slug}`
-    );
+    try {
+        const { data: productData } = await apiFetch<{ data: Product }>(
+            `v1/products/${route.params.slug}`
+        );
 
-    product.value = productData;
-    variations.value = product.value.variations;
+        product.value = productData;
+        variations.value = product.value.variations;
 
-    const { data: reviewsData } = await apiFetch<{ data: Review[] }>(
-        `v1/products/${route.params.slug}/reviews`
-    );
+        const { data: reviewsData } = await apiFetch<{ data: Review[] }>(
+            `v1/products/${route.params.slug}/reviews`
+        );
 
-    reviews.value = reviewsData;
+        reviews.value = reviewsData;
+    } catch (error) {
+        if (error.status === 404) {
+            throw createError({
+                statusCode: 404,
+                statusMessage: 'Product not found',
+                fatal: true,
+            });
+        }
+    }
 });
 </script>

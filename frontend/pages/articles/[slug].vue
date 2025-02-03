@@ -23,10 +23,20 @@ const route = useRoute();
 
 const article = ref<Article | null>(null);
 onMounted(async () => {
-    const { data } = await apiFetch<{ data: Article }>(
-        `v1/articles/${route.params.slug}`
-    );
+    try {
+        const { data } = await apiFetch<{ data: Article }>(
+            `v1/articles/${route.params.slug}`
+        );
 
-    article.value = data;
+        article.value = data;
+    } catch (error) {
+        if (error.status === 404) {
+            throw createError({
+                statusCode: 404,
+                statusMessage: 'Article not found',
+                fatal: true,
+            });
+        }
+    }
 });
 </script>
