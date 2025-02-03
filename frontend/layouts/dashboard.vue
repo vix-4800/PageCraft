@@ -102,11 +102,6 @@ const adminCategories = {
             href: '/dashboard/admin/users',
         },
         {
-            label: 'Activity History',
-            icon: 'material-symbols:history',
-            href: '/dashboard/admin/activity-history',
-        },
-        {
             label: 'Statistics',
             icon: 'material-symbols:analytics',
             href: '/dashboard/admin/statistics',
