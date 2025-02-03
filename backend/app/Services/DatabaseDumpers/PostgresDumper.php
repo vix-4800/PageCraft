@@ -13,10 +13,10 @@ class PostgresDumper extends DatabaseDumper
     {
         $command = sprintf(
             'pg_dump --username=%s --host=%s --no-password --format=custom --file=%s %s',
-            escapeshellarg(config('database.connections.pgsql.username')),
-            escapeshellarg(config('database.connections.pgsql.host')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databaseHost),
             escapeshellarg("{$this->backupDir}/{$filename}"),
-            escapeshellarg(config('database.connections.pgsql.database'))
+            escapeshellarg($this->databaseName)
         );
 
         $returnVar = null;
@@ -35,9 +35,9 @@ class PostgresDumper extends DatabaseDumper
 
         $command = sprintf(
             'pg_restore --username=%s --host=%s --no-password --clean --dbname=%s %s',
-            escapeshellarg(config('database.connections.pgsql.username')),
-            escapeshellarg(config('database.connections.pgsql.host')),
-            escapeshellarg(config('database.connections.pgsql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg($filePath)
         );
 

@@ -11,6 +11,14 @@ abstract class DatabaseDumper
 {
     protected string $backupDir;
 
+    protected string $databaseUsername;
+
+    protected string $databasePassword;
+
+    protected string $databaseName;
+
+    protected string $databaseHost;
+
     public function __construct()
     {
         $this->backupDir = config('backup.directory');
@@ -18,6 +26,13 @@ abstract class DatabaseDumper
         if (! is_dir($this->backupDir)) {
             mkdir($this->backupDir, 0755, true);
         }
+
+        $driver = config('database.default');
+
+        $this->databaseUsername = config("database.connections.{$driver}.username");
+        $this->databasePassword = config("database.connections.{$driver}.password");
+        $this->databaseName = config("database.connections.{$driver}.database");
+        $this->databaseHost = config("database.connections.{$driver}.host");
     }
 
     /**

@@ -13,10 +13,10 @@ class MysqlDumper extends DatabaseDumper
     {
         $command = sprintf(
             'mysqldump --user=%s --password=%s --host=%s %s > %s',
-            escapeshellarg(config('database.connections.mysql.username')),
-            escapeshellarg(config('database.connections.mysql.password')),
-            escapeshellarg(config('database.connections.mysql.host')),
-            escapeshellarg(config('database.connections.mysql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databasePassword),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg("{$this->backupDir}/{$filename}")
         );
 
@@ -36,10 +36,10 @@ class MysqlDumper extends DatabaseDumper
 
         $command = sprintf(
             'mysql --user=%s --password=%s --host=%s %s < %s',
-            escapeshellarg(config('database.connections.mysql.username')),
-            escapeshellarg(config('database.connections.mysql.password')),
-            escapeshellarg(config('database.connections.mysql.host')),
-            escapeshellarg(config('database.connections.mysql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databasePassword),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg($filePath)
         );
 
