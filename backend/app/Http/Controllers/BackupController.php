@@ -36,7 +36,7 @@ class BackupController extends Controller
     public function restore(Request $request): Response
     {
         try {
-            Artisan::queue('backup:restore', ['filename' => $request->input('filename')]);
+            Artisan::call('backup:restore', ['filename' => $request->input('filename')]);
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $th) {

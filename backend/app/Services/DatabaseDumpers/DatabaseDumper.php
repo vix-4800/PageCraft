@@ -11,9 +11,9 @@ abstract class DatabaseDumper
 {
     protected string $backupDir;
 
-    public function __construct(?string $backupDir = null)
+    public function __construct()
     {
-        $this->backupDir = $backupDir ?? storage_path('app/backups');
+        $this->backupDir = config('backup.directory');
 
         if (! is_dir($this->backupDir)) {
             mkdir($this->backupDir, 0755, true);

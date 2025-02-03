@@ -32,7 +32,16 @@ class DeleteOldBackups extends Command
         $service = resolve(DatabaseDumper::class);
 
         $service->list()->each(function (DatabaseBackup $backup) use ($service): void {
-            if ($backup->getDate()->isBefore(now()->subMonth())) {
+            $period = config('backup.delete_after');
+
+            $targetDate = match (config('backup.delete_after_method')) {
+                'days' => now()->subDays($period),
+                'weeks' => now()->subWeeks($period),
+                'months' => now()->subMonths($period),
+                'years' => now()->subYears($period),
+            };
+
+            if ($backup->getDate()->isBefore($targetDate)) {
                 $service->delete($backup->getName());
             }
         });
