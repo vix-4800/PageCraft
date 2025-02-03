@@ -101,7 +101,7 @@ async function getUsers() {
         }
     );
 
-    users.value = data;
+    users.value = data.filter((user) => user.id !== useAuthStore().user?.id);
     status.value = 'success';
 
     page.value = meta.current_page;
