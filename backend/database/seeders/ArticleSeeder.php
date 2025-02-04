@@ -18,7 +18,7 @@ class ArticleSeeder extends Seeder
         Article::factory(15)->published()->create()->each(function (Article $article): void {
             $tags = ArticleTag::factory(random_int(1, 3))->create();
 
-            $article->articleTags()->saveMany($tags);
+            // $article->articleTags()->saveMany($tags);
         });
     }
 }
