@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Backup;
 
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Console\Command;
 use Str;
 
@@ -32,7 +32,7 @@ class CreateDatabaseBackup extends Command
         $filename = $this->option('filename') ?? 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8);
         $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
 
-        resolve(DatabaseDumper::class)->create($filename);
+        resolve(DatabaseBackupService::class)->create($filename);
 
         $this->info("Database backup creation started. Filename: {$filename}");
 

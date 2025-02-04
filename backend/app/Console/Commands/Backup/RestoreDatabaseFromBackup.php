@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Backup;
 
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Console\Command;
 
 class RestoreDatabaseFromBackup extends Command
@@ -31,7 +31,7 @@ class RestoreDatabaseFromBackup extends Command
         $filename = $this->argument('filename');
         $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
 
-        resolve(DatabaseDumper::class)->restore($filename);
+        resolve(DatabaseBackupService::class)->restore($filename);
 
         $this->info("Database restore started. Filename: {$filename}");
 

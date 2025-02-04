@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
 use Tests\TestCase;
 
 class DatabaseBackupTest extends TestCase
 {
-    private DatabaseDumper $dumperService;
+    private DatabaseBackupService $dumperService;
 
     private string $defaultBackupFilename = 'test_backup.sql';
 
@@ -20,7 +20,7 @@ class DatabaseBackupTest extends TestCase
 
     public function test_backup_create_command(): void
     {
-        resolve(DatabaseDumper::class)->create($this->defaultBackupFilename);
+        resolve(DatabaseBackupService::class)->create($this->defaultBackupFilename);
 
         $this->assertTrue(
             file_exists(config('backup.directory')."/{$this->defaultBackupFilename}")

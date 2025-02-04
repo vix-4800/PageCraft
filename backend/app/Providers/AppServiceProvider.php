@@ -33,12 +33,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        VerifyEmail::createUrlUsing(function (User $notifiable): string {
-            return (new GenerateEmailVerificationUrl)->handle($notifiable);
-        });
-
-        ResetPassword::createUrlUsing(function (User $notifiable, string $token): string {
-            return (new GeneratePasswordResetUrl)->handle($notifiable, $token);
-        });
+        VerifyEmail::createUrlUsing(fn (User $notifiable): string => (new GenerateEmailVerificationUrl)->handle($notifiable));
+        ResetPassword::createUrlUsing(fn (User $notifiable, string $token): string => (new GeneratePasswordResetUrl)->handle($notifiable, $token));
     }
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DatabaseDumpers;
+namespace App\Services\DatabaseBackup;
 
 use App\Helpers\DatabaseBackup;
 use Illuminate\Support\Collection;
 
-abstract class DatabaseDumper
+abstract class DatabaseBackupService
 {
     protected string $backupDir;
 

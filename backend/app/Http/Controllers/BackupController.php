@@ -8,7 +8,7 @@ use App\Exceptions\ApiException;
 use App\Exceptions\DatabaseBackupException;
 use App\Helpers\ApiResponse;
 use App\Helpers\DatabaseBackup;
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Artisan;
 class BackupController extends Controller
 {
     public function __construct(
-        private readonly DatabaseDumper $service
+        private readonly DatabaseBackupService $service
     ) {
         //
     }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DatabaseDumpers;
+namespace App\Services\DatabaseBackup;
 
 use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class SqliteDumper extends DatabaseDumper
+class SqliteBackupService extends DatabaseBackupService
 {
     /**
      * The path to the SQLite database file.

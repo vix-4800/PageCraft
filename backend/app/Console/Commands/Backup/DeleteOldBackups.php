@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands\Backup;
 
 use App\Helpers\DatabaseBackup;
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Console\Command;
 
 class DeleteOldBackups extends Command
@@ -29,7 +29,7 @@ class DeleteOldBackups extends Command
      */
     public function handle(): void
     {
-        $service = resolve(DatabaseDumper::class);
+        $service = resolve(DatabaseBackupService::class);
 
         $service->list()->each(function (DatabaseBackup $backup) use ($service): void {
             $period = config('backup.delete_after');
