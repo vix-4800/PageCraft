@@ -32,6 +32,7 @@ class BackupService
 
     public function restoreDatabaseBackup(string $backupFile): void
     {
+        $backupFile .= str_ends_with($backupFile, '.sql') ? '' : '.sql';
         $this->databaseBackupService->restore($backupFile);
     }
 

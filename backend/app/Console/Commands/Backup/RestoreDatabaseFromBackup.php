@@ -28,12 +28,9 @@ class RestoreDatabaseFromBackup extends Command
      */
     public function handle(): int
     {
-        $filename = $this->argument('filename');
-        $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
+        Backup::restoreDatabaseBackup($this->argument('filename'));
 
-        Backup::restoreDatabaseBackup($filename);
-
-        $this->info("Database restore started. Filename: {$filename}");
+        $this->info('Database restore started.');
 
         return self::SUCCESS;
     }

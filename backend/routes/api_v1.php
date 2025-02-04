@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function (): void {
         Route::get('/', [BackupController::class, 'list']);
         Route::post('create', [BackupController::class, 'create']);
         Route::post('restore', [BackupController::class, 'restore'])->middleware('password.confirm');
+        Route::post('delete', [BackupController::class, 'delete'])->middleware('password.confirm');
         Route::delete('/', [BackupController::class, 'delete'])->middleware('password.confirm');
     });
 

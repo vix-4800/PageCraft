@@ -9,17 +9,16 @@ use App\Exceptions\DatabaseBackupException;
 use App\Facades\Backup;
 use App\Helpers\ApiResponse;
 use App\Helpers\DatabaseBackup;
+use App\Http\Requests\DatabaseBackupRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
 
 class BackupController extends Controller
 {
     public function create(): Response
     {
         try {
-            Artisan::call('backup:create');
+            Backup::createDatabaseBackup();
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $th) {
@@ -27,10 +26,10 @@ class BackupController extends Controller
         }
     }
 
-    public function restore(Request $request): Response
+    public function restore(DatabaseBackupRequest $request): Response
     {
         try {
-            Artisan::call('backup:restore', ['filename' => $request->input('filename')]);
+            Backup::restoreDatabaseBackup($request->validated()['filename']);
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $th) {
@@ -45,9 +44,9 @@ class BackupController extends Controller
         );
     }
 
-    public function delete(): Response
+    public function delete(DatabaseBackupRequest $request): Response
     {
-        Backup::deleteAllDatabaseBackups();
+        Backup::deleteDatabaseBackup($request->validated()['filename']);
 
         return ApiResponse::empty();
     }
