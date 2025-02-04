@@ -2,26 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DatabaseDumpers;
+namespace App\Services\DatabaseBackup;
 
+use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class PostgresDumper extends DatabaseDumper
+class PostgresBackupService extends DatabaseBackupService
 {
-    public function create(string $filename): void
+    public function create(string $filename): string
     {
         $command = sprintf(
             'pg_dump --username=%s --host=%s --no-password --format=custom --file=%s %s',
-            escapeshellarg(config('database.connections.pgsql.username')),
-            escapeshellarg(config('database.connections.pgsql.host')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databaseHost),
             escapeshellarg("{$this->backupDir}/{$filename}"),
-            escapeshellarg(config('database.connections.pgsql.database'))
+            escapeshellarg($this->databaseName)
         );
 
         $returnVar = null;
         exec($command, $output, $returnVar);
 
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup: '.implode("\n", $output)));
+
+        DatabaseDumpCreated::dispatch();
+
+        return $filename;
     }
 
     public function restore(string $filename): void
@@ -32,9 +37,9 @@ class PostgresDumper extends DatabaseDumper
 
         $command = sprintf(
             'pg_restore --username=%s --host=%s --no-password --clean --dbname=%s %s',
-            escapeshellarg(config('database.connections.pgsql.username')),
-            escapeshellarg(config('database.connections.pgsql.host')),
-            escapeshellarg(config('database.connections.pgsql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg($filePath)
         );
 

@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DatabaseDumpers;
+namespace App\Services\DatabaseBackup;
 
+use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class MysqlDumper extends DatabaseDumper
+class MysqlBackupService extends DatabaseBackupService
 {
-    public function create(string $filename): void
+    public function create(string $filename): string
     {
         $command = sprintf(
             'mysqldump --user=%s --password=%s --host=%s %s > %s',
-            escapeshellarg(config('database.connections.mysql.username')),
-            escapeshellarg(config('database.connections.mysql.password')),
-            escapeshellarg(config('database.connections.mysql.host')),
-            escapeshellarg(config('database.connections.mysql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databasePassword),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg("{$this->backupDir}/{$filename}")
         );
 
@@ -23,6 +24,10 @@ class MysqlDumper extends DatabaseDumper
         exec($command, result_code: $returnVar);
 
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup.'));
+
+        DatabaseDumpCreated::dispatch();
+
+        return $filename;
     }
 
     public function restore(string $filename): void
@@ -33,10 +38,10 @@ class MysqlDumper extends DatabaseDumper
 
         $command = sprintf(
             'mysql --user=%s --password=%s --host=%s %s < %s',
-            escapeshellarg(config('database.connections.mysql.username')),
-            escapeshellarg(config('database.connections.mysql.password')),
-            escapeshellarg(config('database.connections.mysql.host')),
-            escapeshellarg(config('database.connections.mysql.database')),
+            escapeshellarg($this->databaseUsername),
+            escapeshellarg($this->databasePassword),
+            escapeshellarg($this->databaseHost),
+            escapeshellarg($this->databaseName),
             escapeshellarg($filePath)
         );
 

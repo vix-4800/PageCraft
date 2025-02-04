@@ -12,12 +12,21 @@
                 :key="index"
                 :label="capitalize(value.block.replace('_', ' '))"
             >
-                <u-select
+                <u-select-menu
                     v-model="value.template"
                     color="blue"
+                    :disabled="templateOptions[value.block as keyof typeof templateOptions].length === 1"
                     :options="templateOptions[value.block as keyof typeof templateOptions]"
                     size="lg"
-                />
+                    :ui-menu="{
+                        height: 'max-h-96',
+                    }"
+                    value-attribute="value"
+                >
+                    <template #option="{ option: { img } }">
+                        <nuxt-img :src="img" />
+                    </template>
+                </u-select-menu>
             </u-form-group>
 
             <u-button
@@ -46,32 +55,108 @@ const siteTemplatesState = ref<SiteTemplate[]>([]);
 
 const templateOptions = {
     header: [
-        { value: 'default', label: 'Default' },
-        { value: 'minimalistic', label: 'Minimalistic' },
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/header_default.png',
+        },
+        {
+            value: 'minimalistic',
+            label: 'Minimalistic',
+            img: 'images/templates/header_minimalistic.png',
+        },
     ],
     footer: [
-        { value: 'default', label: 'Default' },
-        { value: 'minimalistic', label: 'Minimalistic' },
-        { value: 'simple', label: 'Simple' },
-        { value: 'contact', label: 'Contact Details' },
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/footer_default.png',
+        },
+        {
+            value: 'minimalistic',
+            label: 'Minimalistic',
+            img: 'images/templates/footer_minimalistic.png',
+        },
+        {
+            value: 'simple',
+            label: 'Simple',
+            img: 'images/templates/footer_simple.png',
+        },
+        {
+            value: 'contact',
+            label: 'Contact Details',
+            img: 'images/templates/footer_contact.png',
+        },
     ],
     product_list: [
-        { value: 'default', label: 'Default' },
-        { value: 'modern', label: 'Modern' },
-        { value: 'compact', label: 'Compact' },
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/product_list_default.png',
+        },
+        {
+            value: 'modern',
+            label: 'Modern',
+            img: 'images/templates/product_list_modern.png',
+        },
+        {
+            value: 'compact',
+            label: 'Compact',
+            img: 'images/templates/product_list_compact.png',
+        },
     ],
     product_detail: [
-        { value: 'default', label: 'Default' },
-        { value: 'modern', label: 'Modern' },
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/product_detail_default.png',
+        },
+        {
+            value: 'modern',
+            label: 'Modern',
+            img: 'images/templates/product_detail_modern.png',
+        },
     ],
     cart: [
-        { value: 'default', label: 'Default' },
-        { value: 'modern', label: 'Modern' },
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/cart_default.png',
+        },
+        {
+            value: 'modern',
+            label: 'Modern',
+            img: 'images/templates/cart_modern.png',
+        },
     ],
-    contact: [{ value: 'default', label: 'Default' }],
-    about: [{ value: 'default', label: 'Default' }],
-    article_list: [{ value: 'default', label: 'Default' }],
-    article_detail: [{ value: 'default', label: 'Default' }],
+    contact: [
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/contact_default.png',
+        },
+    ],
+    about: [
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/about_default.png',
+        },
+    ],
+    article_list: [
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/article_list_default.png',
+        },
+    ],
+    article_detail: [
+        {
+            value: 'default',
+            label: 'Default',
+            img: 'images/templates/article_detail_default.png',
+        },
+    ],
 };
 
 const loading = ref(false);
@@ -84,8 +169,12 @@ onMounted(async () => {
     loading.value = false;
 });
 
-async function save() {
+const save = async () => {
+    loading.value = true;
+
     await templatesStore.save(siteTemplatesState.value);
     siteTemplatesState.value = templatesStore.templates;
-}
+
+    loading.value = false;
+};
 </script>

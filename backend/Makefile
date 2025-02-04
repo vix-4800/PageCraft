@@ -70,3 +70,7 @@ pull:
 build:
 	@echo "\nBuilding images..."
 	@docker compose build
+
+fresh-db:
+	@echo "\nCreating fresh database..."
+	@docker exec -it backend php artisan migrate:fresh

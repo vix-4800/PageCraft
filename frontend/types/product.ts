@@ -15,7 +15,13 @@ export interface Product {
             one_star: number;
         };
     };
+    category: ProductCategory;
     created_at: Date;
+}
+
+export interface ProductCategory {
+    name: string;
+    slug: string;
 }
 
 export interface ProductVariation {

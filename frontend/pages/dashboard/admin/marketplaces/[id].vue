@@ -4,7 +4,17 @@
             title="Marketplace Accounts"
             :subtitle="`#${account?.id}`"
             :description="`Created on ${account?.created_at || ''}`"
-        />
+        >
+            <template #actions>
+                <u-button
+                    color="red"
+                    size="md"
+                    icon="material-symbols:delete"
+                    label="Delete Account"
+                    @click="deleteAccount"
+                />
+            </template>
+        </dashboard-page-name>
 
         <u-form v-if="account" :state="account" class="space-y-4">
             <u-form-group label="Name" name="name">
@@ -13,6 +23,17 @@
                     color="blue"
                     size="md"
                     placeholder="Name"
+                />
+            </u-form-group>
+
+            <u-form-group label="Marketplace" name="marketplace">
+                <u-select-menu
+                    v-model="account.marketplace"
+                    color="blue"
+                    :options="marketplaceOptions"
+                    size="lg"
+                    placeholder="Account Marketplace"
+                    value-attribute="value"
                 />
             </u-form-group>
 
@@ -57,6 +78,12 @@ const route = useRoute();
 const loading = ref(false);
 const account = ref<MarketplaceAccount>();
 
+const marketplaceOptions = [
+    { value: 'wildberries', label: 'Wildberries' },
+    { value: 'ozon', label: 'Ozon' },
+    { value: 'yandex', label: 'Yandex Market' },
+];
+
 onMounted(async () => {
     loading.value = true;
 
@@ -73,13 +100,29 @@ const save = async () => {
 
     await apiFetch(`v1/marketplaces/accounts/${route.params.id}`, {
         method: 'PUT',
-        body: {
-            name: account.value?.name,
-            settings: account.value?.settings,
-        },
+        body: account.value,
     });
 
     $notify('Marketplace account updated successfully', 'success');
     loading.value = false;
+};
+
+const deleteAccount = async () => {
+    withPasswordConfirmation(
+        async () => {
+            loading.value = true;
+
+            await apiFetch(`v1/marketplaces/accounts/${route.params.id}`, {
+                method: 'DELETE',
+            });
+
+            loading.value = false;
+            navigateTo('/dashboard/admin/marketplaces');
+            $notify('Marketplace account deleted', 'success');
+        },
+        'Confirm marketplace account deletion',
+        'Are you sure you want to delete this account?',
+        true
+    );
 };
 </script>

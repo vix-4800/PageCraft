@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('password')->nullable();
+            $table->timestamp('last_sign_in_at')->nullable();
 
             $table->text('two_factor_secret')->nullable();
             $table->text('two_factor_recovery_codes')->nullable();

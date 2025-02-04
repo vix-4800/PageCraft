@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\MarketplaceAccountRequest;
 use App\Http\Resources\MarketplaceAccount\MarketplaceAccountResource;
+use App\Models\Marketplace;
 use App\Models\MarketplaceAccount;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -28,8 +29,11 @@ class MarketplaceAccountController extends Controller
     {
         $validated = $request->validated();
 
+        /** @var Marketplace|null $marketplace */
+        $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
+
         /** @var MarketplaceAccount $account */
-        $account = MarketplaceAccount::create($validated['name']);
+        $account = $marketplace->accounts()->create(['name' => $validated['name']]);
 
         $account->settings()->createMany($validated['settings']);
 
@@ -51,9 +55,14 @@ class MarketplaceAccountController extends Controller
     {
         $validated = $request->validated();
 
-        $account->update(['name' => $validated['name']]);
+        /** @var Marketplace|null $marketplace */
+        $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
 
-        $account->settings()->delete();
+        $account->update([
+            'name' => $validated['name'],
+            'marketplace_id' => $marketplace->id,
+        ]);
+
         $account->settings()->createMany($validated['settings']);
 
         return new MarketplaceAccountResource($account);

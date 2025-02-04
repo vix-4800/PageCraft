@@ -6,7 +6,7 @@
         <card-mini label="Sales total" :value="statistics.sales.total" />
 
         <div
-            class="col-span-12 overflow-hidden bg-white border rounded-xl border-slate-200"
+            class="col-span-12 overflow-hidden bg-white border dark:bg-slate-700 dark:border-0 rounded-xl border-slate-200"
         >
             <dl class="px-6 pt-6">
                 <dt class="text-2xl font-bold">
@@ -27,7 +27,7 @@
 
         <div
             id="widgetIframe"
-            class="col-span-12 border rounded-xl border-slate-200"
+            class="col-span-12 border rounded-xl border-slate-200 dark:border-0"
         >
             <div class="px-6 pt-6">
                 <span class="text-2xl font-bold">Visits</span>
@@ -44,7 +44,7 @@
         </div>
 
         <div
-            class="overflow-hidden bg-white border rounded-xl border-slate-200 sm:col-span-12"
+            class="overflow-hidden bg-white border dark:bg-slate-700 rounded-xl border-slate-200 sm:col-span-12"
         >
             <div class="px-6 pt-6">
                 <h2 class="text-2xl font-bold">

@@ -53,7 +53,7 @@
                             ${{ product.price }}
                         </h3>
                         <u-button
-                            :to="`/products/${product.slug}`"
+                            :to="`/products/${product.category.slug}/${product.slug}`"
                             label="Order now"
                             class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider bg-blue-600 hover:bg-blue-700 outline-none"
                         />
@@ -64,7 +64,7 @@
 
         <div class="flex justify-center w-full mt-6">
             <u-pagination
-                v-if="withPagination && pageCount > 0"
+                v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
                 :active-button="{ variant: 'outline', color: 'orange' }"

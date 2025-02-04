@@ -10,7 +10,7 @@
 
                 <div class="space-y-1">
                     <div v-for="link in links" :key="link.label">
-                        <dashboard-nav-link :to="link.to" :label="link.label">
+                        <dashboard-nav-link :to="link.href" :label="link.label">
                             <u-icon :name="link.icon" size="20" />
                         </dashboard-nav-link>
                     </div>
@@ -24,7 +24,7 @@
 defineProps({
     categories: {
         type: Object as () => {
-            [category: string]: { label: string; to: string; icon: string }[];
+            [category: string]: { label: string; href: string; icon: string }[];
         },
         required: true,
     },

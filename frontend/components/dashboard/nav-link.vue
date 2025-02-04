@@ -1,8 +1,9 @@
 <template>
     <u-link
         :to="to"
-        active-class="text-indigo-500 bg-indigo-100 hover:bg-indigo-100 hover:text-indigo-600"
-        class="group flex items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm text-slate-800 font-semibold hover:bg-slate-200 hover:text-slate-900"
+        active-class="text-indigo-500 bg-indigo-100 dark:text-indigo-500 dark:bg-slate-800 hover:bg-indigo-100 hover:text-indigo-600"
+        inactive-class="text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-900"
+        class="group flex items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm font-semibold"
     >
         <div class="flex group-hover:text-indigo-500">
             <slot>

@@ -2,22 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Services\DatabaseDumpers;
+namespace App\Services\DatabaseBackup;
 
 use App\Helpers\DatabaseBackup;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
-abstract class DatabaseDumper
+abstract class DatabaseBackupService
 {
     protected string $backupDir;
 
-    public function __construct(?string $backupDir = null)
+    protected string $databaseUsername;
+
+    protected string $databasePassword;
+
+    protected string $databaseName;
+
+    protected string $databaseHost;
+
+    public function __construct()
     {
-        $this->backupDir = $backupDir ?? storage_path('app/backups');
+        $this->backupDir = config('backup.directory');
 
         if (! is_dir($this->backupDir)) {
             mkdir($this->backupDir, 0755, true);
+        }
+
+        $driver = config('database.default');
+
+        $this->databaseName = config("database.connections.{$driver}.database");
+        if ($driver !== 'sqlite') {
+            $this->databaseUsername = config("database.connections.{$driver}.username");
+            $this->databasePassword = config("database.connections.{$driver}.password");
+            $this->databaseHost = config("database.connections.{$driver}.host");
         }
     }
 
@@ -34,7 +50,7 @@ abstract class DatabaseDumper
      *
      * @throws \App\Exceptions\DatabaseBackupException
      */
-    abstract public function create(string $filename): void;
+    abstract public function create(string $filename): string;
 
     /**
      * Restore a database backup.
@@ -45,6 +61,8 @@ abstract class DatabaseDumper
 
     /**
      * Get a list of all available backups.
+     *
+     * @return Collection<DatabaseBackup>
      */
     public function list(): Collection
     {
@@ -61,7 +79,7 @@ abstract class DatabaseDumper
 
         $files = array_filter($files, fn (string $file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
         foreach ($files as $file) {
-            $backups->push((new DatabaseBackup("{$this->backupDir}/{$file}"))->toArray());
+            $backups->push(new DatabaseBackup("{$this->backupDir}/{$file}"));
         }
 
         return $backups;
@@ -70,9 +88,9 @@ abstract class DatabaseDumper
     /**
      * Delete a database backup.
      */
-    public function delete(string $file): void
+    public function delete(string $filename): void
     {
-        unlink("{$this->backupDir}/{$file}");
+        unlink("{$this->backupDir}/{$filename}");
     }
 
     /**
@@ -80,9 +98,6 @@ abstract class DatabaseDumper
      */
     public function deleteAll(): void
     {
-        /** @var array{name: string, size: int|float, date: Carbon} $backupFile */
-        foreach ($this->list() as $backupFile) {
-            $this->delete($backupFile['name']);
-        }
+        $this->list()->each(fn (DatabaseBackup $backupFile) => $this->delete($backupFile->getName()));
     }
 }

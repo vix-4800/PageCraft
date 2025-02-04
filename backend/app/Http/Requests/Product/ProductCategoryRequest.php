@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreArticleRequest extends FormRequest
+class ProductCategoryRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,10 +16,8 @@ class StoreArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'description' => ['required', 'string', 'max:255'],
-            'author' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:product_categories,slug'],
         ];
     }
 }

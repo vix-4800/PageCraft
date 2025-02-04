@@ -26,6 +26,7 @@ use Laravolt\Avatar\Avatar;
  * @property string|null $phone
  * @property string|null $password
  * @property int $role_id
+ * @property \Illuminate\Support\Carbon|null $last_sign_in_at
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
@@ -43,6 +44,8 @@ use Laravolt\Avatar\Avatar;
  * @property-read Role $role
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, UserAddress> $userAddresses
+ * @property-read int|null $user_addresses_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -52,6 +55,7 @@ use Laravolt\Avatar\Avatar;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastSignInAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
@@ -79,6 +83,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'role_id',
+        'last_sign_in_at',
     ];
 
     /**
@@ -89,6 +94,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
@@ -96,13 +103,11 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'last_sign_in_at' => 'datetime',
+    ];
 
     public function orders(): HasMany
     {
@@ -136,5 +141,15 @@ class User extends Authenticatable
     public function oneTimePasswords(): HasMany
     {
         return $this->hasMany(OneTimePassword::class);
+    }
+
+    public function userAddresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function updateLastSignInTimestamp(): void
+    {
+        $this->update(['last_sign_in_at' => now()]);
     }
 }

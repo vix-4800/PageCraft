@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Backup;
 
-use App\Jobs\RestoreDatabase;
+use App\Facades\Backup;
 use Illuminate\Console\Command;
 
 class RestoreDatabaseFromBackup extends Command
@@ -28,12 +28,9 @@ class RestoreDatabaseFromBackup extends Command
      */
     public function handle(): int
     {
-        $filename = $this->argument('filename');
-        $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
+        Backup::restoreDatabaseBackup($this->argument('filename'));
 
-        RestoreDatabase::dispatchSync($filename);
-
-        $this->info("Database restore started. Filename: {$filename}");
+        $this->info('Database restore started.');
 
         return self::SUCCESS;
     }

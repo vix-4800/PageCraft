@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\ArticleStatus;
+use App\Models\Article;
+use App\Models\ArticleTag;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -27,6 +29,20 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        Schema::create('article_tags', function (Blueprint $table): void {
+            $table->id();
+
+            $table->string('name');
+            $table->string('icon')->nullable();
+        });
+
+        Schema::create('article_article_tag', function (Blueprint $table): void {
+            $table->id();
+
+            $table->foreignIdFor(Article::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(ArticleTag::class)->constrained()->cascadeOnDelete();
+        });
     }
 
     /**
@@ -35,5 +51,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('articles');
+        Schema::dropIfExists('article_tags');
+        Schema::dropIfExists('article_article_tag');
     }
 };

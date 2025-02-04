@@ -1,15 +1,15 @@
 services:
     nginx:
-        container_name: nginx
         image: nginx:latest
+        container_name: nginx
         ports:
             - "${APP_PORT:-8080}:80"
             - "${APP_SSL_PORT:-443}:443"
         volumes:
             - "./:/var/www/html"
             - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
-            - "./nginx/certbot/conf:/etc/letsencrypt"
-            - "./nginx/certbot/www:/var/www/certbot"
+            - "certbot_etc_volume:/etc/letsencrypt"
+            - "certbot_var_volume:/var/lib/letsencrypt"
         networks:
             - backend_network
         restart: unless-stopped
@@ -17,20 +17,24 @@ services:
         working_dir: /var/www/html
         depends_on:
             - php-fpm
+            - mysql
+            - redis
 
     certbot:
-        image: certbot/certbot:latest
-        container_name: certbot
+        image: certbot/certbot
         volumes:
-            - "./nginx/certbot/conf:/etc/letsencrypt"
-            - "./nginx/certbot/www:/var/www/certbot"
-        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+            - "certbot_etc_volume:/etc/letsencrypt"
+            - "certbot_var_volume:/var/lib/letsencrypt"
+            - ./:/var/www/html
+        command: certonly --webroot --webroot-path=/var/www/html/public --email ${DOMAIN_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
+        depends_on:
+            - nginx
 
     php-fpm:
-        container_name: backend
         build:
             context: ./docker/php
             dockerfile: Dockerfile
+        container_name: backend
         volumes:
             - "./:/var/www/html"
             - "./docker/php/conf.d/php.ini:/usr/local/etc/php/php.ini"
@@ -49,11 +53,15 @@ services:
         depends_on:
             - mysql
             - redis
-            # - rabbitmq
+        healthcheck:
+            test: ["CMD-SHELL", "php-fpm -t || exit 1"]
+            interval: 10s
+            timeout: 3s
+            retries: 3
 
     mysql:
-        container_name: mysql
         image: "mysql/mysql-server:8.0"
+        container_name: mysql
         restart: unless-stopped
         tty: true
         ports:
@@ -63,7 +71,7 @@ services:
             MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - "mysql-volume:/var/lib/mysql"
+            - "mysql_volume:/var/lib/mysql"
             - "./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql"
         networks:
             - backend_network
@@ -77,8 +85,8 @@ services:
             timeout: 5s
 
     phpmyadmin:
-        container_name: phpmyadmin
         image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
         environment:
             PMA_HOST: mysql
             PMA_PORT: "${DB_PORT:-3306}"
@@ -90,8 +98,8 @@ services:
             - mysql
 
     redis:
-        container_name: redis
         image: "redis:alpine"
+        container_name: redis
         ports:
             - "${REDIS_PORT:-6379}:6379"
         volumes:
@@ -108,8 +116,8 @@ services:
             timeout: 5s
 
     redisinsight:
-        container_name: redisinsight
         image: redislabs/redisinsight:latest
+        container_name: redisinsight
         ports:
             - "${REDISINSIGHT_PORT:-5540}:5540"
         networks:
@@ -118,8 +126,8 @@ services:
             - redis
 
     meilisearch:
-        container_name: meilisearch
         image: getmeili/meilisearch:latest
+        container_name: meilisearch
         restart: unless-stopped
         ports:
             - "${MEILISEARCH_PORT:-7700}:7700"
@@ -128,33 +136,9 @@ services:
         volumes:
             - "meilisearch_volume:/meili_data"
 
-    # rabbitmq:
-    #     container_name: rabbitmq
-    #     image: rabbitmq:3-management
-    #     hostname: rabbitmq
-    #     restart: always
-    #     ports:
-    #         - "${RABBITMQ_PORT:-5672}:5672"
-    #         - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
-    #     networks:
-    #         - backend_network
-    #     volumes:
-    #         - "rabbitmq_volume:/var/lib/rabbitmq"
-    #     environment:
-    #         - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-rabbitmq}
-    #         - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:-rabbitmq}
-    #         - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
-    #     healthcheck:
-    #         test:
-    #             - CMD
-    #             - rabbitmqctl
-    #             - status
-    #         retries: 3
-    #         timeout: 5s
-
     mailhog:
-        container_name: mailhog
         image: mailhog/mailhog
+        container_name: mailhog
         ports:
             - "1025:1025"
             - "${MAILHOG_PORT:-8025}:8025"
@@ -162,10 +146,10 @@ services:
             - backend_network
 
     supervisor:
-        container_name: supervisor
         build:
             context: ./docker/supervisor
             dockerfile: Dockerfile
+        container_name: supervisor
         volumes:
             - "./:/var/www/html"
             - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
@@ -174,8 +158,8 @@ services:
             - backend_network
 
     matomo:
-        container_name: matomo
         image: matomo
+        container_name: matomo
         restart: unless-stopped
         volumes:
             - "matomo_volume:/var/www/html:z"
@@ -192,18 +176,21 @@ networks:
         driver: bridge
 
 volumes:
-    mysql-volume:
+    mysql_volume:
         driver: local
-        name: mysql-volume
+        name: mysql_volume
     redis_volume:
         driver: local
         name: redis_volume
     meilisearch_volume:
         driver: local
         name: meilisearch_volume
-    rabbitmq_volume:
-        driver: local
-        name: rabbitmq_volume
     matomo_volume:
         driver: local
         name: matomo_volume
+    certbot_etc_volume:
+        driver: local
+        name: certbot_etc_volume
+    certbot_var_volume:
+        driver: local
+        name: certbot_var_volume

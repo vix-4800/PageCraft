@@ -447,22 +447,29 @@ watch(
     { immediate: true }
 );
 
-const breadcrumbLinks = [
-    {
-        label: 'Home',
-        icon: 'i-heroicons-home',
-        to: '/',
-    },
-    {
-        label: 'Products',
-        icon: 'i-heroicons-square-3-stack-3d',
-        to: '/products',
-    },
-    {
-        label: 'Product',
-        icon: 'i-heroicons-arrow-right',
-    },
-];
+const breadcrumbLinks = computed(() => {
+    return [
+        {
+            label: 'Home',
+            icon: 'material-symbols:home',
+            to: '/',
+        },
+        {
+            label: 'Products',
+            icon: 'material-symbols:storefront',
+            to: '/products',
+        },
+        {
+            label: props.product.category.name,
+            icon: 'material-symbols:collections-bookmark',
+            to: `/products/${props.product.category.slug}`,
+        },
+        {
+            label: props.product.name,
+            icon: 'material-symbols:arrow-forward',
+        },
+    ];
+});
 
 function selectVariation(variation: ProductVariation) {
     selectedVariation.value = variation;

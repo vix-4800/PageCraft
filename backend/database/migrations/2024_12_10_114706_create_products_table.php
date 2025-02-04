@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('product_categories', function (Blueprint $table): void {
+            $table->id();
+
+            $table->string('name');
+            $table->string('slug')->unique();
+        });
+
         Schema::create('products', function (Blueprint $table): void {
             $table->id();
 
@@ -22,6 +30,8 @@ return new class extends Migration
             $table->text('description');
             $table->json('product_images')->nullable();
             $table->boolean('is_archived')->default(false);
+
+            $table->foreignIdFor(ProductCategory::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -42,6 +52,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('product_categories');
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_variations');
     }

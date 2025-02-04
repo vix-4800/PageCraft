@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Laravel\Scout\Searchable;
@@ -18,10 +19,12 @@ use Laravel\Scout\Searchable;
  * @property string $description
  * @property array<array-key, mixed>|null $product_images
  * @property bool $is_archived
+ * @property int $product_category_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, OrderItem> $orderItems
  * @property-read int|null $order_items_count
+ * @property-read ProductCategory $productCategory
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $reviews
  * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariation> $variations
@@ -37,6 +40,7 @@ use Laravel\Scout\Searchable;
  * @method static Builder<static>|Product whereId($value)
  * @method static Builder<static>|Product whereIsArchived($value)
  * @method static Builder<static>|Product whereName($value)
+ * @method static Builder<static>|Product whereProductCategoryId($value)
  * @method static Builder<static>|Product whereProductImages($value)
  * @method static Builder<static>|Product whereSlug($value)
  * @method static Builder<static>|Product whereUpdatedAt($value)
@@ -59,6 +63,7 @@ class Product extends Model
         'product_images',
         'description',
         'is_archived',
+        'product_category_id',
     ];
 
     /**
@@ -111,5 +116,10 @@ class Product extends Model
     public function orderItems(): HasManyThrough
     {
         return $this->hasManyThrough(OrderItem::class, ProductVariation::class);
+    }
+
+    public function productCategory(): BelongsTo
+    {
+        return $this->belongsTo(ProductCategory::class);
     }
 }

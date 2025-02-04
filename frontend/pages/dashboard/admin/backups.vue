@@ -84,6 +84,11 @@ const actions = (row) => [
             icon: 'material-symbols:restore-page',
             click: () => restoreBackup(row.name),
         },
+        {
+            label: 'Delete',
+            icon: 'material-symbols:delete',
+            click: () => deleteBackup(row.name),
+        },
     ],
 ];
 
@@ -152,10 +157,7 @@ const createBackup = async () => {
     }
 };
 
-const restoring = ref(false);
 const restoreBackup = async (backup: string) => {
-    restoring.value = true;
-
     try {
         withPasswordConfirmation(
             async () => {
@@ -178,8 +180,32 @@ const restoreBackup = async (backup: string) => {
         console.error(error);
 
         $notify('Failed to restore backup', 'error');
-    } finally {
-        restoring.value = false;
+    }
+};
+
+const deleteBackup = async (backup: string) => {
+    try {
+        withPasswordConfirmation(
+            async () => {
+                await apiFetch(`v1/backups/delete`, {
+                    method: 'POST',
+                    body: {
+                        filename: backup,
+                    },
+                });
+
+                $notify('Backup deleted successfully', 'success');
+
+                await fetchBackups();
+            },
+            'Confirm backup deletion',
+            'Are you sure you want to delete this backup?',
+            true
+        );
+    } catch (error) {
+        console.error(error);
+
+        $notify('Failed to delete backup', 'error');
     }
 };
 </script>

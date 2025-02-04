@@ -100,7 +100,7 @@
                                 It seems like you've taken a wrong turn
                             </h5>
                             <p class="text-gray-500 text-md">
-                                We're working to bring you back.
+                                {{ error.message }}
                             </p>
 
                             <u-button
