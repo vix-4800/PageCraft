@@ -31,6 +31,8 @@ class MarketplaceAccountController extends Controller
 
         /** @var Marketplace|null $marketplace */
         $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
+
+        /** @var MarketplaceAccount $account */
         $account = $marketplace->accounts()->create(['name' => $validated['name']]);
 
         $account->settings()->createMany($validated['settings']);
@@ -53,9 +55,14 @@ class MarketplaceAccountController extends Controller
     {
         $validated = $request->validated();
 
-        $account->update(['name' => $validated['name']]);
+        /** @var Marketplace|null $marketplace */
+        $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
 
-        $account->settings()->delete();
+        $account->update([
+            'name' => $validated['name'],
+            'marketplace_id' => $marketplace->id,
+        ]);
+
         $account->settings()->createMany($validated['settings']);
 
         return new MarketplaceAccountResource($account);

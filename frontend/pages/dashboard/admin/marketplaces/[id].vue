@@ -16,6 +16,17 @@
                 />
             </u-form-group>
 
+            <u-form-group label="Marketplace" name="marketplace">
+                <u-select-menu
+                    v-model="account.marketplace"
+                    color="blue"
+                    :options="marketplaceOptions"
+                    size="lg"
+                    placeholder="Account Marketplace"
+                    value-attribute="value"
+                />
+            </u-form-group>
+
             <u-form-group
                 v-for="setting in account.settings"
                 :key="setting.key"
@@ -57,6 +68,12 @@ const route = useRoute();
 const loading = ref(false);
 const account = ref<MarketplaceAccount>();
 
+const marketplaceOptions = [
+    { value: 'wildberries', label: 'Wildberries' },
+    { value: 'ozon', label: 'Ozon' },
+    { value: 'yandex', label: 'Yandex Market' },
+];
+
 onMounted(async () => {
     loading.value = true;
 
@@ -73,10 +90,7 @@ const save = async () => {
 
     await apiFetch(`v1/marketplaces/accounts/${route.params.id}`, {
         method: 'PUT',
-        body: {
-            name: account.value?.name,
-            settings: account.value?.settings,
-        },
+        body: account.value,
     });
 
     $notify('Marketplace account updated successfully', 'success');
