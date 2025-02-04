@@ -29,10 +29,12 @@ abstract class DatabaseDumper
 
         $driver = config('database.default');
 
-        $this->databaseUsername = config("database.connections.{$driver}.username");
-        $this->databasePassword = config("database.connections.{$driver}.password");
         $this->databaseName = config("database.connections.{$driver}.database");
-        $this->databaseHost = config("database.connections.{$driver}.host");
+        if ($driver !== 'sqlite') {
+            $this->databaseUsername = config("database.connections.{$driver}.username");
+            $this->databasePassword = config("database.connections.{$driver}.password");
+            $this->databaseHost = config("database.connections.{$driver}.host");
+        }
     }
 
     /**

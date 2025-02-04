@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Services\DatabaseDumpers\DatabaseDumper;
 use App\Services\DatabaseDumpers\MysqlDumper;
 use App\Services\DatabaseDumpers\PostgresDumper;
+use App\Services\DatabaseDumpers\SqliteDumper;
 use Illuminate\Support\ServiceProvider;
 
 class DatabaseProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class DatabaseProvider extends ServiceProvider
         $this->app->bind(DatabaseDumper::class, fn (): DatabaseDumper => match (config('database.default')) {
             'mysql' => new MysqlDumper,
             'pgsql' => new PostgresDumper,
+            'sqlite' => new SqliteDumper,
             default => throw new \Exception('Unknown database driver'),
         });
     }
