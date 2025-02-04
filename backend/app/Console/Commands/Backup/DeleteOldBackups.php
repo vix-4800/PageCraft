@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Backup;
 
+use App\Facades\Backup;
 use App\Helpers\DatabaseBackup;
-use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Console\Command;
 
 class DeleteOldBackups extends Command
@@ -29,9 +29,7 @@ class DeleteOldBackups extends Command
      */
     public function handle(): void
     {
-        $service = resolve(DatabaseBackupService::class);
-
-        $service->list()->each(function (DatabaseBackup $backup) use ($service): void {
+        Backup::listDatabaseBackups()->each(function (DatabaseBackup $backup): void {
             $period = config('backup.delete_after');
 
             $targetDate = match (config('backup.delete_after_method')) {
@@ -42,7 +40,7 @@ class DeleteOldBackups extends Command
             };
 
             if ($backup->getDate()->isBefore($targetDate)) {
-                $service->delete($backup->getName());
+                Backup::deleteDatabaseBackup($backup->getName());
             }
         });
     }

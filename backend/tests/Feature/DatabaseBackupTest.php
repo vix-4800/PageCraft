@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Services\DatabaseBackup\DatabaseBackupService;
+use App\Facades\Backup;
 use Tests\TestCase;
 
 class DatabaseBackupTest extends TestCase
 {
-    private DatabaseBackupService $dumperService;
-
     private string $defaultBackupFilename = 'test_backup.sql';
 
     public function __construct(string $name)
@@ -20,7 +18,7 @@ class DatabaseBackupTest extends TestCase
 
     public function test_backup_create_command(): void
     {
-        resolve(DatabaseBackupService::class)->create($this->defaultBackupFilename);
+        Backup::createDatabaseBackup($this->defaultBackupFilename);
 
         $this->assertTrue(
             file_exists(config('backup.directory')."/{$this->defaultBackupFilename}")
@@ -29,7 +27,7 @@ class DatabaseBackupTest extends TestCase
 
     public function test_backup_clear_command(): void
     {
-        // $this->dumperService->delete($this->defaultBackupFilename);
+        // Backup::deleteDatabaseBackup($this->defaultBackupFilename);
 
         // $this->assertTrue(
         //     ! file_exists(config('backup.directory')."/{$this->defaultBackupFilename}")

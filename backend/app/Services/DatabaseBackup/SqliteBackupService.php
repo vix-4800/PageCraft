@@ -21,7 +21,7 @@ class SqliteBackupService extends DatabaseBackupService
         $this->databasePath = database_path('database.sqlite');
     }
 
-    public function create(string $filename): void
+    public function create(string $filename): string
     {
         if (! file_exists($this->databasePath)) {
             throw new DatabaseBackupException('SQLite database file does not exist.');
@@ -32,6 +32,8 @@ class SqliteBackupService extends DatabaseBackupService
         }
 
         DatabaseDumpCreated::dispatch();
+
+        return $filename;
     }
 
     public function restore(string $filename): void

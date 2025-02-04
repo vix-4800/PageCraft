@@ -50,7 +50,7 @@ abstract class DatabaseBackupService
      *
      * @throws \App\Exceptions\DatabaseBackupException
      */
-    abstract public function create(string $filename): void;
+    abstract public function create(string $filename): string;
 
     /**
      * Restore a database backup.

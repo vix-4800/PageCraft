@@ -6,9 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Exceptions\DatabaseBackupException;
+use App\Facades\Backup;
 use App\Helpers\ApiResponse;
 use App\Helpers\DatabaseBackup;
-use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,12 +16,6 @@ use Illuminate\Support\Facades\Artisan;
 
 class BackupController extends Controller
 {
-    public function __construct(
-        private readonly DatabaseBackupService $service
-    ) {
-        //
-    }
-
     public function create(): Response
     {
         try {
@@ -47,13 +41,13 @@ class BackupController extends Controller
     public function list(): JsonResponse
     {
         return ApiResponse::create(
-            collect($this->service->list()->map(fn (DatabaseBackup $backup): array => $backup->toArray()))
+            Backup::listDatabaseBackups()->map(fn (DatabaseBackup $backup): array => $backup->toArray())
         );
     }
 
     public function delete(): Response
     {
-        $this->service->deleteAll();
+        Backup::deleteAllDatabaseBackups();
 
         return ApiResponse::empty();
     }

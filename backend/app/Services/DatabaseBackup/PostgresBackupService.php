@@ -9,7 +9,7 @@ use App\Exceptions\DatabaseBackupException;
 
 class PostgresBackupService extends DatabaseBackupService
 {
-    public function create(string $filename): void
+    public function create(string $filename): string
     {
         $command = sprintf(
             'pg_dump --username=%s --host=%s --no-password --format=custom --file=%s %s',
@@ -25,6 +25,8 @@ class PostgresBackupService extends DatabaseBackupService
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup: '.implode("\n", $output)));
 
         DatabaseDumpCreated::dispatch();
+
+        return $filename;
     }
 
     public function restore(string $filename): void

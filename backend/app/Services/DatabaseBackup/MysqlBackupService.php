@@ -9,7 +9,7 @@ use App\Exceptions\DatabaseBackupException;
 
 class MysqlBackupService extends DatabaseBackupService
 {
-    public function create(string $filename): void
+    public function create(string $filename): string
     {
         $command = sprintf(
             'mysqldump --user=%s --password=%s --host=%s %s > %s',
@@ -26,6 +26,8 @@ class MysqlBackupService extends DatabaseBackupService
         throw_unless($returnVar === 0, new DatabaseBackupException('Failed to create database backup.'));
 
         DatabaseDumpCreated::dispatch();
+
+        return $filename;
     }
 
     public function restore(string $filename): void

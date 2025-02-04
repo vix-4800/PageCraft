@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Backup;
 
-use App\Services\DatabaseBackup\DatabaseBackupService;
+use App\Facades\Backup;
 use Illuminate\Console\Command;
-use Str;
 
 class CreateDatabaseBackup extends Command
 {
@@ -29,12 +28,9 @@ class CreateDatabaseBackup extends Command
      */
     public function handle(): int
     {
-        $filename = $this->option('filename') ?? 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8);
-        $filename .= str_ends_with($filename, '.sql') ? '' : '.sql';
+        $createdBackup = Backup::createDatabaseBackup($this->option('filename'));
 
-        resolve(DatabaseBackupService::class)->create($filename);
-
-        $this->info("Database backup creation started. Filename: {$filename}");
+        $this->info("Database backup creation started. Filename: {$createdBackup}");
 
         return self::SUCCESS;
     }
