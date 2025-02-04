@@ -19,6 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        then: function (): void {
+            Route::middleware('api')->prefix('api')->name('api.')->group(function (): void {
+                Route::prefix('v1')->name('v1.')->group(base_path('routes/api_v1.php'));
+
+                // Route::prefix('v2')->name('v2.')->group(base_path('routes/api_v2.php')); // For the future
+            });
+        }
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
