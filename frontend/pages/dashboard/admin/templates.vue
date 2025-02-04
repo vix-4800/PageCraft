@@ -21,7 +21,7 @@
                     :ui-menu="{
                         height: 'max-h-96',
                     }"
-                    :value-attribute="'value'"
+                    value-attribute="value"
                 >
                     <template #option="{ option: { img } }">
                         <nuxt-img :src="img" />

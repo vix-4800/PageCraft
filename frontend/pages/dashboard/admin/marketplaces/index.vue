@@ -3,7 +3,17 @@
         <dashboard-page-name
             title="Marketplace Accounts"
             :subtitle="accounts.length.toString()"
-        />
+        >
+            <template #actions>
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:add"
+                    label="Add Account"
+                    @click="navigateTo('/dashboard/admin/marketplaces/create')"
+                />
+            </template>
+        </dashboard-page-name>
 
         <u-table
             :columns="columns"
