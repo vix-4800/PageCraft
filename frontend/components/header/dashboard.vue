@@ -1,6 +1,6 @@
 <template>
     <header
-        class="flex items-center flex-none z-1 bg-gradient-to-br from-gray-900 to-gray-700"
+        class="flex items-center flex-none z-1 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-gray-800"
     >
         <div class="container px-4 mx-auto lg:px-8 xl:max-w-7xl">
             <div class="flex justify-between py-6">
@@ -36,14 +36,14 @@
                 <div class="flex items-center gap-1 lg:gap-5">
                     <div class="flex items-center gap-2">
                         <u-button
-                            class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
+                            class="font-semibold bg-transparent hover:bg-indigo-100 dark:text-white dark:bg-transparent dark:hover:bg-indigo-100 hover:text-indigo-600 dark:hover:hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                             size="md"
                             icon="material-symbols:notifications"
                             @click="slideover.open(Notifications)"
                         />
 
                         <u-button
-                            class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
+                            class="font-semibold bg-transparent dark:text-white dark:bg-transparent hover:bg-indigo-100 dark:hover:bg-indigo-100 hover:text-indigo-600 dark:hover:hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                             size="md"
                             :icon="
                                 darkMode
@@ -62,7 +62,7 @@
                             <u-button
                                 size="md"
                                 :label="userName"
-                                class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
+                                class="font-semibold bg-transparent hover:bg-indigo-100 dark:text-white dark:bg-transparent dark:hover:bg-indigo-100 hover:text-indigo-600 dark:hover:hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                                 trailing-icon="i-heroicons-chevron-down-20-solid"
                             />
                         </u-dropdown>

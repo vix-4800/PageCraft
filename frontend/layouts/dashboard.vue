@@ -3,7 +3,7 @@
         <header-dashboard :pages="pages" />
 
         <div
-            class="mx-auto flex min-h-screen w-full min-w-[320px] flex-col bg-slate-100 dark:bg-slate-600"
+            class="mx-auto flex min-h-screen w-full min-w-[320px] flex-col bg-slate-100 dark:bg-slate-700"
         >
             <div class="flex flex-col flex-auto max-w-full">
                 <div class="container p-4 mx-auto lg:p-8 xl:max-w-7xl">
@@ -14,14 +14,16 @@
                             <div v-if="showWelcomeMessage" class="p-6">
                                 <p class="text-2xl font-semibold">
                                     Welcome back,
-                                    <span class="text-indigo-600">
+                                    <span
+                                        class="text-indigo-600 dark:text-indigo-400"
+                                    >
                                         {{ authStore.user.name }}!
                                     </span>
                                 </p>
                             </div>
 
                             <div
-                                class="p-6 overflow-hidden bg-white border rounded-xl border-slate-200"
+                                class="p-6 overflow-hidden bg-white border dark:border-0 dark:bg-slate-600 rounded-xl border-slate-200"
                             >
                                 <slot></slot>
                             </div>
