@@ -34,14 +34,25 @@
                 <inputs-page-search :pages="pages" />
 
                 <div class="flex items-center gap-1 lg:gap-5">
-                    <nav class="flex items-center gap-2">
+                    <div class="flex items-center gap-2">
                         <u-button
                             class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                             size="md"
-                            icon="ic:baseline-notifications"
+                            icon="material-symbols:notifications"
                             @click="slideover.open(Notifications)"
                         />
-                    </nav>
+
+                        <u-button
+                            class="font-semibold bg-transparent hover:bg-indigo-100 hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
+                            size="md"
+                            :icon="
+                                darkMode
+                                    ? 'material-symbols:mode-night'
+                                    : 'material-symbols:light-mode'
+                            "
+                            @click="darkMode = !darkMode"
+                        />
+                    </div>
 
                     <div class="relative inline-block">
                         <u-dropdown
@@ -111,6 +122,7 @@ defineProps({
 });
 
 const config = useRuntimeConfig();
+const darkMode = useDark();
 
 const authStore = useAuthStore();
 const settingStore = useSiteSettingsStore();
