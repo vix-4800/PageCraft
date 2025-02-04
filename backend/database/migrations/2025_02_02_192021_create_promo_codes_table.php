@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\PromoCodeType;
+use App\Models\Order;
+use App\Models\PromoCode;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,8 +34,8 @@ return new class extends Migration
 
         Schema::create('order_promo_code', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('promo_code_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(PromoCode::class)->constrained()->cascadeOnDelete();
         });
     }
 
@@ -43,5 +45,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('promo_codes');
+        Schema::dropIfExists('order_promo_code');
     }
 };

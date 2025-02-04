@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -98,5 +99,10 @@ class Article extends Model
     public function setContentAttribute(string $value): void
     {
         $this->attributes['content'] = Purify::clean($value);
+    }
+
+    public function articleTags(): HasMany
+    {
+        return $this->hasMany(ArticleTag::class);
     }
 }

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\Marketplace;
+use App\Models\MarketplaceAccount;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->foreignId('marketplace_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Marketplace::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -34,7 +36,7 @@ return new class extends Migration
 
             $table->string('key');
             $table->string('value');
-            $table->foreignId('marketplace_account_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(MarketplaceAccount::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });
