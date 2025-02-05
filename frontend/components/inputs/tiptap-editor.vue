@@ -523,6 +523,19 @@
                 </bubble-menu>
 
                 <editor-content :editor="editor" />
+
+                <div
+                    class="text-sm text-gray-500 text-end"
+                    :class="{
+                        'character-count': true,
+                        'character-count--warning':
+                            editor.storage.characterCount.characters() ===
+                            limit,
+                    }"
+                >
+                    {{ editor.storage.characterCount.characters() }} /
+                    {{ limit }} characters
+                </div>
             </div>
         </client-only>
     </div>
@@ -534,11 +547,16 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Placeholder from '@tiptap/extension-placeholder';
+import CharacterCount from '@tiptap/extension-character-count';
 
-const { modelValue } = defineProps({
+const { modelValue, limit } = defineProps({
     modelValue: {
         type: String,
         default: '',
+    },
+    limit: {
+        type: Number,
+        default: 1000,
     },
 });
 
@@ -558,6 +576,9 @@ const editor = useEditor({
 
                 return 'Write something!';
             },
+        }),
+        CharacterCount.configure({
+            limit: limit,
         }),
     ],
     editorProps: {
