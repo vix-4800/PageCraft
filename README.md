@@ -11,6 +11,7 @@ PageCraft is a lightweight, free and open source CMS for your website.
 -   **Backend:** PHP 8, Laravel 11
 -   **Frontend:** Nuxt 3
 -   **Database:** MySQL 8
+-   **Cache:** Redis
 -   **Testing:** PHPUnit
 -   **Code Style and Static Analysis:** PHP - Larastan, JS - ESLint
 -   **Containerization:** Custom docker-compose files
