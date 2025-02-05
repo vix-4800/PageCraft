@@ -23,7 +23,7 @@
                 />
             </u-form-group>
 
-            <div class="space-y-4">
+            <div v-auto-animate class="space-y-4">
                 <div
                     v-for="(setting, index) in account.settings"
                     :key="setting.key"

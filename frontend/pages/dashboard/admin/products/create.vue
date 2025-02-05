@@ -144,7 +144,7 @@
                     Variations ({{ product.variations.length }})
                 </h3>
 
-                <div class="px-1 space-y-2">
+                <div v-auto-animate class="px-1 space-y-2">
                     <u-card
                         v-for="(variation, index) in product.variations"
                         :key="index"
@@ -205,12 +205,13 @@
                                 </u-input>
                             </u-form-group>
 
-                            <div class="flex flex-col gap-2">
+                            <div v-auto-animate class="flex flex-col gap-2">
                                 <h3 class="text-lg font-bold">
                                     Attributes ({{
                                         variation.attributes.length
                                     }})
                                 </h3>
+
                                 <div
                                     v-for="attribute in variation.attributes"
                                     :key="attribute.name"

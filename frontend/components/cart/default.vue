@@ -1,6 +1,6 @@
 <template>
     <div class="grid gap-8 mt-16 md:grid-cols-3">
-        <div class="space-y-4 md:col-span-2">
+        <div v-auto-animate class="space-y-4 md:col-span-2">
             <div
                 v-for="item in cartItems"
                 :key="item.product.slug"
@@ -213,7 +213,7 @@
                 />
 
                 <u-button
-                    to="/"
+                    to="/products"
                     label="Continue Shopping"
                     icon="ic:round-keyboard-arrow-left"
                     variant="outline"
