@@ -18,7 +18,7 @@
                     icon="material-symbols:delete"
                     :loading="deleting"
                     label="Delete All"
-                    @click="deleteBackups"
+                    @click="deleteAllBackups"
                 />
             </template>
         </dashboard-page-name>
@@ -110,7 +110,7 @@ const fetchBackups = async () => {
 };
 
 const deleting = ref(false);
-const deleteBackups = async () => {
+const deleteAllBackups = async () => {
     deleting.value = true;
 
     try {
@@ -141,13 +141,19 @@ const createBackup = async () => {
     creating.value = true;
 
     try {
-        await apiFetch('v1/backups/create', {
-            method: 'POST',
-        });
+        withPasswordConfirmation(
+            async () => {
+                await apiFetch('v1/backups/create', {
+                    method: 'POST',
+                });
 
-        $notify('Backup created successfully', 'success');
+                $notify('Backup created successfully', 'success');
 
-        await fetchBackups();
+                await fetchBackups();
+            },
+            'Confirm backup creation',
+            'Are you sure you want to create a backup?'
+        );
     } catch (error) {
         console.error(error);
 
@@ -188,7 +194,7 @@ const deleteBackup = async (backup: string) => {
         withPasswordConfirmation(
             async () => {
                 await apiFetch(`v1/backups/delete`, {
-                    method: 'POST',
+                    method: 'DELETE',
                     body: {
                         filename: backup,
                     },
