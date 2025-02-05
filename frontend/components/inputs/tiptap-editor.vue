@@ -412,6 +412,116 @@
                     </div>
                 </div>
 
+                <bubble-menu
+                    v-if="editor"
+                    :editor="editor"
+                    :tippy-options="{ duration: 100 }"
+                >
+                    <div class="bubble-menu">
+                        <u-tooltip text="Bold" :popper="{ placement: 'top' }">
+                            <u-button
+                                icon="material-symbols:format-bold"
+                                color="gray"
+                                size="md"
+                                :class="{
+                                    'bg-gray-300': editor.isActive('bold'),
+                                }"
+                                class="hover:bg-gray-300"
+                                :disabled="
+                                    !editor
+                                        .can()
+                                        .chain()
+                                        .focus()
+                                        .toggleBold()
+                                        .run()
+                                "
+                                @click="
+                                    editor.chain().focus().toggleBold().run()
+                                "
+                            />
+                        </u-tooltip>
+
+                        <u-tooltip text="Italic" :popper="{ placement: 'top' }">
+                            <u-button
+                                icon="material-symbols:format-italic"
+                                color="gray"
+                                size="md"
+                                :class="{
+                                    'bg-gray-300': editor.isActive('italic'),
+                                }"
+                                class="hover:bg-gray-300"
+                                :disabled="
+                                    !editor
+                                        .can()
+                                        .chain()
+                                        .focus()
+                                        .toggleItalic()
+                                        .run()
+                                "
+                                @click="
+                                    editor.chain().focus().toggleItalic().run()
+                                "
+                            />
+                        </u-tooltip>
+
+                        <u-tooltip
+                            text="Underline"
+                            :popper="{ placement: 'top' }"
+                        >
+                            <u-button
+                                icon="material-symbols:format-underlined"
+                                color="gray"
+                                size="md"
+                                :class="{
+                                    'bg-gray-300': editor.isActive('underline'),
+                                }"
+                                class="hover:bg-gray-300"
+                                :disabled="
+                                    !editor
+                                        .can()
+                                        .chain()
+                                        .focus()
+                                        .toggleUnderline()
+                                        .run()
+                                "
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleUnderline()
+                                        .run()
+                                "
+                            />
+                        </u-tooltip>
+
+                        <u-tooltip
+                            text="Strikethrough"
+                            :popper="{ placement: 'top' }"
+                        >
+                            <u-button
+                                icon="material-symbols:format-strikethrough"
+                                color="gray"
+                                size="md"
+                                :class="{
+                                    'bg-gray-300': editor.isActive('strike'),
+                                }"
+                                class="hover:bg-gray-300"
+                                :disabled="
+                                    !editor
+                                        .can()
+                                        .chain()
+                                        .focus()
+                                        .toggleStrike()
+                                        .run()
+                                "
+                                @click="
+                                    editor.chain().focus().toggleStrike().run()
+                                "
+                            />
+                        </u-tooltip>
+                    </div>
+                </bubble-menu>
+
                 <editor-content :editor="editor" />
             </div>
         </client-only>
@@ -419,7 +529,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditorContent, useEditor } from '@tiptap/vue-3';
+import { EditorContent, useEditor, BubbleMenu } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
