@@ -23,28 +23,42 @@
                 />
             </u-form-group>
 
-            <div
-                v-for="setting in account.settings"
-                :key="setting.key"
-                class="flex gap-4"
-            >
-                <u-form-group name="key" label="Key" class="w-1/2">
-                    <u-input
-                        v-model="setting.key"
-                        color="blue"
-                        size="md"
-                        placeholder="Value"
-                    />
-                </u-form-group>
+            <div class="space-y-4">
+                <div
+                    v-for="(setting, index) in account.settings"
+                    :key="setting.key"
+                    class="flex gap-4"
+                >
+                    <u-form-group name="key" label="Key" class="w-1/2">
+                        <u-input
+                            v-model="setting.key"
+                            color="blue"
+                            size="md"
+                            placeholder="Value"
+                            class="mt-[5px]"
+                        />
+                    </u-form-group>
 
-                <u-form-group name="value" label="Value" class="w-1/2">
-                    <u-input
-                        v-model="setting.value"
-                        color="blue"
-                        size="md"
-                        placeholder="Value"
-                    />
-                </u-form-group>
+                    <u-form-group name="value" label="Value" class="w-1/2">
+                        <u-input
+                            v-model="setting.value"
+                            color="blue"
+                            size="md"
+                            placeholder="Value"
+                        />
+
+                        <template #hint>
+                            <u-button
+                                icon="i-heroicons-x-mark-20-solid"
+                                :padded="false"
+                                color="gray"
+                                variant="link"
+                                size="xs"
+                                @click="removeOption(index)"
+                            />
+                        </template>
+                    </u-form-group>
+                </div>
             </div>
 
             <div class="flex gap-2">
@@ -98,6 +112,10 @@ const addOption = () => {
         key: '',
         value: '',
     });
+};
+
+const removeOption = (index: number) => {
+    account.settings.splice(index, 1);
 };
 
 const save = async () => {
