@@ -8,6 +8,7 @@ use App\DTO\Telegram\BotDescription;
 use App\DTO\Telegram\BotName;
 use App\DTO\Telegram\BotShortDescription;
 use App\DTO\Telegram\Message;
+use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
 use App\Exceptions\TelegramException;
 use App\Factories\TelegramDTOFactory;
@@ -46,6 +47,11 @@ class TelegramService
         return $this->token;
     }
 
+    /**
+     * Sets the chat ID for the next requests.
+     *
+     * @param  string|int  $chatId  The chat ID to send the requests to
+     */
     public function forChat(string|int $chatId): self
     {
         $this->chatId = $chatId;
@@ -127,5 +133,20 @@ class TelegramService
             'chat_id' => $this->chatId,
             'message_ids' => $messageIds,
         ]);
+    }
+
+    public function getUpdates(): Update
+    {
+        return TelegramDTOFactory::createUpdate($this->makeRequest('getUpdates'));
+    }
+
+    public function setWebhook(string $url): bool
+    {
+        return $this->makeRequest('setWebhook', ['url' => $url]);
+    }
+
+    public function deleteWebhook(): bool
+    {
+        return $this->makeRequest('deleteWebhook');
     }
 }

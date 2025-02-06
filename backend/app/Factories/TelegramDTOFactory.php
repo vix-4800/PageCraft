@@ -7,9 +7,11 @@ namespace App\Factories;
 use App\DTO\Telegram\BotDescription;
 use App\DTO\Telegram\BotName;
 use App\DTO\Telegram\BotShortDescription;
+use App\DTO\Telegram\CallbackQuery;
 use App\DTO\Telegram\Chat;
 use App\DTO\Telegram\ChatFullInfo;
 use App\DTO\Telegram\Message;
+use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
 
 class TelegramDTOFactory
@@ -66,5 +68,23 @@ class TelegramDTOFactory
     public static function createBotShortDescription(array $data): BotShortDescription
     {
         return new BotShortDescription($data['short_description']);
+    }
+
+    public static function createUpdate(array $data): Update
+    {
+        return new Update(
+            $data['update_id'],
+            self::createMessage($data['message']),
+            self::createCallbackQuery($data['callback_query']),
+        );
+    }
+
+    public static function createCallbackQuery(array $data): CallbackQuery
+    {
+        return new CallbackQuery(
+            $data['id'],
+            self::createUser($data['from']),
+            $data['data'],
+        );
     }
 }

@@ -22,8 +22,8 @@ class Message implements TelegramType
     {
         return [
             'message_id' => $this->message_id,
-            'from' => $this->from,
-            'chat' => $this->chat,
+            'from' => $this->from->toArray(),
+            'chat' => $this->chat->toArray(),
             'date' => $this->date,
             'text' => $this->text,
         ];
