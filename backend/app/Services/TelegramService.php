@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTO\Telegram\BotDescription;
+use App\DTO\Telegram\BotName;
+use App\DTO\Telegram\BotShortDescription;
+use App\DTO\Telegram\Message;
+use App\DTO\Telegram\User;
 use App\Exceptions\TelegramException;
+use App\Factories\TelegramDTOFactory;
 use Illuminate\Support\Facades\Http;
 
 class TelegramService
 {
     protected string $token = '';
 
-    protected string $chatId = '';
+    protected string|int $chatId = '';
 
     protected string $baseUrl = 'https://api.telegram.org/bot';
 
@@ -22,7 +28,7 @@ class TelegramService
 
         throw_if(empty($this->token) || empty($this->chatId), new TelegramException('Telegram credentials are missing'));
 
-        $this->baseUrl .= "{$this->token}/";
+        $this->baseUrl .= $this->token;
     }
 
     public function getBaseUrl(): string
@@ -40,66 +46,73 @@ class TelegramService
         return $this->token;
     }
 
-    protected function makeRequest(string $method, array $data = []): void
+    public function forChat(string|int $chatId): self
     {
-        Http::post($this->baseUrl.$method, $data)->throw()->json();
+        $this->chatId = $chatId;
+
+        return $this;
     }
 
-    public function getMe(): void
+    protected function makeRequest(string $method, array $data = []): array|bool
     {
-        $this->makeRequest('getMe');
+        return Http::post("{$this->baseUrl}/{$method}", $data)->throw()->json();
     }
 
-    public function setBotName(string $name): void
+    public function getMe(): User
     {
-        $this->makeRequest('setMyName', ['name' => $name]);
+        return TelegramDTOFactory::createUser($this->makeRequest('getMe'));
     }
 
-    public function getBotName(): void
+    public function setBotName(string $name): true
     {
-        $this->makeRequest('getMyName');
+        return $this->makeRequest('setMyName', ['name' => $name]);
     }
 
-    public function setBotDescription(string $description): void
+    public function getBotName(): BotName
     {
-        $this->makeRequest('setMyDescription', ['description' => $description]);
+        return TelegramDTOFactory::createBotName($this->makeRequest('getMyName'));
     }
 
-    public function getBotDescription(): void
+    public function setBotDescription(string $description): bool
     {
-        $this->makeRequest('getMyDescription');
+        return $this->makeRequest('setMyDescription', ['description' => $description]);
     }
 
-    public function getBotShortDescription(): void
+    public function getBotDescription(): BotDescription
     {
-        $this->makeRequest('getMyShortDescription');
+        return TelegramDTOFactory::createBotDescription($this->makeRequest('getMyDescription'));
     }
 
-    public function setBotShortDescription(string $shortDescription): void
+    public function getBotShortDescription(): BotShortDescription
     {
-        $this->makeRequest('setMyShortDescription', ['short_description' => $shortDescription]);
+        return TelegramDTOFactory::createBotShortDescription($this->makeRequest('getMyShortDescription'));
     }
 
-    public function sendMessage(string $message): void
+    public function setBotShortDescription(string $shortDescription): bool
     {
-        $this->makeRequest('sendMessage', [
+        return $this->makeRequest('setMyShortDescription', ['short_description' => $shortDescription]);
+    }
+
+    public function sendMessage(string $message): Message
+    {
+        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', [
             'chat_id' => $this->chatId,
             'text' => $message,
-        ]);
+        ]));
     }
 
-    public function editMessage(int $messageId, string $text): void
+    public function editMessage(int $messageId, string $text): Message
     {
-        $this->makeRequest('editMessageText', [
+        return TelegramDTOFactory::createMessage($this->makeRequest('editMessageText', [
             'chat_id' => $this->chatId,
             'message_id' => $messageId,
             'text' => $text,
-        ]);
+        ]));
     }
 
-    public function deleteMessage(int $messageId): void
+    public function deleteMessage(int $messageId): bool
     {
-        $this->makeRequest('deleteMessage', [
+        return $this->makeRequest('deleteMessage', [
             'chat_id' => $this->chatId,
             'message_id' => $messageId,
         ]);
@@ -108,9 +121,9 @@ class TelegramService
     /**
      * @param  array<int>  $messageIds
      */
-    public function deleteMessages(array $messageIds): void
+    public function deleteMessages(array $messageIds): bool
     {
-        $this->makeRequest('deleteMessages', [
+        return $this->makeRequest('deleteMessages', [
             'chat_id' => $this->chatId,
             'message_ids' => $messageIds,
         ]);
