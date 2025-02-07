@@ -23283,6 +23283,32 @@ namespace Stevebauman\Purify\Facades {
             }
     }
 
+namespace Illuminate\Support {
+    /**
+     * 
+     *
+     */
+    class Str {
+        /**
+         * 
+         *
+         * @see \App\Mixins\StrMixin::sku()
+         * @param string $modelClass
+         * @param string $prefix
+         * @param string $separator
+         * @param string $skuField
+         * @param int $length
+         * @return string 
+         * @static 
+         */
+        public static function sku($modelClass, $prefix = 'PGP', $separator = '-', $skuField = 'sku', $length = 8)
+        {
+            return \Illuminate\Support\Str::sku($modelClass, $prefix, $separator, $skuField, $length);
+        }
+
+            }
+    }
+
 namespace Illuminate\Http {
     /**
      * 
@@ -23362,6 +23388,28 @@ namespace Illuminate\Http {
         public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
         {
             return \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    }
+
+namespace Illuminate\Http\Client {
+    /**
+     * 
+     *
+     * @mixin \Illuminate\Http\Client\PendingRequest
+     */
+    class Factory {
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::telegram()
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function telegram()
+        {
+            return \Illuminate\Http\Client\Factory::telegram();
         }
 
             }
