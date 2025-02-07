@@ -1,4 +1,10 @@
-export const TemplateConfig = {
+export interface TemplateOption {
+    value: string;
+    label: string;
+    img: string;
+}
+
+export const TemplateConfig: Record<string, TemplateOption[]> = {
     header: [
         {
             value: 'default',
