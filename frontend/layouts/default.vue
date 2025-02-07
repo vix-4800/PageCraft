@@ -1,38 +1,73 @@
 <template>
     <div class="page-transition layout-transition">
-        <banner-maintenance
-            v-if="settingsStore.isMaintenance"
-            text="The site is currently under maintenance."
-        />
-
-        <banner-announcement
-            v-if="banner && banner.is_active"
-            :text="banner.text"
-            :link="banner.link"
-        />
-
-        <component :is="headerComponent" :header-pages="headerPages" />
-
-        <main
-            class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
+        <div
+            v-if="authStore.isAuthenticated && authStore.isAdmin"
+            id="edit-panel"
+            class="top-0 z-[100] flex justify-between h-12 bg-gray-500"
+            :class="{
+                sticky: editModeStore.enabled,
+            }"
         >
-            <slot></slot>
-        </main>
+            <span class="self-center ml-2 text-lg font-semibold text-gray-100">
+                Edit panel
+            </span>
 
-        <component
-            :is="footerComponent"
-            :footer-pages="footerPages"
-            :footer-contacts="footerContacts"
-        />
+            <u-button
+                :label="editModeStore.enabled ? 'Disable' : `Edit mode`"
+                :icon="
+                    editModeStore.enabled
+                        ? 'material-symbols:close'
+                        : 'material-symbols:edit'
+                "
+                :color="editModeStore.enabled ? 'red' : 'gray'"
+                class="m-2"
+                @click="editModeStore.toggle"
+            />
+        </div>
+
+        <div
+            :class="{
+                'm-2 border-8 border-gray-300 rounded-md':
+                    editModeStore.enabled,
+            }"
+        >
+            <banner-maintenance
+                v-if="settingsStore.isMaintenance"
+                text="The site is currently under maintenance."
+            />
+
+            <banner-announcement
+                v-if="banner && banner.is_active"
+                :text="banner.text"
+                :link="banner.link"
+            />
+
+            <component :is="headerComponent" :header-pages="headerPages" />
+
+            <main
+                class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
+            >
+                <slot></slot>
+            </main>
+
+            <component
+                :is="footerComponent"
+                :footer-pages="footerPages"
+                :footer-contacts="footerContacts"
+            />
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
+const editModeStore = useEditModeStore();
+const authStore = useAuthStore();
 const config = useRuntimeConfig();
 
 const banner = ref<Banner | null>();
