@@ -6,11 +6,9 @@ namespace App\Providers;
 
 use App\Actions\GenerateEmailVerificationUrl;
 use App\Actions\GeneratePasswordResetUrl;
-use App\Facades\Server;
 use App\Mixins\HttpMixin;
 use App\Mixins\StrMixin;
 use App\Models\User;
-use App\Services\ServerService;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Http;
@@ -25,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(Server::class, ServerService::class);
+        //
     }
 
     /**

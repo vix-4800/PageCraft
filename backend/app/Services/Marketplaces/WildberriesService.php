@@ -11,8 +11,6 @@ final class WildberriesService extends MarketplaceService
 {
     protected function createRequest(): PendingRequest
     {
-        $token = $this->account->settings()->firstWhere('key', 'token')->value;
-
-        return Http::withToken($token);
+        return Http::wildberries($this->account);
     }
 }
