@@ -20,21 +20,11 @@ class TelegramService
 
     protected string|int $chatId = '';
 
-    protected string $baseUrl = 'https://api.telegram.org/bot';
-
     public function __construct()
     {
-        $this->token = config('services.telegram.bot_token');
         $this->chatId = config('services.telegram.chat_id');
 
-        throw_if(empty($this->token) || empty($this->chatId), new TelegramException('Telegram credentials are missing'));
-
-        $this->baseUrl .= $this->token;
-    }
-
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
+        throw_if(empty($this->chatId), new TelegramException('Telegram credentials are missing'));
     }
 
     public function getChatId(): string
@@ -61,7 +51,7 @@ class TelegramService
 
     protected function makeRequest(string $method, array $data = []): array|bool
     {
-        return Http::post("{$this->baseUrl}/{$method}", $data)->throw()->json();
+        return Http::telegram()->post($method, $data)->throw()->json();
     }
 
     public function getMe(): User
