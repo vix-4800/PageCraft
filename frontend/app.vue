@@ -6,5 +6,6 @@
 
         <u-modals />
         <u-slideovers />
+        <u-notifications />
     </div>
 </template>
