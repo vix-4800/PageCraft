@@ -32,6 +32,17 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
                 'Templates saved successfully'
             );
         },
+        async setTemplateForBlock(block: TemplateBlock, template: string) {
+            const templateIndex = this.templates.findIndex(
+                (template) => template.block === block
+            );
+
+            if (templateIndex === -1) return;
+
+            this.templates[templateIndex].template = template;
+
+            await this.save(this.templates);
+        },
         setTemplates(templates: SiteTemplate[]) {
             this.templates = templates;
         },

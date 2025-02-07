@@ -3,13 +3,21 @@
         <div
             v-if="authStore.isAuthenticated && authStore.isAdmin"
             id="edit-panel"
-            class="top-0 z-[100] flex justify-between h-12 bg-gray-500"
+            class="top-0 z-[100] flex flex-col sm:flex-row justify-between items-center h-auto sm:h-12 bg-gray-500"
             :class="{
                 sticky: editModeStore.enabled,
             }"
         >
             <span class="self-center ml-2 text-lg font-semibold text-gray-100">
-                Edit panel
+                Edit Mode:
+                <span
+                    class="font-bold"
+                    :class="`text-${
+                        editModeStore.enabled ? 'green' : 'red'
+                    }-500`"
+                >
+                    {{ editModeStore.enabled ? 'ON' : 'OFF' }}
+                </span>
             </span>
 
             <u-button
@@ -42,7 +50,13 @@
                 :link="banner.link"
             />
 
-            <header @contextmenu.prevent="onContextMenu">
+            <header
+                :class="{
+                    'hover:border-2 hover:border-red-500':
+                        editModeStore.enabled,
+                }"
+                @contextmenu.prevent="onContextMenu"
+            >
                 <component :is="headerComponent" :header-pages="headerPages" />
 
                 <u-context-menu
@@ -51,11 +65,19 @@
                     :virtual-element="virtualElement"
                     :popper="{ placement: 'right' }"
                 >
-                    <u-button
-                        label="Change template"
-                        icon="material-symbols:edit"
-                        color="gray"
-                    />
+                    <div class="flex flex-col">
+                        <u-button
+                            label="Change template"
+                            icon="material-symbols:edit"
+                            color="gray"
+                            @click="changeTemplate(TemplateBlock.Header)"
+                        />
+                        <u-button
+                            label="Hide"
+                            icon="material-symbols:close"
+                            color="red"
+                        />
+                    </div>
                 </u-context-menu>
             </header>
 
@@ -65,7 +87,12 @@
                 <slot></slot>
             </main>
 
-            <footer @contextmenu.prevent="onContextMenu">
+            <footer
+                :class="{
+                    'hover:border-2 hover:border-red-500':
+                        editModeStore.enabled,
+                }"
+            >
                 <component
                     :is="footerComponent"
                     :footer-pages="footerPages"
@@ -81,6 +108,7 @@ import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
 import { useMouse, useWindowScroll } from '@vueuse/core';
+import TemplateChange from '~/components/modals/template-change.vue';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
@@ -133,12 +161,14 @@ useSeoMeta({
     twitterCard: 'summary',
 });
 
-const header = ref(templateStore.getTemplate(TemplateBlock.Header));
-const headerComponent = defineAsyncComponent({
-    loader: () => import(`@/components/header/${header.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/header/default.vue`),
-    timeout: 3000,
+const headerComponent = computed(() => {
+    const templateName = templateStore.getTemplate(TemplateBlock.Header);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/header/${templateName}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/header/default.vue`),
+        timeout: 3000,
+    });
 });
 const headerPages = ref([
     { name: 'Home', href: '/', icon: 'material-symbols:home' },
@@ -161,12 +191,14 @@ const headerPages = ref([
     { name: 'FAQ', href: '/faq', icon: 'material-symbols:help' },
 ]);
 
-const footer = ref(templateStore.getTemplate(TemplateBlock.Footer));
-const footerComponent = defineAsyncComponent({
-    loader: () => import(`@/components/footer/${footer.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/footer/default.vue`),
-    timeout: 3000,
+const footerComponent = computed(() => {
+    const templateName = templateStore.getTemplate(TemplateBlock.Footer);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/footer/${templateName}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/footer/default.vue`),
+        timeout: 3000,
+    });
 });
 const footerPages = ref([
     { name: 'Contact', href: '/contact' },
@@ -210,5 +242,14 @@ const toggleEditMode = () => {
     if (!editModeStore.enabled) {
         isOpen.value = false;
     }
+};
+
+const modal = useModal();
+const changeTemplate = (block: TemplateBlock) => {
+    isOpen.value = false;
+
+    modal.open(TemplateChange, {
+        block,
+    });
 };
 </script>
