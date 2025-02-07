@@ -58,11 +58,6 @@ useHead({
             content: settingsStore.getSetting(SettingKey.Author),
         },
     ],
-    script: [
-        {
-            src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
-        },
-    ],
     htmlAttrs: {
         lang: 'en',
     },
@@ -74,6 +69,8 @@ useHead({
         },
     ],
 });
+
+useScript(`https://widget.cloudpayments.ru/bundles/cloudpayments.js`);
 
 useSeoMeta({
     ogImage: '[og:image]',
