@@ -21,7 +21,7 @@
                 "
                 :color="editModeStore.enabled ? 'red' : 'gray'"
                 class="m-2"
-                @click="editModeStore.toggle"
+                @click="toggleEditMode"
             />
         </div>
 
@@ -42,7 +42,22 @@
                 :link="banner.link"
             />
 
-            <component :is="headerComponent" :header-pages="headerPages" />
+            <header @contextmenu.prevent="onContextMenu">
+                <component :is="headerComponent" :header-pages="headerPages" />
+
+                <u-context-menu
+                    v-model="isOpen"
+                    class="z-[100]"
+                    :virtual-element="virtualElement"
+                    :popper="{ placement: 'right' }"
+                >
+                    <u-button
+                        label="Change template"
+                        icon="material-symbols:edit"
+                        color="gray"
+                    />
+                </u-context-menu>
+            </header>
 
             <main
                 class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
@@ -50,11 +65,13 @@
                 <slot></slot>
             </main>
 
-            <component
-                :is="footerComponent"
-                :footer-pages="footerPages"
-                :footer-contacts="footerContacts"
-            />
+            <footer @contextmenu.prevent="onContextMenu">
+                <component
+                    :is="footerComponent"
+                    :footer-pages="footerPages"
+                    :footer-contacts="footerContacts"
+                />
+            </footer>
         </div>
     </div>
 </template>
@@ -63,6 +80,7 @@
 import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
+import { useMouse, useWindowScroll } from '@vueuse/core';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
@@ -161,4 +179,36 @@ const footerContacts = reactive({
     phone: settingsStore.getSetting(SettingKey.Phone),
     address: settingsStore.getSetting(SettingKey.Address),
 });
+
+const { x, y } = useMouse();
+const { y: windowY } = useWindowScroll();
+
+const isOpen = ref(false);
+const virtualElement = ref({ getBoundingClientRect: () => ({}) });
+
+const onContextMenu = () => {
+    if (!editModeStore.enabled) {
+        return;
+    }
+
+    const top = unref(y) - unref(windowY);
+    const left = unref(x);
+
+    virtualElement.value.getBoundingClientRect = () => ({
+        width: 0,
+        height: 0,
+        top,
+        left,
+    });
+
+    isOpen.value = true;
+};
+
+const toggleEditMode = () => {
+    editModeStore.toggle();
+
+    if (!editModeStore.enabled) {
+        isOpen.value = false;
+    }
+};
 </script>

@@ -1,7 +1,5 @@
 <template>
-    <footer
-        class="px-16 py-6 font-sans tracking-wide text-gray-300 bg-gray-900"
-    >
+    <div class="px-16 py-6 font-sans tracking-wide text-gray-300 bg-gray-900">
         <div
             class="flex flex-wrap items-center justify-between gap-4 text-center max-lg:flex-col"
         >
@@ -20,7 +18,7 @@
                 </li>
             </ul>
         </div>
-    </footer>
+    </div>
 </template>
 
 <script lang="ts" setup>

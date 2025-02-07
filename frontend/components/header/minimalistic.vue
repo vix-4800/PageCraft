@@ -1,5 +1,5 @@
 <template>
-    <header
+    <div
         class="flex shadow-md py-4 px-4 sm:px-10 bg-white min-h-[70px] tracking-wide relative z-50"
     >
         <div class="flex flex-wrap items-center justify-between w-full gap-5">
@@ -100,7 +100,7 @@
                 />
             </div>
         </div>
-    </header>
+    </div>
 </template>
 
 <script lang="ts" setup>
