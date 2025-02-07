@@ -7,7 +7,14 @@
                 </h3>
             </template>
 
-            <div></div>
+            <div>
+                <site-template-selector
+                    v-model="selectedTemplate"
+                    mode="grid"
+                    :block="block"
+                    class="mt-2"
+                />
+            </div>
 
             <template #footer>
                 <div class="flex justify-end gap-2">
@@ -42,14 +49,15 @@ defineProps({
     },
 });
 
-const save = () => {
-    const temp = templateStore.getTemplate(TemplateBlock.Header);
+const selectedTemplate = ref();
 
+onMounted(() => {
+    selectedTemplate.value = templateStore.getTemplate(TemplateBlock.Header);
+});
+
+const save = () => {
     templateStore
-        .setTemplateForBlock(
-            TemplateBlock.Header,
-            temp === 'minimalistic' ? 'default' : 'minimalistic'
-        )
+        .setTemplateForBlock(TemplateBlock.Header, selectedTemplate.value)
         .then(() => {
             modal.close();
         });

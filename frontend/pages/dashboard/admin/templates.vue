@@ -12,21 +12,12 @@
                 :key="index"
                 :label="capitalize(value.block.replace('_', ' '))"
             >
-                <u-select-menu
+                <site-template-selector
                     v-model="value.template"
-                    color="blue"
-                    :disabled="templateOptions[value.block as keyof typeof templateOptions].length === 1"
-                    :options="templateOptions[value.block as keyof typeof templateOptions]"
-                    size="lg"
-                    :ui-menu="{
-                        height: 'max-h-96',
-                    }"
-                    value-attribute="value"
-                >
-                    <template #option="{ option: { img } }">
-                        <nuxt-img :src="img" />
-                    </template>
-                </u-select-menu>
+                    mode="select"
+                    :block="value.block"
+                    class="mt-2"
+                />
             </u-form-group>
 
             <u-button
@@ -44,7 +35,6 @@
 
 <script lang="ts" setup>
 import type { SiteTemplate } from '~/types/site_template';
-import { TemplateConfig } from '~/config/templates';
 
 definePageMeta({
     layout: 'dashboard',
@@ -53,7 +43,6 @@ definePageMeta({
 
 const templatesStore = useSiteTemplatesStore();
 const siteTemplatesState = ref<SiteTemplate[]>([]);
-const templateOptions = TemplateConfig;
 
 const loading = ref(false);
 onMounted(async () => {

@@ -1,5 +1,5 @@
 export interface SiteTemplate {
-    block: string;
+    block: TemplateBlock;
     template: string;
 }
 
