@@ -54,7 +54,7 @@
                 <header>
                     <component
                         :is="headerComponent"
-                        :header-pages="headerPages"
+                        :header-pages="HeaderPages"
                     />
                 </header>
             </editable-block>
@@ -69,7 +69,7 @@
                 <footer>
                     <component
                         :is="footerComponent"
-                        :footer-pages="footerPages"
+                        :footer-pages="FooterPages"
                         :footer-contacts="footerContacts"
                     />
                 </footer>
@@ -82,6 +82,7 @@
 import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
+import { HeaderPages, FooterPages } from '~/config/pages';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
@@ -143,26 +144,6 @@ const headerComponent = computed(() => {
         timeout: 3000,
     });
 });
-const headerPages = ref([
-    { name: 'Home', href: '/', icon: 'material-symbols:home' },
-    {
-        name: 'Products',
-        href: '/products',
-        icon: 'material-symbols:storefront',
-    },
-    {
-        name: 'Articles',
-        href: '/articles',
-        icon: 'material-symbols:article',
-    },
-    { name: 'About', href: '/about', icon: 'material-symbols:info' },
-    {
-        name: 'Contact',
-        href: '/contact',
-        icon: 'material-symbols:contact-page',
-    },
-    { name: 'FAQ', href: '/faq', icon: 'material-symbols:help' },
-]);
 
 const footerComponent = computed(() => {
     const templateName = templateStore.getTemplate(TemplateBlock.Footer);
@@ -173,12 +154,6 @@ const footerComponent = computed(() => {
         timeout: 3000,
     });
 });
-const footerPages = ref([
-    { name: 'Contact', href: '/contact' },
-    { name: 'About', href: '/about' },
-    { name: 'Terms & Conditions', href: '/terms' },
-    { name: 'Privacy Policy', href: '/privacy' },
-]);
 const footerContacts = reactive({
     email: settingsStore.getSetting(SettingKey.Email),
     phone: settingsStore.getSetting(SettingKey.Phone),
