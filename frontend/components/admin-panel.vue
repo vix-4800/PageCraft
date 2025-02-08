@@ -36,7 +36,7 @@
 
         <div class="flex items-center py-2 space-x-2 sm:py-0">
             <u-button
-                v-if="editModeStore.hasChanges"
+                v-if="editModeStore.enabled && editModeStore.hasChanges"
                 label="Save"
                 icon="material-symbols:save-outline"
                 color="emerald"
@@ -44,12 +44,34 @@
             />
 
             <u-button
-                v-if="editModeStore.hasChanges"
+                v-if="editModeStore.enabled && editModeStore.hasChanges"
                 label="Reset"
                 icon="material-symbols:refresh"
                 color="gray"
                 @click="editModeStore.resetChanges()"
             />
+
+            <u-dropdown
+                v-if="editModeStore.enabled && editModeStore.hasChanges"
+                :popper="{ placement: 'bottom-end' }"
+                :items="[editModeStore.history]"
+            >
+                <u-button
+                    icon="material-symbols:more-vert"
+                    color="gray"
+                    label="History"
+                />
+
+                <template #item="{ item }">
+                    <span class="font-semibold">
+                        {{ capitalize(item.block.replace('_', ' ')) }}
+                    </span>
+
+                    <span class="text-sm">
+                        {{ item.newTemplate }}
+                    </span>
+                </template>
+            </u-dropdown>
 
             <u-button
                 :label="editModeStore.enabled ? 'Disable' : 'Edit mode'"

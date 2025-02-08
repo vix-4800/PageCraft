@@ -50,9 +50,11 @@ const { block } = defineProps({
     },
 });
 
+const originalTemplate = ref();
 const selectedTemplate = ref();
 
 onMounted(() => {
+    originalTemplate.value = templateStore.getTemplate(block);
     selectedTemplate.value = templateStore.getTemplate(block);
 });
 
@@ -63,6 +65,10 @@ const save = () => {
             modal.close();
         });
 
-    editModeStore.addToHistory('Change template');
+    editModeStore.addToHistory({
+        block,
+        oldTemplate: originalTemplate.value,
+        newTemplate: selectedTemplate.value,
+    });
 };
 </script>

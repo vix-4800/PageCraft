@@ -1,18 +1,15 @@
 import { defineStore } from 'pinia';
+import type { ChangeRecord } from '~/types/template-change-record';
 
 export const useEditModeStore = defineStore('edit_mode', {
     state: () => ({
         enabled: false,
         hasChanges: false,
-        history: [] as string[],
+        history: [] as ChangeRecord[],
     }),
     actions: {
         toggle() {
             this.enabled = !this.enabled;
-
-            if (!this.enabled && this.hasChanges) {
-                this.resetChanges();
-            }
         },
         async save() {
             await useSiteTemplatesStore().save();
@@ -27,9 +24,13 @@ export const useEditModeStore = defineStore('edit_mode', {
             this.hasChanges = false;
             this.history = [];
         },
-        addToHistory(record: string) {
+        addToHistory(record: Omit<ChangeRecord, 'id'>) {
             this.hasChanges = true;
-            this.history.unshift(record);
+
+            this.history.unshift({
+                id: crypto.randomUUID(),
+                ...record,
+            });
         },
     },
 });
