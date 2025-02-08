@@ -50,36 +50,14 @@
                 :link="banner.link"
             />
 
-            <header
-                :class="{
-                    'hover:border-2 hover:border-red-500':
-                        editModeStore.enabled,
-                }"
-                @contextmenu.prevent="onContextMenu"
-            >
-                <component :is="headerComponent" :header-pages="headerPages" />
-
-                <u-context-menu
-                    v-model="isOpen"
-                    class="z-[100]"
-                    :virtual-element="virtualElement"
-                    :popper="{ placement: 'right' }"
-                >
-                    <div class="flex flex-col">
-                        <u-button
-                            label="Change template"
-                            icon="material-symbols:edit"
-                            color="gray"
-                            @click="changeTemplate(TemplateBlock.Header)"
-                        />
-                        <u-button
-                            label="Hide"
-                            icon="material-symbols:close"
-                            color="red"
-                        />
-                    </div>
-                </u-context-menu>
-            </header>
+            <editable-block :block="TemplateBlock.Header">
+                <header>
+                    <component
+                        :is="headerComponent"
+                        :header-pages="headerPages"
+                    />
+                </header>
+            </editable-block>
 
             <main
                 class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
@@ -87,18 +65,15 @@
                 <slot></slot>
             </main>
 
-            <footer
-                :class="{
-                    'hover:border-2 hover:border-red-500':
-                        editModeStore.enabled,
-                }"
-            >
-                <component
-                    :is="footerComponent"
-                    :footer-pages="footerPages"
-                    :footer-contacts="footerContacts"
-                />
-            </footer>
+            <editable-block :block="TemplateBlock.Footer">
+                <footer>
+                    <component
+                        :is="footerComponent"
+                        :footer-pages="footerPages"
+                        :footer-contacts="footerContacts"
+                    />
+                </footer>
+            </editable-block>
         </div>
     </div>
 </template>
@@ -107,8 +82,6 @@
 import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
 import { TemplateBlock } from '~/types/site_template';
-import { useMouse, useWindowScroll } from '@vueuse/core';
-import TemplateChange from '~/components/modals/template-change.vue';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
@@ -212,44 +185,11 @@ const footerContacts = reactive({
     address: settingsStore.getSetting(SettingKey.Address),
 });
 
-const { x, y } = useMouse();
-const { y: windowY } = useWindowScroll();
-
-const isOpen = ref(false);
-const virtualElement = ref({ getBoundingClientRect: () => ({}) });
-
-const onContextMenu = () => {
-    if (!editModeStore.enabled) {
-        return;
-    }
-
-    const top = unref(y) - unref(windowY);
-    const left = unref(x);
-
-    virtualElement.value.getBoundingClientRect = () => ({
-        width: 0,
-        height: 0,
-        top,
-        left,
-    });
-
-    isOpen.value = true;
-};
-
 const toggleEditMode = () => {
     editModeStore.toggle();
 
     if (!editModeStore.enabled) {
         isOpen.value = false;
     }
-};
-
-const modal = useModal();
-const changeTemplate = (block: TemplateBlock) => {
-    isOpen.value = false;
-
-    modal.open(TemplateChange, {
-        block,
-    });
 };
 </script>

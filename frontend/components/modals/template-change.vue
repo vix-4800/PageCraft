@@ -37,12 +37,12 @@
 </template>
 
 <script lang="ts" setup>
-import { TemplateBlock } from '~/types/site_template';
+import type { TemplateBlock } from '~/types/site_template';
 
 const modal = useModal();
 const templateStore = useSiteTemplatesStore();
 
-defineProps({
+const { block } = defineProps({
     block: {
         type: Object as () => TemplateBlock,
         required: true,
@@ -52,12 +52,12 @@ defineProps({
 const selectedTemplate = ref();
 
 onMounted(() => {
-    selectedTemplate.value = templateStore.getTemplate(TemplateBlock.Header);
+    selectedTemplate.value = templateStore.getTemplate(block);
 });
 
 const save = () => {
     templateStore
-        .setTemplateForBlock(TemplateBlock.Header, selectedTemplate.value)
+        .setTemplateForBlock(block, selectedTemplate.value)
         .then(() => {
             modal.close();
         });
