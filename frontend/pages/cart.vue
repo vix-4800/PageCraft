@@ -1,7 +1,10 @@
 <template>
     <div>
         <page-title title="Shopping Cart" />
-        <component :is="cartComponent" />
+
+        <editable-block :block="TemplateBlock.Cart">
+            <component :is="cartComponent" />
+        </editable-block>
     </div>
 </template>
 
