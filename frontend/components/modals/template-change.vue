@@ -41,6 +41,7 @@ import type { TemplateBlock } from '~/types/site_template';
 
 const modal = useModal();
 const templateStore = useSiteTemplatesStore();
+const editModeStore = useEditModeStore();
 
 const { block } = defineProps({
     block: {
@@ -61,5 +62,7 @@ const save = () => {
         .then(() => {
             modal.close();
         });
+
+    editModeStore.addToHistory('Change template');
 };
 </script>

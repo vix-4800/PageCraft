@@ -13,14 +13,14 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
 
             this.setTemplates(data);
         },
-        async save(templates: SiteTemplate[]) {
+        async save() {
             withPasswordConfirmation(
                 async () => {
                     const { data } = await apiFetch<{ data: SiteTemplate[] }>(
                         `v1/templates`,
                         {
                             method: 'PUT',
-                            body: templates,
+                            body: this.templates,
                         }
                     );
 
@@ -40,8 +40,6 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
             if (templateIndex === -1) return;
 
             this.templates[templateIndex].template = template;
-
-            await this.save(this.templates);
         },
         setTemplates(templates: SiteTemplate[]) {
             this.templates = templates;

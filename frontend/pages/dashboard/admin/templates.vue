@@ -57,7 +57,8 @@ onMounted(async () => {
 const save = async () => {
     loading.value = true;
 
-    await templatesStore.save(siteTemplatesState.value);
+    await templatesStore.setTemplates(siteTemplatesState.value);
+    await templatesStore.save();
     siteTemplatesState.value = templatesStore.templates;
 
     loading.value = false;
