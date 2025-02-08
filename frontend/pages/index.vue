@@ -6,12 +6,14 @@
                 subtitle="New products from our store"
             />
 
-            <component
-                :is="productListComponent"
-                :products="newProducts"
-                title="New Arrivals"
-                :loading="newProductsLoading"
-            />
+            <editable-block :block="TemplateBlock.ProductList">
+                <component
+                    :is="productListComponent"
+                    :products="newProducts"
+                    title="New Arrivals"
+                    :loading="newProductsLoading"
+                />
+            </editable-block>
         </section>
 
         <u-divider class="my-10" />
@@ -22,12 +24,14 @@
                 subtitle="Products that are currently popular"
             />
 
-            <component
-                :is="productListComponent"
-                :products="popularProducts"
-                title="Popular Products"
-                :loading="popularProductsLoading"
-            />
+            <editable-block :block="TemplateBlock.ProductList">
+                <component
+                    :is="productListComponent"
+                    :products="popularProducts"
+                    title="Popular Products"
+                    :loading="popularProductsLoading"
+                />
+            </editable-block>
         </section>
 
         <u-divider class="my-10" />
@@ -35,12 +39,14 @@
         <section id="articles">
             <page-title title="Articles" subtitle="Articles from our blog" />
 
-            <component
-                :is="articleListComponent"
-                :articles="articles"
-                title="Articles"
-                :loading="articlesLoading"
-            />
+            <editable-block :block="TemplateBlock.ArticleList">
+                <component
+                    :is="articleListComponent"
+                    :articles="articles"
+                    title="Articles"
+                    :loading="articlesLoading"
+                />
+            </editable-block>
         </section>
     </div>
 </template>
@@ -52,12 +58,15 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const productList = ref(templateStore.getTemplate(TemplateBlock.ProductList));
-const productListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/product-list/${productList.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/product-list/default.vue`),
-    timeout: 3000,
+const productListComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ProductList);
+
+    return defineAsyncComponent({
+        loader: () => import(`@/components/product-list/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/product-list/default.vue`),
+        timeout: 3000,
+    });
 });
 
 const popularProducts = ref<Product[]>([]);
@@ -69,12 +78,14 @@ const newProductsLoading = ref(true);
 const articles = ref<Article[]>([]);
 const articlesLoading = ref(false);
 
-const articleList = ref(templateStore.getTemplate(TemplateBlock.ArticleList));
-const articleListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/article-list/${articleList.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/article-list/default.vue`),
-    timeout: 3000,
+const articleListComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ArticleList);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/article-list/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/article-list/default.vue`),
+        timeout: 3000,
+    });
 });
 
 onMounted(async () => {
@@ -88,7 +99,7 @@ const getPopularProducts = async () => {
         `v1/products/popular`,
         {
             params: {
-                limit: productList.value === 'compact' ? 4 : 6,
+                limit: 6,
             },
         }
     );
@@ -100,7 +111,7 @@ const getPopularProducts = async () => {
 const getNewProducts = async () => {
     const { data } = await apiFetch<{ data: Product[] }>(`v1/products/new`, {
         params: {
-            limit: productList.value === 'compact' ? 4 : 6,
+            limit: 6,
         },
     });
 

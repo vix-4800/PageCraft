@@ -1,10 +1,12 @@
 <template>
-    <component
-        :is="productDetailComponent"
-        :product="product"
-        :reviews="reviews"
-        :variations="variations"
-    />
+    <editable-block :block="TemplateBlock.ProductDetail">
+        <component
+            :is="productDetailComponent"
+            :product="product"
+            :reviews="reviews"
+            :variations="variations"
+        />
+    </editable-block>
 </template>
 
 <script lang="ts" setup>
@@ -14,15 +16,14 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const productDetail = ref(
-    templateStore.getTemplate(TemplateBlock.ProductDetail)
-);
-const productDetailComponent = defineAsyncComponent({
-    loader: () =>
-        import(`@/components/product-detail/${productDetail.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/product-detail/default.vue`),
-    timeout: 3000,
+const productDetailComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ProductDetail);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/product-detail/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/product-detail/default.vue`),
+        timeout: 3000,
+    });
 });
 
 const product = ref<Product | null>(null);

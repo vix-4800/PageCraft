@@ -1,5 +1,7 @@
 <template>
-    <component :is="articleDetailComponent" :article="article" />
+    <editable-block :block="TemplateBlock.ArticleDetail">
+        <component :is="articleDetailComponent" :article="article" />
+    </editable-block>
 </template>
 
 <script lang="ts" setup>
@@ -8,15 +10,15 @@ import { TemplateBlock } from '~/types/site_template';
 
 const templateStore = useSiteTemplatesStore();
 
-const articleDetail = ref(
-    templateStore.getTemplate(TemplateBlock.ArticleDetail)
-);
-const articleDetailComponent = defineAsyncComponent({
-    loader: () =>
-        import(`@/components/article-detail/${articleDetail.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/article-detail/default.vue`),
-    timeout: 3000,
+const articleDetailComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ArticleDetail);
+
+    return defineAsyncComponent({
+        loader: () => import(`@/components/article-detail/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/article-detail/default.vue`),
+        timeout: 3000,
+    });
 });
 
 const route = useRoute();
