@@ -430,7 +430,9 @@
                     :editor="editor"
                     :tippy-options="{ duration: 100 }"
                 >
-                    <div class="bubble-menu">
+                    <div
+                        class="flex p-1 bg-white border border-gray-300 rounded-md gap-x-1 bubble-menu"
+                    >
                         <u-tooltip text="Bold" :popper="{ placement: 'top' }">
                             <u-button
                                 icon="material-symbols:format-bold"
