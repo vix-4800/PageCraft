@@ -20,6 +20,7 @@
         "@tiptap/extension-placeholder": "^2.11.3",
         "@tiptap/extension-text-align": "^2.11.3",
         "@tiptap/extension-underline": "^2.11.3",
+        "@tiptap/extension-youtube": "^2.11.5",
         "@tiptap/pm": "^2.11.3",
         "@tiptap/starter-kit": "^2.11.3",
         "@tiptap/vue-3": "^2.11.3",
@@ -43,6 +44,7 @@
         "@nuxt/image": "^1.8.0",
         "@nuxtjs/seo": "^2.1.0",
         "@pinia/nuxt": "^0.5.4",
+        "sass-embedded": "^1.83.4",
         "typescript": "^5.6.2"
     }
 }
