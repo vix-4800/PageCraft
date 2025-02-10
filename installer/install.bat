@@ -109,7 +109,7 @@ echo Installing Composer dependencies...
 docker run --rm -v "%INSTALL_PATH%\backend:/app" -w /app composer:latest composer install --no-interaction
 
 echo Installing Node.js dependencies...
-docker run --rm -v "%INSTALL_PATH%\frontend:/app" -w /app node:22-alpine npm install --force
+docker run --rm -v "%INSTALL_PATH%\frontend:/app" -w /app node:22-alpine npm install
 goto :eof
 
 :start_docker_containers
