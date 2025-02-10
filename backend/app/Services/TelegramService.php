@@ -7,7 +7,8 @@ namespace App\Services;
 use App\DTO\Telegram\BotDescription;
 use App\DTO\Telegram\BotName;
 use App\DTO\Telegram\BotShortDescription;
-use App\DTO\Telegram\Message;
+use App\DTO\Telegram\PendingMessage;
+use App\DTO\Telegram\ReceivedMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
 use App\Exceptions\TelegramException;
@@ -16,8 +17,6 @@ use Illuminate\Support\Facades\Http;
 
 class TelegramService
 {
-    protected string $token = '';
-
     protected string|int $chatId = '';
 
     public function __construct()
@@ -27,14 +26,9 @@ class TelegramService
         throw_if(empty($this->chatId), new TelegramException('Telegram credentials are missing'));
     }
 
-    public function getChatId(): string
+    public function getChatId(): string|int
     {
         return $this->chatId;
-    }
-
-    public function getToken(): string
-    {
-        return $this->token;
     }
 
     /**
@@ -42,7 +36,7 @@ class TelegramService
      *
      * @param  string|int  $chatId  The chat ID to send the requests to
      */
-    public function forChat(string|int $chatId): self
+    public function to(string|int $chatId): self
     {
         $this->chatId = $chatId;
 
@@ -89,15 +83,16 @@ class TelegramService
         return $this->makeRequest('setMyShortDescription', ['short_description' => $shortDescription]);
     }
 
-    public function sendMessage(string $message): Message
+    public function sendMessage(string|PendingMessage $message): ReceivedMessage
     {
-        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', [
-            'chat_id' => $this->chatId,
-            'text' => $message,
-        ]));
+        $data = is_string($message)
+            ? ['chat_id' => $this->chatId, 'text' => $message]
+            : $message->toArray();
+
+        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', $data));
     }
 
-    public function editMessage(int $messageId, string $text): Message
+    public function editMessage(int $messageId, string $text): ReceivedMessage
     {
         return TelegramDTOFactory::createMessage($this->makeRequest('editMessageText', [
             'chat_id' => $this->chatId,

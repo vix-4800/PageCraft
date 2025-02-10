@@ -10,7 +10,7 @@ use App\DTO\Telegram\BotShortDescription;
 use App\DTO\Telegram\CallbackQuery;
 use App\DTO\Telegram\Chat;
 use App\DTO\Telegram\ChatFullInfo;
-use App\DTO\Telegram\Message;
+use App\DTO\Telegram\ReceivedMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
 
@@ -37,9 +37,9 @@ class TelegramDTOFactory
         return new Chat($data['id'], $data['type'], $data['title']);
     }
 
-    public static function createMessage(array $data): Message
+    public static function createMessage(array $data): ReceivedMessage
     {
-        return new Message(
+        return new ReceivedMessage(
             $data['message_id'],
             self::createUser($data['from']),
             self::createChat($data['chat']),

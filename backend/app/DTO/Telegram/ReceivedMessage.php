@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\TelegramType;
 
-class Message implements TelegramType
+class ReceivedMessage implements TelegramType
 {
     public function __construct(
         public readonly int $message_id,

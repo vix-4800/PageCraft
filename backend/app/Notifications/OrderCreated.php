@@ -4,23 +4,56 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\DTO\Telegram\PendingMessage;
 use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\Order\OrderResource;
+use App\Models\Order;
+use App\Models\User;
+use App\Notifications\Channels\TelegramChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 
-class OrderCreated extends BaseDatabaseNotification
+class OrderCreated extends Notification implements ShouldQueue
 {
-    protected function getType(): DatabaseNotificationType
-    {
-        return DatabaseNotificationType::ORDER;
+    use Queueable;
+
+    /**
+     * Create a new notification instance.
+     */
+    public function __construct(
+        public Order $order
+    ) {
+        //
     }
 
-    protected function getMessage(): string
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
+     */
+    public function via(User $notifiable): array
     {
-        return 'Order created';
+        return ['database', TelegramChannel::class];
     }
 
-    protected function getDetails(): OrderResource
+    /**
+     * Get the array representation of the notification.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(User $notifiable): array
     {
-        return new OrderResource($this->model);
+        return [
+            'message' => 'Order created',
+            'type' => DatabaseNotificationType::ORDER->value,
+            'details' => new OrderResource($this->order),
+        ];
+    }
+
+    public function toTelegram(User $notifiable): PendingMessage
+    {
+        return (new PendingMessage)
+            ->text('Order created');
     }
 }

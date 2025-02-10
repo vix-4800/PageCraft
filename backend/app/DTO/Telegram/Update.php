@@ -10,7 +10,7 @@ class Update implements TelegramType
 {
     public function __construct(
         public readonly int $update_id,
-        public readonly Message $message,
+        public readonly ReceivedMessage $message,
         public readonly CallbackQuery $callback_query,
     ) {
         //
