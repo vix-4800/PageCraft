@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
+use App\Contracts\TelegramType;
 use App\Facades\Telegram;
 
-class PendingMessage
+class PendingMessage implements TelegramType
 {
-    public readonly int|string $chatId;
+    public int|string $chatId;
 
-    public readonly string $text;
+    public string $text;
 
-    public readonly bool $disable_notification;
+    public bool $disable_notification;
+
+    public InlineKeyboardMarkup|ReplyKeyboardMarkup|null $keyboard = null;
 
     public function __construct()
     {
@@ -41,12 +44,28 @@ class PendingMessage
         return $this;
     }
 
+    public function withKeyboard(InlineKeyboardMarkup|ReplyKeyboardMarkup $keyboard): self
+    {
+        $this->keyboard = $keyboard;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
-        return [
+        $message = [
             'chat_id' => $this->chatId,
             'text' => $this->text,
-            'disable_notification' => $this->disable_notification,
         ];
+
+        if ($this->disable_notification) {
+            $message['disable_notification'] = $this->disable_notification;
+        }
+
+        if ($this->keyboard) {
+            $message['reply_markup'] = $this->keyboard;
+        }
+
+        return $message;
     }
 }

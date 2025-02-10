@@ -83,13 +83,15 @@ class TelegramService
         return $this->makeRequest('setMyShortDescription', ['short_description' => $shortDescription]);
     }
 
-    public function sendMessage(string|PendingMessage $message): ReceivedMessage
+    /**
+     * Sends a message using the Telegram API.
+     *
+     * @param  PendingMessage  $message  The message to be sent.
+     * @return ReceivedMessage The message received after being sent.
+     */
+    public function sendMessage(PendingMessage $message): ReceivedMessage
     {
-        $data = is_string($message)
-            ? ['chat_id' => $this->chatId, 'text' => $message]
-            : $message->toArray();
-
-        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', $data));
+        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', $message->toArray())['result']);
     }
 
     public function editMessage(int $messageId, string $text): ReceivedMessage
