@@ -174,7 +174,7 @@ class Installer
 
     protected function installNodeDependencies(int $progress): self
     {
-        shell_exec("cd {$this->installPath}/frontend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html node:22-alpine npm install --force");
+        shell_exec("cd {$this->installPath}/frontend && docker run --rm -v $(pwd):/var/www/html -w /var/www/html node:22-alpine npm install");
 
         $this->logger->write("Node.js dependencies installed.", $progress);
 

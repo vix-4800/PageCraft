@@ -11,7 +11,7 @@
                             <u-button
                                 icon="material-symbols:format-bold"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('bold'),
                                 }"
@@ -34,7 +34,7 @@
                             <u-button
                                 icon="material-symbols:format-italic"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('italic'),
                                 }"
@@ -60,7 +60,7 @@
                             <u-button
                                 icon="material-symbols:format-underlined"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('underline'),
                                 }"
@@ -90,7 +90,7 @@
                             <u-button
                                 icon="material-symbols:format-strikethrough"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('strike'),
                                 }"
@@ -113,7 +113,7 @@
                             <u-button
                                 icon="material-symbols:code"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('code'),
                                 }"
@@ -139,7 +139,7 @@
                             <u-button
                                 icon="material-symbols:format-paragraph"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 class="hover:bg-gray-300"
                                 @click="
                                     editor.chain().focus().setParagraph().run()
@@ -154,7 +154,7 @@
                             <u-button
                                 icon="hugeicons:heading-01"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('heading', {
                                         level: 1,
@@ -178,7 +178,7 @@
                             <u-button
                                 icon="hugeicons:heading-02"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('heading', {
                                         level: 2,
@@ -202,7 +202,7 @@
                             <u-button
                                 icon="hugeicons:heading-03"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('heading', {
                                         level: 3,
@@ -226,7 +226,7 @@
                             <u-button
                                 icon="hugeicons:heading-04"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive('heading', {
                                         level: 4,
@@ -250,7 +250,7 @@
                             <u-button
                                 icon="material-symbols:format-list-bulleted"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300':
                                         editor.isActive('bulletList'),
@@ -273,7 +273,7 @@
                             <u-button
                                 icon="material-symbols:format-list-numbered"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300':
                                         editor.isActive('orderedList'),
@@ -296,7 +296,7 @@
                             <u-button
                                 icon="material-symbols:format-quote"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300':
                                         editor.isActive('blockquote'),
@@ -319,7 +319,7 @@
                             <u-button
                                 icon="material-symbols:format-align-left"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive({
                                         textAlign: 'left',
@@ -343,7 +343,7 @@
                             <u-button
                                 icon="material-symbols:format-align-center"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive({
                                         textAlign: 'center',
@@ -367,7 +367,7 @@
                             <u-button
                                 icon="material-symbols:format-align-right"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :class="{
                                     'bg-gray-300': editor.isActive({
                                         textAlign: 'right',
@@ -383,6 +383,19 @@
                                 "
                             />
                         </u-tooltip>
+
+                        <u-tooltip
+                            text="Add Video"
+                            :popper="{ placement: 'top' }"
+                        >
+                            <u-button
+                                icon="material-symbols:youtube-activity"
+                                size="sm"
+                                color="gray"
+                                class="hover:bg-gray-300"
+                                @click="addVideo"
+                            />
+                        </u-tooltip>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-x-2">
@@ -390,7 +403,7 @@
                             <u-button
                                 icon="material-symbols:undo"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :disabled="
                                     !editor.can().chain().focus().undo().run()
                                 "
@@ -402,7 +415,7 @@
                             <u-button
                                 icon="material-symbols:redo"
                                 color="gray"
-                                size="md"
+                                size="sm"
                                 :disabled="
                                     !editor.can().chain().focus().redo().run()
                                 "
@@ -412,7 +425,22 @@
                     </div>
                 </div>
 
+                <tiptap-bubble-menu :editor="editor" />
+
                 <editor-content :editor="editor" />
+
+                <div
+                    class="text-sm text-gray-500 text-end"
+                    :class="{
+                        'character-count': true,
+                        'character-count--warning':
+                            editor.storage.characterCount.characters() ===
+                            limit,
+                    }"
+                >
+                    {{ editor.storage.characterCount.characters() }} /
+                    {{ limit }} characters
+                </div>
             </div>
         </client-only>
     </div>
@@ -424,11 +452,17 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Placeholder from '@tiptap/extension-placeholder';
+import CharacterCount from '@tiptap/extension-character-count';
+import Youtube from '@tiptap/extension-youtube';
 
-const { modelValue } = defineProps({
+const { modelValue, limit } = defineProps({
     modelValue: {
         type: String,
         default: '',
+    },
+    limit: {
+        type: Number,
+        default: 1000,
     },
 });
 
@@ -441,18 +475,18 @@ const editor = useEditor({
             types: ['heading', 'paragraph'],
         }),
         Placeholder.configure({
-            placeholder: ({ node }) => {
-                if (node.type.name === 'heading') {
-                    return "What's the title?";
-                }
-
-                return 'Write something!';
-            },
+            placeholder: 'Write something...',
+        }),
+        CharacterCount.configure({
+            limit: limit,
+        }),
+        Youtube.configure({
+            nocookie: true,
         }),
     ],
     editorProps: {
         attributes: {
-            class: 'border max-w-full p-4 prose border-blue-500 h-[12rem] rounded-lg overflow-y-auto',
+            class: 'border max-w-full p-4 prose border-blue-500 h-[36rem] rounded-lg overflow-y-auto',
         },
     },
     onUpdate: () => {
@@ -468,18 +502,50 @@ watch(
         emit('update:modelValue', value);
     }
 );
+
+const addVideo = () => {
+    const url = prompt('Enter YouTube URL');
+
+    editor.value.commands.setYoutubeVideo({
+        src: url,
+        width: 800,
+        height: 450,
+    });
+};
 </script>
 
-<style>
-.tiptap p.is-empty::before,
-.tiptap h1.is-empty::before,
-.tiptap h2.is-empty::before,
-.tiptap h3.is-empty::before,
-.tiptap h4.is-empty::before {
-    color: #adb5bd;
-    content: attr(data-placeholder);
-    float: left;
-    height: 0;
-    pointer-events: none;
+<style lang="scss">
+.tiptap {
+    :first-child {
+        margin-top: 0;
+    }
+
+    p.is-editor-empty:first-child::before {
+        color: var(--gray-4);
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+    }
+}
+
+/* Youtube embed */
+div[data-youtube-video] {
+    cursor: move;
+    padding-right: 1.5rem;
+
+    iframe {
+        border: 0.5rem solid var(--black-contrast);
+        border-radius: 0.5rem;
+        display: block;
+        min-height: 200px;
+        min-width: 200px;
+        outline: 0px solid transparent;
+    }
+
+    &.ProseMirror-selectednode iframe {
+        outline: 3px solid var(--purple);
+        transition: outline 0.15s;
+    }
 }
 </style>

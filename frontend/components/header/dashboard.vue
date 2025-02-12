@@ -1,5 +1,5 @@
 <template>
-    <header
+    <div
         class="flex items-center flex-none z-1 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-gray-800"
     >
         <div class="container px-4 mx-auto lg:px-8 xl:max-w-7xl">
@@ -108,7 +108,7 @@
                 </div>
             </nav>
         </div>
-    </header>
+    </div>
 </template>
 
 <script lang="ts" setup>

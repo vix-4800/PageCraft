@@ -55,4 +55,8 @@ return [
     'boxberry' => [
         'token' => env('BOXBERRY_TOKEN'),
     ],
+
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+    ],
 ];

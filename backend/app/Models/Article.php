@@ -17,11 +17,13 @@ use Stevebauman\Purify\Facades\Purify;
  * @property string $title
  * @property string $content
  * @property string $description
- * @property string $author
  * @property string|null $image
+ * @property string $author
  * @property ArticleStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ArticleTag> $articleTags
+ * @property-read int|null $article_tags_count
  *
  * @method static \Database\Factories\ArticleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newModelQuery()
@@ -30,13 +32,13 @@ use Stevebauman\Purify\Facades\Purify;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereAuthor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereDescription($value)
  *
  * @mixin \Eloquent
  */

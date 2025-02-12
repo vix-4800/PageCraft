@@ -50,4 +50,11 @@ class BackupController extends Controller
 
         return ApiResponse::empty();
     }
+
+    public function deleteAll(): Response
+    {
+        Backup::deleteAllDatabaseBackups();
+
+        return ApiResponse::empty();
+    }
 }

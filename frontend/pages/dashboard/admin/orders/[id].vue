@@ -28,6 +28,7 @@
                 </h2>
                 <div class="flex-col items-center justify-center w-full px-8">
                     <ol
+                        v-auto-animate
                         class="flex flex-col items-center justify-between w-full gap-4 md:flex-row md:items-start md:gap-1"
                     >
                         <li

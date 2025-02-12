@@ -1,7 +1,7 @@
 <template>
     <div class="grid gap-4 font-sans md:grid-cols-3">
         <div class="p-4 bg-gray-100 rounded-md md:col-span-2">
-            <div class="space-y-4">
+            <div v-auto-animate class="space-y-4">
                 <div
                     v-for="item in cartItems"
                     :key="item.product.slug"
@@ -175,7 +175,7 @@
                 />
 
                 <u-button
-                    to="/"
+                    to="/products"
                     block
                     label="Continue Shopping"
                     size="lg"

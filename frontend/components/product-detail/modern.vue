@@ -54,7 +54,7 @@
                             <div
                                 class="flex items-center gap-1 text-lg px-2.5 bg-green-600 text-white rounded-full"
                             >
-                                <p>{{ product.reviews.average }}</p>
+                                <p>{{ Math.round(product.reviews.average) }}</p>
                                 <svg
                                     class="w-[13px] h-[13px] fill-white"
                                     viewBox="0 0 14 13"
@@ -265,7 +265,7 @@
                             <h4
                                 class="text-2xl font-semibold text-gray-800 sm:text-3xl"
                             >
-                                {{ product.reviews.average }} / 5
+                                {{ Math.round(product.reviews.average) }} / 5
                             </h4>
                             <p class="text-sm text-gray-500">
                                 Based on {{ product.reviews.count }} ratings

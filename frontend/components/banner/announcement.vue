@@ -36,7 +36,7 @@ defineProps({
     link: {
         type: String,
         required: false,
-        default: '',
+        default: null,
     },
 });
 

@@ -2,27 +2,31 @@
     <div>
         <page-title title="Articles" subtitle="Our latest news and updates" />
 
-        <component
-            :is="articleListComponent"
-            :articles="articles"
-            title="Articles"
-            :loading="articlesLoading"
-        />
+        <editable-block :name="TemplateBlock.ArticleList">
+            <component
+                :is="articleListComponent"
+                :articles="articles"
+                title="Articles"
+                :loading="articlesLoading"
+            />
+        </editable-block>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { Article } from '~/types/article';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 
-const articleList = ref(templateStore.getTemplate(TemplateBlock.ArticleList));
-const articleListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/article-list/${articleList.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/article-list/default.vue`),
-    timeout: 3000,
+const articleListComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ArticleList);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/article-list/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/article-list/default.vue`),
+        timeout: 3000,
+    });
 });
 
 const articles = ref<Article[]>([]);

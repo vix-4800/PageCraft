@@ -1,38 +1,64 @@
 <template>
     <div class="page-transition layout-transition">
-        <banner-maintenance
-            v-if="settingsStore.isMaintenance"
-            text="The site is currently under maintenance."
-        />
+        <admin-panel v-if="authStore.isAuthenticated && authStore.isAdmin" />
 
-        <banner-announcement
-            v-if="banner && banner.is_active"
-            :text="banner.text"
-            :link="banner.link"
-        />
-
-        <component :is="headerComponent" :header-pages="headerPages" />
-
-        <main
-            class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
+        <div
+            :class="{
+                'm-2 border-8 border-gray-300 rounded-md':
+                    editModeStore.enabled,
+            }"
         >
-            <slot></slot>
-        </main>
+            <banner-maintenance
+                v-if="settingsStore.isMaintenance"
+                text="The site is currently under maintenance."
+            />
 
-        <component
-            :is="footerComponent"
-            :footer-pages="footerPages"
-            :footer-contacts="footerContacts"
-        />
+            <banner-announcement
+                v-if="banner && banner.is_active"
+                :text="banner.text"
+                :link="banner.link"
+            />
+
+            <editable-block :name="TemplateBlock.Header">
+                <header
+                    v-if="templateStore.isBlockVisible(TemplateBlock.Header)"
+                >
+                    <component
+                        :is="headerComponent"
+                        :header-pages="HeaderPages"
+                    />
+                </header>
+            </editable-block>
+
+            <main
+                class="min-h-screen font-[sans-serif] p-4 mx-auto lg:max-w-7xl sm:px-6"
+            >
+                <slot></slot>
+            </main>
+
+            <editable-block :name="TemplateBlock.Footer">
+                <footer>
+                    <component
+                        :is="footerComponent"
+                        :footer-pages="FooterPages"
+                        :footer-contacts="footerContacts"
+                    />
+                </footer>
+            </editable-block>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
+import { HeaderPages, FooterPages } from '~/config/pages';
 
 const settingsStore = useSiteSettingsStore();
 const templateStore = useSiteTemplatesStore();
+const editModeStore = useEditModeStore();
+const authStore = useAuthStore();
 const config = useRuntimeConfig();
 
 const banner = ref<Banner | null>();
@@ -58,11 +84,6 @@ useHead({
             content: settingsStore.getSetting(SettingKey.Author),
         },
     ],
-    script: [
-        {
-            src: 'https://widget.cloudpayments.ru/bundles/cloudpayments.js',
-        },
-    ],
     htmlAttrs: {
         lang: 'en',
     },
@@ -75,6 +96,8 @@ useHead({
     ],
 });
 
+useScript(`https://widget.cloudpayments.ru/bundles/cloudpayments.js`);
+
 useSeoMeta({
     ogImage: '[og:image]',
     twitterTitle: config.public.appName,
@@ -83,47 +106,25 @@ useSeoMeta({
     twitterCard: 'summary',
 });
 
-const header = ref(templateStore.getTemplate(TemplateBlock.Header));
-const headerComponent = defineAsyncComponent({
-    loader: () => import(`@/components/header/${header.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/header/default.vue`),
-    timeout: 3000,
+const headerComponent = computed(() => {
+    const templateName = templateStore.getTemplate(TemplateBlock.Header);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/header/${templateName}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/header/default.vue`),
+        timeout: 3000,
+    });
 });
-const headerPages = ref([
-    { name: 'Home', href: '/', icon: 'material-symbols:home' },
-    {
-        name: 'Products',
-        href: '/products',
-        icon: 'material-symbols:storefront',
-    },
-    {
-        name: 'Articles',
-        href: '/articles',
-        icon: 'material-symbols:article',
-    },
-    { name: 'About', href: '/about', icon: 'material-symbols:info' },
-    {
-        name: 'Contact',
-        href: '/contact',
-        icon: 'material-symbols:contact-page',
-    },
-    { name: 'FAQ', href: '/faq', icon: 'material-symbols:help' },
-]);
 
-const footer = ref(templateStore.getTemplate(TemplateBlock.Footer));
-const footerComponent = defineAsyncComponent({
-    loader: () => import(`@/components/footer/${footer.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/footer/default.vue`),
-    timeout: 3000,
+const footerComponent = computed(() => {
+    const templateName = templateStore.getTemplate(TemplateBlock.Footer);
+    return defineAsyncComponent({
+        loader: () => import(`@/components/footer/${templateName}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/footer/default.vue`),
+        timeout: 3000,
+    });
 });
-const footerPages = ref([
-    { name: 'Contact', href: '/contact' },
-    { name: 'About', href: '/about' },
-    { name: 'Terms & Conditions', href: '/terms' },
-    { name: 'Privacy Policy', href: '/privacy' },
-]);
 const footerContacts = reactive({
     email: settingsStore.getSetting(SettingKey.Email),
     phone: settingsStore.getSetting(SettingKey.Phone),

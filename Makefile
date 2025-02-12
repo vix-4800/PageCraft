@@ -41,10 +41,10 @@ logs_frontend:
 	@docker logs -f frontend
 update_frontend:
 	@echo "\nUpdating Frontend..."
-	@docker exec -it frontend npm update --force
+	@docker exec -it frontend npm update
 install_frontend:
 	@echo "\nInstalling Frontend..."
-	@docker exec -it frontend npm install --force
+	@docker exec -it frontend npm install
 
 # Backend
 start_backend:

@@ -59,7 +59,7 @@
                     </div>
                 </template>
 
-                <div class="h-full space-y-2 overflow-y-auto">
+                <div v-auto-animate class="h-full space-y-2 overflow-y-auto">
                     <u-button
                         v-for="notification in notifications"
                         :key="notification.id"

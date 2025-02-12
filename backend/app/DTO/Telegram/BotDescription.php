@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DTO\Telegram;
+
+use App\Contracts\TelegramType;
+
+class BotDescription implements TelegramType
+{
+    public function __construct(
+        public readonly string $description
+    ) {
+        //
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'description' => $this->description,
+        ];
+    }
+}

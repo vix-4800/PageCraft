@@ -8,6 +8,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string|null $icon
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Article> $articles
+ * @property-read int|null $articles_count
+ *
+ * @method static \Database\Factories\ArticleTagFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereName($value)
+ *
+ * @mixin \Eloquent
+ */
 class ArticleTag extends Model
 {
     /** @use HasFactory<\Database\Factories\ArticleTagFactory> */

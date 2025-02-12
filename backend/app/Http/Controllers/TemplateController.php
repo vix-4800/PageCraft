@@ -38,13 +38,14 @@ class TemplateController extends Controller
      */
     public function update(UpdateTemplateRequest $request): JsonResource
     {
-        $validated = $request->validated();
+        $templates = $request->validated();
 
-        DB::transaction(function () use ($validated): void {
-            foreach ($validated as $setting) {
-                Template::firstWhere('block', $setting['block'])->update(['template' => $setting['template']]);
-            }
-        });
+        DB::transaction(fn (): bool => array_walk($templates, function (array $template): void {
+            Template::firstWhere('name', $template['name'])->update([
+                'template' => $template['template'],
+                'is_visible' => $template['is_visible'],
+            ]);
+        }));
 
         return TemplateResource::collection(Template::all());
     }
