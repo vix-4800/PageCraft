@@ -11,22 +11,19 @@ use App\DTO\Telegram\PendingMessage;
 use App\DTO\Telegram\ReceivedMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
-use App\Exceptions\TelegramException;
 use App\Factories\TelegramDTOFactory;
 use Illuminate\Support\Facades\Http;
 
 class TelegramService
 {
-    protected string|int $chatId = '';
+    protected string|int|null $chatId = null;
 
     public function __construct()
     {
-        $this->chatId = config('services.telegram.chat_id');
-
-        throw_if(empty($this->chatId), new TelegramException('Telegram credentials are missing'));
+        //
     }
 
-    public function getChatId(): string|int
+    public function getChatId(): string|int|null
     {
         return $this->chatId;
     }

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\DTO\Telegram;
 
 use App\Contracts\TelegramType;
-use App\Facades\Telegram;
 
 class PendingMessage implements TelegramType
 {
-    public int|string $chatId;
+    public int|string|null $chatId = null;
 
     public string $text;
 
@@ -19,11 +18,10 @@ class PendingMessage implements TelegramType
 
     public function __construct()
     {
-        $this->chatId = Telegram::getChatId();
         $this->disable_notification = false;
     }
 
-    public function to(int $chatId): self
+    public function to(int|string $chatId): self
     {
         $this->chatId = $chatId;
 

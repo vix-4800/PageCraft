@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -42,6 +43,7 @@ use Laravolt\Avatar\Avatar;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $productReviews
  * @property-read int|null $product_reviews_count
  * @property-read Role $role
+ * @property-read TelegramAccount|null $telegramAccount
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, UserAddress> $userAddresses
@@ -151,5 +153,10 @@ class User extends Authenticatable
     public function updateLastSignInTimestamp(): void
     {
         $this->update(['last_sign_in_at' => now()]);
+    }
+
+    public function telegramAccount(): HasOne
+    {
+        return $this->hasOne(TelegramAccount::class);
     }
 }

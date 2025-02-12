@@ -54,6 +54,7 @@ class OrderCreated extends Notification implements ShouldQueue
     public function toTelegram(User $notifiable): PendingMessage
     {
         return (new PendingMessage)
+            ->to($notifiable->telegramAccount->chat_id)
             ->text('Order created');
     }
 }
