@@ -2,21 +2,17 @@
     <div>
         <dashboard-page-name title="Page Templates" />
 
-        <u-form
-            :state="siteTemplatesState"
-            class="flex flex-col gap-2 px-1"
-            @submit="save"
-        >
+        <u-form :state="siteTemplatesState" class="space-y-2" @submit="save">
             <u-form-group
-                v-for="(value, index) in siteTemplatesState"
+                v-for="(template, index) in siteTemplatesState"
                 :key="index"
-                :label="capitalize(value.block.replace('_', ' '))"
+                :label="template.title"
+                :hint="template.description"
             >
                 <site-template-selector
-                    v-model="value.template"
+                    v-model="template.template"
                     mode="select"
-                    :block="value.block"
-                    class="mt-2"
+                    :name="template.name"
                 />
             </u-form-group>
 
@@ -34,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { SiteTemplate } from '~/types/site_template';
+import type { SiteTemplate } from '~/types/template';
 
 definePageMeta({
     layout: 'dashboard',

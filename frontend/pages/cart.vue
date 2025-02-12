@@ -2,14 +2,14 @@
     <div>
         <page-title title="Shopping Cart" />
 
-        <editable-block :block="TemplateBlock.Cart">
+        <editable-block :name="TemplateBlock.Cart">
             <component :is="cartComponent" />
         </editable-block>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

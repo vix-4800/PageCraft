@@ -3,7 +3,7 @@
         <u-card>
             <template #header>
                 <h3 class="text-lg font-semibold">
-                    Choose Template ({{ block.replace('_', ' ') }})
+                    Choose Template ({{ name.replace('_', ' ') }})
                 </h3>
             </template>
 
@@ -11,7 +11,7 @@
                 <site-template-selector
                     v-model="selectedTemplate"
                     mode="grid"
-                    :block="block"
+                    :name="name"
                     class="mt-2"
                 />
             </div>
@@ -37,14 +37,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { TemplateBlock } from '~/types/site_template';
+import type { TemplateBlock } from '~/types/template';
 
 const modal = useModal();
 const templateStore = useSiteTemplatesStore();
 const editModeStore = useEditModeStore();
 
-const { block } = defineProps({
-    block: {
+const { name } = defineProps({
+    name: {
         type: Object as () => TemplateBlock,
         required: true,
     },
@@ -54,19 +54,17 @@ const originalTemplate = ref();
 const selectedTemplate = ref();
 
 onMounted(() => {
-    originalTemplate.value = templateStore.getTemplate(block);
-    selectedTemplate.value = templateStore.getTemplate(block);
+    originalTemplate.value = templateStore.getTemplate(name);
+    selectedTemplate.value = templateStore.getTemplate(name);
 });
 
 const save = () => {
-    templateStore
-        .setTemplateForBlock(block, selectedTemplate.value)
-        .then(() => {
-            modal.close();
-        });
+    templateStore.setTemplateForBlock(name, selectedTemplate.value).then(() => {
+        modal.close();
+    });
 
     editModeStore.addToHistory({
-        block,
+        name,
         oldTemplate: originalTemplate.value,
         newTemplate: selectedTemplate.value,
     });

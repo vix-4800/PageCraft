@@ -20,8 +20,11 @@ class TemplateResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'block' => $this->block,
+            'name' => $this->name,
+            'title' => $this->title,
+            'description' => $this->description,
             'template' => $this->template,
+            'is_visible' => $this->is_visible,
         ];
     }
 }

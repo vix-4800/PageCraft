@@ -1,5 +1,5 @@
 <template>
-    <editable-block :block="TemplateBlock.ProductDetail">
+    <editable-block :name="TemplateBlock.ProductDetail">
         <component
             :is="productDetailComponent"
             :product="product"
@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import type { Product, ProductVariation } from '~/types/product';
 import type { Review } from '~/types/review';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

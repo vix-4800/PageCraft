@@ -18,7 +18,7 @@
                     label="Change template"
                     icon="material-symbols:edit"
                     color="gray"
-                    @click="changeTemplate(block)"
+                    @click="changeTemplate(name)"
                 />
                 <u-button
                     label="Hide"
@@ -31,11 +31,11 @@
 </template>
 
 <script lang="ts" setup>
-import { TemplateBlock } from '~/types/site_template';
+import type { TemplateBlock } from '~/types/template';
 
-const { block } = defineProps({
-    block: {
-        type: TemplateBlock,
+const { name } = defineProps({
+    name: {
+        type: String as () => TemplateBlock,
         required: true,
     },
 });

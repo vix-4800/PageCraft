@@ -23412,6 +23412,45 @@ namespace Illuminate\Http\Client {
             return \Illuminate\Http\Client\Factory::telegram();
         }
 
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::ozon()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function ozon($account)
+        {
+            return \Illuminate\Http\Client\Factory::ozon($account);
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::wildberries()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function wildberries($account)
+        {
+            return \Illuminate\Http\Client\Factory::wildberries($account);
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::yandex()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function yandex($account)
+        {
+            return \Illuminate\Http\Client\Factory::yandex($account);
+        }
+
             }
     }
 

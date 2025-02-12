@@ -2,7 +2,7 @@
     <div>
         <page-title title="Your Favorites" />
 
-        <editable-block :block="TemplateBlock.ProductList">
+        <editable-block :name="TemplateBlock.ProductList">
             <component
                 :is="productListComponent"
                 :products="products"
@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

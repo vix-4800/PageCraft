@@ -5,14 +5,14 @@
             subtitle="Have some big idea or brand to develop and need help?"
         />
 
-        <editable-block :block="TemplateBlock.Contact">
+        <editable-block :name="TemplateBlock.Contact">
             <component :is="contactComponent" />
         </editable-block>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

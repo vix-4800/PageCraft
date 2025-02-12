@@ -54,7 +54,12 @@
             <u-dropdown
                 v-if="editModeStore.enabled && editModeStore.hasChanges"
                 :popper="{ placement: 'bottom-end' }"
-                :items="[editModeStore.history]"
+                :items="[
+                    editModeStore.history.map((item) => ({
+                        ...item,
+                        label: capitalize(item.name).replace('_', ' '),
+                    })),
+                ]"
             >
                 <u-button
                     icon="material-symbols:more-vert"
@@ -64,7 +69,7 @@
 
                 <template #item="{ item }">
                     <span class="font-semibold">
-                        {{ capitalize(item.block.replace('_', ' ')) }}
+                        {{ item.label }}
                     </span>
 
                     <span class="text-sm">

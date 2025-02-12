@@ -1,6 +1,9 @@
 export interface SiteTemplate {
-    block: TemplateBlock;
+    name: TemplateBlock;
+    title: string;
+    description: string;
     template: string;
+    is_visible: boolean;
 }
 
 export enum TemplateBlock {

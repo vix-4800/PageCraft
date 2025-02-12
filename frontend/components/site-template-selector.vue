@@ -46,9 +46,9 @@
 
 <script lang="ts" setup>
 import { TemplateConfig } from '~/config/templates';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
-const { block } = defineProps({
+const { name } = defineProps({
     modelValue: {
         type: String,
         default: '',
@@ -57,7 +57,7 @@ const { block } = defineProps({
         type: String as () => Mode,
         required: true,
     },
-    block: {
+    name: {
         type: TemplateBlock,
         required: true,
     },
@@ -65,7 +65,7 @@ const { block } = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const options = computed(() => TemplateConfig[block]);
+const options = computed(() => TemplateConfig[name]);
 
 enum Mode {
     Select = 'select',

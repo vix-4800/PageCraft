@@ -19,8 +19,10 @@
                 :link="banner.link"
             />
 
-            <editable-block :block="TemplateBlock.Header">
-                <header>
+            <editable-block :name="TemplateBlock.Header">
+                <header
+                    v-if="templateStore.isBlockVisible(TemplateBlock.Header)"
+                >
                     <component
                         :is="headerComponent"
                         :header-pages="HeaderPages"
@@ -34,7 +36,7 @@
                 <slot></slot>
             </main>
 
-            <editable-block :block="TemplateBlock.Footer">
+            <editable-block :name="TemplateBlock.Footer">
                 <footer>
                     <component
                         :is="footerComponent"
@@ -50,7 +52,7 @@
 <script lang="ts" setup>
 import type { Banner } from '~/types/banner';
 import { SettingKey } from '~/types/site_setting';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 import { HeaderPages, FooterPages } from '~/config/pages';
 
 const settingsStore = useSiteSettingsStore();

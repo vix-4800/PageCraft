@@ -1,12 +1,12 @@
 <template>
-    <editable-block :block="TemplateBlock.ArticleDetail">
+    <editable-block :name="TemplateBlock.ArticleDetail">
         <component :is="articleDetailComponent" :article="article" />
     </editable-block>
 </template>
 
 <script lang="ts" setup>
 import type { Article } from '~/types/article';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

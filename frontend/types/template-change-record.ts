@@ -1,8 +1,8 @@
-import type { TemplateBlock } from '~/types/site_template';
+import type { TemplateBlock } from '~/types/template';
 
 export interface ChangeRecord {
     id: string;
-    block: TemplateBlock;
+    name: TemplateBlock;
     oldTemplate: string;
     newTemplate: string;
 }

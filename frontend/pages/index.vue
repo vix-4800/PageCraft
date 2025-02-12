@@ -6,7 +6,7 @@
                 subtitle="New products from our store"
             />
 
-            <editable-block :block="TemplateBlock.ProductList">
+            <editable-block :name="TemplateBlock.ProductList">
                 <component
                     :is="productListComponent"
                     :products="newProducts"
@@ -24,7 +24,7 @@
                 subtitle="Products that are currently popular"
             />
 
-            <editable-block :block="TemplateBlock.ProductList">
+            <editable-block :name="TemplateBlock.ProductList">
                 <component
                     :is="productListComponent"
                     :products="popularProducts"
@@ -39,7 +39,7 @@
         <section id="articles">
             <page-title title="Articles" subtitle="Articles from our blog" />
 
-            <editable-block :block="TemplateBlock.ArticleList">
+            <editable-block :name="TemplateBlock.ArticleList">
                 <component
                     :is="articleListComponent"
                     :articles="articles"
@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import type { Article } from '~/types/article';
 import type { Product } from '~/types/product';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

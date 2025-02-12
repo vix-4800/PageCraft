@@ -2,7 +2,7 @@
     <div>
         <page-title title="Articles" subtitle="Our latest news and updates" />
 
-        <editable-block :block="TemplateBlock.ArticleList">
+        <editable-block :name="TemplateBlock.ArticleList">
             <component
                 :is="articleListComponent"
                 :articles="articles"
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import type { Article } from '~/types/article';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 

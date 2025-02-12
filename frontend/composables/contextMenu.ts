@@ -1,4 +1,4 @@
-import type { TemplateBlock } from '~/types/site_template';
+import type { TemplateBlock } from '~/types/template';
 import TemplateChange from '~/components/modals/template-change.vue';
 
 export const useContextMenu = () => {
@@ -26,11 +26,11 @@ export const useContextMenu = () => {
         isOpen.value = true;
     };
 
-    const changeTemplate = (block: TemplateBlock) => {
+    const changeTemplate = (name: TemplateBlock) => {
         isOpen.value = false;
 
         modal.open(TemplateChange, {
-            block,
+            name,
         });
     };
 

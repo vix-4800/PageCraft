@@ -47,25 +47,26 @@
 import { z } from 'zod';
 import type { FormSubmitEvent, Form } from '#ui/types';
 
-const props = defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    message: {
-        type: String,
-        required: true,
-    },
-    successNotificationMessage: {
-        type: String,
-        required: false,
-        default: '',
-    },
-    successFunction: {
-        type: Function,
-        required: true,
-    },
-});
+const { title, message, successNotificationMessage, successFunction } =
+    defineProps({
+        title: {
+            type: String,
+            required: true,
+        },
+        message: {
+            type: String,
+            required: true,
+        },
+        successNotificationMessage: {
+            type: String,
+            required: false,
+            default: '',
+        },
+        successFunction: {
+            type: Function,
+            required: true,
+        },
+    });
 
 const schema = z.object({
     password: z.string().min(1, 'Password is required'),
@@ -95,10 +96,10 @@ const confirm = async (event: FormSubmitEvent<Schema>) => {
 
         modal.close();
 
-        await props.successFunction();
+        await successFunction();
 
-        if (props.successNotificationMessage)
-            $notify(props.successNotificationMessage, 'success');
+        if (successNotificationMessage)
+            $notify(successNotificationMessage, 'success');
     } catch (err) {
         if (err.data.errors.password) {
             form.value!.setErrors([

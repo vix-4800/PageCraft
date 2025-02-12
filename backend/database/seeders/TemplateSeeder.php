@@ -16,39 +16,57 @@ class TemplateSeeder extends Seeder
     {
         Template::insert([
             [
-                'block' => 'header',
+                'name' => 'header',
+                'title' => 'Header',
+                'description' => 'Header of the website',
                 'template' => 'default',
             ],
             [
-                'block' => 'footer',
+                'name' => 'footer',
+                'title' => 'Footer',
+                'description' => 'Footer of the website',
                 'template' => 'default',
             ],
             [
-                'block' => 'product_list',
+                'name' => 'product_list',
+                'title' => 'Product List',
+                'description' => 'List of products',
                 'template' => 'default',
             ],
             [
-                'block' => 'product_detail',
+                'name' => 'product_detail',
+                'title' => 'Product Detail',
+                'description' => 'Product show page',
                 'template' => 'default',
             ],
             [
-                'block' => 'cart',
+                'name' => 'cart',
+                'title' => 'Cart',
+                'description' => 'Cart page',
                 'template' => 'default',
             ],
             [
-                'block' => 'contact',
+                'name' => 'contact',
+                'title' => 'Contact',
+                'description' => 'Contact us page',
                 'template' => 'default',
             ],
             [
-                'block' => 'about',
+                'name' => 'about',
+                'title' => 'About',
+                'description' => 'About us page',
                 'template' => 'default',
             ],
             [
-                'block' => 'article_list',
+                'name' => 'article_list',
+                'title' => 'Article List',
+                'description' => 'List of articles',
                 'template' => 'default',
             ],
             [
-                'block' => 'article_detail',
+                'name' => 'article_detail',
+                'title' => 'Article Detail',
+                'description' => 'Article show page',
                 'template' => 'default',
             ],
         ]);

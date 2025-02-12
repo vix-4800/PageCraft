@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import type { SiteTemplate, TemplateBlock } from '~/types/site_template';
+import type { SiteTemplate, TemplateBlock } from '~/types/template';
 
-export const useSiteTemplatesStore = defineStore('site_templates', {
+export const useSiteTemplatesStore = defineStore('templates', {
     state: () => ({
         templates: [] as SiteTemplate[],
     }),
@@ -32,9 +32,9 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
                 'Templates saved successfully'
             );
         },
-        async setTemplateForBlock(block: TemplateBlock, template: string) {
+        async setTemplateForBlock(name: TemplateBlock, template: string) {
             const templateIndex = this.templates.findIndex(
-                (template) => template.block === block
+                (template) => template.name === name
             );
 
             if (templateIndex === -1) return;
@@ -44,9 +44,13 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
         setTemplates(templates: SiteTemplate[]) {
             this.templates = templates;
         },
-        getTemplate(block: TemplateBlock) {
-            return this.templates.find((template) => template.block === block)
+        getTemplate(name: TemplateBlock) {
+            return this.templates.find((template) => template.name === name)
                 ?.template;
+        },
+        isBlockVisible(name: TemplateBlock) {
+            return this.templates.find((template) => template.name === name)
+                ?.is_visible;
         },
     },
     persist: true,
