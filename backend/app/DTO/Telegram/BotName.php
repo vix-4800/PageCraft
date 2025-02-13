@@ -20,4 +20,9 @@ class BotName implements TelegramType
             'name' => $this->name,
         ];
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self($data['name']);
+    }
 }

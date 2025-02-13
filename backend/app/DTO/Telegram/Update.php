@@ -24,4 +24,13 @@ class Update implements TelegramType
             'callback_query' => $this->callback_query->toArray(),
         ];
     }
+
+    public static function fromArray(array $data): Update
+    {
+        return new Update(
+            $data['update_id'],
+            ReceivedMessage::fromArray($data['message']),
+            CallbackQuery::fromArray($data['callback_query']),
+        );
+    }
 }

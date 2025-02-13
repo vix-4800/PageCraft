@@ -24,4 +24,9 @@ class Chat implements TelegramType
             'title' => $this->title,
         ];
     }
+
+    public static function fromArray(array $data): Chat
+    {
+        return new Chat($data['id'], $data['type'], $data['title']);
+    }
 }

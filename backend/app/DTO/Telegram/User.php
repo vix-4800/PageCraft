@@ -28,4 +28,15 @@ class User implements TelegramType
             'username' => $this->username,
         ];
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['id'],
+            $data['is_bot'],
+            $data['first_name'],
+            $data['last_name'],
+            $data['username'],
+        );
+    }
 }

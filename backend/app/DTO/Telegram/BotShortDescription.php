@@ -20,4 +20,9 @@ class BotShortDescription implements TelegramType
             'short_description' => $this->short_description,
         ];
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self($data['short_description']);
+    }
 }

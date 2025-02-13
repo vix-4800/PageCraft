@@ -28,4 +28,15 @@ class ReceivedMessage implements TelegramType
             'text' => $this->text,
         ];
     }
+
+    public static function fromArray(array $data): ReceivedMessage
+    {
+        return new ReceivedMessage(
+            $data['message_id'],
+            User::fromArray($data['from']),
+            Chat::fromArray($data['chat']),
+            $data['date'],
+            $data['text'],
+        );
+    }
 }

@@ -24,4 +24,13 @@ class CallbackQuery implements TelegramType
             'data' => $this->data,
         ];
     }
+
+    public static function fromArray(array $data): CallbackQuery
+    {
+        return new CallbackQuery(
+            $data['id'],
+            User::fromArray($data['from']),
+            $data['data'],
+        );
+    }
 }
