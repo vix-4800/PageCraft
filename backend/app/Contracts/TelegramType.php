@@ -8,5 +8,8 @@ use Illuminate\Contracts\Support\Arrayable;
 
 interface TelegramType extends Arrayable
 {
-    //
+    /**
+     * Create a new instance from an array.
+     */
+    public static function fromArray(array $data): self;
 }

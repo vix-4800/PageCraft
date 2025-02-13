@@ -11,7 +11,6 @@ use App\DTO\Telegram\PendingMessage;
 use App\DTO\Telegram\ReceivedMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
-use App\Factories\TelegramDTOFactory;
 use Illuminate\Support\Facades\Http;
 
 class TelegramService
@@ -47,7 +46,7 @@ class TelegramService
 
     public function getMe(): User
     {
-        return TelegramDTOFactory::createUser($this->makeRequest('getMe'));
+        return User::fromArray($this->makeRequest('getMe'));
     }
 
     public function setBotName(string $name): true
@@ -57,7 +56,7 @@ class TelegramService
 
     public function getBotName(): BotName
     {
-        return TelegramDTOFactory::createBotName($this->makeRequest('getMyName'));
+        return BotName::fromArray($this->makeRequest('getMyName'));
     }
 
     public function setBotDescription(string $description): bool
@@ -67,12 +66,12 @@ class TelegramService
 
     public function getBotDescription(): BotDescription
     {
-        return TelegramDTOFactory::createBotDescription($this->makeRequest('getMyDescription'));
+        return BotDescription::fromArray($this->makeRequest('getMyDescription'));
     }
 
     public function getBotShortDescription(): BotShortDescription
     {
-        return TelegramDTOFactory::createBotShortDescription($this->makeRequest('getMyShortDescription'));
+        return BotShortDescription::fromArray($this->makeRequest('getMyShortDescription'));
     }
 
     public function setBotShortDescription(string $shortDescription): bool
@@ -88,12 +87,12 @@ class TelegramService
      */
     public function sendMessage(PendingMessage $message): ReceivedMessage
     {
-        return TelegramDTOFactory::createMessage($this->makeRequest('sendMessage', $message->toArray())['result']);
+        return ReceivedMessage::fromArray($this->makeRequest('sendMessage', $message->toArray())['result']);
     }
 
     public function editMessage(int $messageId, string $text): ReceivedMessage
     {
-        return TelegramDTOFactory::createMessage($this->makeRequest('editMessageText', [
+        return ReceivedMessage::fromArray($this->makeRequest('editMessageText', [
             'chat_id' => $this->chatId,
             'message_id' => $messageId,
             'text' => $text,
@@ -121,7 +120,7 @@ class TelegramService
 
     public function getUpdates(): Update
     {
-        return TelegramDTOFactory::createUpdate($this->makeRequest('getUpdates'));
+        return Update::fromArray($this->makeRequest('getUpdates'));
     }
 
     public function setWebhook(string $url): bool

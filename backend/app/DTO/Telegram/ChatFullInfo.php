@@ -30,4 +30,16 @@ class ChatFullInfo implements TelegramType
             'description' => $this->description,
         ];
     }
+
+    public static function fromArray(array $data): ChatFullInfo
+    {
+        return new ChatFullInfo(
+            $data['id'],
+            $data['type'],
+            $data['title'],
+            $data['username'],
+            $data['bio'],
+            $data['description'],
+        );
+    }
 }
