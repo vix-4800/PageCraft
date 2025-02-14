@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class KeyboardButton implements TelegramType
+class KeyboardButton implements DtoObject
 {
     public function __construct(
         public readonly string $text,
@@ -19,5 +19,12 @@ class KeyboardButton implements TelegramType
         return [
             'text' => $this->text,
         ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['text'],
+        );
     }
 }

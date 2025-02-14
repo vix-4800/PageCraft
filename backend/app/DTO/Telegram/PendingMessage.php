@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class PendingMessage implements TelegramType
+class PendingMessage implements DtoObject
 {
     public int|string|null $chatId = null;
 
@@ -65,5 +65,12 @@ class PendingMessage implements TelegramType
         }
 
         return $message;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return (new self)
+            ->to($data['chat_id'])
+            ->text($data['text']);
     }
 }

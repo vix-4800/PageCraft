@@ -6,7 +6,7 @@ namespace App\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-interface TelegramType extends Arrayable
+interface DtoObject extends Arrayable
 {
     /**
      * Create a new instance from an array.

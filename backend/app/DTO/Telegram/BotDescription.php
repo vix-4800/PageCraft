@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class BotDescription implements TelegramType
+class BotDescription implements DtoObject
 {
     public function __construct(
         public readonly string $description

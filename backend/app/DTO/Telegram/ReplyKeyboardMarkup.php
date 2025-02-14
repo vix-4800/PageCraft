@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class ReplyKeyboardMarkup implements TelegramType
+class ReplyKeyboardMarkup implements DtoObject
 {
     /**
      * @param  KeyboardButton[][]  $keyboard
@@ -23,6 +23,17 @@ class ReplyKeyboardMarkup implements TelegramType
     {
         return [
             'keyboard' => $this->keyboard,
+            'is_persistent' => $this->is_persistent,
+            'resize_keyboard' => $this->resize_keyboard,
         ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['keyboard'],
+            $data['is_persistent'] ?? false,
+            $data['resize_keyboard'] ?? false
+        );
     }
 }

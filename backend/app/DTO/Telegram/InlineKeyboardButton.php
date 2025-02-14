@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class InlineKeyboardButton implements TelegramType
+class InlineKeyboardButton implements DtoObject
 {
     public function __construct(
         public readonly string $text,
@@ -23,5 +23,14 @@ class InlineKeyboardButton implements TelegramType
             'url' => $this->url,
             'callback_data' => $this->callback_data,
         ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['text'],
+            $data['url'] ?? '',
+            $data['callback_data'] ?? '',
+        );
     }
 }

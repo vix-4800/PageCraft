@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class InlineKeyboardMarkup implements TelegramType
+class InlineKeyboardMarkup implements DtoObject
 {
     /**
      * @param  InlineKeyboardButton[][]  $inline_keyboard
@@ -22,5 +22,12 @@ class InlineKeyboardMarkup implements TelegramType
         return [
             'inline_keyboard' => $this->inline_keyboard,
         ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['inline_keyboard']
+        );
     }
 }

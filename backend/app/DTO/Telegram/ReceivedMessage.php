@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class ReceivedMessage implements TelegramType
+class ReceivedMessage implements DtoObject
 {
     public function __construct(
         public readonly int $message_id,
@@ -29,9 +29,9 @@ class ReceivedMessage implements TelegramType
         ];
     }
 
-    public static function fromArray(array $data): ReceivedMessage
+    public static function fromArray(array $data): self
     {
-        return new ReceivedMessage(
+        return new self(
             $data['message_id'],
             User::fromArray($data['from']),
             Chat::fromArray($data['chat']),
