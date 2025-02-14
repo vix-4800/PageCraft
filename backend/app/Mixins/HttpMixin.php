@@ -55,4 +55,13 @@ class HttpMixin
             ]);
         };
     }
+
+    public function github(): callable
+    {
+        return function (): PendingRequest {
+            return Http::withHeaders([
+                'Accept' => 'application/vnd.github+json',
+            ])->baseUrl(config('services.github.repo'));
+        };
+    }
 }
