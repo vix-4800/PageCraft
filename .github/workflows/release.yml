@@ -10,8 +10,8 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                  ref: ${{ github.head_ref }}
-            - name: Update version file
+                  ref: ${{ github.ref }}
+            - name: Update version fileW
               run: |
                   echo '{"version": "${{ github.ref_name }}", "build_date": "$(date +%Y-%m-%d)"}' > version.json
             - name: Commit changes
