@@ -102,33 +102,16 @@ export const AdminPages: Record<string, Page[]> = {
             href: '/dashboard/admin/banner',
         },
     ],
-    Settings: [
+    System: [
         {
             label: 'Settings',
             icon: 'material-symbols:settings-outline',
             href: '/dashboard/admin/settings',
         },
-    ],
-    'System Monitoring': [
         {
-            label: 'Backups',
-            icon: 'material-symbols:cloud-download',
-            href: '/dashboard/admin/backups',
-        },
-        {
-            label: 'Application Logs',
-            icon: 'material-symbols:bug-report',
-            href: '/dashboard/admin/logs',
-        },
-        {
-            label: 'Queue Logs',
-            icon: 'material-symbols:timeline',
-            href: '/dashboard/admin/queue-logs',
-        },
-        {
-            label: 'System Information',
-            icon: 'material-symbols:system-update',
-            href: '/dashboard/admin/system-info',
+            label: 'Application',
+            icon: 'material-symbols:extension',
+            href: '/dashboard/admin/application',
         },
     ],
 };

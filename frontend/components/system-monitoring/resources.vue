@@ -1,21 +1,5 @@
 <template>
     <div>
-        <dashboard-page-name
-            title="System Info"
-            :description="`Last Update: ${lastUpdatedAt ?? 'Never'}`"
-        >
-            <template #actions>
-                <u-button
-                    color="blue"
-                    size="md"
-                    icon="material-symbols:refresh"
-                    :loading="refreshing"
-                    label="Refresh Now"
-                    @click="refreshLogs"
-                />
-            </template>
-        </dashboard-page-name>
-
         <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-9 md:gap-6">
             <card-mini
                 label="Database Status"
@@ -60,11 +44,6 @@
 
 <script lang="ts" setup>
 import type { SystemReport } from '~/types/system_report';
-
-definePageMeta({
-    layout: 'dashboard',
-    middleware: ['auth', 'dashboard', 'verified'],
-});
 
 const visualMap = {
     show: false,
@@ -115,6 +94,7 @@ const cpuMetricsOption = reactive<ECOption>({
     visualMap: visualMap,
     animationEasing: 'quadraticIn',
 });
+
 const ramMetricsOption = reactive<ECOption>({
     xAxis: {
         data: [],
@@ -141,6 +121,7 @@ const ramMetricsOption = reactive<ECOption>({
     visualMap: visualMap,
     animationEasing: 'quadraticIn',
 });
+
 const networkMetricsOption = reactive<ECOption>({
     xAxis: {
         data: [],
@@ -182,6 +163,11 @@ onMounted(async () => {
     await fetchMetrics();
 
     loading.value = false;
+
+    window.addEventListener('stats:refresh', async () => {
+        await apiFetch('v1/reports/refresh', { method: 'POST' });
+        await fetchMetrics();
+    });
 });
 
 const isDatabaseHealthy = ref(false);
@@ -218,13 +204,5 @@ const fetchMetrics = async () => {
 
         lastUpdatedAt.value = data[data.length - 1].collected_at;
     }
-};
-
-const refreshing = ref(false);
-const refreshLogs = async () => {
-    refreshing.value = true;
-    await apiFetch('v1/reports/refresh', { method: 'POST' });
-    await fetchMetrics();
-    refreshing.value = false;
 };
 </script>
