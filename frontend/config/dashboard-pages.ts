@@ -22,6 +22,18 @@ export const SharedPages: Record<string, Page[]> = {
             href: '/dashboard/my-addresses',
         },
     ],
+    'My Socials': [
+        {
+            label: 'Telegram',
+            icon: 'mdi:telegram',
+            href: '/dashboard/my-telegram',
+        },
+        {
+            label: 'Discord',
+            icon: 'mdi:discord',
+            href: '/dashboard/my-discord',
+        },
+    ],
 };
 
 export const AdminPages: Record<string, Page[]> = {
@@ -49,9 +61,9 @@ export const AdminPages: Record<string, Page[]> = {
             href: '/dashboard/admin/articles',
         },
     ],
-    Integrations: [
+    Marketplaces: [
         {
-            label: 'Marketplaces',
+            label: 'Accounts',
             icon: 'material-symbols:storefront',
             href: '/dashboard/admin/marketplaces',
         },
