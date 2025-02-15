@@ -10,16 +10,17 @@ jobs:
     eslint:
         name: Eslint
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node: [20, 22, 23]
         continue-on-error: true
         steps:
             - uses: actions/checkout@v4
             - name: Setup Node
               uses: actions/setup-node@v4
               with:
-                  node-version: 22
-            - name: Install Dependencies
-              working-directory: frontend
-              run: npm install --force
+                  node-version: ${{ matrix.node }}
+                  cache: "npm"
             - name: Run Eslint
               working-directory: frontend
               run: npm run lint
