@@ -20,6 +20,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\SystemReportController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VersionController;
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function (): void {
     Route::apiResource('users', UserController::class);
@@ -54,6 +55,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function (): void {
     Route::prefix('reports')->name('reports.')->group(function (): void {
         Route::get('/', [SystemReportController::class, 'index']);
         Route::post('refresh', [SystemReportController::class, 'refresh']);
+    });
+
+    Route::prefix('versions')->name('versions.')->group(function (): void {
+        Route::get('/', [VersionController::class, 'index']);
     });
 });
 

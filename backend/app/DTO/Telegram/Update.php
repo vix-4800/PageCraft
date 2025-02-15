@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class Update implements TelegramType
+class Update implements DtoObject
 {
     public function __construct(
         public readonly int $update_id,
@@ -25,9 +25,9 @@ class Update implements TelegramType
         ];
     }
 
-    public static function fromArray(array $data): Update
+    public static function fromArray(array $data): self
     {
-        return new Update(
+        return new self(
             $data['update_id'],
             ReceivedMessage::fromArray($data['message']),
             CallbackQuery::fromArray($data['callback_query']),

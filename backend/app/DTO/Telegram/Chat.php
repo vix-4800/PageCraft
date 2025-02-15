@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class Chat implements TelegramType
+class Chat implements DtoObject
 {
     public function __construct(
         public readonly int $id,
@@ -25,8 +25,8 @@ class Chat implements TelegramType
         ];
     }
 
-    public static function fromArray(array $data): Chat
+    public static function fromArray(array $data): self
     {
-        return new Chat($data['id'], $data['type'], $data['title']);
+        return new self($data['id'], $data['type'], $data['title']);
     }
 }

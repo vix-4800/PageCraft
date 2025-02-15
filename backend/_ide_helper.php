@@ -23451,6 +23451,18 @@ namespace Illuminate\Http\Client {
             return \Illuminate\Http\Client\Factory::yandex($account);
         }
 
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::github()
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function github()
+        {
+            return \Illuminate\Http\Client\Factory::github();
+        }
+
             }
     }
 

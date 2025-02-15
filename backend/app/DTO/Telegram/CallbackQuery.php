@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\TelegramType;
+use App\Contracts\DtoObject;
 
-class CallbackQuery implements TelegramType
+class CallbackQuery implements DtoObject
 {
     public function __construct(
         public readonly string $id,
@@ -25,9 +25,9 @@ class CallbackQuery implements TelegramType
         ];
     }
 
-    public static function fromArray(array $data): CallbackQuery
+    public static function fromArray(array $data): self
     {
-        return new CallbackQuery(
+        return new self(
             $data['id'],
             User::fromArray($data['from']),
             $data['data'],
