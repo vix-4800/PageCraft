@@ -9,12 +9,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-class UpdateService
+class VersionService
 {
     /**
      * @return Collection<Release>
      */
-    public function getReleases(): Collection
+    public function all(): Collection
     {
         return Cache::remember('latest_version', now()->addHour(), function (): Collection {
             $response = Http::github()->get('releases')->throw()->json();
@@ -23,8 +23,8 @@ class UpdateService
         });
     }
 
-    public function latestVersion(): ?Release
+    public function latest(): ?Release
     {
-        return $this->getReleases()->first();
+        return $this->all()->first();
     }
 }

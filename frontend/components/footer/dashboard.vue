@@ -12,6 +12,25 @@
                         {{ appName }}
                     </span>
                 </div>
+
+                <u-icon
+                    v-if="loadingVersion"
+                    name="svg-spinners:180-ring"
+                    size="20"
+                />
+                <div v-else>
+                    <span class="font-medium">
+                        {{ version.name }}
+                    </span>
+
+                    <nuxt-link
+                        v-if="newVersion"
+                        class="font-medium text-yellow-400"
+                        to="/dashboard/admin/update"
+                    >
+                        (new version)
+                    </nuxt-link>
+                </div>
             </div>
         </div>
     </footer>
@@ -20,4 +39,15 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const appName: string = config.public.appName;
+
+const version = ref('');
+const loadingVersion = ref(true);
+const newVersion = ref(false);
+onMounted(async () => {
+    const { data } = await apiFetch('v1/versions');
+
+    version.value = data;
+    loadingVersion.value = false;
+    newVersion.value = true; // TODO
+});
 </script>
