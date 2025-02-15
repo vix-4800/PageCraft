@@ -27,4 +27,9 @@ class VersionService
     {
         return $this->all()->first();
     }
+
+    public function current(): array
+    {
+        return json_decode(file_get_contents(base_path('version.json')), true);
+    }
 }

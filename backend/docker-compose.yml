@@ -37,6 +37,7 @@ services:
         container_name: backend
         volumes:
             - "./:/var/www/html"
+            - "../version.json:/var/www/html/version.json:ro"
             - "./docker/php/conf.d/php.ini:/usr/local/etc/php/php.ini"
             - "./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
             - "./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini"

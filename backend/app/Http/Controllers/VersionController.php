@@ -19,6 +19,9 @@ class VersionController extends Controller
 
     public function index(): JsonResponse
     {
-        return ApiResponse::create($this->service->latest()->toArray());
+        return ApiResponse::create([
+            'latest' => $this->service->latest()->toArray(),
+            'current' => $this->service->current(),
+        ]);
     }
 }

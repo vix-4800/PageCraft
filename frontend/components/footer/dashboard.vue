@@ -20,16 +20,20 @@
                 />
                 <div v-else>
                     <span class="font-medium">
-                        {{ version.name }}
+                        {{ currentVersion.name }}
                     </span>
 
-                    <nuxt-link
+                    <u-tooltip
                         v-if="newVersion"
-                        class="font-medium text-yellow-400"
-                        to="/dashboard/admin/update"
+                        :text="`Version ${latestVersion.name} is available`"
                     >
-                        (new version)
-                    </nuxt-link>
+                        <nuxt-link
+                            class="font-medium text-yellow-400"
+                            to="/dashboard/admin/update"
+                        >
+                            (new version)
+                        </nuxt-link>
+                    </u-tooltip>
                 </div>
             </div>
         </div>
@@ -40,14 +44,20 @@
 const config = useRuntimeConfig();
 const appName: string = config.public.appName;
 
-const version = ref('');
+const latestVersion = ref('');
+const currentVersion = ref('');
 const loadingVersion = ref(true);
 const newVersion = ref(false);
-onMounted(async () => {
-    const { data } = await apiFetch('v1/versions');
 
-    version.value = data;
+onMounted(async () => {
+    const { data } = await apiFetch<{ latest: Array; current: Array }>(
+        'v1/versions'
+    );
+
+    latestVersion.value = data['latest'];
+    currentVersion.value = data['current'];
     loadingVersion.value = false;
-    newVersion.value = true; // TODO
+
+    newVersion.value = latestVersion.value.name !== currentVersion.value.name;
 });
 </script>
