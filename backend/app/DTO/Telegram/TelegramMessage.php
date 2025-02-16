@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
+use App\Contracts\TelegramKeyboardMarkup;
 
 class TelegramMessage implements DtoObject
 {
@@ -14,7 +15,7 @@ class TelegramMessage implements DtoObject
 
     public bool $disable_notification = false;
 
-    public InlineKeyboardMarkup|ReplyKeyboardMarkup|null $keyboard = null;
+    public ?TelegramKeyboardMarkup $keyboard = null;
 
     /**
      * Set the chat ID to send the message to.
@@ -47,7 +48,7 @@ class TelegramMessage implements DtoObject
         return $this;
     }
 
-    public function withKeyboard(InlineKeyboardMarkup|ReplyKeyboardMarkup $keyboard): self
+    public function withKeyboard(TelegramKeyboardMarkup $keyboard): self
     {
         $this->keyboard = $keyboard;
 
