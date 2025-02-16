@@ -13,24 +13,9 @@ use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Artisan;
 
-class ProductController extends Controller implements HasMiddleware
+class ProductController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin'], only: ['store', 'update', 'destroy', 'updateSearchIndexes']),
-        ];
-    }
-
     public function __construct(
         private readonly ProductService $service
     ) {
@@ -154,15 +139,6 @@ class ProductController extends Controller implements HasMiddleware
     public function destroy(Product $product): Response
     {
         $product->delete();
-
-        return ApiResponse::empty();
-    }
-
-    public function updateSearchIndexes(): Response
-    {
-        Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Product",
-        ]);
 
         return ApiResponse::empty();
     }

@@ -13,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 class StatisticsController extends Controller
 {
     public function __construct(
-        protected readonly StatisticsService $service
+        private readonly StatisticsService $service
     ) {
         //
     }
