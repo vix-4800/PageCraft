@@ -6,21 +6,21 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class PendingMessage implements DtoObject
+class TelegramMessage implements DtoObject
 {
     public int|string|null $chatId = null;
 
     public string $text;
 
-    public bool $disable_notification;
+    public bool $disable_notification = false;
 
     public InlineKeyboardMarkup|ReplyKeyboardMarkup|null $keyboard = null;
 
-    public function __construct()
-    {
-        $this->disable_notification = false;
-    }
-
+    /**
+     * Set the chat ID to send the message to.
+     *
+     * @param  int|string  $chatId  The chat ID to send the message to.
+     */
     public function to(int|string $chatId): self
     {
         $this->chatId = $chatId;
@@ -28,6 +28,11 @@ class PendingMessage implements DtoObject
         return $this;
     }
 
+    /**
+     * Set the text of the message.
+     *
+     * @param  string  $text  The text of the message.
+     */
     public function text(string $text): self
     {
         $this->text = $text;

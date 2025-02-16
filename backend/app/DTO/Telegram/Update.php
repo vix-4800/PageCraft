@@ -10,7 +10,7 @@ class Update implements DtoObject
 {
     public function __construct(
         public readonly int $update_id,
-        public readonly ReceivedMessage $message,
+        public readonly Message $message,
         public readonly CallbackQuery $callback_query,
     ) {
         //
@@ -29,7 +29,7 @@ class Update implements DtoObject
     {
         return new self(
             $data['update_id'],
-            ReceivedMessage::fromArray($data['message']),
+            Message::fromArray($data['message']),
             CallbackQuery::fromArray($data['callback_query']),
         );
     }

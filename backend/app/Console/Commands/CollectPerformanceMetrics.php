@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Notifications\SystemStatusWarning;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
 
 class CollectPerformanceMetrics extends Command
 {
@@ -87,9 +88,9 @@ class CollectPerformanceMetrics extends Command
         }
 
         if ($warnings->isNotEmpty()) {
-            User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
-                ->first()
-                ->notify(new SystemStatusWarning($warnings));
+            $admins = User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN));
+
+            Notification::send($admins, new SystemStatusWarning($warnings));
         }
     }
 }

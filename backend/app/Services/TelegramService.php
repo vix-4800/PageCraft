@@ -7,8 +7,8 @@ namespace App\Services;
 use App\DTO\Telegram\BotDescription;
 use App\DTO\Telegram\BotName;
 use App\DTO\Telegram\BotShortDescription;
-use App\DTO\Telegram\PendingMessage;
-use App\DTO\Telegram\ReceivedMessage;
+use App\DTO\Telegram\Message;
+use App\DTO\Telegram\TelegramMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
 use Illuminate\Support\Facades\Http;
@@ -82,17 +82,17 @@ class TelegramService
     /**
      * Sends a message using the Telegram API.
      *
-     * @param  PendingMessage  $message  The message to be sent.
-     * @return ReceivedMessage The message received after being sent.
+     * @param  TelegramMessage  $message  The message to be sent.
+     * @return Message The message received after being sent.
      */
-    public function sendMessage(PendingMessage $message): ReceivedMessage
+    public function sendMessage(TelegramMessage $message): Message
     {
-        return ReceivedMessage::fromArray($this->makeRequest('sendMessage', $message->toArray())['result']);
+        return Message::fromArray($this->makeRequest('sendMessage', $message->toArray())['result']);
     }
 
-    public function editMessage(int $messageId, string $text): ReceivedMessage
+    public function editMessage(int $messageId, string $text): Message
     {
-        return ReceivedMessage::fromArray($this->makeRequest('editMessageText', [
+        return Message::fromArray($this->makeRequest('editMessageText', [
             'chat_id' => $this->chatId,
             'message_id' => $messageId,
             'text' => $text,
