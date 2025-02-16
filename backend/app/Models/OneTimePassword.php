@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Observers\OneTimePasswordObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,7 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-#[ObservedBy(OneTimePasswordObserver::class)]
 class OneTimePassword extends Model
 {
     /**
@@ -52,6 +49,7 @@ class OneTimePassword extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'code' => 'hashed',
         'expires_at' => 'datetime',
     ];
 
