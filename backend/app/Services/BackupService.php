@@ -17,6 +17,9 @@ class BackupService
         $this->databaseBackupService = resolve(DatabaseBackupService::class);
     }
 
+    /**
+     * @throws \App\Exceptions\DatabaseBackupException
+     */
     public function createDatabaseBackup(?string $filename = null): string
     {
         $filename ??= 'backup_'.date('Y_m_d_H_i_s').'_'.Str::random(8);
@@ -30,6 +33,9 @@ class BackupService
         return $this->databaseBackupService->list();
     }
 
+    /**
+     * @throws \App\Exceptions\DatabaseBackupException
+     */
     public function restoreDatabaseBackup(string $backupFile): void
     {
         $backupFile .= str_ends_with($backupFile, '.sql') ? '' : '.sql';

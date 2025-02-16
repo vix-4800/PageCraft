@@ -12,11 +12,14 @@ use App\Helpers\DatabaseBackup;
 use App\Http\Requests\DatabaseBackupRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class BackupController extends Controller
 {
     public function create(): Response
     {
+        Gate::authorize('manage-system');
+
         try {
             Backup::createDatabaseBackup();
 
@@ -28,6 +31,8 @@ class BackupController extends Controller
 
     public function restore(DatabaseBackupRequest $request): Response
     {
+        Gate::authorize('manage-system');
+
         try {
             Backup::restoreDatabaseBackup($request->validated()['filename']);
 
@@ -46,6 +51,8 @@ class BackupController extends Controller
 
     public function delete(DatabaseBackupRequest $request): Response
     {
+        Gate::authorize('manage-system');
+
         Backup::deleteDatabaseBackup($request->validated()['filename']);
 
         return ApiResponse::empty();
@@ -53,6 +60,8 @@ class BackupController extends Controller
 
     public function deleteAll(): Response
     {
+        Gate::authorize('manage-system');
+
         Backup::deleteAllDatabaseBackups();
 
         return ApiResponse::empty();

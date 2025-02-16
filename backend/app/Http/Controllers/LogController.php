@@ -8,6 +8,7 @@ use App\Helpers\ApiResponse;
 use App\Services\LogRetrievers\ApplicationLogRetriever;
 use App\Services\LogRetrievers\QueueLogRetriever;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class LogController extends Controller
 {
@@ -33,6 +34,8 @@ class LogController extends Controller
 
     public function deleteAppLogs(): JsonResponse
     {
+        Gate::authorize('manage-system');
+
         $this->appLogs->clear();
 
         return ApiResponse::create();
@@ -45,6 +48,8 @@ class LogController extends Controller
 
     public function deleteQueueLogs(): JsonResponse
     {
+        Gate::authorize('manage-system');
+
         $this->queueLogs->clear();
 
         return ApiResponse::create();

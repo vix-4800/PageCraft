@@ -11,6 +11,7 @@ use App\Mixins\StrMixin;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -42,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
 
         Http::mixin(new HttpMixin);
         Str::mixin(new StrMixin);
+
+        Gate::define('manage-system', fn (User $user): bool => $user->isAdmin());
     }
 }

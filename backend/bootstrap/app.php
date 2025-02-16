@@ -49,7 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
             });
 
             $exceptions->render(function (Exception $exception, Request $request): void {
-                throw_if($request->wantsJson(), new ApiException);
+                throw_if($request->wantsJson(), new ApiException($exception->getMessage(), $exception->getCode()));
             });
         }
     })
