@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
-use App\Exceptions\Delivery\MethodNotAllowed;
+use App\Exceptions\MethodNotAllowed;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -51,7 +51,7 @@ final class SdekService implements DeliveryService
 
     protected function renewAccessToken(): void
     {
-        Cache::remember($this->tokenCacheKey, now()->addMinutes(60), function () {
+        Cache::remember($this->tokenCacheKey, now()->addMinutes(60), function (): string {
             $result = Http::post("{$this->baseUrl}/v2/oauth/token?parameters", [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
