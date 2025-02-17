@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
-use App\Exceptions\Delivery\MethodNotAllowed;
+use App\Exceptions\MethodNotAllowed;
 use Illuminate\Support\Facades\Http;
 
 final class BoxberryService implements DeliveryService

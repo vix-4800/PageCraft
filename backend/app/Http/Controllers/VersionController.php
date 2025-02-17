@@ -10,11 +10,10 @@ use Illuminate\Http\JsonResponse;
 
 class VersionController extends Controller
 {
-    private VersionService $service;
-
-    public function __construct()
-    {
-        $this->service = new VersionService;
+    public function __construct(
+        private readonly VersionService $service
+    ) {
+        //
     }
 
     public function index(): JsonResponse

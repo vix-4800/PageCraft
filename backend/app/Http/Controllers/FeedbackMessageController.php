@@ -8,23 +8,9 @@ use App\Http\Requests\StoreFeedbackMessageRequest;
 use App\Http\Resources\FeedbackMessageResource;
 use App\Models\FeedbackMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class FeedbackMessageController extends Controller implements HasMiddleware
+class FeedbackMessageController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin'], except: ['store']),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */

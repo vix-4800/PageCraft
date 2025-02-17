@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications\Channels;
 
-use App\DTO\Telegram\PendingMessage;
+use App\DTO\Telegram\TelegramMessage;
 use App\Facades\Telegram;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
@@ -14,7 +14,7 @@ class TelegramChannel
     public function send(User $notifiable, Notification $notification): void
     {
         /**
-         * @var PendingMessage $message
+         * @var TelegramMessage $message
          *
          * @phpstan-ignore-next-line
          */

@@ -8,24 +8,10 @@ use App\Http\Requests\Setting\UpdateSettingRequest;
 use App\Http\Resources\SettingResource;
 use App\Models\Setting;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
-class SettingController extends Controller implements HasMiddleware
+class SettingController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin', 'password.confirm'], only: ['update']),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */

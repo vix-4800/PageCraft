@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\DTO\Telegram\PendingMessage;
+use App\DTO\Telegram\TelegramMessage;
 use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
@@ -51,9 +51,9 @@ class OrderCreated extends Notification implements ShouldQueue
         ];
     }
 
-    public function toTelegram(User $notifiable): PendingMessage
+    public function toTelegram(User $notifiable): TelegramMessage
     {
-        return (new PendingMessage)
+        return (new TelegramMessage)
             ->to($notifiable->telegramAccount->chat_id)
             ->text('Order created');
     }

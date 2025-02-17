@@ -114,7 +114,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | OTP
+    | One Time Password
     |--------------------------------------------------------------------------
     |
     | These configuration options specify the behavior of OTP functionality.

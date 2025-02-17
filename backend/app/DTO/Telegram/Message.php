@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class ReceivedMessage implements DtoObject
+class Message implements DtoObject
 {
     public function __construct(
         public readonly int $message_id,

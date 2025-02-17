@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 use SplFileInfo;
 
-class DatabaseBackup
+class DatabaseBackup implements Arrayable
 {
     private readonly Carbon $date;
 

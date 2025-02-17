@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Telegram;
 
-use App\Contracts\DtoObject;
+use App\Contracts\TelegramKeyboardMarkup;
 
-class InlineKeyboardMarkup implements DtoObject
+class InlineKeyboardMarkup implements TelegramKeyboardMarkup
 {
     /**
      * @param  InlineKeyboardButton[][]  $inline_keyboard
