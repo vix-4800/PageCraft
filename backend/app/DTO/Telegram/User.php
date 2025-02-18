@@ -12,8 +12,8 @@ class User implements DtoObject
         public readonly int $id,
         public readonly bool $isBot,
         public readonly string $firstName,
-        public readonly string $lastName,
-        public readonly string $username,
+        public readonly ?string $lastName = null,
+        public readonly ?string $username = null,
     ) {
         //
     }
@@ -35,8 +35,8 @@ class User implements DtoObject
             $data['id'],
             $data['is_bot'],
             $data['first_name'],
-            $data['last_name'],
-            $data['username'],
+            $data['last_name'] ?? null,
+            $data['username'] ?? null,
         );
     }
 }

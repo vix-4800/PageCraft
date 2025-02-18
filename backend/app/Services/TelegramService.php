@@ -11,6 +11,8 @@ use App\DTO\Telegram\Message;
 use App\DTO\Telegram\TelegramMessage;
 use App\DTO\Telegram\Update;
 use App\DTO\Telegram\User;
+use App\Exceptions\TelegramException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class TelegramService
@@ -39,9 +41,19 @@ class TelegramService
         return $this;
     }
 
+    /**
+     * @throws RequestException
+     * @throws TelegramException
+     */
     protected function makeRequest(string $method, array $data = []): array|bool
     {
-        return Http::telegram()->post($method, $data)->throw()->json();
+        $response = Http::telegram()->post($method, $data)->throw()->json();
+
+        if ($response['ok'] === false) {
+            throw new TelegramException('Telegram API error');
+        }
+
+        return $response['result'];
     }
 
     public function getMe(): User
@@ -87,7 +99,7 @@ class TelegramService
      */
     public function sendMessage(TelegramMessage $message): Message
     {
-        return Message::fromArray($this->makeRequest('sendMessage', $message->toArray())['result']);
+        return Message::fromArray($this->makeRequest('sendMessage', $message->toArray()));
     }
 
     public function editMessage(int $messageId, string $text): Message
@@ -118,9 +130,18 @@ class TelegramService
         ]);
     }
 
-    public function getUpdates(): Update
+    /**
+     * @return array<int, Update>
+     */
+    public function getUpdates(): array
     {
-        return Update::fromArray($this->makeRequest('getUpdates'));
+        $updates = [];
+
+        foreach ($this->makeRequest('getUpdates') as $updateData) {
+            $updates[] = Update::fromArray($updateData);
+        }
+
+        return $updates;
     }
 
     public function setWebhook(string $url): bool

@@ -11,7 +11,7 @@ class Chat implements DtoObject
     public function __construct(
         public readonly int $id,
         public readonly string $type,
-        public readonly string $title,
+        public readonly ?string $title = null,
     ) {
         //
     }
@@ -27,6 +27,6 @@ class Chat implements DtoObject
 
     public static function fromArray(array $data): self
     {
-        return new self($data['id'], $data['type'], $data['title']);
+        return new self($data['id'], $data['type'], $data['title'] ?? null);
     }
 }

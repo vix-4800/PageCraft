@@ -13,7 +13,7 @@ class Message implements DtoObject
         public readonly User $from,
         public readonly Chat $chat,
         public readonly int $date,
-        public readonly string $text,
+        public readonly ?string $text = null,
     ) {
         //
     }
@@ -36,7 +36,7 @@ class Message implements DtoObject
             User::fromArray($data['from']),
             Chat::fromArray($data['chat']),
             $data['date'],
-            $data['text'],
+            $data['text'] ?? null,
         );
     }
 }

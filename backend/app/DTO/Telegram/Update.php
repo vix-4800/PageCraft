@@ -11,7 +11,7 @@ class Update implements DtoObject
     public function __construct(
         public readonly int $update_id,
         public readonly Message $message,
-        public readonly CallbackQuery $callback_query,
+        public readonly ?CallbackQuery $callback_query = null,
     ) {
         //
     }
@@ -30,7 +30,7 @@ class Update implements DtoObject
         return new self(
             $data['update_id'],
             Message::fromArray($data['message']),
-            CallbackQuery::fromArray($data['callback_query']),
+            isset($data['callback_query']) ? CallbackQuery::fromArray($data['callback_query']) : null,
         );
     }
 }
