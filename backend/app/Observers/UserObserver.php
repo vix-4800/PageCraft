@@ -17,6 +17,8 @@ class UserObserver
     {
         $user->notify(new AccountRegistered);
         $user->sendEmailVerificationNotification();
+
+        $user->preferences()->create();
     }
 
     /**

@@ -48,6 +48,7 @@ use Laravolt\Avatar\Avatar;
  * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, UserAddress> $userAddresses
  * @property-read int|null $user_addresses_count
+ * @property-read UserPreference|null $preferences
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -145,5 +146,10 @@ class User extends Authenticatable
     public function telegramAccount(): HasOne
     {
         return $this->hasOne(TelegramAccount::class);
+    }
+
+    public function preferences(): HasOne
+    {
+        return $this->hasOne(UserPreference::class);
     }
 }

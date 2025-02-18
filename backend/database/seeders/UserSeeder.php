@@ -23,8 +23,11 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
-        ]);
+        ])
+            ->first()->preferences()->create();
 
-        User::factory(10)->for(Role::firstWhere('name', UserRole::CUSTOMER))->create();
+        User::factory(10)->for(Role::firstWhere('name', UserRole::CUSTOMER))->create()->each(function (User $user): void {
+            $user->preferences()->create();
+        });
     }
 }
