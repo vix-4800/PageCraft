@@ -7,8 +7,10 @@ namespace App\Observers;
 use App\Enums\UserRole;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\OrderConfirmation;
 use App\Notifications\OrderCreated;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
 
 class OrderObserver
 {
@@ -17,9 +19,10 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
-            ->first()
-            ->notify(new OrderCreated($order));
+        $admin = User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))->first();
+        Notification::send($admin, new OrderCreated($order));
+
+        $order->user->notify(new OrderConfirmation($order));
     }
 
     /**

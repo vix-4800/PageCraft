@@ -22,7 +22,7 @@ class OrderCreated extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-        public Order $order
+        private readonly Order $order
     ) {
         //
     }
