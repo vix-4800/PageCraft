@@ -104,8 +104,7 @@ const deleteAccount = async () => {
             $notify('Marketplace account deleted', 'success');
         },
         'Confirm marketplace account deletion',
-        'Are you sure you want to delete this account?',
-        true
+        'Are you sure you want to delete this account?'
     );
 };
 </script>
