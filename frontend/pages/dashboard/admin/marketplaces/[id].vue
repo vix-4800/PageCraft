@@ -1,8 +1,8 @@
 <template>
     <div>
         <dashboard-page-name
-            title="Marketplace Accounts"
-            :subtitle="`#${account?.id}`"
+            title="Marketplace Account"
+            :subtitle="account?.marketplace"
             :description="`Created on ${account?.created_at || ''}`"
         >
             <template #actions>
@@ -23,17 +23,6 @@
                     color="blue"
                     size="md"
                     placeholder="Name"
-                />
-            </u-form-group>
-
-            <u-form-group label="Marketplace" name="marketplace">
-                <u-select-menu
-                    v-model="account.marketplace"
-                    color="blue"
-                    :options="marketplaceOptions"
-                    size="lg"
-                    placeholder="Account Marketplace"
-                    value-attribute="value"
                 />
             </u-form-group>
 
@@ -77,12 +66,6 @@ const { $notify } = useNuxtApp();
 const route = useRoute();
 const loading = ref(false);
 const account = ref<MarketplaceAccount>();
-
-const marketplaceOptions = [
-    { value: 'wildberries', label: 'Wildberries' },
-    { value: 'ozon', label: 'Ozon' },
-    { value: 'yandex', label: 'Yandex Market' },
-];
 
 onMounted(async () => {
     loading.value = true;

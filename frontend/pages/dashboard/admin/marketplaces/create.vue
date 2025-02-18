@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dashboard-page-name title="Marketplace Accounts" />
+        <dashboard-page-name title="Create Marketplace Account" />
 
         <u-form :state="account" class="space-y-4">
             <u-form-group label="Name" name="name">
@@ -17,69 +17,37 @@
                     v-model="account.marketplace"
                     color="blue"
                     :options="marketplaceOptions"
-                    size="lg"
+                    size="md"
                     placeholder="Account Marketplace"
                     value-attribute="value"
                 />
             </u-form-group>
 
-            <div v-auto-animate class="space-y-4">
+            <div v-if="account.marketplace" v-auto-animate class="space-y-4">
                 <div
-                    v-for="(setting, index) in account.settings"
+                    v-for="setting in marketplaceSettings[account.marketplace]"
                     :key="setting.key"
-                    class="flex gap-4"
                 >
-                    <u-form-group name="key" label="Key" class="w-1/2">
-                        <u-input
-                            v-model="setting.key"
-                            color="blue"
-                            size="md"
-                            placeholder="Value"
-                            class="mt-[5px]"
-                        />
-                    </u-form-group>
-
-                    <u-form-group name="value" label="Value" class="w-1/2">
+                    <u-form-group name="key" :label="setting.label">
                         <u-input
                             v-model="setting.value"
                             color="blue"
                             size="md"
-                            placeholder="Value"
+                            :placeholder="setting.label"
                         />
-
-                        <template #hint>
-                            <u-button
-                                icon="i-heroicons-x-mark-20-solid"
-                                :padded="false"
-                                color="gray"
-                                variant="link"
-                                size="xs"
-                                @click="removeOption(index)"
-                            />
-                        </template>
                     </u-form-group>
                 </div>
             </div>
 
-            <div class="flex gap-2">
-                <u-button
-                    icon="material-symbols:save"
-                    size="md"
-                    color="blue"
-                    label="Add Setting"
-                    @click="addOption"
-                />
-
-                <u-button
-                    icon="material-symbols:save"
-                    type="submit"
-                    size="md"
-                    color="blue"
-                    label="Save"
-                    :loading="loading"
-                    @click="save"
-                />
-            </div>
+            <u-button
+                icon="material-symbols:save"
+                type="submit"
+                size="md"
+                color="blue"
+                label="Save"
+                :loading="loading"
+                @click="save"
+            />
         </u-form>
     </div>
 </template>
@@ -98,7 +66,6 @@ const loading = ref(false);
 const account = reactive({
     name: '',
     marketplace: '',
-    settings: [] as MarketplaceAccountSetting[],
 });
 
 const marketplaceOptions = [
@@ -107,25 +74,26 @@ const marketplaceOptions = [
     { value: 'yandex', label: 'Yandex Market' },
 ];
 
-const addOption = () => {
-    account.settings.push({
-        key: '',
-        value: '',
-    });
-};
-
-const removeOption = (index: number) => {
-    account.settings.splice(index, 1);
+const marketplaceSettings = {
+    wildberries: [{ key: 'token', label: 'Token', value: '' }],
+    ozon: [
+        { key: 'client_id', label: 'Client ID', value: '' },
+        { key: 'api_key', label: 'API Key', value: '' },
+    ],
+    yandex: [{ key: 'api_key', label: 'API Key', value: '' }],
 };
 
 const save = async () => {
     loading.value = true;
+
+    account.settings = Object.values(marketplaceSettings[account.marketplace]);
 
     await apiFetch(`v1/marketplaces/accounts`, {
         method: 'POST',
         body: account,
     });
 
+    navigateTo('/dashboard/admin/marketplaces');
     $notify('Marketplace account created successfully', 'success');
     loading.value = false;
 };
