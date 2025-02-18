@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('telegram_accounts', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('name');
+            $table->string('username');
             $table->string('chat_id');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
 
