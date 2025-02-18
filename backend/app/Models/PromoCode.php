@@ -29,18 +29,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereMinOrderAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUsageLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUsedCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValidFrom($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValidTo($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValue($value)
  *
  * @mixin \Eloquent
  */

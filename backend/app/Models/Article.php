@@ -29,16 +29,6 @@ use Stevebauman\Purify\Facades\Purify;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Article query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereAuthor($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */

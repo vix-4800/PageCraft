@@ -19,12 +19,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereMarketplaceAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccountSetting whereValue($value)
  *
  * @mixin \Eloquent
  */

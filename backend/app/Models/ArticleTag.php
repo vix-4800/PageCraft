@@ -19,9 +19,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereIcon($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ArticleTag whereName($value)
  *
  * @mixin \Eloquent
  */

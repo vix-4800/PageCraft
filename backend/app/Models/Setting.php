@@ -21,13 +21,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereSettingCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereValue($value)
  *
  * @mixin \Eloquent
  */

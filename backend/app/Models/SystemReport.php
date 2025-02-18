@@ -23,17 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereCollectedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereCpuUsage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereRamUsage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereRamTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereRamUsage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereNetworkIncoming($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereNetworkOutgoing($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereIsDatabaseUp($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereIsCacheUp($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport whereUptime($value)
  *
  * @mixin \Eloquent
  */

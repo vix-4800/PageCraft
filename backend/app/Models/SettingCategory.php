@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory whereName($value)
  *
  * @mixin \Eloquent
  */

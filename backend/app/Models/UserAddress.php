@@ -27,16 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereIsDefault($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereStreet($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress whereUserId($value)
  *
  * @mixin \Eloquent
  */

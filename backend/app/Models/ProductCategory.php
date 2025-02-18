@@ -19,9 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductCategory whereSlug($value)
  *
  * @mixin \Eloquent
  */

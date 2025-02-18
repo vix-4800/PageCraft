@@ -35,15 +35,6 @@ use Laravel\Scout\Searchable;
  * @method static Builder<static>|Product newModelQuery()
  * @method static Builder<static>|Product newQuery()
  * @method static Builder<static>|Product query()
- * @method static Builder<static>|Product whereCreatedAt($value)
- * @method static Builder<static>|Product whereDescription($value)
- * @method static Builder<static>|Product whereId($value)
- * @method static Builder<static>|Product whereIsArchived($value)
- * @method static Builder<static>|Product whereName($value)
- * @method static Builder<static>|Product whereProductCategoryId($value)
- * @method static Builder<static>|Product whereProductImages($value)
- * @method static Builder<static>|Product whereSlug($value)
- * @method static Builder<static>|Product whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
