@@ -27,13 +27,13 @@ class HttpMixin
     {
         return function (MarketplaceAccount $account): PendingRequest {
             $settings = $account->settings()
-                ->where('key', 'in', ['Client-Id', 'Api-Key'])
+                ->where('key', 'in', ['client_id', 'api_key'])
                 ->pluck('value', 'key')
                 ->toArray();
 
             return Http::withHeaders([
-                'Client-Id' => $settings['Client-Id'],
-                'Api-Key' => $settings['Api-Key'],
+                'Client-Id' => $settings['client_id'],
+                'Api-Key' => $settings['api_key'],
             ]);
         };
     }
@@ -51,7 +51,7 @@ class HttpMixin
     {
         return function (MarketplaceAccount $account): PendingRequest {
             return Http::withHeaders([
-                'Api-Key' => $account->settings()->firstWhere('key', 'Api-Key')->value,
+                'Api-Key' => $account->settings()->firstWhere('key', 'api_key')->value,
             ]);
         };
     }
