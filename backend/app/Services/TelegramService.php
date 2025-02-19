@@ -131,7 +131,7 @@ class TelegramService
     }
 
     /**
-     * @return array<int, Update>
+     * @return array<Update>
      */
     public function getUpdates(): array
     {
