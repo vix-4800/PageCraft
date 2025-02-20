@@ -20,11 +20,6 @@ class SystemReportResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'cpu_usage' => $this->cpu_usage,
-            'ram_usage' => $this->ram_usage,
-            'ram_total' => $this->ram_total,
-            'network_incoming' => $this->network_incoming,
-            'network_outgoing' => $this->network_outgoing,
             'is_database_up' => $this->is_database_up,
             'is_cache_up' => $this->is_cache_up,
             'uptime' => $this->uptime,
