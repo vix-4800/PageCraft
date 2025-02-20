@@ -125,5 +125,10 @@ export const AdminPages: Record<string, Page[]> = {
             icon: 'material-symbols:extension',
             href: '/dashboard/admin/application',
         },
+        {
+            label: 'Terminal',
+            icon: 'material-symbols:terminal',
+            href: '/dashboard/admin/terminal',
+        },
     ],
 };
