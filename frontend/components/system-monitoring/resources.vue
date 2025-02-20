@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-9 md:gap-6">
+        <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-9 md:gap-6">
             <card-mini
                 label="Database Status"
                 :value="isDatabaseHealthy ? 'Healthy' : 'Not Healthy'"
@@ -16,158 +16,35 @@
             <card-mini label="Uptime" :value="uptime" />
         </div>
 
-        <section id="cpu-metrics" class="h-96">
-            <v-chart
-                :option="cpuMetricsOption"
-                :loading="loading"
-                :autoresize="true"
-            />
-        </section>
+        <div class="space-y-4">
+            <iframe
+                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740002938202&to=1740089338202&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=77&__feature.dashboardSceneSolo"
+                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
+            ></iframe>
 
-        <section id="ram-metrics" class="h-96">
-            <v-chart
-                :option="ramMetricsOption"
-                :loading="loading"
-                :autoresize="true"
-            />
-        </section>
+            <iframe
+                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740003195261&to=1740089595261&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=78&__feature.dashboardSceneSolo"
+                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
+            ></iframe>
 
-        <section id="network-metrics" class="h-96">
-            <v-chart
-                :option="networkMetricsOption"
-                :loading="loading"
-                :autoresize="true"
-            />
-        </section>
+            <iframe
+                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740003087682&to=1740089487682&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=74&__feature.dashboardSceneSolo"
+                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
+            ></iframe>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { SystemReport } from '~/types/system_report';
 
-const visualMap = {
-    show: false,
-    type: 'continuous',
-    min: 0,
-    max: 100,
-    inRange: {
-        colorAlpha: [0.25, 1],
-        color: ['#00ff00', '#ffff00', '#ff0000'],
-    },
-};
-
-const toolbox = {
-    right: 10,
-    feature: {
-        saveAsImage: {},
-    },
-};
-
-const tooltip = {
-    trigger: 'axis',
-};
-
 const loading = ref(false);
-const cpuMetricsOption = reactive<ECOption>({
-    xAxis: {
-        data: [],
-        type: 'category',
-        boundaryGap: false,
-    },
-    yAxis: {
-        type: 'value',
-        max: 100,
-        min: 0,
-    },
-    series: {
-        data: [],
-        type: 'line',
-        showSymbol: false,
-        name: 'CPU Usage',
-    },
-    title: {
-        left: 'center',
-        text: 'CPU Usage (%)',
-    },
-    tooltip: tooltip,
-    toolbox: toolbox,
-    visualMap: visualMap,
-    animationEasing: 'quadraticIn',
-});
-
-const ramMetricsOption = reactive<ECOption>({
-    xAxis: {
-        data: [],
-        type: 'category',
-        boundaryGap: false,
-    },
-    yAxis: {
-        type: 'value',
-        max: 100,
-        min: 0,
-    },
-    series: {
-        data: [],
-        type: 'line',
-        showSymbol: false,
-        name: 'RAM Usage',
-    },
-    title: {
-        left: 'center',
-        text: 'RAM Usage (MB)',
-    },
-    tooltip: tooltip,
-    toolbox: toolbox,
-    visualMap: visualMap,
-    animationEasing: 'quadraticIn',
-});
-
-const networkMetricsOption = reactive<ECOption>({
-    xAxis: {
-        data: [],
-        type: 'category',
-        boundaryGap: false,
-    },
-    yAxis: {
-        type: 'value',
-        min: 0,
-    },
-    series: [
-        {
-            data: [],
-            type: 'line',
-            showSymbol: false,
-            name: 'Incoming',
-            stack: 'Total',
-        },
-        {
-            data: [],
-            type: 'line',
-            showSymbol: false,
-            name: 'Outgoing',
-            stack: 'Total',
-        },
-    ],
-    title: {
-        left: 'center',
-        text: 'Network Usage (B)',
-    },
-    tooltip: tooltip,
-    toolbox: toolbox,
-    animationEasing: 'quadraticIn',
-});
-
 onMounted(async () => {
     loading.value = true;
 
     await fetchMetrics();
 
     loading.value = false;
-
-    window.addEventListener('stats:refresh', async () => {
-        await apiFetch('v1/reports/refresh', { method: 'POST' });
-        await fetchMetrics();
-    });
 });
 
 const isDatabaseHealthy = ref(false);
@@ -179,24 +56,6 @@ const fetchMetrics = async () => {
     const { data } = await apiFetch<{ data: SystemReport[] }>('v1/reports');
 
     if (data.length > 0) {
-        cpuMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
-        cpuMetricsOption.series.data = data.map((metric) => metric.cpu_usage);
-
-        ramMetricsOption.series.data = data.map((metric) => metric.ram_usage);
-        ramMetricsOption.xAxis.data = data.map((metric) => metric.collected_at);
-        ramMetricsOption.visualMap.max = data[0].ram_total;
-        ramMetricsOption.yAxis.max = data[0].ram_total;
-
-        networkMetricsOption.series[0].data = data.map(
-            (metric) => metric.network_incoming
-        );
-        networkMetricsOption.series[1].data = data.map(
-            (metric) => metric.network_outgoing
-        );
-        networkMetricsOption.xAxis.data = data.map(
-            (metric) => metric.collected_at
-        );
-
         isDatabaseHealthy.value = data[data.length - 1].is_database_up;
         isCacheHealthy.value = data[data.length - 1].is_cache_up;
 
