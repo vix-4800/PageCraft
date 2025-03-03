@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class ProductAttribute extends Model
+final class ProductAttribute extends Model
 {
     public $timestamps = false;
 

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class Template extends Model
+final class Template extends Model
 {
     public $timestamps = false;
 

@@ -6,7 +6,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductCategoryRequest extends FormRequest
+final class ProductCategoryRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

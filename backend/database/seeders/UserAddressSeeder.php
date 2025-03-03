@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Database\Seeder;
 
-class UserAddressSeeder extends Seeder
+final class UserAddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.

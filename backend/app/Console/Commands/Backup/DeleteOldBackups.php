@@ -8,7 +8,7 @@ use App\Facades\Backup;
 use App\Helpers\DatabaseBackup;
 use Illuminate\Console\Command;
 
-class DeleteOldBackups extends Command
+final class DeleteOldBackups extends Command
 {
     /**
      * The name and signature of the console command.

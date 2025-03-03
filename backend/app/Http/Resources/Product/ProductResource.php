@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 /**
  * @mixin \App\Models\Product
  */
-class ProductResource extends JsonResource
+final class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

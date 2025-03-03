@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Http;
 
 final class SdekService implements DeliveryService
 {
-    protected string $baseUrl = 'https://api.sdek.ru';
+    private string $baseUrl = 'https://api.sdek.ru';
 
-    protected string $baseTestUrl = 'https://api.edu.cdek.ru';
+    private string $baseTestUrl = 'https://api.edu.cdek.ru';
 
-    protected string $tokenCacheKey = 'sdek_token';
+    private string $tokenCacheKey = 'sdek_token';
 
     public function __construct(
         private string $clientId,
@@ -24,13 +24,28 @@ final class SdekService implements DeliveryService
         //
     }
 
+    public function createOrder(array $parameters): array
+    {
+        return $this->makeRequest('v2/orders', 'POST', $parameters);
+    }
+
+    public function getOrderInfo(string $orderUuid, array $parameters): array
+    {
+        return $this->makeRequest("v2/orders/{$orderUuid}", 'GET', $parameters);
+    }
+
+    public function cancelOrder(string $orderUuid, array $parameters): array
+    {
+        return $this->makeRequest("v2/orders/{$orderUuid}", 'DELETE', $parameters);
+    }
+
     /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
-    protected function makeRequest(string $url, string $method, array $data = []): array
+    private function makeRequest(string $url, string $method, array $data = []): array
     {
         throw_unless(in_array($method, ['GET', 'POST', 'PUT', 'DELETE']), new MethodNotAllowed);
 
@@ -49,7 +64,7 @@ final class SdekService implements DeliveryService
         return $request->throw()->json();
     }
 
-    protected function renewAccessToken(): void
+    private function renewAccessToken(): void
     {
         Cache::remember($this->tokenCacheKey, now()->addMinutes(60), function (): string {
             $result = Http::post("{$this->baseUrl}/v2/oauth/token?parameters", [
@@ -62,23 +77,8 @@ final class SdekService implements DeliveryService
         });
     }
 
-    protected function getAccessToken(): ?string
+    private function getAccessToken(): ?string
     {
         return Cache::get($this->tokenCacheKey);
-    }
-
-    public function createOrder(array $parameters): array
-    {
-        return $this->makeRequest('v2/orders', 'POST', $parameters);
-    }
-
-    public function getOrderInfo(string $orderUuid, array $parameters): array
-    {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'GET', $parameters);
-    }
-
-    public function cancelOrder(string $orderUuid, array $parameters): array
-    {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'DELETE', $parameters);
     }
 }

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class ProductVariationAttribute extends Model
+final class ProductVariationAttribute extends Model
 {
     public $timestamps = false;
 

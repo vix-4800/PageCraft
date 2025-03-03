@@ -10,7 +10,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 /** @mixin Http */
-class HttpMixin
+final class HttpMixin
 {
     public function telegram(): callable
     {

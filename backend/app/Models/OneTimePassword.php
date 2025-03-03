@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class OneTimePassword extends Model
+final class OneTimePassword extends Model
 {
     /**
      * The attributes that are mass assignable.

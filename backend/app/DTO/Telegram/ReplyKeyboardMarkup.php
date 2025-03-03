@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class ReplyKeyboardMarkup implements DtoObject
+final class ReplyKeyboardMarkup implements DtoObject
 {
     /**
      * @param  KeyboardButton[][]  $keyboard
@@ -19,15 +19,6 @@ class ReplyKeyboardMarkup implements DtoObject
         //
     }
 
-    public function toArray(): array
-    {
-        return [
-            'keyboard' => $this->keyboard,
-            'is_persistent' => $this->is_persistent,
-            'resize_keyboard' => $this->resize_keyboard,
-        ];
-    }
-
     public static function fromArray(array $data): self
     {
         return new self(
@@ -35,5 +26,14 @@ class ReplyKeyboardMarkup implements DtoObject
             $data['is_persistent'] ?? false,
             $data['resize_keyboard'] ?? false
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'keyboard' => $this->keyboard,
+            'is_persistent' => $this->is_persistent,
+            'resize_keyboard' => $this->resize_keyboard,
+        ];
     }
 }

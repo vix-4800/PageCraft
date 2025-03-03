@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBannerRequest extends FormRequest
+final class UpdateBannerRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

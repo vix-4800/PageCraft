@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DatabaseBackupRequest extends FormRequest
+final class DatabaseBackupRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

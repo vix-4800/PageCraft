@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderConfirmation extends Notification implements ShouldQueue
+final class OrderConfirmation extends Notification implements ShouldQueue
 {
     use Queueable;
 

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class OrderController extends Controller
+final class OrderController extends Controller
 {
     public function __construct(
         private readonly OrderService $service

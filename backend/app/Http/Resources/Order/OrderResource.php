@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin \App\Models\Order
  */
-class OrderResource extends JsonResource
+final class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

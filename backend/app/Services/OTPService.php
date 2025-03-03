@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Str;
 
-class OTPService
+final class OTPService
 {
     public function request(User $user): void
     {

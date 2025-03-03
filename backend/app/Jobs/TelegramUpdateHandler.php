@@ -10,7 +10,7 @@ use App\Facades\Telegram;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class TelegramUpdateHandler implements ShouldQueue
+final class TelegramUpdateHandler implements ShouldQueue
 {
     use Queueable;
 

@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @mixin \Eloquent
  */
 #[ObservedBy(OrderObserver::class)]
-class Order extends Model
+final class Order extends Model
 {
     use HasFactory;
 

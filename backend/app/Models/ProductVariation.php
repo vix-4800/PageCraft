@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class ProductVariation extends Model
+final class ProductVariation extends Model
 {
     use HasFactory;
 

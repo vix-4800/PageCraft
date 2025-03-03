@@ -11,7 +11,7 @@ use Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductVariation>
  */
-class ProductVariationFactory extends Factory
+final class ProductVariationFactory extends Factory
 {
     /**
      * Define the model's default state.

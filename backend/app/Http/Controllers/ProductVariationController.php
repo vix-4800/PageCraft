@@ -9,7 +9,7 @@ use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductVariationController extends Controller
+final class ProductVariationController extends Controller
 {
     /**
      * Display a listing of the resource.

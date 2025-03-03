@@ -9,7 +9,7 @@ use App\Http\Resources\BannerResource;
 use App\Models\Banner;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BannerController extends Controller
+final class BannerController extends Controller
 {
     /**
      * Display the specified resource.

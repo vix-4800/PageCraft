@@ -7,7 +7,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AuthenticatedListener implements ShouldQueue
+final class AuthenticatedListener implements ShouldQueue
 {
     /**
      * Handle the event.

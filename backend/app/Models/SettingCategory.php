@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class SettingCategory extends Model
+final class SettingCategory extends Model
 {
     public $timestamps = false;
 

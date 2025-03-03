@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\PromoCodeType;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @mixin \Eloquent
  */
-class PromoCode extends Model
+final class PromoCode extends Model
 {
     /** @use HasFactory<\Database\Factories\PromoCodeFactory> */
     use HasFactory;
@@ -100,11 +101,11 @@ class PromoCode extends Model
     public function calculateDiscount(float $total): float
     {
         if (! $this->isValid()) {
-            throw new \Exception('Promo code is not valid.');
+            throw new Exception('Promo code is not valid.');
         }
 
         if ($this->min_order_amount && $total < $this->min_order_amount) {
-            throw new \Exception('Order amount is less than the minimum required.');
+            throw new Exception('Order amount is less than the minimum required.');
         }
 
         return $this->type === PromoCodeType::PERCENTAGE

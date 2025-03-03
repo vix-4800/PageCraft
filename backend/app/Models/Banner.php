@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class Banner extends Model
+final class Banner extends Model
 {
     /** @use HasFactory<\Database\Factories\BannerFactory> */
     use HasFactory;

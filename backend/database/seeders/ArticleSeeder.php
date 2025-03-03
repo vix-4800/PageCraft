@@ -8,7 +8,7 @@ use App\Models\Article;
 use App\Models\ArticleTag;
 use Illuminate\Database\Seeder;
 
-class ArticleSeeder extends Seeder
+final class ArticleSeeder extends Seeder
 {
     /**
      * Run the database seeds.

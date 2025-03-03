@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class CallbackQuery implements DtoObject
+final class CallbackQuery implements DtoObject
 {
     public function __construct(
         public readonly string $id,
@@ -16,15 +16,6 @@ class CallbackQuery implements DtoObject
         //
     }
 
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'from' => $this->from->toArray(),
-            'data' => $this->data,
-        ];
-    }
-
     public static function fromArray(array $data): self
     {
         return new self(
@@ -32,5 +23,14 @@ class CallbackQuery implements DtoObject
             User::fromArray($data['from']),
             $data['data'],
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'from' => $this->from->toArray(),
+            'data' => $this->data,
+        ];
     }
 }

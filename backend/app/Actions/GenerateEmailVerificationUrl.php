@@ -7,7 +7,7 @@ namespace App\Actions;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
 
-class GenerateEmailVerificationUrl
+final class GenerateEmailVerificationUrl
 {
     public function handle(User $notifiable): string
     {

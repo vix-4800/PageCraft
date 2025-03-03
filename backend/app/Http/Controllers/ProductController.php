@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+final class ProductController extends Controller
 {
     public function __construct(
         private readonly ProductService $service

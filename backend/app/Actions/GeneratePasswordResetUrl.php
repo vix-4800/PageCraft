@@ -6,7 +6,7 @@ namespace App\Actions;
 
 use App\Models\User;
 
-class GeneratePasswordResetUrl
+final class GeneratePasswordResetUrl
 {
     public function handle(User $notifiable, string $token): string
     {

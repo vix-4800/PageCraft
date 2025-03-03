@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
-class ApiResponse extends JsonResponse
+final class ApiResponse extends JsonResponse
 {
     /**
      * Return an empty response.

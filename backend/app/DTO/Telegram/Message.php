@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class Message implements DtoObject
+final class Message implements DtoObject
 {
     public function __construct(
         public readonly int $message_id,
@@ -18,17 +18,6 @@ class Message implements DtoObject
         //
     }
 
-    public function toArray(): array
-    {
-        return [
-            'message_id' => $this->message_id,
-            'from' => $this->from->toArray(),
-            'chat' => $this->chat->toArray(),
-            'date' => $this->date,
-            'text' => $this->text,
-        ];
-    }
-
     public static function fromArray(array $data): self
     {
         return new self(
@@ -38,5 +27,16 @@ class Message implements DtoObject
             $data['date'],
             $data['text'] ?? null,
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'message_id' => $this->message_id,
+            'from' => $this->from->toArray(),
+            'chat' => $this->chat->toArray(),
+            'date' => $this->date,
+            'text' => $this->text,
+        ];
     }
 }

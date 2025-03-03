@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class AuthenticatedUserController extends Controller
+final class AuthenticatedUserController extends Controller
 {
     /**
      * Display the specified resource.

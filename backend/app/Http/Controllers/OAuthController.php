@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Socialite;
 
-class OAuthController extends Controller
+final class OAuthController extends Controller
 {
     public function oauthRedirect(string $provider): JsonResponse
     {

@@ -12,7 +12,7 @@ use App\Notifications\OrderCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
-class OrderObserver
+final class OrderObserver
 {
     /**
      * Handle the Order "created" event.

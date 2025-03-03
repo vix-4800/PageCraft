@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  */
 #[ObservedBy(FeedbackMessageObserver::class)]
-class FeedbackMessage extends Model
+final class FeedbackMessage extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackMessageFactory> */
     use HasFactory;

@@ -9,7 +9,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductCategoryController extends Controller
+final class ProductCategoryController extends Controller
 {
     public function products(Request $request, ProductCategory $category): JsonResource
     {

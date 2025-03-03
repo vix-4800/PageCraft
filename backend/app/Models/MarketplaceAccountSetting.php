@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class MarketplaceAccountSetting extends Model
+final class MarketplaceAccountSetting extends Model
 {
     /**
      * The attributes that are mass assignable.

@@ -14,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
-class BackupController extends Controller
+final class BackupController extends Controller
 {
     public function create(): Response
     {

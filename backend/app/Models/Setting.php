@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class Setting extends Model
+final class Setting extends Model
 {
     /**
      * The attributes that are mass assignable.

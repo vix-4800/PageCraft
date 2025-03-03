@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class ProductAttributeValue extends Model
+final class ProductAttributeValue extends Model
 {
     public $timestamps = false;
 

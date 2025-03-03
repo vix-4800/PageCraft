@@ -16,6 +16,8 @@ abstract class MarketplaceService
         //
     }
 
+    abstract protected function createRequest(): PendingRequest;
+
     /**
      * @param  string  $method  Request method (GET, POST, PUT, PATCH, DELETE)
      * @param  string  $url  Request URL
@@ -39,6 +41,4 @@ abstract class MarketplaceService
 
         return $request->throw()->json();
     }
-
-    abstract protected function createRequest(): PendingRequest;
 }

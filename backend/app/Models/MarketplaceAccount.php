@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class MarketplaceAccount extends Model
+final class MarketplaceAccount extends Model
 {
     /**
      * The attributes that are mass assignable.

@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class UserPreference extends Model
+final class UserPreference extends Model
 {
     /**
      * The attributes that are mass assignable.

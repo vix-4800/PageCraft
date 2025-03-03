@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class ProductReview extends Model
+final class ProductReview extends Model
 {
     use HasFactory;
 

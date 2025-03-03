@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin \App\Models\ProductReview
  */
-class ReviewResource extends JsonResource
+final class ReviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FeedbackMessage>
  */
-class FeedbackMessageFactory extends Factory
+final class FeedbackMessageFactory extends Factory
 {
     /**
      * Define the model's default state.

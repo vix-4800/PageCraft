@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @mixin \Eloquent
  */
 #[ObservedBy(UserAddressObserver::class)]
-class UserAddress extends Model
+final class UserAddress extends Model
 {
     /** @use HasFactory<\Database\Factories\UserAddressFactory> */
     use HasFactory;

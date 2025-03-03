@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class TelegramAccount extends Model
+final class TelegramAccount extends Model
 {
     /**
      * The attributes that are mass assignable.

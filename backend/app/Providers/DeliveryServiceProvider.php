@@ -8,7 +8,7 @@ use App\Contracts\DeliveryService;
 use App\Services\Delivery\SdekService;
 use Illuminate\Support\ServiceProvider;
 
-class DeliveryServiceProvider extends ServiceProvider
+final class DeliveryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

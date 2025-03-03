@@ -8,7 +8,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 
-class SearchIndexController extends Controller
+final class SearchIndexController extends Controller
 {
     public function articles(): Response
     {

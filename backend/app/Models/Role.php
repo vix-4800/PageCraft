@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class Role extends Model
+final class Role extends Model
 {
     public $timestamps = false;
 

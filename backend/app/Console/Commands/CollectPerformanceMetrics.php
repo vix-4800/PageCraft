@@ -8,7 +8,7 @@ use App\Facades\Server;
 use App\Models\SystemReport;
 use Illuminate\Console\Command;
 
-class CollectPerformanceMetrics extends Command
+final class CollectPerformanceMetrics extends Command
 {
     /**
      * The name and signature of the console command.

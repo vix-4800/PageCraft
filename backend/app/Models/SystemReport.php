@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  */
 #[ObservedBy(SystemReportObserver::class)]
-class SystemReport extends Model
+final class SystemReport extends Model
 {
     public $timestamps = false;
 

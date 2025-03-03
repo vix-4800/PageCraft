@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class Marketplace extends Model
+final class Marketplace extends Model
 {
     public $timestamps = false;
 

@@ -9,7 +9,7 @@ use Illuminate\Contracts\Console\PromptsForMissingInput;
 
 use function Laravel\Prompts\search;
 
-class MakeFacade extends Command implements PromptsForMissingInput
+final class MakeFacade extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
@@ -67,13 +67,13 @@ class MakeFacade extends Command implements PromptsForMissingInput
                 label: 'What is the name of the service?',
                 placeholder: 'E.g. MyLogger',
                 options: function (string $value): array {
-                    if (strlen($value) === 0) {
+                    if (mb_strlen($value) === 0) {
                         return [];
                     }
 
                     return array_filter(
                         $this->recursiveScanDir(),
-                        fn (string $service): bool => str_contains(strtolower($service), strtolower($value))
+                        fn (string $service): bool => str_contains(mb_strtolower($service), mb_strtolower($value))
                     );
                 },
                 hint: 'Enter the name of the facade',

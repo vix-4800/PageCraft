@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\StatisticsService;
 use Illuminate\Http\JsonResponse;
 
-class StatisticsController extends Controller
+final class StatisticsController extends Controller
 {
     public function __construct(
         private readonly StatisticsService $service

@@ -32,7 +32,7 @@ use Stevebauman\Purify\Facades\Purify;
  *
  * @mixin \Eloquent
  */
-class Article extends Model
+final class Article extends Model
 {
     /** @use HasFactory<\Database\Factories\ArticleFactory> */
     use HasFactory, Searchable;

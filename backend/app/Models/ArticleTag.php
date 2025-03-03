@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @mixin \Eloquent
  */
-class ArticleTag extends Model
+final class ArticleTag extends Model
 {
     /** @use HasFactory<\Database\Factories\ArticleTagFactory> */
     use HasFactory;

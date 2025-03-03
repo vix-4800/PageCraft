@@ -6,7 +6,7 @@ namespace App\Notifications;
 
 use App\Enums\DatabaseNotificationType;
 
-class DatabaseBackupCreated extends BaseDatabaseNotification
+final class DatabaseBackupCreated extends BaseDatabaseNotification
 {
     protected function getType(): DatabaseNotificationType
     {

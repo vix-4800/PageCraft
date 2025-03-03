@@ -13,7 +13,7 @@ use App\Models\ProductReview;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class ProductReviewController extends Controller
+final class ProductReviewController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -38,7 +38,7 @@ use Laravel\Scout\Searchable;
  *
  * @mixin \Eloquent
  */
-class Product extends Model
+final class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory, Searchable;

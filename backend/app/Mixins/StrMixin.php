@@ -7,7 +7,7 @@ namespace App\Mixins;
 use Illuminate\Support\Facades\DB;
 use Str;
 
-class StrMixin
+final class StrMixin
 {
     public function sku(): callable
     {

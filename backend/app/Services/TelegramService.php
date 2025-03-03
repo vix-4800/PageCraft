@@ -15,9 +15,9 @@ use App\Exceptions\TelegramException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
-class TelegramService
+final class TelegramService
 {
-    protected string|int|null $chatId = null;
+    private string|int|null $chatId = null;
 
     public function __construct()
     {
@@ -39,21 +39,6 @@ class TelegramService
         $this->chatId = $chatId;
 
         return $this;
-    }
-
-    /**
-     * @throws RequestException
-     * @throws TelegramException
-     */
-    protected function makeRequest(string $method, array $data = []): array|bool
-    {
-        $response = Http::telegram()->post($method, $data)->throw()->json();
-
-        if ($response['ok'] === false) {
-            throw new TelegramException('Telegram API error');
-        }
-
-        return $response['result'];
     }
 
     public function getMe(): User
@@ -152,5 +137,20 @@ class TelegramService
     public function deleteWebhook(): bool
     {
         return $this->makeRequest('deleteWebhook');
+    }
+
+    /**
+     * @throws RequestException
+     * @throws TelegramException
+     */
+    private function makeRequest(string $method, array $data = []): array|bool
+    {
+        $response = Http::telegram()->post($method, $data)->throw()->json();
+
+        if ($response['ok'] === false) {
+            throw new TelegramException('Telegram API error');
+        }
+
+        return $response['result'];
     }
 }

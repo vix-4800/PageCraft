@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class ArticleController extends Controller
+final class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.

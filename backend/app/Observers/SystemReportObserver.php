@@ -11,7 +11,7 @@ use App\Notifications\SystemStatusWarning;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
-class SystemReportObserver
+final class SystemReportObserver
 {
     /**
      * Handle the SystemReport "creating" event.

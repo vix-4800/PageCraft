@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class TelegramException extends Exception
+final class TelegramException extends Exception
 {
     //
 }

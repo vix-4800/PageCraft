@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class OrderItem extends Model
+final class OrderItem extends Model
 {
     public $timestamps = false;
 

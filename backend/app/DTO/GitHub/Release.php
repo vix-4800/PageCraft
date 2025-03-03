@@ -21,20 +21,6 @@ final class Release implements DtoObject
         //
     }
 
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'url' => $this->url,
-            'name' => $this->name,
-            'tag_name' => $this->tag_name,
-            'prerelease' => $this->prerelease,
-            'body' => $this->body,
-            'published_at' => $this->published_at,
-            'html_url' => $this->html_url,
-        ];
-    }
-
     public static function fromArray(array $data): self
     {
         return new self(
@@ -47,5 +33,19 @@ final class Release implements DtoObject
             $data['published_at'],
             $data['html_url'],
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'url' => $this->url,
+            'name' => $this->name,
+            'tag_name' => $this->tag_name,
+            'prerelease' => $this->prerelease,
+            'body' => $this->body,
+            'published_at' => $this->published_at,
+            'html_url' => $this->html_url,
+        ];
     }
 }
