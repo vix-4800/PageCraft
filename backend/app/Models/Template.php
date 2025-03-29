@@ -17,16 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Template newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Template newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Template query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereIsVisible($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereTemplate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template whereTitle($value)
  *
  * @mixin \Eloquent
  */
-class Template extends Model
+final class Template extends Model
 {
     public $timestamps = false;
 

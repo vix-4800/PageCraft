@@ -29,18 +29,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereStock($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
-class ProductVariation extends Model
+final class ProductVariation extends Model
 {
     use HasFactory;
 

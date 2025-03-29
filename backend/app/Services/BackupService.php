@@ -8,9 +8,9 @@ use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Support\Collection;
 use Str;
 
-class BackupService
+final class BackupService
 {
-    protected DatabaseBackupService $databaseBackupService;
+    private DatabaseBackupService $databaseBackupService;
 
     public function __construct()
     {

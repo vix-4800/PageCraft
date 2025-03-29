@@ -7,7 +7,7 @@ namespace App\Http\Requests\Setting;
 use App\Rules\SettingValueType;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSettingRequest extends FormRequest
+final class UpdateSettingRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

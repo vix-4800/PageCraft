@@ -11,7 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class SystemStatusWarning extends Notification implements ShouldQueue
+final class SystemStatusWarning extends Notification implements ShouldQueue
 {
     use Queueable;
 

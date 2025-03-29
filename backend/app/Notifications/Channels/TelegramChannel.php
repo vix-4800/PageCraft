@@ -9,7 +9,7 @@ use App\Facades\Telegram;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
 
-class TelegramChannel
+final class TelegramChannel
 {
     public function send(User $notifiable, Notification $notification): void
     {

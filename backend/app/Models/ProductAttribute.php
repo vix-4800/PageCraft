@@ -16,12 +16,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttribute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttribute newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttribute query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttribute whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttribute whereName($value)
  *
  * @mixin \Eloquent
  */
-class ProductAttribute extends Model
+final class ProductAttribute extends Model
 {
     public $timestamps = false;
 

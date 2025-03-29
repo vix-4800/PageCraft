@@ -7,7 +7,7 @@ namespace App\Console\Commands\Backup;
 use App\Facades\Backup;
 use Illuminate\Console\Command;
 
-class CreateDatabaseBackup extends Command
+final class CreateDatabaseBackup extends Command
 {
     /**
      * The name and signature of the console command.

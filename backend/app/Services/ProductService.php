@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Str;
 use Throwable;
 
-class ProductService
+final class ProductService
 {
     /**
      * Store a newly created resource in storage.
@@ -102,41 +102,12 @@ class ProductService
             DB::commit();
 
             return $product;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
 
             // throw $th;
             throw new ApiException;
         }
-    }
-
-    /**
-     * @param  Collection<array<string>>  $variations
-     */
-    private function addVariationsToProduct(Product $product, Collection $variations): void
-    {
-        $variations->each(function (array $variation) use ($product): void {
-            /** @var ProductVariation $createdVariation */
-            $createdVariation = $product->variations()->create([
-                'sku' => $variation['sku'],
-                'price' => $variation['price'],
-                'stock' => $variation['stock'],
-                'image' => $variation['image'] ?? null,
-            ]);
-
-            collect((array) $variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
-                /** @var ProductAttribute $attributeFromDb */
-                $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
-
-                /** @var ProductAttributeValue $attributeValueFromDb */
-                $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
-
-                ProductVariationAttribute::insert([
-                    'product_variation_id' => $createdVariation->id,
-                    'product_attribute_value_id' => $attributeValueFromDb->id,
-                ]);
-            });
-        });
     }
 
     /**
@@ -170,5 +141,34 @@ class ProductService
                 'one_star' => $product->reviews->where('rating', 1)->count(),
             ],
         ];
+    }
+
+    /**
+     * @param  Collection<array<string>>  $variations
+     */
+    private function addVariationsToProduct(Product $product, Collection $variations): void
+    {
+        $variations->each(function (array $variation) use ($product): void {
+            /** @var ProductVariation $createdVariation */
+            $createdVariation = $product->variations()->create([
+                'sku' => $variation['sku'],
+                'price' => $variation['price'],
+                'stock' => $variation['stock'],
+                'image' => $variation['image'] ?? null,
+            ]);
+
+            collect((array) $variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
+                /** @var ProductAttribute $attributeFromDb */
+                $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
+
+                /** @var ProductAttributeValue $attributeValueFromDb */
+                $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
+
+                ProductVariationAttribute::insert([
+                    'product_variation_id' => $createdVariation->id,
+                    'product_attribute_value_id' => $attributeValueFromDb->id,
+                ]);
+            });
+        });
     }
 }

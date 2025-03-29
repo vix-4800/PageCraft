@@ -11,7 +11,7 @@ use App\Models\ProductReview;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReviewController extends Controller
+final class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.

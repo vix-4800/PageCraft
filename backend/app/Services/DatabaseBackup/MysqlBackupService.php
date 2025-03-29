@@ -7,7 +7,7 @@ namespace App\Services\DatabaseBackup;
 use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class MysqlBackupService extends DatabaseBackupService
+final class MysqlBackupService extends DatabaseBackupService
 {
     public function create(string $filename): string
     {

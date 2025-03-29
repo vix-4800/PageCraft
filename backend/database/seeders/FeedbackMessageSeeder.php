@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use App\Models\FeedbackMessage;
 use Illuminate\Database\Seeder;
 
-class FeedbackMessageSeeder extends Seeder
+final class FeedbackMessageSeeder extends Seeder
 {
     /**
      * Run the database seeds.

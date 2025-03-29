@@ -9,7 +9,7 @@ use App\Models\ProductReview;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class ProductReviewSeeder extends Seeder
+final class ProductReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.

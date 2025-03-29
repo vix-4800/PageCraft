@@ -14,7 +14,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class OrderCreated extends Notification implements ShouldQueue
+final class OrderCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -22,7 +22,7 @@ class OrderCreated extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-        public Order $order
+        private readonly Order $order
     ) {
         //
     }

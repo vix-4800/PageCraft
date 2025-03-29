@@ -21,16 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder<static>|OneTimePassword newModelQuery()
  * @method static Builder<static>|OneTimePassword newQuery()
  * @method static Builder<static>|OneTimePassword query()
- * @method static Builder<static>|OneTimePassword whereCode($value)
- * @method static Builder<static>|OneTimePassword whereCreatedAt($value)
- * @method static Builder<static>|OneTimePassword whereExpiresAt($value)
- * @method static Builder<static>|OneTimePassword whereId($value)
- * @method static Builder<static>|OneTimePassword whereUpdatedAt($value)
- * @method static Builder<static>|OneTimePassword whereUserId($value)
  *
  * @mixin \Eloquent
  */
-class OneTimePassword extends Model
+final class OneTimePassword extends Model
 {
     /**
      * The attributes that are mass assignable.

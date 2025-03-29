@@ -12,7 +12,7 @@ use App\Models\MarketplaceAccount;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class MarketplaceAccountController extends Controller
+final class MarketplaceAccountController extends Controller
 {
     /**
      * Display a listing of the resource.

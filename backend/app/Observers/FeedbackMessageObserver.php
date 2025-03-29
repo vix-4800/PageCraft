@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Notifications\FeedbackMessageCreated;
 use Illuminate\Database\Eloquent\Builder;
 
-class FeedbackMessageObserver
+final class FeedbackMessageObserver
 {
     /**
      * Handle the FeedbackMessage "created" event.

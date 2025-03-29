@@ -10,7 +10,7 @@ use App\Models\Template;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
-class TemplateController extends Controller
+final class TemplateController extends Controller
 {
     /**
      * Display the specified resource.

@@ -7,7 +7,7 @@ namespace App\Services\DatabaseBackup;
 use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class PostgresBackupService extends DatabaseBackupService
+final class PostgresBackupService extends DatabaseBackupService
 {
     public function create(string $filename): string
     {

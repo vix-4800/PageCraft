@@ -7,7 +7,7 @@ namespace App\Services\DatabaseBackup;
 use App\Events\DatabaseDumpCreated;
 use App\Exceptions\DatabaseBackupException;
 
-class SqliteBackupService extends DatabaseBackupService
+final class SqliteBackupService extends DatabaseBackupService
 {
     /**
      * The path to the SQLite database file.

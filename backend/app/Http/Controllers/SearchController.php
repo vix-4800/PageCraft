@@ -12,7 +12,7 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class SearchController extends Controller
+final class SearchController extends Controller
 {
     /**
      * Handle the incoming request.

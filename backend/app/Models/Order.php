@@ -34,21 +34,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShipping($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereSubTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTax($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(OrderObserver::class)]
-class Order extends Model
+final class Order extends Model
 {
     use HasFactory;
 

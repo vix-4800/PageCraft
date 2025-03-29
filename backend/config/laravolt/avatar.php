@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Set specific configuration variables here
  */
@@ -20,7 +22,7 @@ return [
     'driver' => env('IMAGE_DRIVER', 'gd'),
 
     // Initial generator class
-    'generator' => \Laravolt\Avatar\Generator\DefaultGenerator::class,
+    'generator' => Laravolt\Avatar\Generator\DefaultGenerator::class,
 
     // Whether all characters supplied must be replaced with their closest ASCII counterparts
     'ascii' => false,

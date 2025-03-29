@@ -6,7 +6,7 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\TelegramKeyboardMarkup;
 
-class InlineKeyboardButton implements TelegramKeyboardMarkup
+final class InlineKeyboardButton implements TelegramKeyboardMarkup
 {
     public function __construct(
         public readonly string $text,
@@ -16,15 +16,6 @@ class InlineKeyboardButton implements TelegramKeyboardMarkup
         //
     }
 
-    public function toArray(): array
-    {
-        return [
-            'text' => $this->text,
-            'url' => $this->url,
-            'callback_data' => $this->callback_data,
-        ];
-    }
-
     public static function fromArray(array $data): self
     {
         return new self(
@@ -32,5 +23,14 @@ class InlineKeyboardButton implements TelegramKeyboardMarkup
             $data['url'] ?? '',
             $data['callback_data'] ?? '',
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'text' => $this->text,
+            'url' => $this->url,
+            'callback_data' => $this->callback_data,
+        ];
     }
 }

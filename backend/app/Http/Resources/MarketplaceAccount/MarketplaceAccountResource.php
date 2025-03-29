@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin \App\Models\MarketplaceAccount
  */
-class MarketplaceAccountResource extends JsonResource
+final class MarketplaceAccountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin \App\Models\Template
  */
-class TemplateResource extends JsonResource
+final class TemplateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

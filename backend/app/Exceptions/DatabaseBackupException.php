@@ -6,4 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class DatabaseBackupException extends Exception {}
+final class DatabaseBackupException extends Exception
+{
+    //
+}

@@ -17,13 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute whereProductAttributeValueId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute whereProductVariationId($value)
  *
  * @mixin \Eloquent
  */
-class ProductVariationAttribute extends Model
+final class ProductVariationAttribute extends Model
 {
     public $timestamps = false;
 

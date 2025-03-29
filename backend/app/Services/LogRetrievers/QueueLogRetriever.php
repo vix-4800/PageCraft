@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\LogRetrievers;
 
-class QueueLogRetriever extends LogRetriever
+final class QueueLogRetriever extends LogRetriever
 {
     public function __construct(string $logFilename)
     {

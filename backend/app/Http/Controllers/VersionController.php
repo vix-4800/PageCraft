@@ -8,7 +8,7 @@ use App\Helpers\ApiResponse;
 use App\Services\VersionService;
 use Illuminate\Http\JsonResponse;
 
-class VersionController extends Controller
+final class VersionController extends Controller
 {
     public function __construct(
         private readonly VersionService $service

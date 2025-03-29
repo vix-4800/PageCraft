@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Notifications\DatabaseNotification;
 
-class NotificationController extends Controller
+final class NotificationController extends Controller
 {
     public function notifications(Request $request): JsonResponse
     {

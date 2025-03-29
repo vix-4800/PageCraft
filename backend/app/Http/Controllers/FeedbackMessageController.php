@@ -9,7 +9,7 @@ use App\Http\Resources\FeedbackMessageResource;
 use App\Models\FeedbackMessage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FeedbackMessageController extends Controller
+final class FeedbackMessageController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -22,18 +22,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereSubject($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(FeedbackMessageObserver::class)]
-class FeedbackMessage extends Model
+final class FeedbackMessage extends Model
 {
     /** @use HasFactory<\Database\Factories\FeedbackMessageFactory> */
     use HasFactory;

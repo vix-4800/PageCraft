@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 use SplFileInfo;
 
-class DatabaseBackup implements Arrayable
+final class DatabaseBackup implements Arrayable
 {
     private readonly Carbon $date;
 

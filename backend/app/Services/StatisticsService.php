@@ -7,7 +7,7 @@ namespace App\Services;
 use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 
-class StatisticsService
+final class StatisticsService
 {
     /**
      * @return array{

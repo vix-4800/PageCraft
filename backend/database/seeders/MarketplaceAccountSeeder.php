@@ -8,7 +8,7 @@ use App\Enums\MarketplaceType;
 use App\Models\Marketplace;
 use Illuminate\Database\Seeder;
 
-class MarketplaceAccountSeeder extends Seeder
+final class MarketplaceAccountSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class MarketplaceAccountSeeder extends Seeder
         $account->settings()->create(['key' => 'token', 'value' => 'token']);
 
         $account = Marketplace::firstWhere('name', MarketplaceType::OZON)->accounts()->create(['name' => 'Ozon']);
-        $account->settings()->create(['key' => 'Client-Id', 'value' => 'Client-Id']);
-        $account->settings()->create(['key' => 'Api-Key', 'value' => 'Api-Key']);
+        $account->settings()->create(['key' => 'client_id', 'value' => 'Client-Id']);
+        $account->settings()->create(['key' => 'api_key', 'value' => 'Api-Key']);
     }
 }

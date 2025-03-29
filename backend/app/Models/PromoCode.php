@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\PromoCodeType;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,22 +30,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereMinOrderAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUsageLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUsedCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValidFrom($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValidTo($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereValue($value)
  *
  * @mixin \Eloquent
  */
-class PromoCode extends Model
+final class PromoCode extends Model
 {
     /** @use HasFactory<\Database\Factories\PromoCodeFactory> */
     use HasFactory;
@@ -112,11 +101,11 @@ class PromoCode extends Model
     public function calculateDiscount(float $total): float
     {
         if (! $this->isValid()) {
-            throw new \Exception('Promo code is not valid.');
+            throw new Exception('Promo code is not valid.');
         }
 
         if ($this->min_order_amount && $total < $this->min_order_amount) {
-            throw new \Exception('Order amount is less than the minimum required.');
+            throw new Exception('Order amount is less than the minimum required.');
         }
 
         return $this->type === PromoCodeType::PERCENTAGE

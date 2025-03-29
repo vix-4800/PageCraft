@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Str;
 use Throwable;
 
-class OrderService
+final class OrderService
 {
     /**
      * Store a newly created resource in storage.

@@ -38,14 +38,6 @@ abstract class DatabaseBackupService
     }
 
     /**
-     * Get the backup directory path.
-     */
-    public function getBackupDirectory(): string
-    {
-        return $this->backupDir;
-    }
-
-    /**
      * Create a database backup.
      *
      * @throws \App\Exceptions\DatabaseBackupException
@@ -60,11 +52,19 @@ abstract class DatabaseBackupService
     abstract public function restore(string $filename): void;
 
     /**
+     * Get the backup directory path.
+     */
+    final public function getBackupDirectory(): string
+    {
+        return $this->backupDir;
+    }
+
+    /**
      * Get a list of all available backups.
      *
      * @return Collection<DatabaseBackup>
      */
-    public function list(): Collection
+    final public function list(): Collection
     {
         $backups = collect();
 
@@ -88,7 +88,7 @@ abstract class DatabaseBackupService
     /**
      * Delete a database backup.
      */
-    public function delete(string $filename): void
+    final public function delete(string $filename): void
     {
         unlink("{$this->backupDir}/{$filename}");
     }
@@ -96,7 +96,7 @@ abstract class DatabaseBackupService
     /**
      * Delete all database backups.
      */
-    public function deleteAll(): void
+    final public function deleteAll(): void
     {
         $this->list()->each(fn (DatabaseBackup $backupFile) => $this->delete($backupFile->getName()));
     }

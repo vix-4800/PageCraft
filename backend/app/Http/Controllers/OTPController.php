@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Services\OTPService;
 use Illuminate\Http\Request;
 
-class OTPController extends Controller
+final class OTPController extends Controller
 {
     public function __construct(
         private readonly OTPService $service

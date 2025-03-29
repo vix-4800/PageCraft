@@ -7,7 +7,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+final class UpdateUserRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

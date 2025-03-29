@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin \App\Models\FeedbackMessage
  */
-class FeedbackMessageResource extends JsonResource
+final class FeedbackMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -11,7 +11,7 @@ use App\Notifications\DatabaseBackupCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder;
 
-class DatabaseDumpCreatedListener implements ShouldQueue
+final class DatabaseDumpCreatedListener implements ShouldQueue
 {
     /**
      * Create the event listener.

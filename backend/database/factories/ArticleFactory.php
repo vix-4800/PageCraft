@@ -11,7 +11,7 @@ use Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
  */
-class ArticleFactory extends Factory
+final class ArticleFactory extends Factory
 {
     /**
      * Define the model's default state.

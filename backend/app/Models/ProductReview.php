@@ -25,18 +25,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview whereUserId($value)
  *
  * @mixin \Eloquent
  */
-class ProductReview extends Model
+final class ProductReview extends Model
 {
     use HasFactory;
 

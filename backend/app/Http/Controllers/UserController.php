@@ -13,7 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class UserController extends Controller
+final class UserController extends Controller
 {
     public function index(): JsonResource
     {

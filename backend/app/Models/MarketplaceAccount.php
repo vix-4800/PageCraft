@@ -21,15 +21,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount whereMarketplaceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
-class MarketplaceAccount extends Model
+final class MarketplaceAccount extends Model
 {
     /**
      * The attributes that are mass assignable.

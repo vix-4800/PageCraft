@@ -6,14 +6,19 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class Chat implements DtoObject
+final class Chat implements DtoObject
 {
     public function __construct(
         public readonly int $id,
         public readonly string $type,
-        public readonly string $title,
+        public readonly ?string $title = null,
     ) {
         //
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self($data['id'], $data['type'], $data['title'] ?? null);
     }
 
     public function toArray(): array
@@ -23,10 +28,5 @@ class Chat implements DtoObject
             'type' => $this->type,
             'title' => $this->title,
         ];
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self($data['id'], $data['type'], $data['title']);
     }
 }

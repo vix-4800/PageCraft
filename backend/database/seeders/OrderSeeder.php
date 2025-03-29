@@ -10,7 +10,7 @@ use App\Models\ProductVariation;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class OrderSeeder extends Seeder
+final class OrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.

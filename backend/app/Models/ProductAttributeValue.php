@@ -19,13 +19,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue whereProductAttributeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductAttributeValue whereValue($value)
  *
  * @mixin \Eloquent
  */
-class ProductAttributeValue extends Model
+final class ProductAttributeValue extends Model
 {
     public $timestamps = false;
 

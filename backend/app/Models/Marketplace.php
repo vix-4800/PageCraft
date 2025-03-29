@@ -18,13 +18,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace whereBaseUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Marketplace whereName($value)
  *
  * @mixin \Eloquent
  */
-class Marketplace extends Model
+final class Marketplace extends Model
 {
     public $timestamps = false;
 

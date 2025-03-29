@@ -10,7 +10,7 @@ use App\Services\LogRetrievers\QueueLogRetriever;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 
-class LogController extends Controller
+final class LogController extends Controller
 {
     private QueueLogRetriever $queueLogs;
 

@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+final class UserSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -23,8 +23,11 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
-        ]);
+        ])
+            ->first()->preferences()->create();
 
-        User::factory(10)->for(Role::firstWhere('name', UserRole::CUSTOMER))->create();
+        User::factory(10)->for(Role::firstWhere('name', UserRole::CUSTOMER))->create()->each(function (User $user): void {
+            $user->preferences()->create();
+        });
     }
 }

@@ -171,6 +171,37 @@ services:
         networks:
             - backend_network
 
+    ttyd:
+        image: tsl0922/ttyd:latest
+        container_name: ttyd
+        ports:
+            - "${TTYD_PORT:-7681}:7681"
+        command: >
+            ttyd
+                -c ${TTYD_USERNAME}:${TTYD_PASSWORD}
+                -W
+                --terminal-type=xterm-256color
+                -t titleFixed=TTYD
+                -t cursorStyle=bar
+                -t cursorBlink=true
+                -t cursorInactiveStyle=underline
+                -t drawBoldTextInBrightColors=true
+                -t cursorWidth=4
+                -t lineHeight=1
+                -t rightClickSelectsWord=true
+                -t 'theme={"background": "black","foreground":"green"}'
+                -t fontSize=16
+                -t scrollOnUserInput=true
+                -t convertEol=true
+                -t max-clients=1
+                bash
+        tty: true
+        stdin_open: true
+        volumes:
+            - "./:/var/www/html"
+        networks:
+            - backend_network
+
 networks:
     backend_network:
         name: backend_network
