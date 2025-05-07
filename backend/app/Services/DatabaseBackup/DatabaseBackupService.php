@@ -74,7 +74,7 @@ abstract class DatabaseBackupService
         }
 
         $files = scandir($this->backupDir);
-        if (! $files) {
+        if ($files === [] || $files === false) {
             return $backups;
         }
 

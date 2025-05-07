@@ -24,8 +24,11 @@ return RectorConfig::configure()
         naming: true,
         privatization: true,
         rectorPreset: true,
+        strictBooleans: true,
+        earlyReturn: true
     )
     ->withImportNames(removeUnusedImports: true)
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
-    ->withCodeQualityLevel(0);
+    ->withCodeQualityLevel(0)
+    ->withAttributesSets();
