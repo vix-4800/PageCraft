@@ -35,7 +35,7 @@ final class TelegramUpdateHandler implements ShouldQueue
         }
     }
 
-    protected function handleUpdate(Update $update): void
+    private function handleUpdate(Update $update): void
     {
         $telegramMessage = (new TelegramMessage)->to($update->message->chat->id)->text('Вы написали: '.$update->message->text);
 

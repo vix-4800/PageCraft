@@ -12,7 +12,7 @@ final class SqliteBackupService extends DatabaseBackupService
     /**
      * The path to the SQLite database file.
      */
-    protected string $databasePath;
+    private readonly string $databasePath;
 
     public function __construct()
     {
