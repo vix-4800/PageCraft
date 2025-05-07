@@ -32,12 +32,12 @@ final class SdekService implements DeliveryService
 
     public function getOrderInfo(string $orderUuid, array $parameters): array
     {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'GET', $parameters);
+        return $this->makeRequest('v2/orders/'.$orderUuid, 'GET', $parameters);
     }
 
     public function cancelOrder(string $orderUuid, array $parameters): array
     {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'DELETE', $parameters);
+        return $this->makeRequest('v2/orders/'.$orderUuid, 'DELETE', $parameters);
     }
 
     /**
@@ -68,7 +68,7 @@ final class SdekService implements DeliveryService
     private function renewAccessToken(): void
     {
         Cache::remember($this->tokenCacheKey, now()->addMinutes(60), function (): string {
-            $result = Http::post("{$this->baseUrl}/v2/oauth/token?parameters", [
+            $result = Http::post($this->baseUrl.'/v2/oauth/token?parameters', [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,

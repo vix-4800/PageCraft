@@ -67,7 +67,11 @@ use Laravolt\Avatar\Avatar;
 #[ObservedBy(UserObserver::class)]
 final class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, MustVerifyEmail, Notifiable, TwoFactorAuthenticatable;
+    use HasApiTokens;
+    use HasFactory;
+    use MustVerifyEmail;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.

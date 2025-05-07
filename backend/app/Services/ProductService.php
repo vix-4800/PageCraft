@@ -56,10 +56,10 @@ final class ProductService
             DB::commit();
 
             return $product;
-        } catch (Throwable $th) {
+        } catch (Throwable $throwable) {
             DB::rollBack();
 
-            throw $th;
+            throw $throwable;
         }
     }
 

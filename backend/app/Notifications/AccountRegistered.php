@@ -31,7 +31,7 @@ final class AccountRegistered extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Account Registered')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $notifiable->name))
             ->line('Welcome to our platform! We are thrilled to have you join our community.')
             ->line('Explore and enjoy the features we offer. If you have any questions, feel free to reach out.')
             ->salutation('We are excited to have you on board');

@@ -53,6 +53,7 @@ final class ServerService
                     $memInfo[$key] = round($value / 1024, 2);
                 }
             }
+
             fclose($file);
         }
 
@@ -89,6 +90,7 @@ final class ServerService
                     ];
                 }
             }
+
             fclose($file);
         }
 

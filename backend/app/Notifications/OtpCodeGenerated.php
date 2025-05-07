@@ -40,7 +40,7 @@ final class OtpCodeGenerated extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('One-Time Password')
-            ->line("Your One-Time Password is {$this->otp}")
+            ->line('Your One-Time Password is '.$this->otp)
             ->line('If you did not request this code, please ignore this email.');
     }
 }

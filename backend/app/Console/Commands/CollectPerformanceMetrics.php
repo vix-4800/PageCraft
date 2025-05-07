@@ -53,12 +53,12 @@ final class CollectPerformanceMetrics extends Command
 
     private function printResults(bool $databaseStatus, bool $cacheStatus, float $cpu, array $ram, array $network, string $upTime, bool $configCached): void
     {
-        $this->info("CPU: {$cpu} %");
-        $this->info("Memory: {$ram['used']} MB / {$ram['total']} MB");
-        $this->info("Network: {$network['eth0']['incoming']} B / {$network['eth0']['outgoing']} B");
+        $this->info(sprintf('CPU: %s %%', $cpu));
+        $this->info(sprintf('Memory: %s MB / %s MB', $ram['used'], $ram['total']));
+        $this->info(sprintf('Network: %s B / %s B', $network['eth0']['incoming'], $network['eth0']['outgoing']));
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
         $this->info('Cache up: '.($cacheStatus ? 'yes' : 'no'));
-        $this->info("Uptime: {$upTime}");
+        $this->info('Uptime: '.$upTime);
         $this->info('Config cached: '.($configCached ? 'yes' : 'no'));
     }
 }

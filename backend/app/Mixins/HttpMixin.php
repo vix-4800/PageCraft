@@ -19,7 +19,7 @@ final class HttpMixin
 
             throw_if(empty($token), new TelegramException('Telegram credentials are missing'));
 
-            return Http::baseUrl("https://api.telegram.org/bot{$token}/");
+            return Http::baseUrl(sprintf('https://api.telegram.org/bot%s/', $token));
         };
     }
 

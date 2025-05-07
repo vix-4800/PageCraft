@@ -78,10 +78,10 @@ final class OrderService
             DB::commit();
 
             return $order;
-        } catch (Throwable $th) {
+        } catch (Throwable $throwable) {
             DB::rollBack();
 
-            throw $th;
+            throw $throwable;
         }
     }
 }

@@ -39,7 +39,7 @@ final class SystemStatusWarning extends Notification implements ShouldQueue
      */
     public function toMail(User $notifiable): MailMessage
     {
-        $warnings = $this->warnings->map(fn (string $warning): string => "- {$warning}")->join("\n");
+        $warnings = $this->warnings->map(fn (string $warning): string => '- '.$warning)->join("\n");
 
         return (new MailMessage)
             ->subject('System Status Warning')

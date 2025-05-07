@@ -38,8 +38,8 @@ use Stevebauman\Purify\Facades\Purify;
  */
 final class Article extends Model
 {
-    /** @use HasFactory<ArticleFactory> */
-    use HasFactory, Searchable;
+    use HasFactory;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.

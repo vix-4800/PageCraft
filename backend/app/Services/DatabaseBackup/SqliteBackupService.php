@@ -27,7 +27,7 @@ final class SqliteBackupService extends DatabaseBackupService
             throw new DatabaseBackupException('SQLite database file does not exist.');
         }
 
-        if (! copy($this->databasePath, "{$this->backupDir}/{$filename}")) {
+        if (! copy($this->databasePath, sprintf('%s/%s', $this->backupDir, $filename))) {
             throw new DatabaseBackupException('Failed to create SQLite database backup.');
         }
 
@@ -38,12 +38,12 @@ final class SqliteBackupService extends DatabaseBackupService
 
     public function restore(string $filename): void
     {
-        if (! file_exists("{$this->backupDir}/{$filename}")) {
-            throw new DatabaseBackupException("Backup file {$filename} not found.");
+        if (! file_exists(sprintf('%s/%s', $this->backupDir, $filename))) {
+            throw new DatabaseBackupException(sprintf('Backup file %s not found.', $filename));
         }
 
-        if (! copy("{$this->backupDir}/{$filename}", $this->databasePath)) {
-            throw new DatabaseBackupException("Failed to restore database from {$filename}.");
+        if (! copy(sprintf('%s/%s', $this->backupDir, $filename), $this->databasePath)) {
+            throw new DatabaseBackupException(sprintf('Failed to restore database from %s.', $filename));
         }
     }
 }

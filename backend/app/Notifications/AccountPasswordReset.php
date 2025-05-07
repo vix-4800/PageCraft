@@ -31,7 +31,7 @@ final class AccountPasswordReset extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Password Reset')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $notifiable->name))
             ->line('Your password has been reset.')
             ->line('If you did not request this action, please ignore this email.');
     }

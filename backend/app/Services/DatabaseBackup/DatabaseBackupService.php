@@ -30,11 +30,11 @@ abstract class DatabaseBackupService
 
         $driver = config('database.default');
 
-        $this->databaseName = config("database.connections.{$driver}.database");
+        $this->databaseName = config(sprintf('database.connections.%s.database', $driver));
         if ($driver !== 'sqlite') {
-            $this->databaseUsername = config("database.connections.{$driver}.username");
-            $this->databasePassword = config("database.connections.{$driver}.password");
-            $this->databaseHost = config("database.connections.{$driver}.host");
+            $this->databaseUsername = config(sprintf('database.connections.%s.username', $driver));
+            $this->databasePassword = config(sprintf('database.connections.%s.password', $driver));
+            $this->databaseHost = config(sprintf('database.connections.%s.host', $driver));
         }
     }
 
@@ -80,7 +80,7 @@ abstract class DatabaseBackupService
 
         $files = array_filter($files, fn (string $file): bool => pathinfo($file, PATHINFO_EXTENSION) === 'sql');
         foreach ($files as $file) {
-            $backups->push(new DatabaseBackup("{$this->backupDir}/{$file}"));
+            $backups->push(new DatabaseBackup(sprintf('%s/%s', $this->backupDir, $file)));
         }
 
         return $backups;
@@ -91,7 +91,7 @@ abstract class DatabaseBackupService
      */
     final public function delete(string $filename): void
     {
-        unlink("{$this->backupDir}/{$filename}");
+        unlink(sprintf('%s/%s', $this->backupDir, $filename));
     }
 
     /**

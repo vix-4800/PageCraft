@@ -15,7 +15,7 @@ final class PostgresBackupService extends DatabaseBackupService
             'pg_dump --username=%s --host=%s --no-password --format=custom --file=%s %s',
             escapeshellarg($this->databaseUsername),
             escapeshellarg($this->databaseHost),
-            escapeshellarg("{$this->backupDir}/{$filename}"),
+            escapeshellarg(sprintf('%s/%s', $this->backupDir, $filename)),
             escapeshellarg($this->databaseName)
         );
 
@@ -31,9 +31,9 @@ final class PostgresBackupService extends DatabaseBackupService
 
     public function restore(string $filename): void
     {
-        $filePath = "{$this->backupDir}/{$filename}";
+        $filePath = sprintf('%s/%s', $this->backupDir, $filename);
 
-        throw_unless(file_exists($filePath), new DatabaseBackupException("Backup file {$filename} not found."));
+        throw_unless(file_exists($filePath), new DatabaseBackupException(sprintf('Backup file %s not found.', $filename)));
 
         $command = sprintf(
             'pg_restore --username=%s --host=%s --no-password --clean --dbname=%s %s',
@@ -46,6 +46,6 @@ final class PostgresBackupService extends DatabaseBackupService
         $returnVar = null;
         exec($command, $output, $returnVar);
 
-        throw_unless($returnVar === 0, new DatabaseBackupException("Failed to restore database from {$filename}: ".implode("\n", $output)));
+        throw_unless($returnVar === 0, new DatabaseBackupException(sprintf('Failed to restore database from %s: ', $filename).implode("\n", $output)));
     }
 }

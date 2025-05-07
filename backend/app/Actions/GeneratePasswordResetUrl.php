@@ -12,6 +12,6 @@ final class GeneratePasswordResetUrl
     {
         $frontendUrl = env('FRONTEND_URL', 'http://localhost').'/reset-password';
 
-        return "$frontendUrl?token=$token&email={$notifiable->getEmailForPasswordReset()}";
+        return sprintf('%s?token=%s&email=%s', $frontendUrl, $token, $notifiable->getEmailForPasswordReset());
     }
 }

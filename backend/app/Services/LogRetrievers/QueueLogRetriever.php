@@ -8,7 +8,7 @@ final class QueueLogRetriever extends LogRetriever
 {
     public function __construct(string $logFilename)
     {
-        $this->logFile = storage_path("logs/{$logFilename}");
+        $this->logFile = storage_path('logs/'.$logFilename);
     }
 
     protected function parseLogLine(string $log): ?array

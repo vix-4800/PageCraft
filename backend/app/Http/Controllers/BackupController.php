@@ -24,8 +24,8 @@ final class BackupController extends Controller
             Backup::createDatabaseBackup();
 
             return ApiResponse::empty();
-        } catch (DatabaseBackupException $th) {
-            throw new ApiException($th->getMessage());
+        } catch (DatabaseBackupException $databaseBackupException) {
+            throw new ApiException($databaseBackupException->getMessage());
         }
     }
 
@@ -37,8 +37,8 @@ final class BackupController extends Controller
             Backup::restoreDatabaseBackup($request->validated()['filename']);
 
             return ApiResponse::empty();
-        } catch (DatabaseBackupException $th) {
-            throw new ApiException($th->getMessage());
+        } catch (DatabaseBackupException $databaseBackupException) {
+            throw new ApiException($databaseBackupException->getMessage());
         }
     }
 

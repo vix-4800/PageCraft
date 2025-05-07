@@ -73,7 +73,7 @@ final class TelegramMessage implements DtoObject
             $message['disable_notification'] = $this->disable_notification;
         }
 
-        if ($this->keyboard) {
+        if ($this->keyboard !== null) {
             $message['reply_markup'] = $this->keyboard;
         }
 

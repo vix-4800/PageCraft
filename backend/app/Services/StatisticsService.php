@@ -33,11 +33,11 @@ final class StatisticsService
     public function getMetricsPerDay(Builder $query, int $days = 7, string $operation = 'sum', string $column = 'total'): array
     {
         if (! in_array($operation, ['sum', 'count', 'avg', 'max', 'min'])) {
-            throw new InvalidArgumentException("Operation {$operation} is not valid.");
+            throw new InvalidArgumentException(sprintf('Operation %s is not valid.', $operation));
         }
 
         return $query
-            ->selectRaw("DATE(created_at) as date, $operation($column) as total")
+            ->selectRaw(sprintf('DATE(created_at) as date, %s(%s) as total', $operation, $column))
             ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
             ->orderBy('date', 'asc')

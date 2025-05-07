@@ -31,7 +31,7 @@ final class AccountDeleted extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Account Deleted')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $notifiable->name))
             ->line('Your account has been deleted.')
             ->line('We are sorry to see you go.')
             ->salutation('We look forward to seeing you again');

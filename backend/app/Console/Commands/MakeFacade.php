@@ -38,7 +38,7 @@ final class MakeFacade extends Command implements PromptsForMissingInput
         }
 
         $stubFile = resource_path('stubs/facade.stub');
-        $targetFile = app_path("Facades/{$name}.php");
+        $targetFile = app_path(sprintf('Facades/%s.php', $name));
 
         if (! file_exists(app_path('Facades'))) {
             mkdir(app_path('Facades'), 0755);
@@ -51,7 +51,7 @@ final class MakeFacade extends Command implements PromptsForMissingInput
         $createdFacadeContent = str_replace('MyService', $service, $createdFacadeContent);
         file_put_contents($targetFile, $createdFacadeContent);
 
-        $this->info("Facade {$name} created!");
+        $this->info(sprintf('Facade %s created!', $name));
     }
 
     /**
@@ -90,14 +90,14 @@ final class MakeFacade extends Command implements PromptsForMissingInput
      */
     private function recursiveScanDir(string $dir = ''): array
     {
-        $path = app_path("Services/{$dir}");
+        $path = app_path('Services/'.$dir);
         $allFiles = scandir($path);
 
-        $services = array_filter($allFiles, fn (string $file): bool => ! is_dir("{$path}/{$file}") && str_ends_with($file, '.php'));
+        $services = array_filter($allFiles, fn (string $file): bool => ! is_dir(sprintf('%s/%s', $path, $file)) && str_ends_with($file, '.php'));
 
-        $folders = array_filter($allFiles, fn (string $file): bool => is_dir("{$path}/{$file}") && ! in_array($file, ['.', '..']));
+        $folders = array_filter($allFiles, fn (string $file): bool => is_dir(sprintf('%s/%s', $path, $file)) && ! in_array($file, ['.', '..']));
         foreach ($folders as $folder) {
-            $services = array_merge($services, $this->recursiveScanDir("{$dir}/{$folder}"));
+            $services = array_merge($services, $this->recursiveScanDir(sprintf('%s/%s', $dir, $folder)));
         }
 
         $services = array_map(fn (string $service): string => str_replace('.php', '', $service), $services);
