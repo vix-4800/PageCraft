@@ -17,30 +17,28 @@ final class StatisticsService
      *      this_month: int
      * }
      */
-    public function getMetrics(Builder $query, string $operation = 'count', string $column = '*'): array
+    public function getMetrics(Builder $builder, string $operation = 'count', string $column = '*'): array
     {
         return [
-            'total' => $query->{$operation}($column),
-            'today' => $query->where('created_at', '>=', today())->{$operation}($column),
-            'this_week' => $query->where('created_at', '>=', today()->subWeek())->{$operation}($column),
-            'this_month' => $query->where('created_at', '>=', today()->subMonth())->{$operation}($column),
+            'total' => $builder->{$operation}($column),
+            'today' => $builder->where('created_at', '>=', today())->{$operation}($column),
+            'this_week' => $builder->where('created_at', '>=', today()->subWeek())->{$operation}($column),
+            'this_month' => $builder->where('created_at', '>=', today()->subMonth())->{$operation}($column),
         ];
     }
 
     /**
      * @return array<string, int>
      */
-    public function getMetricsPerDay(Builder $query, int $days = 7, string $operation = 'sum', string $column = 'total'): array
+    public function getMetricsPerDay(Builder $builder, int $days = 7, string $operation = 'sum', string $column = 'total'): array
     {
-        if (! in_array($operation, ['sum', 'count', 'avg', 'max', 'min'])) {
-            throw new InvalidArgumentException("Operation {$operation} is not valid.");
-        }
+        throw_unless(in_array($operation, ['sum', 'count', 'avg', 'max', 'min']), new InvalidArgumentException(sprintf('Operation %s is not valid.', $operation)));
 
-        return $query
-            ->selectRaw("DATE(created_at) as date, $operation($column) as total")
+        return $builder
+            ->selectRaw(sprintf('DATE(created_at) as date, %s(%s) as total', $operation, $column))
             ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
-            ->orderBy('date', 'asc')
+            ->oldest('date')
             ->pluck('total', 'date')
             ->toArray();
     }

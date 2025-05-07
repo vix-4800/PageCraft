@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Observers\UserAddressObserver;
+use Database\Factories\UserAddressFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -19,21 +22,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $street
  * @property string|null $postal_code
  * @property bool $is_default
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $user
  *
- * @method static \Database\Factories\UserAddressFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAddress query()
+ * @method static UserAddressFactory factory($count = null, $state = [])
+ * @method static Builder<static>|UserAddress newModelQuery()
+ * @method static Builder<static>|UserAddress newQuery()
+ * @method static Builder<static>|UserAddress query()
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(UserAddressObserver::class)]
 final class UserAddress extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserAddressFactory> */
+    /** @use HasFactory<UserAddressFactory> */
     use HasFactory;
 
     /**
@@ -51,17 +54,20 @@ final class UserAddress extends Model
         'is_default',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected $casts = [
-        'is_default' => 'boolean',
-    ];
-
-    public function user(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(User::class);
+        return [
+            'is_default' => 'boolean',
+        ];
     }
 }

@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Gate;
 
 final class LogController extends Controller
 {
-    private QueueLogRetriever $queueLogs;
+    private readonly QueueLogRetriever $queueLogRetriever;
 
     public function __construct(
-        private readonly ApplicationLogRetriever $appLogs,
+        private readonly ApplicationLogRetriever $applicationLogRetriever,
     ) {
-        $this->queueLogs = new QueueLogRetriever('worker.log');
+        $this->queueLogRetriever = new QueueLogRetriever('worker.log');
     }
 
     /**
@@ -25,9 +25,9 @@ final class LogController extends Controller
      */
     public function getAppLogs(): JsonResponse
     {
-        return ApiResponse::create($this->appLogs->retrieve(), meta: [
+        return ApiResponse::create($this->applicationLogRetriever->retrieve(), meta: [
             'total' => [
-                'errors' => $this->appLogs->getErrorLogsCount(),
+                'errors' => $this->applicationLogRetriever->getErrorLogsCount(),
             ],
         ]);
     }
@@ -36,21 +36,21 @@ final class LogController extends Controller
     {
         Gate::authorize('manage-system');
 
-        $this->appLogs->clear();
+        $this->applicationLogRetriever->clear();
 
         return ApiResponse::create();
     }
 
     public function getQueueLogs(): JsonResponse
     {
-        return ApiResponse::create($this->queueLogs->retrieve());
+        return ApiResponse::create($this->queueLogRetriever->retrieve());
     }
 
     public function deleteQueueLogs(): JsonResponse
     {
         Gate::authorize('manage-system');
 
-        $this->queueLogs->clear();
+        $this->queueLogRetriever->clear();
 
         return ApiResponse::create();
     }

@@ -11,14 +11,14 @@ use Illuminate\Notifications\Notification;
 
 final class TelegramChannel
 {
-    public function send(User $notifiable, Notification $notification): void
+    public function send(User $user, Notification $notification): void
     {
         /**
          * @var TelegramMessage $message
          *
          * @phpstan-ignore-next-line
          */
-        $message = $notification->toTelegram($notifiable);
+        $message = $notification->toTelegram($user);
 
         Telegram::sendMessage($message);
     }

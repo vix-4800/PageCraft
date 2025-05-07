@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $username
  * @property string $chat_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $user
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TelegramAccount newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TelegramAccount newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TelegramAccount query()
+ * @method static Builder<static>|TelegramAccount newModelQuery()
+ * @method static Builder<static>|TelegramAccount newQuery()
+ * @method static Builder<static>|TelegramAccount query()
  *
  * @mixin \Eloquent
  */

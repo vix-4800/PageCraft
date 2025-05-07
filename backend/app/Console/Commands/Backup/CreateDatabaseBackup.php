@@ -30,7 +30,7 @@ final class CreateDatabaseBackup extends Command
     {
         $createdBackup = Backup::createDatabaseBackup($this->option('filename'));
 
-        $this->info("Database backup creation started. Filename: {$createdBackup}");
+        $this->info('Database backup creation started. Filename: '.$createdBackup);
 
         return self::SUCCESS;
     }

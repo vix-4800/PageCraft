@@ -17,16 +17,16 @@ final class HttpMixin
         return function (): PendingRequest {
             $token = config('services.telegram.bot_token');
 
-            throw_if(empty($token), new TelegramException('Telegram credentials are missing'));
+            throw_if(blank($token), new TelegramException('Telegram credentials are missing'));
 
-            return Http::baseUrl("https://api.telegram.org/bot{$token}/");
+            return Http::baseUrl(sprintf('https://api.telegram.org/bot%s/', $token));
         };
     }
 
     public function ozon(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            $settings = $account->settings()
+        return function (MarketplaceAccount $marketplaceAccount): PendingRequest {
+            $settings = $marketplaceAccount->settings()
                 ->where('key', 'in', ['client_id', 'api_key'])
                 ->pluck('value', 'key')
                 ->toArray();
@@ -40,28 +40,22 @@ final class HttpMixin
 
     public function wildberries(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            return Http::withToken(
-                $account->settings()->firstWhere('key', 'token')->value
-            );
-        };
+        return fn (MarketplaceAccount $marketplaceAccount): PendingRequest => Http::withToken(
+            $marketplaceAccount->settings()->firstWhere('key', 'token')->value
+        );
     }
 
     public function yandex(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            return Http::withHeaders([
-                'Api-Key' => $account->settings()->firstWhere('key', 'api_key')->value,
-            ]);
-        };
+        return fn (MarketplaceAccount $marketplaceAccount): PendingRequest => Http::withHeaders([
+            'Api-Key' => $marketplaceAccount->settings()->firstWhere('key', 'api_key')->value,
+        ]);
     }
 
     public function github(): callable
     {
-        return function (): PendingRequest {
-            return Http::withHeaders([
-                'Accept' => 'application/vnd.github+json',
-            ])->baseUrl(config('services.github.repo'));
-        };
+        return fn (): PendingRequest => Http::withHeaders([
+            'Accept' => 'application/vnd.github+json',
+        ])->baseUrl(config('services.github.repo'));
     }
 }

@@ -36,15 +36,15 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         if (app()->isProduction()) {
-            $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
+            $exceptions->render(function (ModelNotFoundException $modelNotFoundException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiNotFoundException);
             });
 
-            $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
+            $exceptions->render(function (NotFoundHttpException $notFoundHttpException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiNotFoundException);
             });
 
-            $exceptions->render(function (AuthenticationException $exception, Request $request): void {
+            $exceptions->render(function (AuthenticationException $authenticationException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiUnauthorizedException);
             });
 

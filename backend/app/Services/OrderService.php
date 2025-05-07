@@ -52,9 +52,7 @@ final class OrderService
             );
 
             $products = collect($orderData['products']);
-            $subTotal = $products->sum(function (array $product): float {
-                return $product['quantity'] * ProductVariation::firstWhere('sku', $product['sku'])->price;
-            });
+            $subTotal = $products->sum(fn (array $product): float => $product['quantity'] * ProductVariation::firstWhere('sku', $product['sku'])->price);
 
             /** @var Order $order */
             $order = $user->orders()->create([
@@ -80,10 +78,10 @@ final class OrderService
             DB::commit();
 
             return $order;
-        } catch (Throwable $th) {
+        } catch (Throwable $throwable) {
             DB::rollBack();
 
-            throw $th;
+            throw $throwable;
         }
     }
 }

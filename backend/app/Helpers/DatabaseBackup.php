@@ -8,20 +8,20 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 use SplFileInfo;
 
-final class DatabaseBackup implements Arrayable
+final readonly class DatabaseBackup implements Arrayable
 {
-    private readonly Carbon $date;
+    private Carbon $carbon;
 
-    private readonly string $name;
+    private string $name;
 
-    private readonly float|int $size;
+    private float|int $size;
 
     public function __construct(string $filepath)
     {
         $fileInfo = new SplFileInfo($filepath);
 
         $creationDate = $fileInfo->getMTime();
-        $this->date = $creationDate ? Carbon::createFromTimestamp($creationDate) : new Carbon;
+        $this->carbon = $creationDate ? Carbon::createFromTimestamp($creationDate) : new Carbon;
 
         $this->name = $fileInfo->getBasename();
         $this->size = $fileInfo->getSize();
@@ -37,7 +37,7 @@ final class DatabaseBackup implements Arrayable
     public function toArray(): array
     {
         return [
-            'date' => $this->date->format('Y-m-d H:i:s'),
+            'date' => $this->carbon->format('Y-m-d H:i:s'),
             'name' => $this->name,
             'size' => round($this->size / 1048576, 2).' MB',
         ];
@@ -50,7 +50,7 @@ final class DatabaseBackup implements Arrayable
 
     public function getDate(): Carbon
     {
-        return $this->date;
+        return $this->carbon;
     }
 
     public function getSize(): float|int

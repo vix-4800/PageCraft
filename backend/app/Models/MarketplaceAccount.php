@@ -4,23 +4,26 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $name
  * @property int $marketplace_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Marketplace $marketplace
- * @property-read \Illuminate\Database\Eloquent\Collection<int, MarketplaceAccountSetting> $settings
+ * @property-read Collection<int, MarketplaceAccountSetting> $settings
  * @property-read int|null $settings_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MarketplaceAccount query()
+ * @method static Builder<static>|MarketplaceAccount newModelQuery()
+ * @method static Builder<static>|MarketplaceAccount newQuery()
+ * @method static Builder<static>|MarketplaceAccount query()
  *
  * @mixin \Eloquent
  */

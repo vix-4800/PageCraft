@@ -9,6 +9,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Two\AbstractProvider;
 use Socialite;
 
 final class OAuthController extends Controller
@@ -20,7 +21,7 @@ final class OAuthController extends Controller
             new ApiException('Invalid provider', 400)
         );
 
-        /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+        /** @var AbstractProvider $driver */
         $driver = Socialite::driver($provider);
 
         $redirectUrl = $driver
@@ -41,7 +42,7 @@ final class OAuthController extends Controller
             new ApiException('Invalid provider', 400)
         );
 
-        /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+        /** @var AbstractProvider $driver */
         $driver = Socialite::driver($provider);
 
         $socialUser = $driver->with(['code' => $request['code']])

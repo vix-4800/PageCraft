@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ArticleStatus;
+use Database\Factories\ArticleFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -20,22 +24,22 @@ use Stevebauman\Purify\Facades\Purify;
  * @property string|null $image
  * @property string $author
  * @property ArticleStatus $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ArticleTag> $articleTags
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, ArticleTag> $articleTags
  * @property-read int|null $article_tags_count
  *
- * @method static \Database\Factories\ArticleFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Article query()
+ * @method static ArticleFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Article newModelQuery()
+ * @method static Builder<static>|Article newQuery()
+ * @method static Builder<static>|Article query()
  *
  * @mixin \Eloquent
  */
 final class Article extends Model
 {
-    /** @use HasFactory<\Database\Factories\ArticleFactory> */
-    use HasFactory, Searchable;
+    use HasFactory;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -50,15 +54,6 @@ final class Article extends Model
         'status',
         'image',
         'description',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'status' => ArticleStatus::class,
     ];
 
     /**
@@ -96,5 +91,17 @@ final class Article extends Model
     public function articleTags(): HasMany
     {
         return $this->hasMany(ArticleTag::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => ArticleStatus::class,
+        ];
     }
 }

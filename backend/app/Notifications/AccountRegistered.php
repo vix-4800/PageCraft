@@ -19,7 +19,7 @@ final class AccountRegistered extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -27,11 +27,11 @@ final class AccountRegistered extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
         return (new MailMessage)
             ->subject('Account Registered')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $user->name))
             ->line('Welcome to our platform! We are thrilled to have you join our community.')
             ->line('Explore and enjoy the features we offer. If you have any questions, feel free to reach out.')
             ->salutation('We are excited to have you on board');

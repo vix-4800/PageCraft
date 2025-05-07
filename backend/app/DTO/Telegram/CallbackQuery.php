@@ -6,12 +6,12 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class CallbackQuery implements DtoObject
+final readonly class CallbackQuery implements DtoObject
 {
     public function __construct(
-        public readonly string $id,
-        public readonly User $from,
-        public readonly string $data,
+        public string $id,
+        public User $user,
+        public string $data,
     ) {
         //
     }
@@ -29,7 +29,7 @@ final class CallbackQuery implements DtoObject
     {
         return [
             'id' => $this->id,
-            'from' => $this->from->toArray(),
+            'from' => $this->user->toArray(),
             'data' => $this->data,
         ];
     }

@@ -25,6 +25,8 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",
+        "captainhook/captainhook": "^5.25",
+        "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^2.9",
         "laravel/pint": "^1.13",
@@ -55,29 +57,22 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@composer pint"
         ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
+        "post-root-package-install": "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "phpstan": [
-            "./vendor/bin/phpstan analyse --error-format=github --memory-limit=2G"
-        ],
-        "test": [
-            "./vendor/bin/phpunit --colors=never"
-        ],
-        "pint": [
-            "./vendor/bin/pint"
-        ],
+        "phpstan": "./vendor/bin/phpstan analyse --error-format=github --memory-limit=2G",
+        "test": "./vendor/bin/phpunit --colors=never",
+        "pint": "./vendor/bin/pint",
         "ide-helper": [
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -W",
             "@composer pint"
-        ]
+        ],
+        "rector": "./vendor/bin/rector"
     },
     "scripts-descriptions": {
         "phpstan": "Run PHPStan static analysis against your application.",

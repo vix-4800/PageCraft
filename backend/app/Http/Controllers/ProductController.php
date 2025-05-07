@@ -17,7 +17,7 @@ use Illuminate\Http\Response;
 final class ProductController extends Controller
 {
     public function __construct(
-        private readonly ProductService $service
+        private readonly ProductService $productService
     ) {
         //
     }
@@ -32,7 +32,7 @@ final class ProductController extends Controller
         $products = Product::query()->active();
 
         $slugs = $request->query('slugs', '');
-        if (! empty($slugs)) {
+        if (filled($slugs)) {
             $slugs = is_string($slugs) ? explode(',', $slugs) : $slugs;
             $slugs = array_filter($slugs);
             $products->whereIn('slug', $slugs);
@@ -84,7 +84,7 @@ final class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): JsonResource
+    public function store(StoreProductRequest $storeProductRequest): JsonResource
     {
         /**
          * @var array{
@@ -95,10 +95,10 @@ final class ProductController extends Controller
          *     variations: array<array<string>>
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $storeProductRequest->validated();
 
         return new ProductResource(
-            $this->service->storeProduct($validated)
+            $this->productService->storeProduct($validated)
         );
     }
 
@@ -115,7 +115,7 @@ final class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product): JsonResource
+    public function update(UpdateProductRequest $updateProductRequest, Product $product): JsonResource
     {
         /**
          * @var array{
@@ -126,10 +126,10 @@ final class ProductController extends Controller
          *     variations: array<array<string>>
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $updateProductRequest->validated();
 
         return new ProductResource(
-            $this->service->updateProduct($validated, $product)
+            $this->productService->updateProduct($validated, $product)
         );
     }
 

@@ -36,15 +36,15 @@ final class SystemReportObserver
         }
 
         if ($systemReport->cpu_usage > 80) {
-            $warnings->push("CPU usage is high, {$systemReport->cpu_usage} %");
+            $warnings->push(sprintf('CPU usage is high, %s %%', $systemReport->cpu_usage));
         }
 
         if ($systemReport->ram_usage / $systemReport->ram_total > 0.8) {
-            $warnings->push("RAM usage is high, {$systemReport->ram_usage} MB used of {$systemReport->ram_total} MB total");
+            $warnings->push(sprintf('RAM usage is high, %s MB used of %s MB total', $systemReport->ram_usage, $systemReport->ram_total));
         }
 
         if ($warnings->isNotEmpty()) {
-            $admins = User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN));
+            $admins = User::whereHas('role', fn (Builder $builder): Builder => $builder->where('name', UserRole::ADMIN));
 
             Notification::send($admins, new SystemStatusWarning($warnings));
         }

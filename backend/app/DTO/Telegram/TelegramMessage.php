@@ -55,9 +55,9 @@ final class TelegramMessage implements DtoObject
         return $this;
     }
 
-    public function withKeyboard(TelegramKeyboardMarkup $keyboard): self
+    public function withKeyboard(TelegramKeyboardMarkup $telegramKeyboardMarkup): self
     {
-        $this->keyboard = $keyboard;
+        $this->keyboard = $telegramKeyboardMarkup;
 
         return $this;
     }
@@ -73,7 +73,7 @@ final class TelegramMessage implements DtoObject
             $message['disable_notification'] = $this->disable_notification;
         }
 
-        if ($this->keyboard) {
+        if ($this->keyboard !== null) {
             $message['reply_markup'] = $this->keyboard;
         }
 

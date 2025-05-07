@@ -6,6 +6,7 @@ namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
 use App\Exceptions\MethodNotAllowed;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -18,8 +19,8 @@ final class SdekService implements DeliveryService
     private string $tokenCacheKey = 'sdek_token';
 
     public function __construct(
-        private string $clientId,
-        private string $clientSecret
+        private readonly string $clientId,
+        private readonly string $clientSecret
     ) {
         //
     }
@@ -31,19 +32,19 @@ final class SdekService implements DeliveryService
 
     public function getOrderInfo(string $orderUuid, array $parameters): array
     {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'GET', $parameters);
+        return $this->makeRequest('v2/orders/'.$orderUuid, 'GET', $parameters);
     }
 
     public function cancelOrder(string $orderUuid, array $parameters): array
     {
-        return $this->makeRequest("v2/orders/{$orderUuid}", 'DELETE', $parameters);
+        return $this->makeRequest('v2/orders/'.$orderUuid, 'DELETE', $parameters);
     }
 
     /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      *
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     private function makeRequest(string $url, string $method, array $data = []): array
     {
@@ -67,7 +68,7 @@ final class SdekService implements DeliveryService
     private function renewAccessToken(): void
     {
         Cache::remember($this->tokenCacheKey, now()->addMinutes(60), function (): string {
-            $result = Http::post("{$this->baseUrl}/v2/oauth/token?parameters", [
+            $result = Http::post($this->baseUrl.'/v2/oauth/token?parameters', [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,

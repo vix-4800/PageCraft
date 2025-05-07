@@ -6,14 +6,14 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class User implements DtoObject
+final readonly class User implements DtoObject
 {
     public function __construct(
-        public readonly int $id,
-        public readonly bool $isBot,
-        public readonly string $firstName,
-        public readonly ?string $lastName = null,
-        public readonly ?string $username = null,
+        public int $id,
+        public bool $isBot,
+        public string $firstName,
+        public ?string $lastName = null,
+        public ?string $username = null,
     ) {
         //
     }

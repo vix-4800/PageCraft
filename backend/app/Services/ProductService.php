@@ -56,10 +56,10 @@ final class ProductService
             DB::commit();
 
             return $product;
-        } catch (Throwable $th) {
+        } catch (Throwable $throwable) {
             DB::rollBack();
 
-            throw $th;
+            throw $throwable;
         }
     }
 
@@ -102,7 +102,7 @@ final class ProductService
             DB::commit();
 
             return $product;
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             DB::rollBack();
 
             // throw $th;
@@ -149,15 +149,15 @@ final class ProductService
     private function addVariationsToProduct(Product $product, Collection $variations): void
     {
         $variations->each(function (array $variation) use ($product): void {
-            /** @var ProductVariation $createdVariation */
-            $createdVariation = $product->variations()->create([
+            /** @var ProductVariation $model */
+            $model = $product->variations()->create([
                 'sku' => $variation['sku'],
                 'price' => $variation['price'],
                 'stock' => $variation['stock'],
                 'image' => $variation['image'] ?? null,
             ]);
 
-            collect((array) $variation['attributes'])->each(function (array $attribute) use ($createdVariation): void {
+            collect((array) $variation['attributes'])->each(function (array $attribute) use ($model): void {
                 /** @var ProductAttribute $attributeFromDb */
                 $attributeFromDb = ProductAttribute::firstOrCreate(['name' => $attribute['name']]);
 
@@ -165,7 +165,7 @@ final class ProductService
                 $attributeValueFromDb = $attributeFromDb->values()->firstOrCreate(['value' => $attribute['value']]);
 
                 ProductVariationAttribute::insert([
-                    'product_variation_id' => $createdVariation->id,
+                    'product_variation_id' => $model->id,
                     'product_attribute_value_id' => $attributeValueFromDb->id,
                 ]);
             });

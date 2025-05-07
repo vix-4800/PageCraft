@@ -17,7 +17,7 @@ final class MysqlBackupService extends DatabaseBackupService
             escapeshellarg($this->databasePassword),
             escapeshellarg($this->databaseHost),
             escapeshellarg($this->databaseName),
-            escapeshellarg("{$this->backupDir}/{$filename}")
+            escapeshellarg(sprintf('%s/%s', $this->backupDir, $filename))
         );
 
         $returnVar = null;
@@ -32,9 +32,9 @@ final class MysqlBackupService extends DatabaseBackupService
 
     public function restore(string $filename): void
     {
-        $filePath = "{$this->backupDir}/{$filename}";
+        $filePath = sprintf('%s/%s', $this->backupDir, $filename);
 
-        throw_unless(is_file($filePath), new DatabaseBackupException("Backup file {$filename} not found."));
+        throw_unless(is_file($filePath), new DatabaseBackupException(sprintf('Backup file %s not found.', $filename)));
 
         $command = sprintf(
             'mysql --user=%s --password=%s --host=%s %s < %s',
@@ -48,6 +48,6 @@ final class MysqlBackupService extends DatabaseBackupService
         $returnVar = null;
         exec($command, result_code: $returnVar);
 
-        throw_unless($returnVar === 0, new DatabaseBackupException("Failed to restore database from {$filename}."));
+        throw_unless($returnVar === 0, new DatabaseBackupException(sprintf('Failed to restore database from %s.', $filename)));
     }
 }

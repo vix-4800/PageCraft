@@ -7,11 +7,12 @@ namespace App\Services\Marketplaces;
 use App\Exceptions\MethodNotAllowed;
 use App\Models\MarketplaceAccount;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 
 abstract class MarketplaceService
 {
     public function __construct(
-        protected readonly MarketplaceAccount $account
+        protected readonly MarketplaceAccount $marketplaceAccount
     ) {
         //
     }
@@ -24,7 +25,7 @@ abstract class MarketplaceService
      * @param  array<string, mixed>  $data  Request data (optional) - query or body parameters
      * @return array<string, mixed>
      *
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     protected function makeRequest(string $method, string $url, array $data = []): array
     {

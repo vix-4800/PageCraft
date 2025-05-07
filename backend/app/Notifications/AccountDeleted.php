@@ -19,7 +19,7 @@ final class AccountDeleted extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -27,11 +27,11 @@ final class AccountDeleted extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
         return (new MailMessage)
             ->subject('Account Deleted')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $user->name))
             ->line('Your account has been deleted.')
             ->line('We are sorry to see you go.')
             ->salutation('We look forward to seeing you again');

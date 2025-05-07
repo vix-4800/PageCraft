@@ -26,19 +26,19 @@ final class ProductReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductReviewRequest $request, Product $product): JsonResource
+    public function store(StoreProductReviewRequest $storeProductReviewRequest, Product $product): JsonResource
     {
-        $validated = $request->validated();
+        $validated = $storeProductReviewRequest->validated();
 
         return new ReviewResource($product->reviews()->create(
-            array_merge($validated, ['user_id' => $request->user()->id])
+            array_merge($validated, ['user_id' => $storeProductReviewRequest->user()->id])
         ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductReviewRequest $request, ProductReview $productReview): void
+    public function update(UpdateProductReviewRequest $updateProductReviewRequest, ProductReview $productReview): void
     {
         // TODO
     }

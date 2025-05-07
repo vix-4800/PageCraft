@@ -6,6 +6,7 @@ namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
 use App\Exceptions\MethodNotAllowed;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 final class BoxberryService implements DeliveryService
@@ -13,7 +14,7 @@ final class BoxberryService implements DeliveryService
     private string $baseUrl = 'https://api.boxberry.ru/json.php';
 
     public function __construct(
-        private string $token
+        private readonly string $token
     ) {
         //
     }
@@ -40,7 +41,7 @@ final class BoxberryService implements DeliveryService
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      *
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     private function makeRequest(string $url, string $method, string $serviceMethod, array $data): array
     {

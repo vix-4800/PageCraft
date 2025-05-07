@@ -21,7 +21,7 @@ final class DatabaseBackupTest extends TestCase
         Backup::createDatabaseBackup($this->defaultBackupFilename);
 
         $this->assertTrue(
-            file_exists(config('backup.directory')."/{$this->defaultBackupFilename}")
+            file_exists(config('backup.directory').('/'.$this->defaultBackupFilename))
         );
     }
 

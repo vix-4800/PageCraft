@@ -24,9 +24,9 @@ final class DatabaseDumpCreatedListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(DatabaseDumpCreated $event): void
+    public function handle(DatabaseDumpCreated $databaseDumpCreated): void
     {
-        User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))
+        User::whereHas('role', fn (Builder $builder): Builder => $builder->where('name', UserRole::ADMIN))
             ->first()
             ->notify(new DatabaseBackupCreated);
     }

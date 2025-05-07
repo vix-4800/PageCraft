@@ -6,13 +6,13 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\TelegramKeyboardMarkup;
 
-final class InlineKeyboardMarkup implements TelegramKeyboardMarkup
+final readonly class InlineKeyboardMarkup implements TelegramKeyboardMarkup
 {
     /**
      * @param  InlineKeyboardButton[][]  $inline_keyboard
      */
     public function __construct(
-        public readonly array $inline_keyboard
+        public array $inline_keyboard
     ) {
         //
     }

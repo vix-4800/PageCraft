@@ -31,22 +31,22 @@ final class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductReview $review): ReviewResource
+    public function show(ProductReview $productReview): ReviewResource
     {
         return new ReviewResource(
-            $review->load(['user', 'product'])
+            $productReview->load(['user', 'product'])
         );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductReviewStatusRequest $request, ProductReview $review): ReviewResource
+    public function update(UpdateProductReviewStatusRequest $updateProductReviewStatusRequest, ProductReview $productReview): ReviewResource
     {
-        $review->update($request->validated());
+        $productReview->update($updateProductReviewStatusRequest->validated());
 
         return new ReviewResource(
-            $review->load(['user', 'product'])
+            $productReview->load(['user', 'product'])
         );
     }
 }

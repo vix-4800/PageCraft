@@ -6,14 +6,14 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class Message implements DtoObject
+final readonly class Message implements DtoObject
 {
     public function __construct(
-        public readonly int $message_id,
-        public readonly User $from,
-        public readonly Chat $chat,
-        public readonly int $date,
-        public readonly ?string $text = null,
+        public int $message_id,
+        public User $user,
+        public Chat $chat,
+        public int $date,
+        public ?string $text = null,
     ) {
         //
     }
@@ -33,7 +33,7 @@ final class Message implements DtoObject
     {
         return [
             'message_id' => $this->message_id,
-            'from' => $this->from->toArray(),
+            'from' => $this->user->toArray(),
             'chat' => $this->chat->toArray(),
             'date' => $this->date,
             'text' => $this->text,

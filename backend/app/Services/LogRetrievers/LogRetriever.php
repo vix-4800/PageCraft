@@ -39,7 +39,7 @@ abstract class LogRetriever
         }
 
         $logs = file($this->logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (empty($logs)) {
+        if ($logs === [] || $logs === false) {
             return [];
         }
 

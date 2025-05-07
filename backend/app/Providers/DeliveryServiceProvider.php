@@ -16,9 +16,9 @@ final class DeliveryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(DeliveryService::class, function (): DeliveryService {
-            $deliveryService = new SdekService(config('services.sdek.client_id'), config('services.sdek.client_secret'));
+            $sdekService = new SdekService(config('services.sdek.client_id'), config('services.sdek.client_secret'));
 
-            return $deliveryService;
+            return $sdekService;
         });
     }
 

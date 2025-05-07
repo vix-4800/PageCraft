@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\PromoCodeType;
+use Database\Factories\PromoCodeFactory;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -18,24 +22,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property float|null $min_order_amount
  * @property int|null $usage_limit
  * @property int $used_count
- * @property \Illuminate\Support\Carbon|null $valid_from
- * @property \Illuminate\Support\Carbon|null $valid_to
+ * @property Carbon|null $valid_from
+ * @property Carbon|null $valid_to
  * @property bool $is_active
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Order> $orders
  * @property-read int|null $orders_count
  *
- * @method static \Database\Factories\PromoCodeFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode query()
+ * @method static PromoCodeFactory factory($count = null, $state = [])
+ * @method static Builder<static>|PromoCode newModelQuery()
+ * @method static Builder<static>|PromoCode newQuery()
+ * @method static Builder<static>|PromoCode query()
  *
  * @mixin \Eloquent
  */
 final class PromoCode extends Model
 {
-    /** @use HasFactory<\Database\Factories\PromoCodeFactory> */
+    /** @use HasFactory<PromoCodeFactory> */
     use HasFactory;
 
     /**
@@ -53,22 +57,6 @@ final class PromoCode extends Model
         'valid_from',
         'valid_to',
         'is_active',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected $casts = [
-        'type' => PromoCodeType::class,
-        'value' => 'float',
-        'min_order_amount' => 'float',
-        'usage_limit' => 'integer',
-        'used_count' => 'integer',
-        'valid_from' => 'datetime',
-        'valid_to' => 'datetime',
-        'is_active' => 'boolean',
     ];
 
     public function orders(): BelongsToMany
@@ -100,16 +88,31 @@ final class PromoCode extends Model
 
     public function calculateDiscount(float $total): float
     {
-        if (! $this->isValid()) {
-            throw new Exception('Promo code is not valid.');
-        }
+        throw_unless($this->isValid(), new Exception('Promo code is not valid.'));
 
-        if ($this->min_order_amount && $total < $this->min_order_amount) {
-            throw new Exception('Order amount is less than the minimum required.');
-        }
+        throw_if($this->min_order_amount && $total < $this->min_order_amount, new Exception('Order amount is less than the minimum required.'));
 
         return $this->type === PromoCodeType::PERCENTAGE
             ? $total * ($this->value / 100)
             : min($this->value, $total);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => PromoCodeType::class,
+            'value' => 'float',
+            'min_order_amount' => 'float',
+            'usage_limit' => 'integer',
+            'used_count' => 'integer',
+            'valid_from' => 'datetime',
+            'valid_to' => 'datetime',
+            'is_active' => 'boolean',
+        ];
     }
 }

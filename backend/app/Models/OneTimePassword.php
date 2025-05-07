@@ -7,14 +7,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property string $code
- * @property \Illuminate\Support\Carbon $expires_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon $expires_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $user
  *
  * @method static Builder<static>|OneTimePassword active()
@@ -37,16 +38,6 @@ final class OneTimePassword extends Model
         'expires_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'code' => 'hashed',
-        'expires_at' => 'datetime',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -57,8 +48,21 @@ final class OneTimePassword extends Model
         return $this->expires_at->isPast();
     }
 
-    public function scopeActive(Builder $query): void
+    public function scopeActive(Builder $builder): void
     {
-        $query->where('expires_at', '>', now());
+        $builder->where('expires_at', '>', now());
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'code' => 'hashed',
+            'expires_at' => 'datetime',
+        ];
     }
 }

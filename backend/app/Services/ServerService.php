@@ -53,6 +53,7 @@ final class ServerService
                     $memInfo[$key] = round($value / 1024, 2);
                 }
             }
+
             fclose($file);
         }
 
@@ -89,6 +90,7 @@ final class ServerService
                     ];
                 }
             }
+
             fclose($file);
         }
 
@@ -104,7 +106,7 @@ final class ServerService
             DB::connection()->getPdo();
 
             return true;
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return false;
         }
     }
