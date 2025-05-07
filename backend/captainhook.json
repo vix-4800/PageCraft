@@ -1,0 +1,43 @@
+{
+    "config": {
+        "git-directory": "./../.git",
+        "run": {
+            "mode": "docker",
+            "exec": "docker exec -i backend",
+            "path": "./vendor/bin/captainhook"
+        }
+    },
+    "commit-msg": {
+        "enabled": false,
+        "actions": [
+            {
+                "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Beams",
+                "options": {
+                    "subjectLength": 50,
+                    "bodyLineLength": 72
+                }
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": false,
+        "actions": []
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+                "options": []
+            },
+            {
+                "action": "composer rector",
+                "options": []
+            },
+            {
+                "action": "composer pint",
+                "options": []
+            }
+        ]
+    }
+}
