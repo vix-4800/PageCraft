@@ -74,3 +74,7 @@ build:
 fresh-db:
 	@echo "\nCreating fresh database..."
 	@docker exec -it backend php artisan migrate:fresh
+
+rector:
+	@echo "\nRunning Rector..."
+	@docker exec -it backend composer rector
