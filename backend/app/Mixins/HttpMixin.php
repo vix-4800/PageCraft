@@ -17,7 +17,7 @@ final class HttpMixin
         return function (): PendingRequest {
             $token = config('services.telegram.bot_token');
 
-            throw_if(empty($token), new TelegramException('Telegram credentials are missing'));
+            throw_if(blank($token), new TelegramException('Telegram credentials are missing'));
 
             return Http::baseUrl(sprintf('https://api.telegram.org/bot%s/', $token));
         };

@@ -18,7 +18,7 @@ final class ProductCategoryController extends Controller
         $products = $productCategory->products()->active();
 
         $slugs = $request->query('slugs', '');
-        if (! empty($slugs)) {
+        if (filled($slugs)) {
             $slugs = is_string($slugs) ? explode(',', $slugs) : $slugs;
             $slugs = array_filter($slugs);
             $products->whereIn('slug', $slugs);

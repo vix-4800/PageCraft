@@ -19,7 +19,7 @@ final class ProductVariationController extends Controller
         $productVariationsQuery = ProductVariation::query();
 
         $skus = $request->query('skus', '');
-        if (! empty($skus)) {
+        if (filled($skus)) {
             $skus = is_string($skus) ? explode(',', $skus) : $skus;
             $skus = array_filter($skus);
             $productVariationsQuery->whereIn('sku', $skus);

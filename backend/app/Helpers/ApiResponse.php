@@ -30,7 +30,7 @@ final class ApiResponse extends JsonResponse
         $response = [];
         $response['data'] = is_array($data) ? $data : $data->toArray();
 
-        if (! empty($meta)) {
+        if (filled($meta)) {
             $response['meta'] = is_array($meta) ? $meta : $meta->toArray();
         }
 

@@ -3,7 +3,14 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector;
+use RectorLaravel\Rector\Expr\AppEnvironmentComparisonToParameterRector;
+use RectorLaravel\Rector\FuncCall\NotFilledBlankFuncCallToBlankFilledFuncCallRector;
+use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
+use RectorLaravel\Rector\If_\AbortIfRector;
+use RectorLaravel\Rector\MethodCall\AssertStatusToAssertMethodRector;
 use RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector;
+use RectorLaravel\Rector\MethodCall\ValidationRuleArrayStringValueToArrayRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 
 return RectorConfig::configure()
@@ -30,6 +37,13 @@ return RectorConfig::configure()
     )
     ->withRules([
         EloquentOrderByToLatestOrOldestRector::class,
+        AbortIfRector::class,
+        RemoveDumpDataDeadCodeRector::class,
+        ValidationRuleArrayStringValueToArrayRector::class,
+        AppEnvironmentComparisonToParameterRector::class,
+        AssertStatusToAssertMethodRector::class,
+        EmptyToBlankAndFilledFuncRector::class,
+        NotFilledBlankFuncCallToBlankFilledFuncCallRector::class,
     ])
     ->withImportNames(removeUnusedImports: true)
     ->withTypeCoverageLevel(0)
