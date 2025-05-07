@@ -8,8 +8,10 @@ use RectorLaravel\Rector\Expr\AppEnvironmentComparisonToParameterRector;
 use RectorLaravel\Rector\FuncCall\NotFilledBlankFuncCallToBlankFilledFuncCallRector;
 use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
 use RectorLaravel\Rector\If_\AbortIfRector;
+use RectorLaravel\Rector\If_\ThrowIfRector;
 use RectorLaravel\Rector\MethodCall\AssertStatusToAssertMethodRector;
 use RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector;
+use RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector;
 use RectorLaravel\Rector\MethodCall\ValidationRuleArrayStringValueToArrayRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 
@@ -36,13 +38,15 @@ return RectorConfig::configure()
         earlyReturn: true
     )
     ->withRules([
-        EloquentOrderByToLatestOrOldestRector::class,
         AbortIfRector::class,
+        ThrowIfRector::class,
         RemoveDumpDataDeadCodeRector::class,
-        ValidationRuleArrayStringValueToArrayRector::class,
-        AppEnvironmentComparisonToParameterRector::class,
-        AssertStatusToAssertMethodRector::class,
         EmptyToBlankAndFilledFuncRector::class,
+        AssertStatusToAssertMethodRector::class,
+        EloquentOrderByToLatestOrOldestRector::class,
+        ResponseHelperCallToJsonResponseRector::class,
+        AppEnvironmentComparisonToParameterRector::class,
+        ValidationRuleArrayStringValueToArrayRector::class,
         NotFilledBlankFuncCallToBlankFilledFuncCallRector::class,
     ])
     ->withImportNames(removeUnusedImports: true)

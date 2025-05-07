@@ -147,9 +147,7 @@ final class TelegramService
     {
         $response = Http::telegram()->post($method, $data)->throw()->json();
 
-        if ($response['ok'] === false) {
-            throw new TelegramException('Telegram API error');
-        }
+        throw_if($response['ok'] === false, new TelegramException('Telegram API error'));
 
         return $response['result'];
     }

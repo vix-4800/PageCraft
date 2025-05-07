@@ -88,13 +88,9 @@ final class PromoCode extends Model
 
     public function calculateDiscount(float $total): float
     {
-        if (! $this->isValid()) {
-            throw new Exception('Promo code is not valid.');
-        }
+        throw_unless($this->isValid(), new Exception('Promo code is not valid.'));
 
-        if ($this->min_order_amount && $total < $this->min_order_amount) {
-            throw new Exception('Order amount is less than the minimum required.');
-        }
+        throw_if($this->min_order_amount && $total < $this->min_order_amount, new Exception('Order amount is less than the minimum required.'));
 
         return $this->type === PromoCodeType::PERCENTAGE
             ? $total * ($this->value / 100)
