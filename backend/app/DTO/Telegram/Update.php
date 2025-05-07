@@ -11,7 +11,7 @@ final readonly class Update implements DtoObject
     public function __construct(
         public int $update_id,
         public Message $message,
-        public ?CallbackQuery $callback_query = null,
+        public ?CallbackQuery $callbackQuery = null,
     ) {
         //
     }
@@ -30,7 +30,7 @@ final readonly class Update implements DtoObject
         return [
             'update_id' => $this->update_id,
             'message' => $this->message->toArray(),
-            'callback_query' => $this->callback_query->toArray(),
+            'callback_query' => $this->callbackQuery->toArray(),
         ];
     }
 }

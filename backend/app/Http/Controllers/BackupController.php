@@ -29,12 +29,12 @@ final class BackupController extends Controller
         }
     }
 
-    public function restore(DatabaseBackupRequest $request): Response
+    public function restore(DatabaseBackupRequest $databaseBackupRequest): Response
     {
         Gate::authorize('manage-system');
 
         try {
-            Backup::restoreDatabaseBackup($request->validated()['filename']);
+            Backup::restoreDatabaseBackup($databaseBackupRequest->validated()['filename']);
 
             return ApiResponse::empty();
         } catch (DatabaseBackupException $databaseBackupException) {
@@ -45,15 +45,15 @@ final class BackupController extends Controller
     public function list(): JsonResponse
     {
         return ApiResponse::create(
-            Backup::listDatabaseBackups()->map(fn (DatabaseBackup $backup): array => $backup->toArray())
+            Backup::listDatabaseBackups()->map(fn (DatabaseBackup $databaseBackup): array => $databaseBackup->toArray())
         );
     }
 
-    public function delete(DatabaseBackupRequest $request): Response
+    public function delete(DatabaseBackupRequest $databaseBackupRequest): Response
     {
         Gate::authorize('manage-system');
 
-        Backup::deleteDatabaseBackup($request->validated()['filename']);
+        Backup::deleteDatabaseBackup($databaseBackupRequest->validated()['filename']);
 
         return ApiResponse::empty();
     }

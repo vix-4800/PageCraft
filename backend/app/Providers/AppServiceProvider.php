@@ -40,8 +40,8 @@ final class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        VerifyEmail::createUrlUsing(fn (User $notifiable): string => (new GenerateEmailVerificationUrl)->handle($notifiable));
-        ResetPassword::createUrlUsing(fn (User $notifiable, string $token): string => (new GeneratePasswordResetUrl)->handle($notifiable, $token));
+        VerifyEmail::createUrlUsing(fn (User $user): string => (new GenerateEmailVerificationUrl)->handle($user));
+        ResetPassword::createUrlUsing(fn (User $user, string $token): string => (new GeneratePasswordResetUrl)->handle($user, $token));
 
         Http::mixin(new HttpMixin);
         Str::mixin(new StrMixin);

@@ -11,11 +11,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 final class ProductCategoryController extends Controller
 {
-    public function products(Request $request, ProductCategory $category): JsonResource
+    public function products(Request $request, ProductCategory $productCategory): JsonResource
     {
         $limit = request()->get('limit', 10);
 
-        $products = $category->products()->active();
+        $products = $productCategory->products()->active();
 
         $slugs = $request->query('slugs', '');
         if (! empty($slugs)) {

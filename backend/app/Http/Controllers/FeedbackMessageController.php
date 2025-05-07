@@ -26,18 +26,18 @@ final class FeedbackMessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFeedbackMessageRequest $request): JsonResource
+    public function store(StoreFeedbackMessageRequest $storeFeedbackMessageRequest): JsonResource
     {
         return new FeedbackMessageResource(
-            FeedbackMessage::create($request->validated())
+            FeedbackMessage::create($storeFeedbackMessageRequest->validated())
         );
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(FeedbackMessage $message): JsonResource
+    public function show(FeedbackMessage $feedbackMessage): JsonResource
     {
-        return new FeedbackMessageResource($message);
+        return new FeedbackMessageResource($feedbackMessage);
     }
 }

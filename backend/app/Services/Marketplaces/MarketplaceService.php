@@ -12,7 +12,7 @@ use Illuminate\Http\Client\RequestException;
 abstract class MarketplaceService
 {
     public function __construct(
-        protected readonly MarketplaceAccount $account
+        protected readonly MarketplaceAccount $marketplaceAccount
     ) {
         //
     }

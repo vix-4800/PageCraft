@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 final class OTPController extends Controller
 {
     public function __construct(
-        private readonly OTPService $service
+        private readonly OTPService $otpService
     ) {
         //
     }
@@ -22,7 +22,7 @@ final class OTPController extends Controller
         $user = User::firstWhere('email', $request->input('email'));
         throw_if(! $user, new ApiException('User not found', 422));
 
-        $this->service->request($user);
+        $this->otpService->request($user);
     }
 
     public function verify(Request $request): void
@@ -35,6 +35,6 @@ final class OTPController extends Controller
         $user = User::firstWhere('email', $request->input('email'));
         throw_if(! $user, new ApiException('User not found', 422));
 
-        $this->service->verify($user, $request->input('code'));
+        $this->otpService->verify($user, $request->input('code'));
     }
 }

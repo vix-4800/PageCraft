@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 
 final class GenerateEmailVerificationUrl
 {
-    public function handle(User $notifiable): string
+    public function handle(User $user): string
     {
         $frontendUrl = env('FRONTEND_URL', 'http://localhost').'/verify-email';
 
@@ -17,8 +17,8 @@ final class GenerateEmailVerificationUrl
             'verification.verify',
             now()->addMinutes(config('auth.verification.expire', 60)),
             [
-                'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification()),
+                'id' => $user->getKey(),
+                'hash' => sha1($user->getEmailForVerification()),
             ]
         );
 

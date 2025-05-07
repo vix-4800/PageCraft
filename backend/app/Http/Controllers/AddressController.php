@@ -29,13 +29,13 @@ final class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserAddressRequest $request): JsonResource
+    public function store(UserAddressRequest $userAddressRequest): JsonResource
     {
         /** @var User $user */
-        $user = $request->user();
-        $address = $user->userAddresses()->create($request->validated());
+        $user = $userAddressRequest->user();
+        $model = $user->userAddresses()->create($userAddressRequest->validated());
 
-        return new UserAddressResource($address);
+        return new UserAddressResource($model);
     }
 
     /**
@@ -49,9 +49,9 @@ final class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserAddressRequest $request, UserAddress $userAddress): JsonResource
+    public function update(UserAddressRequest $userAddressRequest, UserAddress $userAddress): JsonResource
     {
-        $userAddress->update($request->validated());
+        $userAddress->update($userAddressRequest->validated());
 
         return new UserAddressResource($userAddress);
     }

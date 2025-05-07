@@ -55,9 +55,9 @@ final class TelegramMessage implements DtoObject
         return $this;
     }
 
-    public function withKeyboard(TelegramKeyboardMarkup $keyboard): self
+    public function withKeyboard(TelegramKeyboardMarkup $telegramKeyboardMarkup): self
     {
-        $this->keyboard = $keyboard;
+        $this->keyboard = $telegramKeyboardMarkup;
 
         return $this;
     }

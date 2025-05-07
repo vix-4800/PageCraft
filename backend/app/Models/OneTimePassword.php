@@ -48,9 +48,9 @@ final class OneTimePassword extends Model
         return $this->expires_at->isPast();
     }
 
-    public function scopeActive(Builder $query): void
+    public function scopeActive(Builder $builder): void
     {
-        $query->where('expires_at', '>', now());
+        $builder->where('expires_at', '>', now());
     }
 
     /**

@@ -23,9 +23,9 @@ final class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSettingRequest $request): JsonResource
+    public function update(UpdateSettingRequest $updateSettingRequest): JsonResource
     {
-        $validated = $request->validated();
+        $validated = $updateSettingRequest->validated();
 
         DB::transaction(function () use ($validated): void {
             foreach ($validated as $setting) {

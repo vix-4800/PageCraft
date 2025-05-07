@@ -25,8 +25,8 @@ final class HttpMixin
 
     public function ozon(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            $settings = $account->settings()
+        return function (MarketplaceAccount $marketplaceAccount): PendingRequest {
+            $settings = $marketplaceAccount->settings()
                 ->where('key', 'in', ['client_id', 'api_key'])
                 ->pluck('value', 'key')
                 ->toArray();
@@ -40,15 +40,15 @@ final class HttpMixin
 
     public function wildberries(): callable
     {
-        return fn (MarketplaceAccount $account): PendingRequest => Http::withToken(
-            $account->settings()->firstWhere('key', 'token')->value
+        return fn (MarketplaceAccount $marketplaceAccount): PendingRequest => Http::withToken(
+            $marketplaceAccount->settings()->firstWhere('key', 'token')->value
         );
     }
 
     public function yandex(): callable
     {
-        return fn (MarketplaceAccount $account): PendingRequest => Http::withHeaders([
-            'Api-Key' => $account->settings()->firstWhere('key', 'api_key')->value,
+        return fn (MarketplaceAccount $marketplaceAccount): PendingRequest => Http::withHeaders([
+            'Api-Key' => $marketplaceAccount->settings()->firstWhere('key', 'api_key')->value,
         ]);
     }
 

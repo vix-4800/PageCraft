@@ -27,9 +27,9 @@ final class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ArticleRequest $request): JsonResource
+    public function store(ArticleRequest $articleRequest): JsonResource
     {
-        $article = Article::create($request->validated());
+        $article = Article::create($articleRequest->validated());
 
         return new ArticleResource($article);
     }
@@ -45,9 +45,9 @@ final class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleRequest $request, Article $article): JsonResource
+    public function update(ArticleRequest $articleRequest, Article $article): JsonResource
     {
-        $article->update($request->validated());
+        $article->update($articleRequest->validated());
 
         return new ArticleResource($article);
     }

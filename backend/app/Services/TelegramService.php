@@ -79,12 +79,12 @@ final class TelegramService
     /**
      * Sends a message using the Telegram API.
      *
-     * @param  TelegramMessage  $message  The message to be sent.
+     * @param  TelegramMessage  $telegramMessage  The message to be sent.
      * @return Message The message received after being sent.
      */
-    public function sendMessage(TelegramMessage $message): Message
+    public function sendMessage(TelegramMessage $telegramMessage): Message
     {
-        return Message::fromArray($this->makeRequest('sendMessage', $message->toArray()));
+        return Message::fromArray($this->makeRequest('sendMessage', $telegramMessage->toArray()));
     }
 
     public function editMessage(int $messageId, string $text): Message

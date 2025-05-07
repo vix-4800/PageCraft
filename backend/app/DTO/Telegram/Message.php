@@ -10,7 +10,7 @@ final readonly class Message implements DtoObject
 {
     public function __construct(
         public int $message_id,
-        public User $from,
+        public User $user,
         public Chat $chat,
         public int $date,
         public ?string $text = null,
@@ -33,7 +33,7 @@ final readonly class Message implements DtoObject
     {
         return [
             'message_id' => $this->message_id,
-            'from' => $this->from->toArray(),
+            'from' => $this->user->toArray(),
             'chat' => $this->chat->toArray(),
             'date' => $this->date,
             'text' => $this->text,

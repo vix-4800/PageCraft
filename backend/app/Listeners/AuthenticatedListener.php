@@ -13,10 +13,10 @@ final class AuthenticatedListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(Login $event): void
+    public function handle(Login $login): void
     {
         /** @var User $user */
-        $user = $event->user;
+        $user = $login->user;
 
         $user->updateLastSignInTimestamp();
     }

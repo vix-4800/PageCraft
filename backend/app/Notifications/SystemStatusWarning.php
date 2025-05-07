@@ -29,7 +29,7 @@ final class SystemStatusWarning extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -37,7 +37,7 @@ final class SystemStatusWarning extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
         $warnings = $this->warnings->map(fn (string $warning): string => '- '.$warning)->join("\n");
 

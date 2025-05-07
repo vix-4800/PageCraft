@@ -99,6 +99,6 @@ abstract class DatabaseBackupService
      */
     final public function deleteAll(): void
     {
-        $this->list()->each(fn (DatabaseBackup $backupFile) => $this->delete($backupFile->getName()));
+        $this->list()->each(fn (DatabaseBackup $databaseBackup) => $this->delete($databaseBackup->getName()));
     }
 }

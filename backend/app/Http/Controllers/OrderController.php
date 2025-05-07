@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 final class OrderController extends Controller
 {
     public function __construct(
-        private readonly OrderService $service
+        private readonly OrderService $orderService
     ) {
         //
     }
@@ -50,7 +50,7 @@ final class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request): JsonResource
+    public function store(StoreOrderRequest $storeOrderRequest): JsonResource
     {
         /**
          * @var array{
@@ -68,10 +68,10 @@ final class OrderController extends Controller
          *      note: string|null
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $storeOrderRequest->validated();
 
         return new OrderResource(
-            $this->service->storeOrder($validated)->load(['items', 'user'])
+            $this->orderService->storeOrder($validated)->load(['items', 'user'])
         );
     }
 
@@ -88,9 +88,9 @@ final class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order): JsonResource
+    public function update(UpdateOrderRequest $updateOrderRequest, Order $order): JsonResource
     {
-        $order->update($request->validated());
+        $order->update($updateOrderRequest->validated());
 
         return new OrderResource(
             $order->load(['items.productVariation.product', 'user'])

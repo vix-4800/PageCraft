@@ -10,7 +10,7 @@ final readonly class CallbackQuery implements DtoObject
 {
     public function __construct(
         public string $id,
-        public User $from,
+        public User $user,
         public string $data,
     ) {
         //
@@ -29,7 +29,7 @@ final readonly class CallbackQuery implements DtoObject
     {
         return [
             'id' => $this->id,
-            'from' => $this->from->toArray(),
+            'from' => $this->user->toArray(),
             'data' => $this->data,
         ];
     }

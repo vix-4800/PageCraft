@@ -65,9 +65,9 @@ final class Product extends Model
         return $this->hasMany(ProductVariation::class);
     }
 
-    public function scopeActive(Builder $query): Builder
+    public function scopeActive(Builder $builder): Builder
     {
-        return $query->where('is_archived', false);
+        return $builder->where('is_archived', false);
     }
 
     public function reviews(): HasMany
