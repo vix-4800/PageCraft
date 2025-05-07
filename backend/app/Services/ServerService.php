@@ -104,7 +104,7 @@ final class ServerService
             DB::connection()->getPdo();
 
             return true;
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return false;
         }
     }

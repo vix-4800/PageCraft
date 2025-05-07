@@ -6,15 +6,15 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class ReplyKeyboardMarkup implements DtoObject
+final readonly class ReplyKeyboardMarkup implements DtoObject
 {
     /**
      * @param  KeyboardButton[][]  $keyboard
      */
     public function __construct(
-        public readonly array $keyboard,
-        public readonly bool $is_persistent = false,
-        public readonly bool $resize_keyboard = false
+        public array $keyboard,
+        public bool $is_persistent = false,
+        public bool $resize_keyboard = false
     ) {
         //
     }

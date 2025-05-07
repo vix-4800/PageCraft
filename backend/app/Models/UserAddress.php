@@ -51,17 +51,20 @@ final class UserAddress extends Model
         'is_default',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected $casts = [
-        'is_default' => 'boolean',
-    ];
-
-    public function user(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(User::class);
+        return [
+            'is_default' => 'boolean',
+        ];
     }
 }

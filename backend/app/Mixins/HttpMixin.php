@@ -40,28 +40,22 @@ final class HttpMixin
 
     public function wildberries(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            return Http::withToken(
-                $account->settings()->firstWhere('key', 'token')->value
-            );
-        };
+        return fn (MarketplaceAccount $account): PendingRequest => Http::withToken(
+            $account->settings()->firstWhere('key', 'token')->value
+        );
     }
 
     public function yandex(): callable
     {
-        return function (MarketplaceAccount $account): PendingRequest {
-            return Http::withHeaders([
-                'Api-Key' => $account->settings()->firstWhere('key', 'api_key')->value,
-            ]);
-        };
+        return fn (MarketplaceAccount $account): PendingRequest => Http::withHeaders([
+            'Api-Key' => $account->settings()->firstWhere('key', 'api_key')->value,
+        ]);
     }
 
     public function github(): callable
     {
-        return function (): PendingRequest {
-            return Http::withHeaders([
-                'Accept' => 'application/vnd.github+json',
-            ])->baseUrl(config('services.github.repo'));
-        };
+        return fn (): PendingRequest => Http::withHeaders([
+            'Accept' => 'application/vnd.github+json',
+        ])->baseUrl(config('services.github.repo'));
     }
 }

@@ -6,12 +6,12 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\TelegramKeyboardMarkup;
 
-final class InlineKeyboardButton implements TelegramKeyboardMarkup
+final readonly class InlineKeyboardButton implements TelegramKeyboardMarkup
 {
     public function __construct(
-        public readonly string $text,
-        public readonly string $url = '',
-        public readonly string $callback_data = '',
+        public string $text,
+        public string $url = '',
+        public string $callback_data = '',
     ) {
         //
     }

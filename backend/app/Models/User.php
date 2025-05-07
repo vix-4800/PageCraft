@@ -88,17 +88,6 @@ final class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'last_sign_in_at' => 'datetime',
-    ];
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
@@ -151,5 +140,19 @@ final class User extends Authenticatable
     public function preferences(): HasOne
     {
         return $this->hasOne(UserPreference::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'last_sign_in_at' => 'datetime',
+        ];
     }
 }

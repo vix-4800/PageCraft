@@ -53,15 +53,6 @@ final class Article extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'status' => ArticleStatus::class,
-    ];
-
-    /**
      * Get the indexable data array for the model.
      *
      * @return array<string, mixed>
@@ -96,5 +87,17 @@ final class Article extends Model
     public function articleTags(): HasMany
     {
         return $this->hasMany(ArticleTag::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => ArticleStatus::class,
+        ];
     }
 }

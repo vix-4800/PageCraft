@@ -55,22 +55,6 @@ final class PromoCode extends Model
         'is_active',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected $casts = [
-        'type' => PromoCodeType::class,
-        'value' => 'float',
-        'min_order_amount' => 'float',
-        'usage_limit' => 'integer',
-        'used_count' => 'integer',
-        'valid_from' => 'datetime',
-        'valid_to' => 'datetime',
-        'is_active' => 'boolean',
-    ];
-
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
@@ -111,5 +95,24 @@ final class PromoCode extends Model
         return $this->type === PromoCodeType::PERCENTAGE
             ? $total * ($this->value / 100)
             : min($this->value, $total);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => PromoCodeType::class,
+            'value' => 'float',
+            'min_order_amount' => 'float',
+            'usage_limit' => 'integer',
+            'used_count' => 'integer',
+            'valid_from' => 'datetime',
+            'valid_to' => 'datetime',
+            'is_active' => 'boolean',
+        ];
     }
 }

@@ -13,7 +13,7 @@ final class BoxberryService implements DeliveryService
     private string $baseUrl = 'https://api.boxberry.ru/json.php';
 
     public function __construct(
-        private string $token
+        private readonly string $token
     ) {
         //
     }

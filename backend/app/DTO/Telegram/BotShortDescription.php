@@ -6,10 +6,10 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class BotShortDescription implements DtoObject
+final readonly class BotShortDescription implements DtoObject
 {
     public function __construct(
-        public readonly string $short_description
+        public string $short_description
     ) {
         //
     }

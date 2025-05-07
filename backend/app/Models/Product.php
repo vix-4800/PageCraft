@@ -57,16 +57,6 @@ final class Product extends Model
         'product_category_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_archived' => 'boolean',
-        'product_images' => 'array',
-    ];
-
     public function variations(): HasMany
     {
         return $this->hasMany(ProductVariation::class);
@@ -112,5 +102,18 @@ final class Product extends Model
     public function productCategory(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_archived' => 'boolean',
+            'product_images' => 'array',
+        ];
     }
 }

@@ -6,10 +6,10 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class KeyboardButton implements DtoObject
+final readonly class KeyboardButton implements DtoObject
 {
     public function __construct(
-        public readonly string $text,
+        public string $text,
     ) {
         //
     }

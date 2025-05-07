@@ -31,17 +31,20 @@ final class Role extends Model
      */
     protected $fillable = ['name'];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'name' => UserRole::class,
-    ];
-
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'name' => UserRole::class,
+        ];
     }
 }

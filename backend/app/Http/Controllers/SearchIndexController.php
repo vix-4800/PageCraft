@@ -13,7 +13,7 @@ final class SearchIndexController extends Controller
     public function articles(): Response
     {
         Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Article",
+            'model' => \App\Models\Article::class,
         ]);
 
         return ApiResponse::empty();
@@ -22,7 +22,7 @@ final class SearchIndexController extends Controller
     public function products(): Response
     {
         Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Product",
+            'model' => \App\Models\Product::class,
         ]);
 
         return ApiResponse::empty();

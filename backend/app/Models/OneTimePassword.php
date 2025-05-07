@@ -37,16 +37,6 @@ final class OneTimePassword extends Model
         'expires_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'code' => 'hashed',
-        'expires_at' => 'datetime',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -60,5 +50,18 @@ final class OneTimePassword extends Model
     public function scopeActive(Builder $query): void
     {
         $query->where('expires_at', '>', now());
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'code' => 'hashed',
+            'expires_at' => 'datetime',
+        ];
     }
 }

@@ -36,15 +36,6 @@ final class OrderItem extends Model
         'quantity',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'quantity' => 'integer',
-    ];
-
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
@@ -53,5 +44,17 @@ final class OrderItem extends Model
     public function productVariation(): BelongsTo
     {
         return $this->belongsTo(ProductVariation::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'quantity' => 'integer',
+        ];
     }
 }

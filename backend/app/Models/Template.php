@@ -40,9 +40,12 @@ final class Template extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'is_visible' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_visible' => 'boolean',
+        ];
+    }
 }

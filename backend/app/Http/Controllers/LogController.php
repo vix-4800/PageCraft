@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 
 final class LogController extends Controller
 {
-    private QueueLogRetriever $queueLogs;
+    private readonly QueueLogRetriever $queueLogs;
 
     public function __construct(
         private readonly ApplicationLogRetriever $appLogs,

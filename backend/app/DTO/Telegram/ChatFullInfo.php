@@ -6,15 +6,15 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-final class ChatFullInfo implements DtoObject
+final readonly class ChatFullInfo implements DtoObject
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $type,
-        public readonly string $title,
-        public readonly string $username,
-        public readonly string $bio,
-        public readonly bool $description,
+        public int $id,
+        public string $type,
+        public string $title,
+        public string $username,
+        public string $bio,
+        public bool $description,
     ) {
         //
     }

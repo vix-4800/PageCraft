@@ -102,7 +102,7 @@ final class ProductService
             DB::commit();
 
             return $product;
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             DB::rollBack();
 
             // throw $th;

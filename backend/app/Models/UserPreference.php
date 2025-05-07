@@ -33,17 +33,20 @@ final class UserPreference extends Model
         'wants_telegram_notifications',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'wants_telegram_notifications' => 'boolean',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'wants_telegram_notifications' => 'boolean',
+        ];
     }
 }

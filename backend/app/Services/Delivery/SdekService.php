@@ -18,8 +18,8 @@ final class SdekService implements DeliveryService
     private string $tokenCacheKey = 'sdek_token';
 
     public function __construct(
-        private string $clientId,
-        private string $clientSecret
+        private readonly string $clientId,
+        private readonly string $clientSecret
     ) {
         //
     }

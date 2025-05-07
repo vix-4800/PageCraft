@@ -8,13 +8,13 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 use SplFileInfo;
 
-final class DatabaseBackup implements Arrayable
+final readonly class DatabaseBackup implements Arrayable
 {
-    private readonly Carbon $date;
+    private Carbon $date;
 
-    private readonly string $name;
+    private string $name;
 
-    private readonly float|int $size;
+    private float|int $size;
 
     public function __construct(string $filepath)
     {

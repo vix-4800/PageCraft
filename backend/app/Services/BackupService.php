@@ -8,7 +8,7 @@ use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Support\Collection;
 use Str;
 
-final class BackupService
+final readonly class BackupService
 {
     private DatabaseBackupService $databaseBackupService;
 

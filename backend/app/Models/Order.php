@@ -57,19 +57,6 @@ final class Order extends Model
         'note',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'status' => OrderStatus::class,
-        'total' => 'float',
-        'sub_total' => 'float',
-        'shipping' => 'float',
-        'tax' => 'float',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -93,5 +80,21 @@ final class Order extends Model
         $this->promoCodes()->attach($promoCode);
 
         $promoCode->increment('used_count');
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => OrderStatus::class,
+            'total' => 'float',
+            'sub_total' => 'float',
+            'shipping' => 'float',
+            'tax' => 'float',
+        ];
     }
 }

@@ -51,16 +51,19 @@ final class SystemReport extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'cpu_usage' => 'float',
-        'ram_usage' => 'float',
-        'ram_total' => 'float',
-        'network_incoming' => 'float',
-        'network_outgoing' => 'float',
-        'is_database_up' => 'boolean',
-        'is_cache_up' => 'boolean',
-        'collected_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'cpu_usage' => 'float',
+            'ram_usage' => 'float',
+            'ram_total' => 'float',
+            'network_incoming' => 'float',
+            'network_outgoing' => 'float',
+            'is_database_up' => 'boolean',
+            'is_cache_up' => 'boolean',
+            'collected_at' => 'datetime',
+        ];
+    }
 }

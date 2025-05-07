@@ -37,15 +37,6 @@ final class Setting extends Model
         'type',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'type' => SettingType::class,
-    ];
-
     public function getValueAttribute(string|bool|null $value): string|bool|null
     {
         return $this->type === SettingType::BOOLEAN ? (bool) $value : $value;
@@ -54,5 +45,17 @@ final class Setting extends Model
     public function settingCategory(): BelongsTo
     {
         return $this->belongsTo(SettingCategory::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => SettingType::class,
+        ];
     }
 }
