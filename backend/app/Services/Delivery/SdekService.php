@@ -6,6 +6,7 @@ namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
 use App\Exceptions\MethodNotAllowed;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -43,7 +44,7 @@ final class SdekService implements DeliveryService
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      *
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     private function makeRequest(string $url, string $method, array $data = []): array
     {

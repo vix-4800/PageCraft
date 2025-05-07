@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,9 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $template
  * @property bool $is_visible
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Template query()
+ * @method static Builder<static>|Template newModelQuery()
+ * @method static Builder<static>|Template newQuery()
+ * @method static Builder<static>|Template query()
  *
  * @mixin \Eloquent
  */

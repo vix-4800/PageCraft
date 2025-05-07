@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\ApiException;
+use App\Models\OneTimePassword;
 use App\Models\User;
 use App\Notifications\OtpCodeGenerated;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ final class OTPService
 
     public function verify(User $user, string $code): void
     {
-        /** @var \App\Models\OneTimePassword|null $password */
+        /** @var OneTimePassword|null $password */
         $password = $user->oneTimePasswords()->active()->latest()->first();
 
         throw_if(! $password || ! Hash::check($code, $password->code), new ApiException('Invalid OTP', 422));

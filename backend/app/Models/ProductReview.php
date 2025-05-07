@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ReviewStatus;
+use Database\Factories\ProductReviewFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -16,15 +19,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $rating
  * @property string $text
  * @property ReviewStatus $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Product $product
  * @property-read User|null $user
  *
- * @method static \Database\Factories\ProductReviewFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductReview query()
+ * @method static ProductReviewFactory factory($count = null, $state = [])
+ * @method static Builder<static>|ProductReview newModelQuery()
+ * @method static Builder<static>|ProductReview newQuery()
+ * @method static Builder<static>|ProductReview query()
  *
  * @mixin \Eloquent
  */

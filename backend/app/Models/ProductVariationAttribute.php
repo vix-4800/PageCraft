@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,9 +15,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read ProductAttributeValue $productAttributeValue
  * @property-read ProductVariation $productVariation
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariationAttribute query()
+ * @method static Builder<static>|ProductVariationAttribute newModelQuery()
+ * @method static Builder<static>|ProductVariationAttribute newQuery()
+ * @method static Builder<static>|ProductVariationAttribute query()
  *
  * @mixin \Eloquent
  */

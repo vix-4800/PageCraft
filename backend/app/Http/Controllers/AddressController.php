@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\UserAddressRequest;
 use App\Http\Resources\UserAddressResource;
+use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +20,7 @@ final class AddressController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         return UserAddressResource::collection($user->userAddresses);
@@ -30,7 +31,7 @@ final class AddressController extends Controller
      */
     public function store(UserAddressRequest $request): JsonResource
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
         $address = $user->userAddresses()->create($request->validated());
 

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Resources\Order;
 
 use App\Http\Resources\User\UserResource;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Order
+ * @mixin Order
  */
 final class OrderResource extends JsonResource
 {

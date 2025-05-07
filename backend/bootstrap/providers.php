@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Providers\AppServiceProvider;
+use App\Providers\DatabaseProvider;
+use App\Providers\DeliveryServiceProvider;
+use App\Providers\FortifyServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\DatabaseProvider::class,
-    App\Providers\DeliveryServiceProvider::class,
-    App\Providers\FortifyServiceProvider::class,
+    AppServiceProvider::class,
+    DatabaseProvider::class,
+    DeliveryServiceProvider::class,
+    FortifyServiceProvider::class,
 ];

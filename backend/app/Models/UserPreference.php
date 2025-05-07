@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property bool $wants_telegram_notifications
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $user
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPreference newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPreference newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserPreference query()
+ * @method static Builder<static>|UserPreference newModelQuery()
+ * @method static Builder<static>|UserPreference newQuery()
+ * @method static Builder<static>|UserPreference query()
  *
  * @mixin \Eloquent
  */

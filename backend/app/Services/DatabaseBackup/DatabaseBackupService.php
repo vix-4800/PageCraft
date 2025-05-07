@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\DatabaseBackup;
 
+use App\Exceptions\DatabaseBackupException;
 use App\Helpers\DatabaseBackup;
 use Illuminate\Support\Collection;
 
@@ -40,14 +41,14 @@ abstract class DatabaseBackupService
     /**
      * Create a database backup.
      *
-     * @throws \App\Exceptions\DatabaseBackupException
+     * @throws DatabaseBackupException
      */
     abstract public function create(string $filename): string;
 
     /**
      * Restore a database backup.
      *
-     * @throws \App\Exceptions\DatabaseBackupException
+     * @throws DatabaseBackupException
      */
     abstract public function restore(string $filename): void;
 
