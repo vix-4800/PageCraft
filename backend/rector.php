@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 
 return RectorConfig::configure()
@@ -27,6 +28,9 @@ return RectorConfig::configure()
         strictBooleans: true,
         earlyReturn: true
     )
+    ->withRules([
+        EloquentOrderByToLatestOrOldestRector::class,
+    ])
     ->withImportNames(removeUnusedImports: true)
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)

@@ -40,7 +40,7 @@ final class StatisticsService
             ->selectRaw(sprintf('DATE(created_at) as date, %s(%s) as total', $operation, $column))
             ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
-            ->orderBy('date', 'asc')
+            ->oldest('date')
             ->pluck('total', 'date')
             ->toArray();
     }
