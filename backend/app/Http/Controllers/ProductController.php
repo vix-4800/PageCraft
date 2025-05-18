@@ -29,7 +29,7 @@ final class ProductController extends Controller
     {
         $limit = request()->get('limit', 10);
 
-        $products = Product::query()->active();
+        $products = Product::query()->with('productCategory')->active();
 
         $slugs = $request->query('slugs', '');
         if (filled($slugs)) {
@@ -52,6 +52,7 @@ final class ProductController extends Controller
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->withCount('orderItems')
                 ->orderBy('order_items_count', 'desc')
                 ->paginate($limit)
@@ -64,6 +65,7 @@ final class ProductController extends Controller
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->withCount('reviews')
                 ->orderBy('reviews_count', 'desc')
                 ->paginate($limit)
@@ -76,6 +78,7 @@ final class ProductController extends Controller
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit)
         );

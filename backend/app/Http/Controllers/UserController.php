@@ -20,7 +20,7 @@ final class UserController extends Controller
         $limit = request()->get('limit', 10);
 
         return UserResource::collection(
-            User::paginate($limit)
+            User::with('role')->paginate($limit)
         );
     }
 

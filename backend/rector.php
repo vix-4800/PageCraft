@@ -31,7 +31,7 @@ return RectorConfig::configure()
     ])
     ->withPreparedSets(
         codingStyle: true,
-        naming: true,
+        // naming: true,
         privatization: true,
         rectorPreset: true,
         strictBooleans: true,
