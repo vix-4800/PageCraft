@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MarketplaceAccountController;
@@ -111,5 +112,8 @@ Route::apiResource('articles', ArticleController::class)
 Route::get('search', SearchController::class);
 
 Route::apiSingleton('banners', BannerController::class)
-    ->middlewareFor('update', 'admin')
+    ->middlewareFor('update', ['auth:sanctum', 'admin'])
     ->only(['show', 'update']);
+
+Route::apiResource('faq', FaqController::class)
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
