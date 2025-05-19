@@ -42,7 +42,10 @@ final class HttpMixin
     {
         return fn (MarketplaceAccount $marketplaceAccount): PendingRequest => Http::withToken(
             $marketplaceAccount->settings()->firstWhere('key', 'token')->value
-        );
+        )->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ]);
     }
 
     public function yandex(): callable
