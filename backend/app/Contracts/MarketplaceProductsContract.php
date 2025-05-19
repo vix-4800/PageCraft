@@ -6,7 +6,7 @@ namespace App\Contracts;
 
 use RuntimeException;
 
-interface MarketplaceServiceContract
+interface MarketplaceProductsContract
 {
     /**
      * Retrieves a list of products based on the given parameters.

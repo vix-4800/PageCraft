@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services\Marketplaces;
 
-use App\Contracts\MarketplaceServiceContract;
+use App\Contracts\MarketplaceOrdersContract;
+use App\Contracts\MarketplaceProductsContract;
 use App\Models\MarketplaceAccount;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use InvalidArgumentException;
 
-abstract class MarketplaceService implements MarketplaceServiceContract
+abstract class MarketplaceService implements MarketplaceOrdersContract, MarketplaceProductsContract
 {
     public function __construct(
         protected readonly MarketplaceAccount $marketplaceAccount
