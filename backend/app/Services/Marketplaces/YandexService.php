@@ -11,6 +11,6 @@ final class YandexService extends MarketplaceService
 {
     protected function createRequest(): PendingRequest
     {
-        return Http::yandex($this->account);
+        return Http::yandex($this->marketplaceAccount);
     }
 }

@@ -11,6 +11,6 @@ final class WildberriesService extends MarketplaceService
 {
     protected function createRequest(): PendingRequest
     {
-        return Http::wildberries($this->account);
+        return Http::wildberries($this->marketplaceAccount);
     }
 }
