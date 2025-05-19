@@ -1,15 +1,15 @@
 services:
     nginx:
-        image: nginx:latest
+        image: nginx
         container_name: nginx
         ports:
-            - "${APP_PORT:-8080}:80"
-            - "${APP_SSL_PORT:-443}:443"
+            - ${APP_PORT:-8080}:80
+            - ${APP_SSL_PORT:-443}:443
         volumes:
-            - "./:/var/www/html"
-            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
-            - "certbot_etc_volume:/etc/letsencrypt"
-            - "certbot_var_volume:/var/lib/letsencrypt"
+            - ./:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - certbot_etc_volume:/etc/letsencrypt
+            - certbot_var_volume:/var/lib/letsencrypt
         networks:
             - backend_network
         restart: unless-stopped
@@ -23,8 +23,8 @@ services:
     certbot:
         image: certbot/certbot
         volumes:
-            - "certbot_etc_volume:/etc/letsencrypt"
-            - "certbot_var_volume:/var/lib/letsencrypt"
+            - certbot_etc_volume:/etc/letsencrypt
+            - certbot_var_volume:/var/lib/letsencrypt
             - ./:/var/www/html
         command: certonly --webroot --webroot-path=/var/www/html/public --email ${DOMAIN_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
         depends_on:
@@ -36,11 +36,11 @@ services:
             dockerfile: Dockerfile
         container_name: backend
         volumes:
-            - "./:/var/www/html"
-            - "../version.json:/var/www/html/version.json:ro"
-            - "./docker/php/conf.d/php.ini:/usr/local/etc/php/php.ini"
-            - "./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
-            - "./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini"
+            - ./:/var/www/html
+            - ../version.json:/var/www/html/version.json:ro
+            - ./docker/php/conf.d/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
         environment:
             - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-127.0.0.1}
         restart: unless-stopped
@@ -61,19 +61,19 @@ services:
             retries: 3
 
     mysql:
-        image: "mysql/mysql-server:8.0"
+        image: mysql/mysql-server
         container_name: mysql
         restart: unless-stopped
         tty: true
         ports:
-            - "${DB_PORT:-3306}:3306"
+            - ${DB_PORT:-3306}:3306
         environment:
             MYSQL_ROOT_HOST: "%"
-            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - "mysql_volume:/var/lib/mysql"
-            - "./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql"
+            - mysql_volume:/var/lib/mysql
+            - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - backend_network
         healthcheck:
@@ -90,21 +90,21 @@ services:
         container_name: phpmyadmin
         environment:
             PMA_HOST: mysql
-            PMA_PORT: "${DB_PORT:-3306}"
+            PMA_PORT: ${DB_PORT:-3306}
         ports:
-            - "${PHPMYADMIN_PORT:-8081}:80"
+            - ${PHPMYADMIN_PORT:-8081}:80
         networks:
             - backend_network
         depends_on:
             - mysql
 
     redis:
-        image: "redis:alpine"
+        image: redis:alpine
         container_name: redis
         ports:
-            - "${REDIS_PORT:-6379}:6379"
+            - ${REDIS_PORT:-6379}:6379
         volumes:
-            - "redis_volume:/data"
+            - redis_volume:/data
         restart: unless-stopped
         networks:
             - backend_network
@@ -117,32 +117,32 @@ services:
             timeout: 5s
 
     redisinsight:
-        image: redislabs/redisinsight:latest
+        image: redislabs/redisinsight
         container_name: redisinsight
         ports:
-            - "${REDISINSIGHT_PORT:-5540}:5540"
+            - ${REDISINSIGHT_PORT:-5540}:5540
         networks:
             - backend_network
         depends_on:
             - redis
 
     meilisearch:
-        image: getmeili/meilisearch:latest
+        image: getmeili/meilisearch
         container_name: meilisearch
         restart: unless-stopped
         ports:
-            - "${MEILISEARCH_PORT:-7700}:7700"
+            - ${MEILISEARCH_PORT:-7700}:7700
         networks:
             - backend_network
         volumes:
-            - "meilisearch_volume:/meili_data"
+            - meilisearch_volume:/meili_data
 
     mailhog:
         image: mailhog/mailhog
         container_name: mailhog
         ports:
-            - "1025:1025"
-            - "${MAILHOG_PORT:-8025}:8025"
+            - 1025:1025
+            - ${MAILHOG_PORT:-8025}:8025
         networks:
             - backend_network
 
@@ -152,8 +152,8 @@ services:
             dockerfile: Dockerfile
         container_name: supervisor
         volumes:
-            - "./:/var/www/html"
-            - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
+            - ./:/var/www/html
+            - ./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
         restart: unless-stopped
         networks:
             - backend_network
@@ -163,19 +163,19 @@ services:
         container_name: matomo
         restart: unless-stopped
         volumes:
-            - "matomo_volume:/var/www/html:z"
+            - matomo_volume:/var/www/html:z
         environment:
             - MATOMO_DATABASE_HOST=mysql
         ports:
-            - "${MATOMO_PORT:-8082}:80"
+            - ${MATOMO_PORT:-8082}:80
         networks:
             - backend_network
 
     ttyd:
-        image: tsl0922/ttyd:latest
+        image: tsl0922/ttyd
         container_name: ttyd
         ports:
-            - "${TTYD_PORT:-7681}:7681"
+            - ${TTYD_PORT:-7681}:7681
         command: >
             ttyd
                 -c ${TTYD_USERNAME}:${TTYD_PASSWORD}
@@ -198,7 +198,7 @@ services:
         tty: true
         stdin_open: true
         volumes:
-            - "./:/var/www/html"
+            - ./:/var/www/html
         networks:
             - backend_network
 
