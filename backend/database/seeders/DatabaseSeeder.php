@@ -31,6 +31,7 @@ final class DatabaseSeeder extends Seeder
             FeedbackMessageSeeder::class,
             ArticleSeeder::class,
             BannerSeeder::class,
+            FaqSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {
