@@ -1,0 +1,32 @@
+services:
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: ${DB_PORT:-3306}
+        ports:
+            - ${PHPMYADMIN_PORT:-8081}:80
+        networks:
+            - backend_network
+
+    redisinsight:
+        image: redislabs/redisinsight
+        container_name: redisinsight
+        ports:
+            - ${REDISINSIGHT_PORT:-5540}:5540
+        networks:
+            - backend_network
+
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mailhog
+        ports:
+            - 1025:1025
+            - ${MAILHOG_PORT:-8025}:8025
+        networks:
+            - backend_network
+
+networks:
+    backend_network:
+        external: true

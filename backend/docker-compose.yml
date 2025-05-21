@@ -85,19 +85,6 @@ services:
             retries: 3
             timeout: 5s
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
-        environment:
-            PMA_HOST: mysql
-            PMA_PORT: ${DB_PORT:-3306}
-        ports:
-            - ${PHPMYADMIN_PORT:-8081}:80
-        networks:
-            - backend_network
-        depends_on:
-            - mysql
-
     redis:
         image: redis:alpine
         container_name: redis
@@ -116,16 +103,6 @@ services:
             retries: 3
             timeout: 5s
 
-    redisinsight:
-        image: redislabs/redisinsight
-        container_name: redisinsight
-        ports:
-            - ${REDISINSIGHT_PORT:-5540}:5540
-        networks:
-            - backend_network
-        depends_on:
-            - redis
-
     meilisearch:
         image: getmeili/meilisearch
         container_name: meilisearch
@@ -136,15 +113,6 @@ services:
             - backend_network
         volumes:
             - meilisearch_volume:/meili_data
-
-    mailhog:
-        image: mailhog/mailhog
-        container_name: mailhog
-        ports:
-            - 1025:1025
-            - ${MAILHOG_PORT:-8025}:8025
-        networks:
-            - backend_network
 
     supervisor:
         build:
