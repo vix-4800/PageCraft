@@ -10,7 +10,7 @@
             </h1>
         </div>
 
-        <nuxt-img
+        <img
             :src="article.image"
             :alt="article.title"
             class="container w-full mt-8 bg-white bg-cover rounded"

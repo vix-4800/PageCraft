@@ -4,7 +4,7 @@
     >
         <div class="max-w-2xl mx-auto text-center">
             <nuxt-link to="/" class="inline-block">
-                <nuxt-img src="/logo.png" alt="logo" class="w-16" />
+                <img src="/logo.png" alt="logo" class="w-16" />
             </nuxt-link>
             <p class="mt-8 text-sm text-gray-300">
                 {{ useSiteSettingsStore().getSetting(SettingKey.Description) }}

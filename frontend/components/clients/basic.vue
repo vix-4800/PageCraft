@@ -4,7 +4,7 @@
     >
         <div v-for="review in reviews" :key="review.id">
             <div class="flex flex-col items-center">
-                <nuxt-img
+                <img
                     :src="review.user.image"
                     class="w-24 h-24 border-2 border-purple-600 rounded-full"
                 />

@@ -8,7 +8,7 @@
             >
                 <div>
                     <nuxt-link to="/">
-                        <nuxt-img src="/logo.png" :alt="appName" class="w-16" />
+                        <img src="/logo.png" :alt="appName" class="w-16" />
                     </nuxt-link>
                 </div>
 

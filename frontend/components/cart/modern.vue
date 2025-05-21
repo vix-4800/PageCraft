@@ -10,7 +10,7 @@
                     <div class="flex items-center col-span-2 gap-4">
                         <div class="w-32 h-32 p-2 bg-white rounded-md shrink-0">
                             <nuxt-link :to="`/products/${item.product.slug}`">
-                                <nuxt-img
+                                <img
                                     :src="item.product.product_images[0]"
                                     class="object-contain w-full h-full"
                                 />

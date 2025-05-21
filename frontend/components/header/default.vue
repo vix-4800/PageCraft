@@ -7,7 +7,7 @@
                 to="/"
                 class="flex items-center gap-4 max-sm:w-full max-sm:mb-3 shrink-0 group"
             >
-                <nuxt-img
+                <img
                     src="/logo.png"
                     :alt="appName"
                     width="40px"
@@ -112,7 +112,7 @@
                         to="/"
                         class="flex items-center gap-4 max-sm:w-full group max-sm:mb-3 shrink-0"
                     >
-                        <nuxt-img
+                        <img
                             src="/logo.png"
                             :alt="appName"
                             width="40px"
