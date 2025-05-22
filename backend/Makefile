@@ -74,3 +74,5 @@ fresh-db:
 rector:
 	@echo "\nRunning Rector..."
 	@docker exec -it backend composer rector
+
+refactor: rector pint
