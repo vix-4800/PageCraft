@@ -26,7 +26,7 @@
                 <u-textarea v-model="article.description" color="blue" />
             </u-form-group>
 
-            <inputs-tiptap-editor v-model="article.content" />
+            <tiptap-editor v-model="article.content" />
 
             <u-button
                 color="blue"

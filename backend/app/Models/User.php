@@ -6,67 +6,72 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Observers\UserObserver;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravolt\Avatar\Avatar;
 
 /**
  * @property int $id
  * @property string $name
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $email_verified_at
  * @property string|null $phone
  * @property string|null $password
  * @property int $role_id
+ * @property Carbon|null $last_sign_in_at
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read string $avatar
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, OneTimePassword> $oneTimePasswords
+ * @property-read Collection<int, OneTimePassword> $oneTimePasswords
  * @property-read int|null $one_time_passwords_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Order> $orders
+ * @property-read Collection<int, Order> $orders
  * @property-read int|null $orders_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $productReviews
+ * @property-read Collection<int, ProductReview> $productReviews
  * @property-read int|null $product_reviews_count
  * @property-read Role $role
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read TelegramAccount|null $telegramAccount
+ * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read Collection<int, UserAddress> $userAddresses
+ * @property-read int|null $user_addresses_count
+ * @property-read UserPreference|null $preferences
  *
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static UserFactory factory($count = null, $state = [])
+ * @method static Builder<static>|User newModelQuery()
+ * @method static Builder<static>|User newQuery()
+ * @method static Builder<static>|User query()
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(UserObserver::class)]
-class User extends Authenticatable
+final class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, MustVerifyEmail, Notifiable, TwoFactorAuthenticatable;
+    use HasApiTokens;
+    use HasFactory;
+    use MustVerifyEmail;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -79,6 +84,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'role_id',
+        'last_sign_in_at',
     ];
 
     /**
@@ -89,20 +95,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     public function orders(): HasMany
     {
@@ -136,5 +131,39 @@ class User extends Authenticatable
     public function oneTimePasswords(): HasMany
     {
         return $this->hasMany(OneTimePassword::class);
+    }
+
+    public function userAddresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function updateLastSignInTimestamp(): void
+    {
+        $this->update(['last_sign_in_at' => now()]);
+    }
+
+    public function telegramAccount(): HasOne
+    {
+        return $this->hasOne(TelegramAccount::class);
+    }
+
+    public function preferences(): HasOne
+    {
+        return $this->hasOne(UserPreference::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'last_sign_in_at' => 'datetime',
+        ];
     }
 }

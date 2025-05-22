@@ -6,7 +6,7 @@ namespace App\Console\Commands;
 
 use Laravel\Scout\Console\ImportCommand;
 
-class UpdateScoutIndexes extends ImportCommand
+final class UpdateScoutIndexes extends ImportCommand
 {
     /**
      * The name and signature of the console command.

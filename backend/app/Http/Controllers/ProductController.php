@@ -13,26 +13,11 @@ use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Artisan;
 
-class ProductController extends Controller implements HasMiddleware
+final class ProductController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin'], only: ['store', 'update', 'destroy', 'updateSearchIndexes']),
-        ];
-    }
-
     public function __construct(
-        private readonly ProductService $service
+        private readonly ProductService $productService
     ) {
         //
     }
@@ -44,10 +29,10 @@ class ProductController extends Controller implements HasMiddleware
     {
         $limit = request()->get('limit', 10);
 
-        $products = Product::query()->active();
+        $products = Product::query()->with('productCategory')->active();
 
         $slugs = $request->query('slugs', '');
-        if (! empty($slugs)) {
+        if (filled($slugs)) {
             $slugs = is_string($slugs) ? explode(',', $slugs) : $slugs;
             $slugs = array_filter($slugs);
             $products->whereIn('slug', $slugs);
@@ -67,6 +52,7 @@ class ProductController extends Controller implements HasMiddleware
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->withCount('orderItems')
                 ->orderBy('order_items_count', 'desc')
                 ->paginate($limit)
@@ -79,6 +65,7 @@ class ProductController extends Controller implements HasMiddleware
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->withCount('reviews')
                 ->orderBy('reviews_count', 'desc')
                 ->paginate($limit)
@@ -91,6 +78,7 @@ class ProductController extends Controller implements HasMiddleware
 
         return ProductResource::collection(
             Product::active()
+                ->with('productCategory')
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit)
         );
@@ -99,7 +87,7 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): JsonResource
+    public function store(StoreProductRequest $storeProductRequest): JsonResource
     {
         /**
          * @var array{
@@ -110,10 +98,10 @@ class ProductController extends Controller implements HasMiddleware
          *     variations: array<array<string>>
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $storeProductRequest->validated();
 
         return new ProductResource(
-            $this->service->storeProduct($validated)
+            $this->productService->storeProduct($validated)
         );
     }
 
@@ -130,7 +118,7 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product): JsonResource
+    public function update(UpdateProductRequest $updateProductRequest, Product $product): JsonResource
     {
         /**
          * @var array{
@@ -141,10 +129,10 @@ class ProductController extends Controller implements HasMiddleware
          *     variations: array<array<string>>
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $updateProductRequest->validated();
 
         return new ProductResource(
-            $this->service->updateProduct($validated, $product)
+            $this->productService->updateProduct($validated, $product)
         );
     }
 
@@ -154,15 +142,6 @@ class ProductController extends Controller implements HasMiddleware
     public function destroy(Product $product): Response
     {
         $product->delete();
-
-        return ApiResponse::empty();
-    }
-
-    public function updateSearchIndexes(): Response
-    {
-        Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Product",
-        ]);
 
         return ApiResponse::empty();
     }

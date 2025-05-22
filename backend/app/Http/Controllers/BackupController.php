@@ -6,51 +6,63 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Exceptions\DatabaseBackupException;
+use App\Facades\Backup;
 use App\Helpers\ApiResponse;
-use App\Services\DatabaseDumpers\DatabaseDumper;
+use App\Helpers\DatabaseBackup;
+use App\Http\Requests\DatabaseBackupRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Gate;
 
-class BackupController extends Controller
+final class BackupController extends Controller
 {
-    public function __construct(
-        private readonly DatabaseDumper $service
-    ) {
-        //
-    }
-
     public function create(): Response
     {
+        Gate::authorize('manage-system');
+
         try {
-            Artisan::call('backup:create');
+            Backup::createDatabaseBackup();
 
             return ApiResponse::empty();
-        } catch (DatabaseBackupException $th) {
-            throw new ApiException($th->getMessage());
+        } catch (DatabaseBackupException $databaseBackupException) {
+            throw new ApiException($databaseBackupException->getMessage());
         }
     }
 
-    public function restore(Request $request): Response
+    public function restore(DatabaseBackupRequest $databaseBackupRequest): Response
     {
+        Gate::authorize('manage-system');
+
         try {
-            Artisan::call('backup:restore', ['filename' => $request->input('filename')]);
+            Backup::restoreDatabaseBackup($databaseBackupRequest->validated()['filename']);
 
             return ApiResponse::empty();
-        } catch (DatabaseBackupException $th) {
-            throw new ApiException($th->getMessage());
+        } catch (DatabaseBackupException $databaseBackupException) {
+            throw new ApiException($databaseBackupException->getMessage());
         }
     }
 
     public function list(): JsonResponse
     {
-        return ApiResponse::create($this->service->list());
+        return ApiResponse::create(
+            Backup::listDatabaseBackups()->map(fn (DatabaseBackup $databaseBackup): array => $databaseBackup->toArray())
+        );
     }
 
-    public function delete(): Response
+    public function delete(DatabaseBackupRequest $databaseBackupRequest): Response
     {
-        $this->service->deleteAll();
+        Gate::authorize('manage-system');
+
+        Backup::deleteDatabaseBackup($databaseBackupRequest->validated()['filename']);
+
+        return ApiResponse::empty();
+    }
+
+    public function deleteAll(): Response
+    {
+        Gate::authorize('manage-system');
+
+        Backup::deleteAllDatabaseBackups();
 
         return ApiResponse::empty();
     }

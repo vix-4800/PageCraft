@@ -30,10 +30,10 @@
                     />
 
                     <nuxt-link
-                        :to="`/products/${product.slug}`"
+                        :to="`/products/${product.category.slug}/${product.slug}`"
                         class="block p-3 mx-4 h-[220px] rounded-lg overflow-hidden cursor-pointer bg-transparent"
                     >
-                        <nuxt-img
+                        <img
                             :src="product.product_images[0]"
                             :alt="product.name"
                             class="object-contain w-full h-full hover:scale-[1.03] ease-in-out transition-all rounded-lg"
@@ -56,7 +56,7 @@
                     </div>
 
                     <u-button
-                        :to="`/products/${product.slug}`"
+                        :to="`/products/${product.category.slug}/${product.slug}`"
                         block
                         size="lg"
                         color="orange"
@@ -69,7 +69,7 @@
 
         <div class="flex justify-center w-full mt-6">
             <u-pagination
-                v-if="withPagination && pageCount > 0"
+                v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
                 :active-button="{ variant: 'outline', color: 'orange' }"

@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 
-class SystemReportController extends Controller
+final class SystemReportController extends Controller
 {
     public function index(): JsonResource
     {

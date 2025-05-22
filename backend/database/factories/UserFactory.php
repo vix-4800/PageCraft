@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail,
             'email_verified_at' => now(),
             'phone' => fake()->phoneNumber,
-            'password' => static::$password ??= bcrypt('password'),
+            'password' => self::$password ??= bcrypt('password'),
             'remember_token' => Str::random(10),
             'role_id' => Role::firstWhere('name', UserRole::CUSTOMER)->id,
         ];

@@ -1,26 +1,32 @@
 <template>
     <div>
         <page-title title="Your Favorites" />
-        <component
-            :is="productListComponent"
-            :products="products"
-            title="Favorite Products"
-        />
+
+        <editable-block :name="TemplateBlock.ProductList">
+            <component
+                :is="productListComponent"
+                :products="products"
+                title="Favorite Products"
+            />
+        </editable-block>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { Product } from '~/types/product';
-import { TemplateBlock } from '~/types/site_template';
+import { TemplateBlock } from '~/types/template';
 
 const templateStore = useSiteTemplatesStore();
 
-const productList = ref(templateStore.getTemplate(TemplateBlock.ProductList));
-const productListComponent = defineAsyncComponent({
-    loader: () => import(`@/components/product-list/${productList.value}.vue`),
-    delay: 200,
-    errorComponent: () => import(`@/components/product-list/default.vue`),
-    timeout: 3000,
+const productListComponent = computed(() => {
+    const template = templateStore.getTemplate(TemplateBlock.ProductList);
+
+    return defineAsyncComponent({
+        loader: () => import(`@/components/product-list/${template}.vue`),
+        delay: 200,
+        errorComponent: () => import(`@/components/product-list/default.vue`),
+        timeout: 3000,
+    });
 });
 
 const products = ref<Product[]>([]);

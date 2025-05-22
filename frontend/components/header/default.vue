@@ -1,5 +1,5 @@
 <template>
-    <header class="relative z-50 tracking-wide shadow-md">
+    <div class="relative z-50 tracking-wide shadow-md">
         <section
             class="md:flex lg:items-center md:gap-6 relative py-3 lg:px-10 px-4 bg-gradient-to-br from-gray-900 to-gray-700 lg:min-h-[80px] max-lg:min-h-[60px]"
         >
@@ -7,7 +7,7 @@
                 to="/"
                 class="flex items-center gap-4 max-sm:w-full max-sm:mb-3 shrink-0 group"
             >
-                <nuxt-img
+                <img
                     src="/logo.png"
                     :alt="appName"
                     width="40px"
@@ -132,7 +132,7 @@
                         to="/"
                         class="flex items-center gap-4 max-sm:w-full group max-sm:mb-3 shrink-0"
                     >
-                        <nuxt-img
+                        <img
                             src="/logo.png"
                             :alt="appName"
                             width="40px"
@@ -165,7 +165,7 @@
                 </li>
             </ul>
         </div>
-    </header>
+    </div>
 </template>
 
 <script lang="ts" setup>

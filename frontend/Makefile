@@ -28,11 +28,11 @@ logs:
 
 update:
 	@echo "\nUpdating..."
-	@docker exec -it frontend npm update --force
+	@docker exec -it frontend npm update
 
 install:
 	@echo "\nInstalling..."
-	@docker exec -it frontend npm install --force
+	@docker exec -it frontend npm install
 
 pull:
 	@echo "\nPulling images..."

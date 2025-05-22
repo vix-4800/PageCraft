@@ -14,7 +14,7 @@
                         :items="[product.product_images[0]]"
                         :ui="{ item: 'basis-full' }"
                     >
-                        <nuxt-img
+                        <img
                             :src="item"
                             :alt="product.name"
                             class="w-full"
@@ -92,7 +92,7 @@
                                 :disabled="variation.stock === 0"
                                 @click="selectVariation(variation)"
                             >
-                                <nuxt-img
+                                <img
                                     :src="variation.image"
                                     alt="Product1"
                                     class="w-12 h-12 rounded-lg"
@@ -309,7 +309,7 @@
 
             <div class="flex flex-col items-start gap-8 mt-8">
                 <div v-for="review in reviews" :key="review.id" class="flex">
-                    <nuxt-img
+                    <img
                         :src="review.user?.avatar || '/placeholder.png'"
                         class="w-12 h-12 border-2 border-gray-300 rounded-full"
                         loading="lazy"
@@ -447,22 +447,29 @@ watch(
     { immediate: true }
 );
 
-const breadcrumbLinks = [
-    {
-        label: 'Home',
-        icon: 'i-heroicons-home',
-        to: '/',
-    },
-    {
-        label: 'Products',
-        icon: 'i-heroicons-square-3-stack-3d',
-        to: '/products',
-    },
-    {
-        label: 'Product',
-        icon: 'i-heroicons-arrow-right',
-    },
-];
+const breadcrumbLinks = computed(() => {
+    return [
+        {
+            label: 'Home',
+            icon: 'material-symbols:home',
+            to: '/',
+        },
+        {
+            label: 'Products',
+            icon: 'material-symbols:storefront',
+            to: '/products',
+        },
+        {
+            label: props.product.category.name,
+            icon: 'material-symbols:collections-bookmark',
+            to: `/products/${props.product.category.slug}`,
+        },
+        {
+            label: props.product.name,
+            icon: 'material-symbols:arrow-forward',
+        },
+    ];
+});
 
 function selectVariation(variation: ProductVariation) {
     selectedVariation.value = variation;

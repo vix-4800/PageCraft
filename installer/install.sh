@@ -72,14 +72,14 @@ install_dependencies() {
 	docker run --rm -v "$INSTALL_PATH/backend:/app" -w /app composer:latest composer install --no-interaction
 
 	echo "Installing Node.js dependencies..."
-	docker run --rm -v "$INSTALL_PATH/frontend:/app" -w /app node:22-alpine npm install --force
+	docker run --rm -v "$INSTALL_PATH/frontend:/app" -w /app node:22-alpine npm install
 }
 
 install(){
 	check_root
-	
+
 	echo "Starting installation process..."
-	
+
 	# User input
 	read -p "Enter the installation path: " INSTALL_PATH
 	read -p "Enter the application name: " APP_NAME

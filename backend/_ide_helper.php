@@ -23283,6 +23283,32 @@ namespace Stevebauman\Purify\Facades {
             }
     }
 
+namespace Illuminate\Support {
+    /**
+     * 
+     *
+     */
+    class Str {
+        /**
+         * 
+         *
+         * @see \App\Mixins\StrMixin::sku()
+         * @param string $modelClass
+         * @param string $prefix
+         * @param string $separator
+         * @param string $skuField
+         * @param int $length
+         * @return string 
+         * @static 
+         */
+        public static function sku($modelClass, $prefix = 'PGP', $separator = '-', $skuField = 'sku', $length = 8)
+        {
+            return \Illuminate\Support\Str::sku($modelClass, $prefix, $separator, $skuField, $length);
+        }
+
+            }
+    }
+
 namespace Illuminate\Http {
     /**
      * 
@@ -23362,6 +23388,79 @@ namespace Illuminate\Http {
         public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
         {
             return \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    }
+
+namespace Illuminate\Http\Client {
+    /**
+     * 
+     *
+     * @mixin \Illuminate\Http\Client\PendingRequest
+     */
+    class Factory {
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::telegram()
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function telegram()
+        {
+            return \Illuminate\Http\Client\Factory::telegram();
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::ozon()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function ozon($account)
+        {
+            return \Illuminate\Http\Client\Factory::ozon($account);
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::wildberries()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function wildberries($account)
+        {
+            return \Illuminate\Http\Client\Factory::wildberries($account);
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::yandex()
+         * @param \App\Models\MarketplaceAccount $account
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function yandex($account)
+        {
+            return \Illuminate\Http\Client\Factory::yandex($account);
+        }
+
+        /**
+         * 
+         *
+         * @see \App\Mixins\HttpMixin::github()
+         * @return \Illuminate\Http\Client\PendingRequest 
+         * @static 
+         */
+        public static function github()
+        {
+            return \Illuminate\Http\Client\Factory::github();
         }
 
             }

@@ -9,9 +9,17 @@ abstract class LogRetriever
     protected string $logFile;
 
     /**
+     * Parse a log line into an array of log data.
+     *
+     * @param  string  $log  The log line to parse.
+     * @return array<string, mixed>|null An array of log data, or null if the log line could not be parsed.
+     */
+    abstract protected function parseLogLine(string $log): ?array;
+
+    /**
      * Get the path to the log file being retrieved.
      */
-    public function getLogFile(): string
+    final public function getLogFile(): string
     {
         return $this->logFile;
     }
@@ -24,14 +32,14 @@ abstract class LogRetriever
      *
      * @return array<int, array<string, mixed>>
      */
-    public function retrieve(int $limit = 15): array
+    final public function retrieve(int $limit = 15): array
     {
         if (! $this->checkLogFile()) {
             return [];
         }
 
         $logs = file($this->logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (empty($logs)) {
+        if ($logs === [] || $logs === false) {
             return [];
         }
 
@@ -43,6 +51,16 @@ abstract class LogRetriever
     }
 
     /**
+     * Delete the log file if it exists.
+     */
+    final public function clear(): void
+    {
+        if ($this->checkLogFile()) {
+            unlink($this->logFile);
+        }
+    }
+
+    /**
      * Check if the log file exists.
      *
      * @return bool True if the log file exists, false otherwise.
@@ -51,22 +69,4 @@ abstract class LogRetriever
     {
         return file_exists($this->logFile);
     }
-
-    /**
-     * Delete the log file if it exists.
-     */
-    public function clear(): void
-    {
-        if ($this->checkLogFile()) {
-            unlink($this->logFile);
-        }
-    }
-
-    /**
-     * Parse a log line into an array of log data.
-     *
-     * @param  string  $log  The log line to parse.
-     * @return array<string, mixed>|null An array of log data, or null if the log line could not be parsed.
-     */
-    abstract protected function parseLogLine(string $log): ?array;
 }

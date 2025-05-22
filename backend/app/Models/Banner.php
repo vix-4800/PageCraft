@@ -4,33 +4,30 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\BannerFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $text
  * @property string|null $link
  * @property bool $is_active
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
- * @method static \Database\Factories\BannerFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereUpdatedAt($value)
+ * @method static BannerFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Banner newModelQuery()
+ * @method static Builder<static>|Banner newQuery()
+ * @method static Builder<static>|Banner query()
  *
  * @mixin \Eloquent
  */
-class Banner extends Model
+final class Banner extends Model
 {
-    /** @use HasFactory<\Database\Factories\BannerFactory> */
+    /** @use HasFactory<BannerFactory> */
     use HasFactory;
 
     /**
@@ -47,9 +44,12 @@ class Banner extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
 }

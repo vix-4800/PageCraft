@@ -4,36 +4,28 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Observers\OneTimePasswordObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property string $code
- * @property \Illuminate\Support\Carbon $expires_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon $expires_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $user
  *
  * @method static Builder<static>|OneTimePassword active()
  * @method static Builder<static>|OneTimePassword newModelQuery()
  * @method static Builder<static>|OneTimePassword newQuery()
  * @method static Builder<static>|OneTimePassword query()
- * @method static Builder<static>|OneTimePassword whereCode($value)
- * @method static Builder<static>|OneTimePassword whereCreatedAt($value)
- * @method static Builder<static>|OneTimePassword whereExpiresAt($value)
- * @method static Builder<static>|OneTimePassword whereId($value)
- * @method static Builder<static>|OneTimePassword whereUpdatedAt($value)
- * @method static Builder<static>|OneTimePassword whereUserId($value)
  *
  * @mixin \Eloquent
  */
-#[ObservedBy(OneTimePasswordObserver::class)]
-class OneTimePassword extends Model
+final class OneTimePassword extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -46,15 +38,6 @@ class OneTimePassword extends Model
         'expires_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'expires_at' => 'datetime',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -65,8 +48,21 @@ class OneTimePassword extends Model
         return $this->expires_at->isPast();
     }
 
-    public function scopeActive(Builder $query): void
+    public function scopeActive(Builder $builder): void
     {
-        $query->where('expires_at', '>', now());
+        $builder->where('expires_at', '>', now());
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'code' => 'hashed',
+            'expires_at' => 'datetime',
+        ];
     }
 }

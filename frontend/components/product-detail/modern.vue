@@ -16,7 +16,7 @@
                                 :ui="{ rounded: 'rounded-lg' }"
                                 @click="selectedImage = image"
                             >
-                                <nuxt-img
+                                <img
                                     :src="image"
                                     :alt="product.name"
                                     class="aspect-[64/85] w-full cursor-pointer border-b-2 border-black"
@@ -24,7 +24,7 @@
                             </u-button>
                         </div>
                         <div class="flex-1">
-                            <nuxt-img
+                            <img
                                 :src="selectedImage"
                                 :alt="product.name"
                                 class="w-full aspect-[548/712] object-cover"
@@ -54,7 +54,7 @@
                             <div
                                 class="flex items-center gap-1 text-lg px-2.5 bg-green-600 text-white rounded-full"
                             >
-                                <p>{{ product.reviews.average }}</p>
+                                <p>{{ Math.round(product.reviews.average) }}</p>
                                 <svg
                                     class="w-[13px] h-[13px] fill-white"
                                     viewBox="0 0 14 13"
@@ -265,7 +265,7 @@
                             <h4
                                 class="text-2xl font-semibold text-gray-800 sm:text-3xl"
                             >
-                                {{ product.reviews.average }} / 5
+                                {{ Math.round(product.reviews.average) }} / 5
                             </h4>
                             <p class="text-sm text-gray-500">
                                 Based on {{ product.reviews.count }} ratings
@@ -279,7 +279,7 @@
                             :key="review.id"
                             class="flex items-start"
                         >
-                            <nuxt-img
+                            <img
                                 :src="review.user?.avatar || '/placeholder.png'"
                                 class="w-12 h-12 border-2 border-gray-300 rounded-full"
                             />

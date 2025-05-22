@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import type { SiteTemplate, TemplateBlock } from '~/types/site_template';
+import type { SiteTemplate, TemplateBlock } from '~/types/template';
 
-export const useSiteTemplatesStore = defineStore('site_templates', {
+export const useSiteTemplatesStore = defineStore('templates', {
     state: () => ({
         templates: [] as SiteTemplate[],
     }),
@@ -13,14 +13,14 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
 
             this.setTemplates(data);
         },
-        async save(templates: SiteTemplate[]) {
+        async save() {
             withPasswordConfirmation(
                 async () => {
                     const { data } = await apiFetch<{ data: SiteTemplate[] }>(
                         `v1/templates`,
                         {
                             method: 'PUT',
-                            body: templates,
+                            body: this.templates,
                         }
                     );
 
@@ -32,12 +32,25 @@ export const useSiteTemplatesStore = defineStore('site_templates', {
                 'Templates saved successfully'
             );
         },
+        async setTemplateForBlock(name: TemplateBlock, template: string) {
+            const templateIndex = this.templates.findIndex(
+                (template) => template.name === name
+            );
+
+            if (templateIndex === -1) return;
+
+            this.templates[templateIndex].template = template;
+        },
         setTemplates(templates: SiteTemplate[]) {
             this.templates = templates;
         },
-        getTemplate(block: TemplateBlock) {
-            return this.templates.find((template) => template.block === block)
+        getTemplate(name: TemplateBlock) {
+            return this.templates.find((template) => template.name === name)
                 ?.template;
+        },
+        isBlockVisible(name: TemplateBlock) {
+            return this.templates.find((template) => template.name === name)
+                ?.is_visible;
         },
     },
     persist: true,

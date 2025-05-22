@@ -9,7 +9,7 @@ use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductVariationController extends Controller
+final class ProductVariationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class ProductVariationController extends Controller
         $productVariationsQuery = ProductVariation::query();
 
         $skus = $request->query('skus', '');
-        if (! empty($skus)) {
+        if (filled($skus)) {
             $skus = is_string($skus) ? explode(',', $skus) : $skus;
             $skus = array_filter($skus);
             $productVariationsQuery->whereIn('sku', $skus);

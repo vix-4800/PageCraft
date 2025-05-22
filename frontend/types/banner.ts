@@ -1,5 +1,5 @@
 export interface Banner {
     text: string;
-    link: string | null;
+    link: string | undefined;
     is_active: boolean;
 }

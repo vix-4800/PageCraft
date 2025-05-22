@@ -1,6 +1,6 @@
 <template>
     <div class="grid gap-8 mt-16 md:grid-cols-3">
-        <div class="space-y-4 md:col-span-2">
+        <div v-auto-animate class="space-y-4 md:col-span-2">
             <div
                 v-for="item in cartItems"
                 :key="item.product.slug"
@@ -10,8 +10,10 @@
                     <div
                         class="p-2 bg-white border-2 border-gray-300 rounded-md w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0"
                     >
-                        <nuxt-link :to="`/products/${item.product.slug}`">
-                            <nuxt-img
+                        <nuxt-link
+                            :to="`/products/${item.product.category.slug}/${item.product.slug}`"
+                        >
+                            <img
                                 :src="item.product.product_images[0]"
                                 class="object-contain w-full h-full"
                             />
@@ -211,7 +213,7 @@
                 />
 
                 <u-button
-                    to="/"
+                    to="/products"
                     label="Continue Shopping"
                     icon="ic:round-keyboard-arrow-left"
                     variant="outline"

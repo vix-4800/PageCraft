@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class SystemStatusWarning extends Notification implements ShouldQueue
+final class SystemStatusWarning extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,7 +29,7 @@ class SystemStatusWarning extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -36,22 +37,14 @@ class SystemStatusWarning extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
-        return (new MailMessage)->markdown('mail.system-status-warning', [
-            'warnings' => $this->warnings,
-        ]);
-    }
+        $warnings = $this->warnings->map(fn (string $warning): string => '- '.$warning)->join("\n");
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
+        return (new MailMessage)
+            ->subject('System Status Warning')
+            ->line('The system has detected some issues that require your attention.')
+            ->line('Please review the warnings listed below and take appropriate action to ensure the smooth operation of your application.')
+            ->line($warnings);
     }
 }

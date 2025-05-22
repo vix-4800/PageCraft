@@ -8,23 +8,10 @@ use App\Http\Requests\Template\UpdateTemplateRequest;
 use App\Http\Resources\TemplateResource;
 use App\Models\Template;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
-class TemplateController extends Controller
+final class TemplateController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin', 'password.confirm'], only: ['update']),
-        ];
-    }
-
     /**
      * Display the specified resource.
      */
@@ -36,15 +23,16 @@ class TemplateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTemplateRequest $request): JsonResource
+    public function update(UpdateTemplateRequest $updateTemplateRequest): JsonResource
     {
-        $validated = $request->validated();
+        $templates = $updateTemplateRequest->validated();
 
-        DB::transaction(function () use ($validated): void {
-            foreach ($validated as $setting) {
-                Template::firstWhere('block', $setting['block'])->update(['template' => $setting['template']]);
-            }
-        });
+        DB::transaction(fn (): bool => array_walk($templates, function (array $template): void {
+            Template::firstWhere('name', $template['name'])->update([
+                'template' => $template['template'],
+                'is_visible' => $template['is_visible'],
+            ]);
+        }));
 
         return TemplateResource::collection(Template::all());
     }

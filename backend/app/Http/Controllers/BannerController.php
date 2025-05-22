@@ -8,23 +8,9 @@ use App\Http\Requests\UpdateBannerRequest;
 use App\Http\Resources\BannerResource;
 use App\Models\Banner;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class BannerController extends Controller implements HasMiddleware
+final class BannerController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin'], except: ['show']),
-        ];
-    }
-
     /**
      * Display the specified resource.
      */
@@ -36,10 +22,10 @@ class BannerController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBannerRequest $request): JsonResource
+    public function update(UpdateBannerRequest $updateBannerRequest): JsonResource
     {
         $banner = Banner::first();
-        $banner->update($request->validated());
+        $banner->update($updateBannerRequest->validated());
 
         return new BannerResource($banner);
     }

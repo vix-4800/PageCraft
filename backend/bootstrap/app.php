@@ -19,6 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        then: function (): void {
+            Route::middleware('api')->prefix('api')->name('api.')->group(function (): void {
+                Route::prefix('v1')->name('v1.')->group(base_path('routes/api_v1.php'));
+
+                // Route::prefix('v2')->name('v2.')->group(base_path('routes/api_v2.php')); // For the future
+            });
+        }
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
@@ -29,20 +36,20 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         if (app()->isProduction()) {
-            $exceptions->render(function (ModelNotFoundException $exception, Request $request): void {
+            $exceptions->render(function (ModelNotFoundException $modelNotFoundException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiNotFoundException);
             });
 
-            $exceptions->render(function (NotFoundHttpException $exception, Request $request): void {
+            $exceptions->render(function (NotFoundHttpException $notFoundHttpException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiNotFoundException);
             });
 
-            $exceptions->render(function (AuthenticationException $exception, Request $request): void {
+            $exceptions->render(function (AuthenticationException $authenticationException, Request $request): void {
                 throw_if($request->wantsJson(), new ApiUnauthorizedException);
             });
 
             $exceptions->render(function (Exception $exception, Request $request): void {
-                throw_if($request->wantsJson(), new ApiException);
+                throw_if($request->wantsJson(), new ApiException($exception->getMessage(), $exception->getCode()));
             });
         }
     })

@@ -111,7 +111,7 @@ const open = (item: Product | Article, category: string) => {
     search.value = '';
 
     if (category === 'products') {
-        navigateTo(`/products/${item.slug}`);
+        navigateTo(`/products/${item.category.slug}/${item.slug}`);
     } else if (category === 'articles') {
         navigateTo(`/articles/${item.slug}`);
     }

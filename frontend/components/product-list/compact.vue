@@ -10,10 +10,11 @@
                     class="bg-white flex flex-col rounded overflow-hidden shadow-md hover:scale-[1.01] transition-all"
                 >
                     <div class="w-full">
-                        <nuxt-img
+                        <img
                             :src="product.product_images[0]"
                             :alt="product.name"
                             class="w-full object-cover object-top aspect-[230/307]"
+                            placeholder="/placeholder.png"
                         />
                     </div>
 
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         <u-button
-                            :to="`/products/${product.slug}`"
+                            :to="`/products/${product.category.slug}/${product.slug}`"
                             label="Add to Cart"
                             block
                             class="mt-4 font-semibold"
@@ -61,7 +62,7 @@
 
         <div class="flex justify-center w-full mt-6">
             <u-pagination
-                v-if="withPagination && pageCount > 0"
+                v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
                 :active-button="{ variant: 'outline', color: 'orange' }"

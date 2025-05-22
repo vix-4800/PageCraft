@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Template
+ * @mixin Template
  */
-class TemplateResource extends JsonResource
+final class TemplateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,8 +21,11 @@ class TemplateResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'block' => $this->block,
+            'name' => $this->name,
+            'title' => $this->title,
+            'description' => $this->description,
             'template' => $this->template,
+            'is_visible' => $this->is_visible,
         ];
     }
 }

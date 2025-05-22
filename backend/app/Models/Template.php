@@ -4,35 +4,49 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property string $block
+ * @property string $name
+ * @property string $title
+ * @property string $description
  * @property string $template
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $is_visible
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate whereBlock($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate whereTemplate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SiteTemplate whereUpdatedAt($value)
+ * @method static Builder<static>|Template newModelQuery()
+ * @method static Builder<static>|Template newQuery()
+ * @method static Builder<static>|Template query()
  *
  * @mixin \Eloquent
  */
-class Template extends Model
+final class Template extends Model
 {
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'block',
+        'name',
+        'title',
+        'description',
         'template',
+        'is_visible',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_visible' => 'boolean',
+        ];
+    }
 }

@@ -1,0 +1,2 @@
+docker compose -f backend/docker-compose.yml exec -T php-fpm composer rector || exit 1
+docker compose -f backend/docker-compose.yml exec -T php-fpm composer pint || exit 1

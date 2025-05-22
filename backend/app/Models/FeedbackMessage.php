@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Observers\FeedbackMessageObserver;
+use Database\Factories\FeedbackMessageFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -15,27 +18,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $phone
  * @property string $message
  * @property string $subject
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
- * @method static \Database\Factories\FeedbackMessageFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereSubject($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FeedbackMessage whereUpdatedAt($value)
+ * @method static FeedbackMessageFactory factory($count = null, $state = [])
+ * @method static Builder<static>|FeedbackMessage newModelQuery()
+ * @method static Builder<static>|FeedbackMessage newQuery()
+ * @method static Builder<static>|FeedbackMessage query()
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(FeedbackMessageObserver::class)]
-class FeedbackMessage extends Model
+final class FeedbackMessage extends Model
 {
-    /** @use HasFactory<\Database\Factories\FeedbackMessageFactory> */
+    /** @use HasFactory<FeedbackMessageFactory> */
     use HasFactory;
 
     /**

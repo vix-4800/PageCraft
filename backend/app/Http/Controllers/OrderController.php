@@ -8,30 +8,17 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
+use App\Models\User;
 use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class OrderController extends Controller implements HasMiddleware
+final class OrderController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     *
-     * @return array<int, Middleware|string>
-     */
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin'], except: ['store', 'userOrders']),
-        ];
-    }
-
     public function __construct(
-        private readonly OrderService $service
+        private readonly OrderService $orderService
     ) {
         //
     }
@@ -44,7 +31,7 @@ class OrderController extends Controller implements HasMiddleware
         $limit = $request->input('limit', 10);
 
         return OrderResource::collection(
-            Order::with('user')->orderBy('created_at', 'desc')->paginate($limit)
+            Order::with('user.role')->orderBy('created_at', 'desc')->paginate($limit)
         );
     }
 
@@ -56,14 +43,17 @@ class OrderController extends Controller implements HasMiddleware
         $limit = $request->input('limit', 10);
 
         return OrderResource::collection(
-            Order::with('user')->orderBy('created_at', 'desc')->take($limit)->get()
+            Order::with('user.role')
+                ->orderBy('created_at', 'desc')
+                ->take($limit)
+                ->get()
         );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request): JsonResource
+    public function store(StoreOrderRequest $storeOrderRequest): JsonResource
     {
         /**
          * @var array{
@@ -81,10 +71,10 @@ class OrderController extends Controller implements HasMiddleware
          *      note: string|null
          * } $validated
          */
-        $validated = $request->validated();
+        $validated = $storeOrderRequest->validated();
 
         return new OrderResource(
-            $this->service->storeOrder($validated)->load(['items', 'user'])
+            $this->orderService->storeOrder($validated)->load(['items', 'user'])
         );
     }
 
@@ -94,16 +84,20 @@ class OrderController extends Controller implements HasMiddleware
     public function show(Order $order): JsonResource
     {
         return new OrderResource(
-            $order->load(['items.productVariation.product', 'items.productVariation.productVariationAttributes', 'user'])
+            $order->load([
+                'items.productVariation.product',
+                'items.productVariation.productVariationAttributes.productAttributeValue.productAttribute',
+                'user',
+            ])
         );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order): JsonResource
+    public function update(UpdateOrderRequest $updateOrderRequest, Order $order): JsonResource
     {
-        $order->update($request->validated());
+        $order->update($updateOrderRequest->validated());
 
         return new OrderResource(
             $order->load(['items.productVariation.product', 'user'])
@@ -112,7 +106,7 @@ class OrderController extends Controller implements HasMiddleware
 
     public function userOrders(Request $request): JsonResource
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         return OrderResource::collection(

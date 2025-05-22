@@ -11,14 +11,17 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "@nuxt/eslint": "^0.5.7",
+        "@nuxt/eslint": "^1.4.0",
+        "@nuxt/scripts": "^0.9.5",
         "@nuxt/ui": "^2.18.4",
         "@nuxtjs/color-mode": "^3.5.1",
         "@nuxtjs/google-fonts": "^3.2.0",
-        "@nuxtjs/i18n": "^9.1.4",
+        "@nuxtjs/i18n": "^9.5.4",
+        "@tiptap/extension-character-count": "^2.11.5",
         "@tiptap/extension-placeholder": "^2.11.3",
         "@tiptap/extension-text-align": "^2.11.3",
         "@tiptap/extension-underline": "^2.11.3",
+        "@tiptap/extension-youtube": "^2.11.5",
         "@tiptap/pm": "^2.11.3",
         "@tiptap/starter-kit": "^2.11.3",
         "@tiptap/vue-3": "^2.11.3",
@@ -26,10 +29,10 @@
         "@vueuse/nuxt": "^11.0.3",
         "alpinejs": "^3.14.1",
         "notyf": "^3.10.0",
-        "nuxt": "^3.13.0",
+        "nuxt": "^3.17.3",
         "nuxt-echarts": "^0.2.4",
-        "pinia": "^2.2.2",
-        "pinia-plugin-persistedstate": "^4.2.0",
+        "pinia": "^3.0.2",
+        "pinia-plugin-persistedstate": "^4.3.0",
         "vue": "latest",
         "vue-router": "latest",
         "zod": "^3.24.1"
@@ -37,11 +40,12 @@
     "devDependencies": {
         "@formkit/auto-animate": "^0.8.2",
         "@iconify-json/material-symbols": "^1.2.13",
-        "@nuxt/fonts": "^0.8.0",
+        "@nuxt/fonts": "^0.11.4",
         "@nuxt/icon": "^1.5.1",
         "@nuxt/image": "^1.8.0",
         "@nuxtjs/seo": "^2.1.0",
-        "@pinia/nuxt": "^0.5.4",
+        "@pinia/nuxt": "^0.11.0",
+        "sass-embedded": "^1.83.4",
         "typescript": "^5.6.2"
     }
 }

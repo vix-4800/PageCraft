@@ -1,5 +1,5 @@
 <template>
-    <footer
+    <div
         class="px-10 py-10 font-sans tracking-wide bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900"
     >
         <div class="max-w-screen-xl mx-auto">
@@ -8,7 +8,7 @@
             >
                 <div>
                     <nuxt-link to="/">
-                        <nuxt-img src="/logo.png" :alt="appName" class="w-16" />
+                        <img src="/logo.png" :alt="appName" class="w-16" />
                     </nuxt-link>
                 </div>
 
@@ -32,7 +32,7 @@
                 © {{ appName }}. All rights reserved.
             </p>
         </div>
-    </footer>
+    </div>
 </template>
 
 <script lang="ts" setup>

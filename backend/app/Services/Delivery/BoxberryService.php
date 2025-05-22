@@ -5,47 +5,18 @@ declare(strict_types=1);
 namespace App\Services\Delivery;
 
 use App\Contracts\DeliveryService;
-use App\Exceptions\Delivery\MethodNotAllowed;
+use App\Exceptions\MethodNotAllowed;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 final class BoxberryService implements DeliveryService
 {
-    protected string $baseUrl = 'https://api.boxberry.ru/json.php';
+    private string $baseUrl = 'https://api.boxberry.ru/json.php';
 
     public function __construct(
-        private string $token
+        private readonly string $token
     ) {
         //
-    }
-
-    /**
-     * @param  array<string, mixed>  $data
-     * @return array<string, mixed>
-     *
-     * @throws \Illuminate\Http\Client\RequestException
-     */
-    protected function makeRequest(string $url, string $method, string $serviceMethod, array $data): array
-    {
-        throw_unless(in_array($method, ['GET', 'POST']), new MethodNotAllowed);
-
-        $request = Http::baseUrl($this->baseUrl);
-
-        $requestData = array_merge([
-            'token' => $this->token,
-            'method' => $serviceMethod,
-        ], $data);
-
-        $request = match ($method) {
-            'GET' => $request->withQueryParameters($requestData)->get($url),
-            'POST' => $request->post($url, $requestData),
-        };
-
-        return $request->throw()->json();
-    }
-
-    protected function getAccessToken(): string
-    {
-        return $this->token;
     }
 
     public function createOrder(array $parameters): array
@@ -64,5 +35,35 @@ final class BoxberryService implements DeliveryService
         $parameters['sdata']['order_id'] = $orderUuid;
 
         return $this->createOrder($parameters);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     *
+     * @throws RequestException
+     */
+    private function makeRequest(string $url, string $method, string $serviceMethod, array $data): array
+    {
+        throw_unless(in_array($method, ['GET', 'POST']), new MethodNotAllowed);
+
+        $request = Http::baseUrl($this->baseUrl);
+
+        $requestData = array_merge([
+            'token' => $this->token,
+            'method' => $serviceMethod,
+        ], $data);
+
+        $request = match ($method) {
+            'GET' => $request->withQueryParameters($requestData)->get($url),
+            'POST' => $request->post($url, $requestData),
+        };
+
+        return $request->throw()->json();
+    }
+
+    private function getAccessToken(): string
+    {
+        return $this->token;
     }
 }

@@ -22,16 +22,6 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
-    {
-        return ['database'];
-    }
-
-    /**
      * Get the message for the notification.
      */
     abstract protected function getMessage(): string;
@@ -49,11 +39,21 @@ abstract class BaseDatabaseNotification extends Notification implements ShouldQu
     abstract protected function getDetails(): array|JsonResource;
 
     /**
+     * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
+     */
+    final public function via(object $notifiable): array
+    {
+        return ['database'];
+    }
+
+    /**
      * Get the array representation of the notification.
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    final public function toArray(object $notifiable): array
     {
         return [
             'message' => $this->getMessage(),

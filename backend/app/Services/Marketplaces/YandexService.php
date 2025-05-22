@@ -11,10 +11,6 @@ final class YandexService extends MarketplaceService
 {
     protected function createRequest(): PendingRequest
     {
-        $key = $this->account->settings()->firstWhere('key', 'Api-Key')->value;
-
-        return Http::withHeaders([
-            'Api-Key' => $key,
-        ]);
+        return Http::yandex($this->marketplaceAccount);
     }
 }

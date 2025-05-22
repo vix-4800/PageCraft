@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Product;
 
+use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\ProductVariation
+ * @mixin ProductVariation
  */
-class ProductVariationResource extends JsonResource
+final class ProductVariationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

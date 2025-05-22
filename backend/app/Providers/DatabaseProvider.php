@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Services\DatabaseDumpers\DatabaseDumper;
-use App\Services\DatabaseDumpers\MysqlDumper;
-use App\Services\DatabaseDumpers\PostgresDumper;
+use App\Services\DatabaseBackup\DatabaseBackupService;
+use App\Services\DatabaseBackup\MysqlBackupService;
+use App\Services\DatabaseBackup\PostgresBackupService;
+use App\Services\DatabaseBackup\SqliteBackupService;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 
-class DatabaseProvider extends ServiceProvider
+final class DatabaseProvider extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->app->bind(DatabaseDumper::class, fn (): DatabaseDumper => match (config('database.default')) {
-            'mysql' => new MysqlDumper,
-            'pgsql' => new PostgresDumper,
-            default => throw new \Exception('Unknown database driver'),
+        $this->app->bind(DatabaseBackupService::class, fn (): DatabaseBackupService => match (config('database.default')) {
+            'mysql' => new MysqlBackupService,
+            'pgsql' => new PostgresBackupService,
+            'sqlite' => new SqliteBackupService,
+            default => throw new Exception('Unknown database driver'),
         });
     }
 

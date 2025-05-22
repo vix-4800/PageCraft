@@ -11,14 +11,14 @@ use App\Models\ProductReview;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReviewController extends Controller
+final class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): JsonResource
     {
-        $query = ProductReview::query()->with('user', 'product');
+        $query = ProductReview::query()->with(['user', 'product.productCategory']);
         $limit = $request->input('limit', 10);
 
         if ($request->has('status') && in_array($request->get('status'), ReviewStatus::values())) {
@@ -31,22 +31,22 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductReview $review): ReviewResource
+    public function show(ProductReview $productReview): ReviewResource
     {
         return new ReviewResource(
-            $review->load(['user', 'product'])
+            $productReview->load(['user', 'product'])
         );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductReviewStatusRequest $request, ProductReview $review): ReviewResource
+    public function update(UpdateProductReviewStatusRequest $updateProductReviewStatusRequest, ProductReview $productReview): ReviewResource
     {
-        $review->update($request->validated());
+        $productReview->update($updateProductReviewStatusRequest->validated());
 
         return new ReviewResource(
-            $review->load(['user', 'product'])
+            $productReview->load(['user', 'product'])
         );
     }
 }

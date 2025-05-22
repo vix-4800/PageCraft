@@ -1,7 +1,7 @@
 <template>
     <div class="grid gap-4 font-sans md:grid-cols-3">
         <div class="p-4 bg-gray-100 rounded-md md:col-span-2">
-            <div class="space-y-4">
+            <div v-auto-animate class="space-y-4">
                 <div
                     v-for="item in cartItems"
                     :key="item.product.slug"
@@ -10,7 +10,7 @@
                     <div class="flex items-center col-span-2 gap-4">
                         <div class="w-32 h-32 p-2 bg-white rounded-md shrink-0">
                             <nuxt-link :to="`/products/${item.product.slug}`">
-                                <nuxt-img
+                                <img
                                     :src="item.product.product_images[0]"
                                     class="object-contain w-full h-full"
                                 />
@@ -175,7 +175,7 @@
                 />
 
                 <u-button
-                    to="/"
+                    to="/products"
                     block
                     label="Continue Shopping"
                     size="lg"

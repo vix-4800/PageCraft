@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('templates', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('block');
+            $table->string('name')->unique();
+            $table->string('title');
+            $table->text('description');
             $table->string('template');
-
-            $table->timestamps();
+            $table->boolean('is_visible')->default(true);
         });
     }
 

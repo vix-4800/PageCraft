@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,17 +16,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read Order $order
  * @property-read ProductVariation $productVariation
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereProductVariationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereQuantity($value)
+ * @method static Builder<static>|OrderItem newModelQuery()
+ * @method static Builder<static>|OrderItem newQuery()
+ * @method static Builder<static>|OrderItem query()
  *
  * @mixin \Eloquent
  */
-class OrderItem extends Model
+final class OrderItem extends Model
 {
     public $timestamps = false;
 
@@ -40,15 +37,6 @@ class OrderItem extends Model
         'quantity',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'quantity' => 'integer',
-    ];
-
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
@@ -57,5 +45,17 @@ class OrderItem extends Model
     public function productVariation(): BelongsTo
     {
         return $this->belongsTo(ProductVariation::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'quantity' => 'integer',
+        ];
     }
 }

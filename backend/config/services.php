@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -39,6 +41,7 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => env('GITHUB_REDIRECT_URL'),
+        'repo' => env('GITHUB_REPO', 'https://api.github.com/repos/vix-4800/PageCraft/'),
     ],
 
     'google' => [
@@ -54,5 +57,9 @@ return [
 
     'boxberry' => [
         'token' => env('BOXBERRY_TOKEN'),
+    ],
+
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
     ],
 ];

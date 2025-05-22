@@ -17,37 +17,13 @@
 </template>
 
 <script lang="ts" setup>
-const questions = ref([
-    {
-        label: 'Are there any special discounts or promotions available during the event.',
-        defaultOpen: true,
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-    {
-        label: 'What are the dates and locations for the product launch events?',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-    {
-        label: 'Can I bring a guest with me to the product launch event?',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-    {
-        label: 'How can I register for the event?',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-    {
-        label: 'Is there parking available at the venue?',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-    {
-        label: 'How can I contact the event organizers?',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.',
-    },
-]);
+import type { Faq } from '~/types/faq';
+
+const questions = ref<Faq[]>();
+
+onMounted(async () => {
+    const { data } = await apiFetch<{ data: Faq[] }>(`v1/faq`);
+
+    questions.value = data;
+});
 </script>
