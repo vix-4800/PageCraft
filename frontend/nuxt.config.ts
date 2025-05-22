@@ -16,8 +16,9 @@ export default defineNuxtConfig({
         '@nuxt/scripts',
         '@formkit/auto-animate',
         'nuxt-echarts',
-        'pinia-plugin-persistedstate/nuxt',
         // '@nuxtjs/seo',
+        'pinia-plugin-persistedstate/nuxt',
+        '@nuxtjs/i18n',
     ],
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
     app: {
