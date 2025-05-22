@@ -83,10 +83,10 @@ Route::prefix('products')->group(function (): void {
     Route::get('best', [ProductController::class, 'best']);
     Route::get('new', [ProductController::class, 'new']);
     Route::get('popular', [ProductController::class, 'popular']);
-    Route::apiResource('/', ProductController::class)
-        ->scoped(['product' => 'slug'])
-        ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 });
+Route::apiResource('products', ProductController::class)
+    ->scoped(['product' => 'slug'])
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 
 Route::apiResource('products.reviews', ProductReviewController::class)
     ->shallow()->scoped(['product' => 'slug'])
