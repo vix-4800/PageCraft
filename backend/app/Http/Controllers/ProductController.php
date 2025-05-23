@@ -111,7 +111,7 @@ final class ProductController extends Controller
     public function show(Product $product): JsonResource
     {
         return new ProductResource(
-            $product->load('variations.productVariationAttributes')
+            $product->load('variations.productVariationAttributes.productAttributeValue.productAttribute')
         );
     }
 
