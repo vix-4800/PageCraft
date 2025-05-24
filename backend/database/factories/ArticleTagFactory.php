@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ArticleTag>
  */
-class ArticleTagFactory extends Factory
+final class ArticleTagFactory extends Factory
 {
     /**
      * Define the model's default state.

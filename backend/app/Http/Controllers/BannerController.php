@@ -9,7 +9,7 @@ use App\Http\Resources\BannerResource;
 use App\Models\Banner;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BannerController extends Controller
+final class BannerController extends Controller
 {
     /**
      * Display the specified resource.
@@ -22,10 +22,10 @@ class BannerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBannerRequest $request): JsonResource
+    public function update(UpdateBannerRequest $updateBannerRequest): JsonResource
     {
         $banner = Banner::first();
-        $banner->update($request->validated());
+        $banner->update($updateBannerRequest->validated());
 
         return new BannerResource($banner);
     }

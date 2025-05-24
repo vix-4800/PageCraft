@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountPasswordReset extends Notification implements ShouldQueue
+final class AccountPasswordReset extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -19,7 +19,7 @@ class AccountPasswordReset extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -27,11 +27,11 @@ class AccountPasswordReset extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
         return (new MailMessage)
             ->subject('Password Reset')
-            ->greeting("Hello, {$notifiable->name}!")
+            ->greeting(sprintf('Hello, %s!', $user->name))
             ->line('Your password has been reset.')
             ->line('If you did not request this action, please ignore this email.');
     }

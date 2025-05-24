@@ -10,7 +10,7 @@ use App\Models\Template;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
-class TemplateController extends Controller
+final class TemplateController extends Controller
 {
     /**
      * Display the specified resource.
@@ -23,9 +23,9 @@ class TemplateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTemplateRequest $request): JsonResource
+    public function update(UpdateTemplateRequest $updateTemplateRequest): JsonResource
     {
-        $templates = $request->validated();
+        $templates = $updateTemplateRequest->validated();
 
         DB::transaction(fn (): bool => array_walk($templates, function (array $template): void {
             Template::firstWhere('name', $template['name'])->update([

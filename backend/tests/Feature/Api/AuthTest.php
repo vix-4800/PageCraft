@@ -7,7 +7,7 @@ namespace Tests\Feature\Api;
 use App\Models\User;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
+final class AuthTest extends TestCase
 {
     public function test_register_with_invalid_data_fails(): void
     {

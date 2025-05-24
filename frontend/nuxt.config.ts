@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 export default defineNuxtConfig({
     compatibilityDate: '2024-04-03',
     devtools: { enabled: true },
+
     modules: [
         '@nuxt/eslint',
         '@vueuse/nuxt',
@@ -16,10 +17,13 @@ export default defineNuxtConfig({
         '@nuxt/scripts',
         '@formkit/auto-animate',
         'nuxt-echarts',
+        // '@nuxtjs/seo',
         'pinia-plugin-persistedstate/nuxt',
-        '@nuxtjs/seo',
+        '@nuxtjs/i18n',
     ],
+
     plugins: [{ src: '~/plugins/notify', mode: 'client' }],
+
     app: {
         head: {
             charset: 'utf-8',
@@ -48,17 +52,21 @@ export default defineNuxtConfig({
         // pageTransition: { name: 'page', mode: 'out-in' },
         layoutTransition: { name: 'layout', mode: 'out-in' },
     },
+
     alias: {
         '@': fileURLToPath(new URL('./', import.meta.url)),
         '@img': fileURLToPath(new URL('./assets/img', import.meta.url)),
         '@css': fileURLToPath(new URL('./assets/css', import.meta.url)),
     },
+
     css: ['@css/app.css', 'notyf/notyf.min.css'],
+
     colorMode: {
         preference: 'system',
         fallback: 'dark',
         storage: 'localStorage',
     },
+
     runtimeConfig: {
         public: {
             baseUrl: process.env.APP_URL || 'http://localhost:80',
@@ -67,6 +75,7 @@ export default defineNuxtConfig({
             apiUrl: process.env.API_URL || 'http://localhost:8080' + '/api',
         },
     },
+
     googleFonts: {
         families: {
             Merriweather: {
@@ -74,6 +83,7 @@ export default defineNuxtConfig({
             },
         },
     },
+
     echarts: {
         ssr: true,
         renderer: ['canvas'],
@@ -89,10 +99,23 @@ export default defineNuxtConfig({
             'LegendComponent',
         ],
     },
+
     postcss: {
         plugins: {
             tailwindcss: {},
             autoprefixer: {},
         },
+    },
+
+    i18n: {
+        locales: [
+            { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
+            { code: 'ru', iso: 'ru-RU', name: 'Русский', file: 'ru.json' },
+        ],
+        defaultLocale: 'en',
+        strategy: 'prefix_except_default',
+        langDir: './locales/',
+        lazy: true,
+        vueI18n: './i18n/i18n.config.ts',
     },
 });

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\DatabaseBackupException;
 use App\Services\DatabaseBackup\DatabaseBackupService;
 use Illuminate\Support\Collection;
 use Str;
 
-class BackupService
+final readonly class BackupService
 {
-    protected DatabaseBackupService $databaseBackupService;
+    private DatabaseBackupService $databaseBackupService;
 
     public function __construct()
     {
@@ -18,7 +19,7 @@ class BackupService
     }
 
     /**
-     * @throws \App\Exceptions\DatabaseBackupException
+     * @throws DatabaseBackupException
      */
     public function createDatabaseBackup(?string $filename = null): string
     {
@@ -34,7 +35,7 @@ class BackupService
     }
 
     /**
-     * @throws \App\Exceptions\DatabaseBackupException
+     * @throws DatabaseBackupException
      */
     public function restoreDatabaseBackup(string $backupFile): void
     {

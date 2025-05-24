@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductVariationFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -17,22 +21,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $image
  * @property float $price
  * @property int $stock
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, OrderItem> $orderItems
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, OrderItem> $orderItems
  * @property-read int|null $order_items_count
  * @property-read Product $product
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariationAttribute> $productVariationAttributes
+ * @property-read Collection<int, ProductVariationAttribute> $productVariationAttributes
  * @property-read int|null $product_variation_attributes_count
  *
- * @method static \Database\Factories\ProductVariationFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductVariation query()
+ * @method static ProductVariationFactory factory($count = null, $state = [])
+ * @method static Builder<static>|ProductVariation newModelQuery()
+ * @method static Builder<static>|ProductVariation newQuery()
+ * @method static Builder<static>|ProductVariation query()
  *
  * @mixin \Eloquent
  */
-class ProductVariation extends Model
+final class ProductVariation extends Model
 {
     use HasFactory;
 
@@ -48,6 +52,11 @@ class ProductVariation extends Model
         'stock',
         'image',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'sku';
+    }
 
     public function product(): BelongsTo
     {

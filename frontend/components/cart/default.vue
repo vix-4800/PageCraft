@@ -13,7 +13,7 @@
                         <nuxt-link
                             :to="`/products/${item.product.category.slug}/${item.product.slug}`"
                         >
-                            <nuxt-img
+                            <img
                                 :src="item.product.product_images[0]"
                                 class="object-contain w-full h-full"
                             />

@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
+use App\Models\Article;
+use App\Models\Product;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 
-class SearchIndexController extends Controller
+final class SearchIndexController extends Controller
 {
     public function articles(): Response
     {
         Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Article",
+            'model' => Article::class,
         ]);
 
         return ApiResponse::empty();
@@ -22,7 +24,7 @@ class SearchIndexController extends Controller
     public function products(): Response
     {
         Artisan::call('scout:update-indexes', [
-            'model' => "App\Models\Product",
+            'model' => Product::class,
         ]);
 
         return ApiResponse::empty();

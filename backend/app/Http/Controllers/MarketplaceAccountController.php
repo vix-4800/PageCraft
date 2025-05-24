@@ -12,32 +12,34 @@ use App\Models\MarketplaceAccount;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class MarketplaceAccountController extends Controller
+final class MarketplaceAccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResource
     {
-        return MarketplaceAccountResource::collection(MarketplaceAccount::all());
+        return MarketplaceAccountResource::collection(
+            MarketplaceAccount::with(['settings', 'marketplace'])->get()
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MarketplaceAccountRequest $request): JsonResource
+    public function store(MarketplaceAccountRequest $marketplaceAccountRequest): JsonResource
     {
-        $validated = $request->validated();
+        $validated = $marketplaceAccountRequest->validated();
 
         /** @var Marketplace|null $marketplace */
         $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
 
-        /** @var MarketplaceAccount $account */
-        $account = $marketplace->accounts()->create(['name' => $validated['name']]);
+        /** @var MarketplaceAccount $model */
+        $model = $marketplace->accounts()->create(['name' => $validated['name']]);
 
-        $account->settings()->createMany($validated['settings']);
+        $model->settings()->createMany($validated['settings']);
 
-        return new MarketplaceAccountResource($account);
+        return new MarketplaceAccountResource($model);
     }
 
     /**
@@ -51,29 +53,29 @@ class MarketplaceAccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MarketplaceAccountRequest $request, MarketplaceAccount $account): JsonResource
+    public function update(MarketplaceAccountRequest $marketplaceAccountRequest, MarketplaceAccount $marketplaceAccount): JsonResource
     {
-        $validated = $request->validated();
+        $validated = $marketplaceAccountRequest->validated();
 
         /** @var Marketplace|null $marketplace */
         $marketplace = Marketplace::firstWhere('name', $validated['marketplace']);
 
-        $account->update([
+        $marketplaceAccount->update([
             'name' => $validated['name'],
             'marketplace_id' => $marketplace->id,
         ]);
 
-        $account->settings()->createMany($validated['settings']);
+        $marketplaceAccount->settings()->createMany($validated['settings']);
 
-        return new MarketplaceAccountResource($account);
+        return new MarketplaceAccountResource($marketplaceAccount);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MarketplaceAccount $account): Response
+    public function destroy(MarketplaceAccount $marketplaceAccount): Response
     {
-        $account->delete();
+        $marketplaceAccount->delete();
 
         return ApiResponse::empty();
     }

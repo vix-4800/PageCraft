@@ -8,7 +8,7 @@ use App\Facades\Server;
 use App\Models\SystemReport;
 use Illuminate\Console\Command;
 
-class CollectPerformanceMetrics extends Command
+final class CollectPerformanceMetrics extends Command
 {
     /**
      * The name and signature of the console command.
@@ -47,7 +47,7 @@ class CollectPerformanceMetrics extends Command
     {
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
         $this->info('Cache up: '.($cacheStatus ? 'yes' : 'no'));
-        $this->info("Uptime: {$upTime}");
+        $this->info('Uptime: '.$upTime);
         $this->info('Config cached: '.($configCached ? 'yes' : 'no'));
     }
 }

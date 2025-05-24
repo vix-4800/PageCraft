@@ -6,7 +6,7 @@ namespace App\Actions;
 
 use App\Enums\OAuthDriver;
 
-class CheckOAuthDriver
+final class CheckOAuthDriver
 {
     public function handle(string $driver): bool
     {

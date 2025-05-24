@@ -10,7 +10,7 @@
                     class="bg-white flex flex-col rounded overflow-hidden shadow-md hover:scale-[1.01] transition-all"
                 >
                     <div class="w-full">
-                        <nuxt-img
+                        <img
                             :src="product.product_images[0]"
                             :alt="product.name"
                             class="w-full object-cover object-top aspect-[230/307]"

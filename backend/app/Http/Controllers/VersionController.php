@@ -8,10 +8,10 @@ use App\Helpers\ApiResponse;
 use App\Services\VersionService;
 use Illuminate\Http\JsonResponse;
 
-class VersionController extends Controller
+final class VersionController extends Controller
 {
     public function __construct(
-        private readonly VersionService $service
+        private readonly VersionService $versionService
     ) {
         //
     }
@@ -19,8 +19,8 @@ class VersionController extends Controller
     public function index(): JsonResponse
     {
         return ApiResponse::create([
-            'latest' => $this->service->latest()->toArray(),
-            'current' => $this->service->current(),
+            'latest' => $this->versionService->latest()->toArray(),
+            'current' => $this->versionService->current(),
         ]);
     }
 }

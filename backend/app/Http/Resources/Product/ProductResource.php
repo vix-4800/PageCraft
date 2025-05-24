@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Product;
 
+use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * @mixin \App\Models\Product
+ * @mixin Product
  */
-class ProductResource extends JsonResource
+final class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

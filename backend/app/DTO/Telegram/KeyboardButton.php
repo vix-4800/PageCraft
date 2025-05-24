@@ -6,19 +6,12 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class KeyboardButton implements DtoObject
+final readonly class KeyboardButton implements DtoObject
 {
     public function __construct(
-        public readonly string $text,
+        public string $text,
     ) {
         //
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'text' => $this->text,
-        ];
     }
 
     public static function fromArray(array $data): self
@@ -26,5 +19,12 @@ class KeyboardButton implements DtoObject
         return new self(
             $data['text'],
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'text' => $this->text,
+        ];
     }
 }

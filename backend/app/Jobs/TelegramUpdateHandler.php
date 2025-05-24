@@ -10,7 +10,7 @@ use App\Facades\Telegram;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class TelegramUpdateHandler implements ShouldQueue
+final class TelegramUpdateHandler implements ShouldQueue
 {
     use Queueable;
 
@@ -35,10 +35,10 @@ class TelegramUpdateHandler implements ShouldQueue
         }
     }
 
-    protected function handleUpdate(Update $update): void
+    private function handleUpdate(Update $update): void
     {
-        $message = (new TelegramMessage)->to($update->message->chat->id)->text('Вы написали: '.$update->message->text);
+        $telegramMessage = (new TelegramMessage)->to($update->message->chat->id)->text('Вы написали: '.$update->message->text);
 
-        Telegram::sendMessage($message);
+        Telegram::sendMessage($telegramMessage);
     }
 }

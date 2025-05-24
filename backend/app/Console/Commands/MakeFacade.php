@@ -9,7 +9,7 @@ use Illuminate\Contracts\Console\PromptsForMissingInput;
 
 use function Laravel\Prompts\search;
 
-class MakeFacade extends Command implements PromptsForMissingInput
+final class MakeFacade extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
@@ -38,7 +38,7 @@ class MakeFacade extends Command implements PromptsForMissingInput
         }
 
         $stubFile = resource_path('stubs/facade.stub');
-        $targetFile = app_path("Facades/{$name}.php");
+        $targetFile = app_path(sprintf('Facades/%s.php', $name));
 
         if (! file_exists(app_path('Facades'))) {
             mkdir(app_path('Facades'), 0755);
@@ -51,7 +51,7 @@ class MakeFacade extends Command implements PromptsForMissingInput
         $createdFacadeContent = str_replace('MyService', $service, $createdFacadeContent);
         file_put_contents($targetFile, $createdFacadeContent);
 
-        $this->info("Facade {$name} created!");
+        $this->info(sprintf('Facade %s created!', $name));
     }
 
     /**
@@ -67,13 +67,13 @@ class MakeFacade extends Command implements PromptsForMissingInput
                 label: 'What is the name of the service?',
                 placeholder: 'E.g. MyLogger',
                 options: function (string $value): array {
-                    if (strlen($value) === 0) {
+                    if (mb_strlen($value) === 0) {
                         return [];
                     }
 
                     return array_filter(
                         $this->recursiveScanDir(),
-                        fn (string $service): bool => str_contains(strtolower($service), strtolower($value))
+                        fn (string $service): bool => str_contains(mb_strtolower($service), mb_strtolower($value))
                     );
                 },
                 hint: 'Enter the name of the facade',
@@ -90,14 +90,14 @@ class MakeFacade extends Command implements PromptsForMissingInput
      */
     private function recursiveScanDir(string $dir = ''): array
     {
-        $path = app_path("Services/{$dir}");
+        $path = app_path('Services/'.$dir);
         $allFiles = scandir($path);
 
-        $services = array_filter($allFiles, fn (string $file): bool => ! is_dir("{$path}/{$file}") && str_ends_with($file, '.php'));
+        $services = array_filter($allFiles, fn (string $file): bool => ! is_dir(sprintf('%s/%s', $path, $file)) && str_ends_with($file, '.php'));
 
-        $folders = array_filter($allFiles, fn (string $file): bool => is_dir("{$path}/{$file}") && ! in_array($file, ['.', '..']));
+        $folders = array_filter($allFiles, fn (string $file): bool => is_dir(sprintf('%s/%s', $path, $file)) && ! in_array($file, ['.', '..']));
         foreach ($folders as $folder) {
-            $services = array_merge($services, $this->recursiveScanDir("{$dir}/{$folder}"));
+            $services = array_merge($services, $this->recursiveScanDir(sprintf('%s/%s', $dir, $folder)));
         }
 
         $services = array_map(fn (string $service): string => str_replace('.php', '', $service), $services);

@@ -35,7 +35,7 @@
                 </div>
 
                 <div>
-                    <nuxt-img
+                    <img
                         :src="product.product_images[0]"
                         :alt="product.name"
                         class="w-full max-h-[275px] my-6"

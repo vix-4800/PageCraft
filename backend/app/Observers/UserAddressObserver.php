@@ -6,7 +6,7 @@ namespace App\Observers;
 
 use App\Models\UserAddress;
 
-class UserAddressObserver
+final class UserAddressObserver
 {
     /**
      * Handle the UserAddress "created" event.

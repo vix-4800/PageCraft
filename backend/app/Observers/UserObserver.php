@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Notifications\AccountDeleted;
 use App\Notifications\AccountRegistered;
 
-class UserObserver
+final class UserObserver
 {
     /**
      * Handle the User "created" event.

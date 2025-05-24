@@ -11,7 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class SystemStatusWarning extends Notification implements ShouldQueue
+final class SystemStatusWarning extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -29,7 +29,7 @@ class SystemStatusWarning extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -37,9 +37,9 @@ class SystemStatusWarning extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
-        $warnings = $this->warnings->map(fn (string $warning): string => "- {$warning}")->join("\n");
+        $warnings = $this->warnings->map(fn (string $warning): string => '- '.$warning)->join("\n");
 
         return (new MailMessage)
             ->subject('System Status Warning')

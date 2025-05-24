@@ -7,7 +7,7 @@ namespace App\DTO\Telegram;
 use App\Contracts\DtoObject;
 use App\Contracts\TelegramKeyboardMarkup;
 
-class TelegramMessage implements DtoObject
+final class TelegramMessage implements DtoObject
 {
     public int|string|null $chatId = null;
 
@@ -16,6 +16,13 @@ class TelegramMessage implements DtoObject
     public bool $disable_notification = false;
 
     public ?TelegramKeyboardMarkup $keyboard = null;
+
+    public static function fromArray(array $data): self
+    {
+        return (new self)
+            ->to($data['chat_id'])
+            ->text($data['text']);
+    }
 
     /**
      * Set the chat ID to send the message to.
@@ -48,9 +55,9 @@ class TelegramMessage implements DtoObject
         return $this;
     }
 
-    public function withKeyboard(TelegramKeyboardMarkup $keyboard): self
+    public function withKeyboard(TelegramKeyboardMarkup $telegramKeyboardMarkup): self
     {
-        $this->keyboard = $keyboard;
+        $this->keyboard = $telegramKeyboardMarkup;
 
         return $this;
     }
@@ -66,17 +73,10 @@ class TelegramMessage implements DtoObject
             $message['disable_notification'] = $this->disable_notification;
         }
 
-        if ($this->keyboard) {
+        if ($this->keyboard !== null) {
             $message['reply_markup'] = $this->keyboard;
         }
 
         return $message;
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return (new self)
-            ->to($data['chat_id'])
-            ->text($data['text']);
     }
 }

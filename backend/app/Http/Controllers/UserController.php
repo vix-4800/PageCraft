@@ -13,14 +13,14 @@ use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class UserController extends Controller
+final class UserController extends Controller
 {
     public function index(): JsonResource
     {
         $limit = request()->get('limit', 10);
 
         return UserResource::collection(
-            User::paginate($limit)
+            User::with('role')->paginate($limit)
         );
     }
 
@@ -29,14 +29,14 @@ class UserController extends Controller
         return new UserShowResource($user);
     }
 
-    public function update(UpdateUserRequest $request, User $user): JsonResource
+    public function update(UpdateUserRequest $updateUserRequest, User $user): JsonResource
     {
-        $validated = $request->validated();
-        $validated = $request->safe()->only(['name', 'email', 'phone']);
+        $validated = $updateUserRequest->validated();
+        $validated = $updateUserRequest->safe()->only(['name', 'email', 'phone']);
 
         $user->update($validated);
 
-        $role = Role::firstWhere('name', $request->role);
+        $role = Role::firstWhere('name', $updateUserRequest->role);
         $user->role()->associate($role);
 
         return new UserShowResource($user);

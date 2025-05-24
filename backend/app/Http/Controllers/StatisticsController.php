@@ -10,10 +10,10 @@ use App\Models\User;
 use App\Services\StatisticsService;
 use Illuminate\Http\JsonResponse;
 
-class StatisticsController extends Controller
+final class StatisticsController extends Controller
 {
     public function __construct(
-        private readonly StatisticsService $service
+        private readonly StatisticsService $statisticsService
     ) {
         //
     }
@@ -21,16 +21,16 @@ class StatisticsController extends Controller
     public function overview(): JsonResponse
     {
         return ApiResponse::create([
-            'users' => $this->service->getMetrics(User::query()),
-            'sales' => $this->service->getMetrics(Order::query()),
-            'earnings' => $this->service->getMetrics(Order::query(), 'sum', 'total'),
+            'users' => $this->statisticsService->getMetrics(User::query()),
+            'sales' => $this->statisticsService->getMetrics(Order::query()),
+            'earnings' => $this->statisticsService->getMetrics(Order::query(), 'sum', 'total'),
         ]);
     }
 
     public function salesForLastSevenDays(): JsonResponse
     {
         return ApiResponse::create(
-            $this->service->getMetricsPerDay(Order::query(), 7, 'sum', 'total'),
+            $this->statisticsService->getMetricsPerDay(Order::query(), 7, 'sum', 'total'),
         );
     }
 }

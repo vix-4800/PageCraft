@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     // use WithoutModelEvents;
 
@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             FeedbackMessageSeeder::class,
             ArticleSeeder::class,
             BannerSeeder::class,
+            FaqSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {

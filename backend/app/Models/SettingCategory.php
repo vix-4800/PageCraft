@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Setting> $settings
+ * @property-read Collection<int, Setting> $settings
  * @property-read int|null $settings_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingCategory query()
+ * @method static Builder<static>|SettingCategory newModelQuery()
+ * @method static Builder<static>|SettingCategory newQuery()
+ * @method static Builder<static>|SettingCategory query()
  *
  * @mixin \Eloquent
  */
-class SettingCategory extends Model
+final class SettingCategory extends Model
 {
     public $timestamps = false;
 

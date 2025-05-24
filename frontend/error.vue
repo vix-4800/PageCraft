@@ -118,7 +118,7 @@
                         class="flex flex-col items-center justify-center"
                     >
                         <div class="flex flex-col items-center">
-                            <nuxt-img
+                            <img
                                 src="/images/server_error.png"
                                 alt="Error"
                                 width="500"

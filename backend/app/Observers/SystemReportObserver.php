@@ -11,7 +11,7 @@ use App\Notifications\SystemStatusWarning;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
-class SystemReportObserver
+final class SystemReportObserver
 {
     /**
      * Handle the SystemReport "creating" event.
@@ -36,7 +36,7 @@ class SystemReportObserver
         }
 
         if ($warnings->isNotEmpty()) {
-            $admins = User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN));
+            $admins = User::whereHas('role', fn (Builder $builder): Builder => $builder->where('name', UserRole::ADMIN));
 
             Notification::send($admins, new SystemStatusWarning($warnings));
         }

@@ -8,7 +8,7 @@ use App\Enums\MarketplaceType;
 use App\Models\Marketplace;
 use Illuminate\Database\Seeder;
 
-class MarketplaceAccountSeeder extends Seeder
+final class MarketplaceAccountSeeder extends Seeder
 {
     /**
      * Run the database seeds.

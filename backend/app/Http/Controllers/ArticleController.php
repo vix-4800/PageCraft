@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
-class ArticleController extends Controller
+final class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,15 +21,20 @@ class ArticleController extends Controller
     {
         $limit = $request->input('limit', 10);
 
-        return ArticleResource::collection(Article::paginate($limit));
+        // TODO All articles for admin panel
+
+        return ArticleResource::collection(
+            Article::published()
+                ->paginate($limit)
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ArticleRequest $request): JsonResource
+    public function store(ArticleRequest $articleRequest): JsonResource
     {
-        $article = Article::create($request->validated());
+        $article = Article::create($articleRequest->validated());
 
         return new ArticleResource($article);
     }
@@ -45,9 +50,9 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleRequest $request, Article $article): JsonResource
+    public function update(ArticleRequest $articleRequest, Article $article): JsonResource
     {
-        $article->update($request->validated());
+        $article->update($articleRequest->validated());
 
         return new ArticleResource($article);
     }

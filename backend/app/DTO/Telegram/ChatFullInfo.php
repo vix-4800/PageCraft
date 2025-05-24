@@ -6,29 +6,17 @@ namespace App\DTO\Telegram;
 
 use App\Contracts\DtoObject;
 
-class ChatFullInfo implements DtoObject
+final readonly class ChatFullInfo implements DtoObject
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $type,
-        public readonly string $title,
-        public readonly string $username,
-        public readonly string $bio,
-        public readonly bool $description,
+        public int $id,
+        public string $type,
+        public string $title,
+        public string $username,
+        public string $bio,
+        public bool $description,
     ) {
         //
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'type' => $this->type,
-            'title' => $this->title,
-            'username' => $this->username,
-            'bio' => $this->bio,
-            'description' => $this->description,
-        ];
     }
 
     public static function fromArray(array $data): self
@@ -41,5 +29,17 @@ class ChatFullInfo implements DtoObject
             $data['bio'],
             $data['description'],
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'title' => $this->title,
+            'username' => $this->username,
+            'bio' => $this->bio,
+            'description' => $this->description,
+        ];
     }
 }

@@ -7,7 +7,7 @@ namespace App\Notifications;
 use App\Enums\DatabaseNotificationType;
 use App\Http\Resources\FeedbackMessageResource;
 
-class FeedbackMessageCreated extends BaseDatabaseNotification
+final class FeedbackMessageCreated extends BaseDatabaseNotification
 {
     protected function getType(): DatabaseNotificationType
     {

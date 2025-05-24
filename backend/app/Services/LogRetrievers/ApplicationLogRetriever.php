@@ -4,11 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services\LogRetrievers;
 
-class ApplicationLogRetriever extends LogRetriever
+final class ApplicationLogRetriever extends LogRetriever
 {
     public function __construct()
     {
         $this->logFile = storage_path('logs/laravel.log');
+    }
+
+    public function getErrorLogsCount(): int
+    {
+        if ($this->checkLogFile()) {
+            $content = file_get_contents($this->logFile);
+
+            if ($content === false) {
+                return 0;
+            }
+
+            return mb_substr_count($content, 'ERROR');
+        }
+
+        return 0;
     }
 
     /**
@@ -29,20 +44,5 @@ class ApplicationLogRetriever extends LogRetriever
                 'message' => $matches[4],
             ]
             : null;
-    }
-
-    public function getErrorLogsCount(): int
-    {
-        if ($this->checkLogFile()) {
-            $content = file_get_contents($this->logFile);
-
-            if ($content === false) {
-                return 0;
-            }
-
-            return substr_count($content, 'ERROR');
-        }
-
-        return 0;
     }
 }

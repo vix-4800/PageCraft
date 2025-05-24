@@ -14,7 +14,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class OrderCreated extends Notification implements ShouldQueue
+final class OrderCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -32,7 +32,7 @@ class OrderCreated extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['database', TelegramChannel::class];
     }
@@ -42,7 +42,7 @@ class OrderCreated extends Notification implements ShouldQueue
      *
      * @return array<string, mixed>
      */
-    public function toArray(User $notifiable): array
+    public function toArray(User $user): array
     {
         return [
             'message' => 'Order created',
@@ -51,10 +51,10 @@ class OrderCreated extends Notification implements ShouldQueue
         ];
     }
 
-    public function toTelegram(User $notifiable): TelegramMessage
+    public function toTelegram(User $user): TelegramMessage
     {
         return (new TelegramMessage)
-            ->to($notifiable->telegramAccount->chat_id)
+            ->to($user->telegramAccount->chat_id)
             ->text('Order created');
     }
 }

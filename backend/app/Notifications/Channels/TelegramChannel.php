@@ -9,16 +9,16 @@ use App\Facades\Telegram;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
 
-class TelegramChannel
+final class TelegramChannel
 {
-    public function send(User $notifiable, Notification $notification): void
+    public function send(User $user, Notification $notification): void
     {
         /**
          * @var TelegramMessage $message
          *
          * @phpstan-ignore-next-line
          */
-        $message = $notification->toTelegram($notifiable);
+        $message = $notification->toTelegram($user);
 
         Telegram::sendMessage($message);
     }

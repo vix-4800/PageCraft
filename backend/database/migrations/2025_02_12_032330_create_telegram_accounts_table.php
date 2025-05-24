@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('username');
-            $table->string('chat_id');
+            $table->string('chat_id')->unique();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();

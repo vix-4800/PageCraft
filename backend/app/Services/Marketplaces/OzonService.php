@@ -11,6 +11,6 @@ final class OzonService extends MarketplaceService
 {
     protected function createRequest(): PendingRequest
     {
-        return Http::ozon($this->account);
+        return Http::ozon($this->marketplaceAccount);
     }
 }

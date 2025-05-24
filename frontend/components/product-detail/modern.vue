@@ -16,7 +16,7 @@
                                 :ui="{ rounded: 'rounded-lg' }"
                                 @click="selectedImage = image"
                             >
-                                <nuxt-img
+                                <img
                                     :src="image"
                                     :alt="product.name"
                                     class="aspect-[64/85] w-full cursor-pointer border-b-2 border-black"
@@ -24,7 +24,7 @@
                             </u-button>
                         </div>
                         <div class="flex-1">
-                            <nuxt-img
+                            <img
                                 :src="selectedImage"
                                 :alt="product.name"
                                 class="w-full aspect-[548/712] object-cover"
@@ -279,7 +279,7 @@
                             :key="review.id"
                             class="flex items-start"
                         >
-                            <nuxt-img
+                            <img
                                 :src="review.user?.avatar || '/placeholder.png'"
                                 class="w-12 h-12 border-2 border-gray-300 rounded-full"
                             />

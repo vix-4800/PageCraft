@@ -8,7 +8,7 @@ use App\Facades\Backup;
 use App\Helpers\DatabaseBackup;
 use Illuminate\Console\Command;
 
-class DeleteOldBackups extends Command
+final class DeleteOldBackups extends Command
 {
     /**
      * The name and signature of the console command.
@@ -29,7 +29,7 @@ class DeleteOldBackups extends Command
      */
     public function handle(): void
     {
-        Backup::listDatabaseBackups()->each(function (DatabaseBackup $backup): void {
+        Backup::listDatabaseBackups()->each(function (DatabaseBackup $databaseBackup): void {
             $period = config('backup.delete_after');
 
             $targetDate = match (config('backup.delete_after_method')) {
@@ -39,8 +39,8 @@ class DeleteOldBackups extends Command
                 'years' => now()->subYears($period),
             };
 
-            if ($backup->getDate()->isBefore($targetDate)) {
-                Backup::deleteDatabaseBackup($backup->getName());
+            if ($databaseBackup->getDate()->isBefore($targetDate)) {
+                Backup::deleteDatabaseBackup($databaseBackup->getName());
             }
         });
     }

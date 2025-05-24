@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FeedbackMessageController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MarketplaceAccountController;
@@ -28,10 +29,13 @@ Route::middleware('auth:sanctum')->group(function (): void {
         Route::apiResource('users', UserController::class);
         Route::post('users/{user}/verify', [UserController::class, 'verify']);
 
-        Route::controller(StatisticsController::class)->prefix('statistics')->name('statistics.')->group(function (): void {
-            Route::get('overview', 'overview');
-            Route::get('sales/last-week', 'salesForLastSevenDays');
-        });
+        Route::controller(StatisticsController::class)
+            ->prefix('statistics')
+            ->name('statistics.')
+            ->group(function (): void {
+                Route::get('overview', 'overview');
+                Route::get('sales/last-week', 'salesForLastSevenDays');
+            });
 
         Route::prefix('backups')->name('backup.')->group(function (): void {
             Route::get('/', [BackupController::class, 'list']);
@@ -82,34 +86,35 @@ Route::prefix('products')->group(function (): void {
     Route::get('best', [ProductController::class, 'best']);
     Route::get('new', [ProductController::class, 'new']);
     Route::get('popular', [ProductController::class, 'popular']);
-    Route::apiResource('/', ProductController::class)
-        ->scoped(['product' => 'slug'])
-        ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 });
+Route::apiResource('products', ProductController::class)
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 
 Route::apiResource('products.reviews', ProductReviewController::class)
-    ->shallow()->scoped(['product' => 'slug'])
+    ->shallow()
     ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
+
 Route::apiResource('variations', ProductVariationController::class)
-    ->scoped(['variation' => 'sku'])
     ->only('index');
 
-Route::get('product-categories/{category:slug}', [ProductCategoryController::class, 'products']);
+Route::get('product-categories/{category}', [ProductCategoryController::class, 'products']);
 
 Route::apiResource('orders', OrderController::class)
     ->except('destroy')
-    ->middlewareFor(['index', 'update', 'destroy'], ['auth:sanctum', 'admin'])
-    ->middlewareFor('show', ['auth:sanctum']);
+    ->middlewareFor(['index', 'update', 'latest', 'invoice'], ['auth:sanctum', 'admin'])
+    ->middlewareFor(['show'], ['auth:sanctum']);
 
 Route::apiResource('feedback/messages', FeedbackMessageController::class)
     ->middlewareFor(['index', 'show'], ['auth:sanctum', 'admin']);
 
 Route::apiResource('articles', ArticleController::class)
-    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin'])
-    ->scoped(['article' => 'slug']);
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 
 Route::get('search', SearchController::class);
 
 Route::apiSingleton('banners', BannerController::class)
-    ->middlewareFor('update', 'admin')
+    ->middlewareFor('update', ['auth:sanctum', 'admin'])
     ->only(['show', 'update']);
+
+Route::apiResource('faq', FaqController::class)
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);

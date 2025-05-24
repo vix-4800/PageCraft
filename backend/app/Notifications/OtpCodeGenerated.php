@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OtpCodeGenerated extends Notification implements ShouldQueue
+final class OtpCodeGenerated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,7 +28,7 @@ class OtpCodeGenerated extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(User $notifiable): array
+    public function via(User $user): array
     {
         return ['mail'];
     }
@@ -36,11 +36,11 @@ class OtpCodeGenerated extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(User $user): MailMessage
     {
         return (new MailMessage)
             ->subject('One-Time Password')
-            ->line("Your One-Time Password is {$this->otp}")
+            ->line('Your One-Time Password is '.$this->otp)
             ->line('If you did not request this code, please ignore this email.');
     }
 }

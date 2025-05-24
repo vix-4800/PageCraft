@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\SettingType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -14,17 +16,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|bool|null $value
  * @property SettingType $type
  * @property int $setting_category_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read SettingCategory $settingCategory
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting query()
+ * @method static Builder<static>|Setting newModelQuery()
+ * @method static Builder<static>|Setting newQuery()
+ * @method static Builder<static>|Setting query()
  *
  * @mixin \Eloquent
  */
-class Setting extends Model
+final class Setting extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -37,15 +39,6 @@ class Setting extends Model
         'type',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'type' => SettingType::class,
-    ];
-
     public function getValueAttribute(string|bool|null $value): string|bool|null
     {
         return $this->type === SettingType::BOOLEAN ? (bool) $value : $value;
@@ -54,5 +47,17 @@ class Setting extends Model
     public function settingCategory(): BelongsTo
     {
         return $this->belongsTo(SettingCategory::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => SettingType::class,
+        ];
     }
 }

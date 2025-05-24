@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 
 /**
@@ -20,28 +23,28 @@ use Laravel\Scout\Searchable;
  * @property array<array-key, mixed>|null $product_images
  * @property bool $is_archived
  * @property int $product_category_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, OrderItem> $orderItems
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, OrderItem> $orderItems
  * @property-read int|null $order_items_count
  * @property-read ProductCategory $productCategory
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductReview> $reviews
+ * @property-read Collection<int, ProductReview> $reviews
  * @property-read int|null $reviews_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ProductVariation> $variations
+ * @property-read Collection<int, ProductVariation> $variations
  * @property-read int|null $variations_count
  *
  * @method static Builder<static>|Product active()
- * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
+ * @method static ProductFactory factory($count = null, $state = [])
  * @method static Builder<static>|Product newModelQuery()
  * @method static Builder<static>|Product newQuery()
  * @method static Builder<static>|Product query()
  *
  * @mixin \Eloquent
  */
-class Product extends Model
+final class Product extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory, Searchable;
+    use HasFactory;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,29 +60,9 @@ class Product extends Model
         'product_category_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_archived' => 'boolean',
-        'product_images' => 'array',
-    ];
-
-    public function variations(): HasMany
+    public function getRouteKeyName(): string
     {
-        return $this->hasMany(ProductVariation::class);
-    }
-
-    public function scopeActive(Builder $query): Builder
-    {
-        return $query->where('is_archived', false);
-    }
-
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(ProductReview::class);
+        return 'slug';
     }
 
     /**
@@ -104,6 +87,21 @@ class Product extends Model
         return ! $this->is_archived;
     }
 
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('is_archived', false);
+    }
+
+    public function variations(): HasMany
+    {
+        return $this->hasMany(ProductVariation::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
     public function orderItems(): HasManyThrough
     {
         return $this->hasManyThrough(OrderItem::class, ProductVariation::class);
@@ -112,5 +110,18 @@ class Product extends Model
     public function productCategory(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class);
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_archived' => 'boolean',
+            'product_images' => 'array',
+        ];
     }
 }

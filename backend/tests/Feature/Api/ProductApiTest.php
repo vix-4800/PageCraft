@@ -6,7 +6,7 @@ namespace Tests\Feature\Api;
 
 use Tests\TestCase;
 
-class ProductApiTest extends TestCase
+final class ProductApiTest extends TestCase
 {
     //
 }

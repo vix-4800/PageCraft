@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
-class ApiResponse extends JsonResponse
+final class ApiResponse extends JsonResponse
 {
     /**
      * Return an empty response.
@@ -30,7 +30,7 @@ class ApiResponse extends JsonResponse
         $response = [];
         $response['data'] = is_array($data) ? $data : $data->toArray();
 
-        if (! empty($meta)) {
+        if (filled($meta)) {
             $response['meta'] = is_array($meta) ? $meta : $meta->toArray();
         }
 

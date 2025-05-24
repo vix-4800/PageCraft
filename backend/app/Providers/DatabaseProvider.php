@@ -8,9 +8,10 @@ use App\Services\DatabaseBackup\DatabaseBackupService;
 use App\Services\DatabaseBackup\MysqlBackupService;
 use App\Services\DatabaseBackup\PostgresBackupService;
 use App\Services\DatabaseBackup\SqliteBackupService;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 
-class DatabaseProvider extends ServiceProvider
+final class DatabaseProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -21,7 +22,7 @@ class DatabaseProvider extends ServiceProvider
             'mysql' => new MysqlBackupService,
             'pgsql' => new PostgresBackupService,
             'sqlite' => new SqliteBackupService,
-            default => throw new \Exception('Unknown database driver'),
+            default => throw new Exception('Unknown database driver'),
         });
     }
 

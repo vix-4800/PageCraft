@@ -7,7 +7,7 @@ namespace App\Facades;
 use App\Services\ServerService;
 use Illuminate\Support\Facades\Facade;
 
-class Server extends Facade
+final class Server extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

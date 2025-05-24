@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class MethodNotAllowed extends Exception
+final class MethodNotAllowed extends Exception
 {
     public function __construct(string $message = 'Method Not Allowed', int $code = Response::HTTP_METHOD_NOT_ALLOWED)
     {

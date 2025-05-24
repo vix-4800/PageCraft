@@ -11,13 +11,15 @@ use App\Mixins\StrMixin;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Str;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -38,12 +40,15 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        VerifyEmail::createUrlUsing(fn (User $notifiable): string => (new GenerateEmailVerificationUrl)->handle($notifiable));
-        ResetPassword::createUrlUsing(fn (User $notifiable, string $token): string => (new GeneratePasswordResetUrl)->handle($notifiable, $token));
+        VerifyEmail::createUrlUsing(fn (User $user): string => (new GenerateEmailVerificationUrl)->handle($user));
+        ResetPassword::createUrlUsing(fn (User $user, string $token): string => (new GeneratePasswordResetUrl)->handle($user, $token));
 
         Http::mixin(new HttpMixin);
         Str::mixin(new StrMixin);
 
         Gate::define('manage-system', fn (User $user): bool => $user->isAdmin());
+
+        DB::prohibitDestructiveCommands(app()->isProduction());
+        Model::shouldBeStrict(! app()->isProduction());
     }
 }

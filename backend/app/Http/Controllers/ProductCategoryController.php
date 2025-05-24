@@ -9,16 +9,16 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductCategoryController extends Controller
+final class ProductCategoryController extends Controller
 {
-    public function products(Request $request, ProductCategory $category): JsonResource
+    public function products(Request $request, ProductCategory $productCategory): JsonResource
     {
         $limit = request()->get('limit', 10);
 
-        $products = $category->products()->active();
+        $products = $productCategory->products()->active();
 
         $slugs = $request->query('slugs', '');
-        if (! empty($slugs)) {
+        if (filled($slugs)) {
             $slugs = is_string($slugs) ? explode(',', $slugs) : $slugs;
             $slugs = array_filter($slugs);
             $products->whereIn('slug', $slugs);

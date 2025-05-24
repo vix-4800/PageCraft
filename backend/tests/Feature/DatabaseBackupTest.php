@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use App\Facades\Backup;
 use Tests\TestCase;
 
-class DatabaseBackupTest extends TestCase
+final class DatabaseBackupTest extends TestCase
 {
     private string $defaultBackupFilename = 'test_backup.sql';
 
@@ -21,7 +21,7 @@ class DatabaseBackupTest extends TestCase
         Backup::createDatabaseBackup($this->defaultBackupFilename);
 
         $this->assertTrue(
-            file_exists(config('backup.directory')."/{$this->defaultBackupFilename}")
+            file_exists(config('backup.directory').('/'.$this->defaultBackupFilename))
         );
     }
 

@@ -6,7 +6,9 @@ namespace App\Models;
 
 use App\Observers\SystemReportObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -18,16 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $is_database_up
  * @property bool $is_cache_up
  * @property string $uptime
- * @property \Illuminate\Support\Carbon $collected_at
+ * @property Carbon $collected_at
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SystemReport query()
+ * @method static Builder<static>|SystemReport newModelQuery()
+ * @method static Builder<static>|SystemReport newQuery()
+ * @method static Builder<static>|SystemReport query()
  *
  * @mixin \Eloquent
  */
 #[ObservedBy(SystemReportObserver::class)]
-class SystemReport extends Model
+final class SystemReport extends Model
 {
     public $timestamps = false;
 
@@ -46,7 +48,7 @@ class SystemReport extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
     protected $casts = [
         'is_database_up' => 'boolean',

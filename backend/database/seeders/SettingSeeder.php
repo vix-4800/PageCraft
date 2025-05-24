@@ -8,7 +8,7 @@ use App\Enums\SettingType;
 use App\Models\SettingCategory;
 use Illuminate\Database\Seeder;
 
-class SettingSeeder extends Seeder
+final class SettingSeeder extends Seeder
 {
     /**
      * Run the database seeds.

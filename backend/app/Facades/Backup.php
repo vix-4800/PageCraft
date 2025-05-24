@@ -7,7 +7,7 @@ namespace App\Facades;
 use App\Services\BackupService;
 use Illuminate\Support\Facades\Facade;
 
-class Backup extends Facade
+final class Backup extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

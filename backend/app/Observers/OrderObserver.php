@@ -12,14 +12,14 @@ use App\Notifications\OrderCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
-class OrderObserver
+final class OrderObserver
 {
     /**
      * Handle the Order "created" event.
      */
     public function created(Order $order): void
     {
-        $admin = User::whereHas('role', fn (Builder $query): Builder => $query->where('name', UserRole::ADMIN))->first();
+        $admin = User::whereHas('role', fn (Builder $builder): Builder => $builder->where('name', UserRole::ADMIN))->first();
         Notification::send($admin, new OrderCreated($order));
 
         $order->user->notify(new OrderConfirmation($order));
