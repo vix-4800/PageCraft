@@ -53,6 +53,11 @@ final class ProductVariation extends Model
         'image',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'sku';
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

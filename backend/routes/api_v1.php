@@ -29,10 +29,13 @@ Route::middleware('auth:sanctum')->group(function (): void {
         Route::apiResource('users', UserController::class);
         Route::post('users/{user}/verify', [UserController::class, 'verify']);
 
-        Route::controller(StatisticsController::class)->prefix('statistics')->name('statistics.')->group(function (): void {
-            Route::get('overview', 'overview');
-            Route::get('sales/last-week', 'salesForLastSevenDays');
-        });
+        Route::controller(StatisticsController::class)
+            ->prefix('statistics')
+            ->name('statistics.')
+            ->group(function (): void {
+                Route::get('overview', 'overview');
+                Route::get('sales/last-week', 'salesForLastSevenDays');
+            });
 
         Route::prefix('backups')->name('backup.')->group(function (): void {
             Route::get('/', [BackupController::class, 'list']);
@@ -85,17 +88,16 @@ Route::prefix('products')->group(function (): void {
     Route::get('popular', [ProductController::class, 'popular']);
 });
 Route::apiResource('products', ProductController::class)
-    ->scoped(['product' => 'slug'])
     ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 
 Route::apiResource('products.reviews', ProductReviewController::class)
-    ->shallow()->scoped(['product' => 'slug'])
+    ->shallow()
     ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
+
 Route::apiResource('variations', ProductVariationController::class)
-    ->scoped(['variation' => 'sku'])
     ->only('index');
 
-Route::get('product-categories/{category:slug}', [ProductCategoryController::class, 'products']);
+Route::get('product-categories/{category}', [ProductCategoryController::class, 'products']);
 
 Route::apiResource('orders', OrderController::class)
     ->except('destroy')
@@ -106,8 +108,7 @@ Route::apiResource('feedback/messages', FeedbackMessageController::class)
     ->middlewareFor(['index', 'show'], ['auth:sanctum', 'admin']);
 
 Route::apiResource('articles', ArticleController::class)
-    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin'])
-    ->scoped(['article' => 'slug']);
+    ->middlewareFor(['store', 'update', 'destroy'], ['auth:sanctum', 'admin']);
 
 Route::get('search', SearchController::class);
 

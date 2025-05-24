@@ -56,6 +56,11 @@ final class Article extends Model
         'description',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     /**
      * Get the indexable data array for the model.
      *
