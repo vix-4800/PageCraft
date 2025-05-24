@@ -1,0 +1,53 @@
+services:
+    matomo:
+        image: matomo
+        container_name: matomo
+        restart: unless-stopped
+        volumes:
+            - matomo_data:/var/www/html:z
+        environment:
+            MATOMO_DATABASE_HOST: matomo_db
+            MATOMO_DATABASE_DBNAME: matomo
+            MATOMO_DATABASE_USERNAME: matomo
+            MATOMO_DATABASE_PASSWORD: SecurePass123
+            MATOMO_DATABASE_ADAPTER: mysql
+        ports:
+            - ${MATOMO_PORT:-8082}:80
+        networks:
+            - analytics_network
+        depends_on:
+            - matomo_db
+
+    matomo_db:
+        image: mysql
+        container_name: matomo_db
+        restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_ROOT_PASSWORD: RootPass123
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_DATABASE: matomo
+            MYSQL_USER: matomo
+            MYSQL_PASSWORD: SecurePass123
+        volumes:
+            - matomo_db_data:/var/lib/mysql
+        networks:
+            - analytics_network
+        healthcheck:
+            test:
+                - CMD
+                - mysqladmin
+                - ping
+                - "-p${MYSQL_PASSWORD}"
+            retries: 3
+            timeout: 5s
+
+volumes:
+    matomo_data:
+    matomo_db_data:
+
+networks:
+    analytics_network:
+        name: analytics_network
+        driver: bridge

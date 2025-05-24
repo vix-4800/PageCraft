@@ -11,6 +11,7 @@ services:
         command: ["/bin/sh", "-c", "npm run dev"]
         networks:
             - frontend_network
+            - analytics_network
 
     prometheus:
         image: prom/prometheus
@@ -55,6 +56,8 @@ networks:
     monitoring_network:
         name: monitoring_network
         driver: bridge
+    analytics_network:
+        external: true
 
 volumes:
     prometheus-data:

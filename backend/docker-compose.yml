@@ -71,9 +71,11 @@ services:
             MYSQL_ROOT_HOST: "%"
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
         volumes:
             - mysql_volume:/var/lib/mysql
-            - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - backend_network
         healthcheck:
@@ -126,19 +128,6 @@ services:
         networks:
             - backend_network
 
-    matomo:
-        image: matomo
-        container_name: matomo
-        restart: unless-stopped
-        volumes:
-            - matomo_volume:/var/www/html:z
-        environment:
-            - MATOMO_DATABASE_HOST=mysql
-        ports:
-            - ${MATOMO_PORT:-8082}:80
-        networks:
-            - backend_network
-
     ttyd:
         image: tsl0922/ttyd
         container_name: ttyd
@@ -185,9 +174,6 @@ volumes:
     meilisearch_volume:
         driver: local
         name: meilisearch_volume
-    matomo_volume:
-        driver: local
-        name: matomo_volume
     certbot_etc_volume:
         driver: local
         name: certbot_etc_volume
