@@ -95,7 +95,7 @@ const items = [
     },
 ];
 
-const onChange = (index) => {
+const onChange = (index: number) => {
     selected.value = items[index].key;
 };
 

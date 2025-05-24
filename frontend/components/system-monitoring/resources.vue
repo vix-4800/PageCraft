@@ -43,18 +43,12 @@ const isDatabaseHealthy = ref(false);
 const isCacheHealthy = ref(false);
 const uptime = ref('');
 
-const lastUpdatedAt = ref();
 const fetchMetrics = async () => {
-    const { data } = await apiFetch<{ data: SystemReport[] }>('v1/reports');
+    const { data } = await apiFetch<{ data: SystemReport }>('v1/reports');
 
-    if (data.length > 0) {
-        isDatabaseHealthy.value = data[data.length - 1].is_database_up;
-        isCacheHealthy.value = data[data.length - 1].is_cache_up;
-
-        uptime.value = data[data.length - 1].uptime;
-
-        lastUpdatedAt.value = data[data.length - 1].collected_at;
-    }
+    isDatabaseHealthy.value = data.is_database_up;
+    isCacheHealthy.value = data.is_cache_up;
+    uptime.value = data.uptime;
 };
 
 const grafanaDashboardIds = [77, 78, 74];

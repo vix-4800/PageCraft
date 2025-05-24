@@ -58,10 +58,7 @@ Route::middleware('auth:sanctum')->group(function (): void {
 
         Route::apiResource('marketplaces/accounts', MarketplaceAccountController::class);
 
-        Route::prefix('reports')->name('reports.')->group(function (): void {
-            Route::get('/', [SystemReportController::class, 'index']);
-            Route::post('refresh', [SystemReportController::class, 'refresh']);
-        });
+        Route::get('reports', [SystemReportController::class, 'index'])->name('reports');
 
         Route::post('articles/update-search-indexes', [SearchIndexController::class, 'articles']);
         Route::post('products/update-search-indexes', [SearchIndexController::class, 'products']);

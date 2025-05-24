@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Facades\Server;
-use App\Models\SystemReport;
 use Illuminate\Console\Command;
 
 final class CollectPerformanceMetrics extends Command
@@ -33,12 +32,6 @@ final class CollectPerformanceMetrics extends Command
         $cacheStatus = Server::isCacheUp();
         $upTime = Server::getUptime();
         $configCached = Server::isConfigCached();
-
-        SystemReport::create([
-            'is_database_up' => $databaseStatus,
-            'is_cache_up' => $cacheStatus,
-            'uptime' => $upTime,
-        ]);
 
         $this->printResults($databaseStatus, $cacheStatus, $upTime, $configCached);
     }
