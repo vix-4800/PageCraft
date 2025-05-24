@@ -101,8 +101,8 @@ Route::get('product-categories/{category}', [ProductCategoryController::class, '
 
 Route::apiResource('orders', OrderController::class)
     ->except('destroy')
-    ->middlewareFor(['index', 'update', 'destroy'], ['auth:sanctum', 'admin'])
-    ->middlewareFor('show', ['auth:sanctum']);
+    ->middlewareFor(['index', 'update', 'latest', 'invoice'], ['auth:sanctum', 'admin'])
+    ->middlewareFor(['show'], ['auth:sanctum']);
 
 Route::apiResource('feedback/messages', FeedbackMessageController::class)
     ->middlewareFor(['index', 'show'], ['auth:sanctum', 'admin']);

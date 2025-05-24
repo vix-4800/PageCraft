@@ -13,6 +13,7 @@ use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class OrderController extends Controller
@@ -83,6 +84,11 @@ final class OrderController extends Controller
      */
     public function show(Order $order): JsonResource
     {
+        abort_unless(
+            Auth::user()->is($order->user) || Auth::user()->isAdmin(),
+            404
+        );
+
         return new OrderResource(
             $order->load([
                 'items.productVariation.product',
