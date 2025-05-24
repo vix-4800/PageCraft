@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class ApiException extends Exception
+class ApiException extends Exception
 {
     public function __construct(string $message = 'Internal Server Error', int $code = 500)
     {
