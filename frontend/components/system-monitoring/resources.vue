@@ -18,17 +18,9 @@
 
         <div class="space-y-4">
             <iframe
-                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740002938202&to=1740089338202&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=77&__feature.dashboardSceneSolo"
-                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
-            ></iframe>
-
-            <iframe
-                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740003195261&to=1740089595261&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=78&__feature.dashboardSceneSolo"
-                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
-            ></iframe>
-
-            <iframe
-                src="http://localhost:3000/d-solo/rYdddlPWk/node-exporter?orgId=1&from=1740003087682&to=1740089487682&timezone=browser&var-datasource=default&var-job=node_exporter&var-node=node-exporter:9100&var-diskdevices=%5Ba-z%5D%2B%7Cnvme%5B0-9%5D%2Bn%5B0-9%5D%2B%7Cmmcblk%5B0-9%5D%2B&refresh=1m&kiosk=&theme=light&panelId=74&__feature.dashboardSceneSolo"
+                v-for="id in grafanaDashboardIds"
+                :key="id"
+                :src="grafanaUrl + '&panelId=' + id"
                 class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
             ></iframe>
         </div>
@@ -51,7 +43,7 @@ const isDatabaseHealthy = ref(false);
 const isCacheHealthy = ref(false);
 const uptime = ref('');
 
-const lastUpdatedAt = ref(null);
+const lastUpdatedAt = ref();
 const fetchMetrics = async () => {
     const { data } = await apiFetch<{ data: SystemReport[] }>('v1/reports');
 
@@ -64,4 +56,19 @@ const fetchMetrics = async () => {
         lastUpdatedAt.value = data[data.length - 1].collected_at;
     }
 };
+
+const grafanaDashboardIds = [77, 78, 74];
+const grafanaUrl = new URL(
+    'http://localhost:3000/d-solo/rYdddlPWk/node-exporter'
+);
+grafanaUrl.searchParams.set('orgId', '1');
+grafanaUrl.searchParams.set('timezone', 'browser');
+grafanaUrl.searchParams.set('var-datasource', 'default');
+grafanaUrl.searchParams.set('var-job', 'node_exporter');
+grafanaUrl.searchParams.set('var-node', 'node-exporter:9100');
+grafanaUrl.searchParams.set('refresh', '30s');
+grafanaUrl.searchParams.set('kiosk', 'tv');
+grafanaUrl.searchParams.set('theme', useDark().value ? 'dark' : 'light');
+grafanaUrl.searchParams.set('from', 'now-1h');
+grafanaUrl.searchParams.set('to', 'now');
 </script>
