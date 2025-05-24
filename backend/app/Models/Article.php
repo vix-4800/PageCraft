@@ -30,6 +30,7 @@ use Stevebauman\Purify\Facades\Purify;
  * @property-read int|null $article_tags_count
  *
  * @method static ArticleFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Article published()
  * @method static Builder<static>|Article newModelQuery()
  * @method static Builder<static>|Article newQuery()
  * @method static Builder<static>|Article query()
@@ -86,6 +87,11 @@ final class Article extends Model
     public function isPublished(): bool
     {
         return $this->status === ArticleStatus::PUBLISHED;
+    }
+
+    public function scopePublished(Builder $builder): Builder
+    {
+        return $builder->where('status', ArticleStatus::PUBLISHED);
     }
 
     public function setContentAttribute(string $value): void

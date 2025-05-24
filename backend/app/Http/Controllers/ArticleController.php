@@ -21,7 +21,12 @@ final class ArticleController extends Controller
     {
         $limit = $request->input('limit', 10);
 
-        return ArticleResource::collection(Article::paginate($limit));
+        // TODO All articles for admin panel
+
+        return ArticleResource::collection(
+            Article::published()
+                ->paginate($limit)
+        );
     }
 
     /**
