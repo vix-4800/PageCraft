@@ -35,14 +35,6 @@ final class SystemReportObserver
             $warnings->push('Cache connection is down');
         }
 
-        if ($systemReport->cpu_usage > 80) {
-            $warnings->push(sprintf('CPU usage is high, %s %%', $systemReport->cpu_usage));
-        }
-
-        if ($systemReport->ram_usage / $systemReport->ram_total > 0.8) {
-            $warnings->push(sprintf('RAM usage is high, %s MB used of %s MB total', $systemReport->ram_usage, $systemReport->ram_total));
-        }
-
         if ($warnings->isNotEmpty()) {
             $admins = User::whereHas('role', fn (Builder $builder): Builder => $builder->where('name', UserRole::ADMIN));
 

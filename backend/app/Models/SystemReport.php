@@ -39,15 +39,10 @@ final class SystemReport extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'cpu_usage',
-        'ram_usage',
-        'ram_total',
-        'network_incoming',
-        'network_outgoing',
         'is_database_up',
-        'collected_at',
         'is_cache_up',
         'uptime',
+        'collected_at',
     ];
 
     /**
@@ -55,17 +50,9 @@ final class SystemReport extends Model
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'cpu_usage' => 'float',
-            'ram_usage' => 'float',
-            'ram_total' => 'float',
-            'network_incoming' => 'float',
-            'network_outgoing' => 'float',
-            'is_database_up' => 'boolean',
-            'is_cache_up' => 'boolean',
-            'collected_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'is_database_up' => 'boolean',
+        'is_cache_up' => 'boolean',
+        'collected_at' => 'datetime',
+    ];
 }

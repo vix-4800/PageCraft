@@ -172,8 +172,8 @@ services:
 
 networks:
     backend_network:
-        name: backend_network
         driver: bridge
+        name: backend_network
 
 volumes:
     mysql_volume:

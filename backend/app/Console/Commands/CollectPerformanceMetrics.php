@@ -29,33 +29,22 @@ final class CollectPerformanceMetrics extends Command
      */
     public function handle(): void
     {
-        $cpu = Server::getCpuUsage();
-        $ram = Server::getRamUsage();
-        $network = Server::getNetworkUsage();
         $databaseStatus = Server::isDatabaseUp();
         $cacheStatus = Server::isCacheUp();
         $upTime = Server::getUptime();
         $configCached = Server::isConfigCached();
 
         SystemReport::create([
-            'cpu_usage' => $cpu,
-            'ram_usage' => $ram['used'],
-            'ram_total' => $ram['total'],
-            'network_incoming' => $network['eth0']['incoming'],
-            'network_outgoing' => $network['eth0']['outgoing'],
             'is_database_up' => $databaseStatus,
             'is_cache_up' => $cacheStatus,
             'uptime' => $upTime,
         ]);
 
-        $this->printResults($databaseStatus, $cacheStatus, $cpu, $ram, $network, $upTime, $configCached);
+        $this->printResults($databaseStatus, $cacheStatus, $upTime, $configCached);
     }
 
-    private function printResults(bool $databaseStatus, bool $cacheStatus, float $cpu, array $ram, array $network, string $upTime, bool $configCached): void
+    private function printResults(bool $databaseStatus, bool $cacheStatus, string $upTime, bool $configCached): void
     {
-        $this->info(sprintf('CPU: %s %%', $cpu));
-        $this->info(sprintf('Memory: %s MB / %s MB', $ram['used'], $ram['total']));
-        $this->info(sprintf('Network: %s B / %s B', $network['eth0']['incoming'], $network['eth0']['outgoing']));
         $this->info('Database up: '.($databaseStatus ? 'yes' : 'no'));
         $this->info('Cache up: '.($cacheStatus ? 'yes' : 'no'));
         $this->info('Uptime: '.$upTime);

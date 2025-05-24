@@ -16,11 +16,6 @@ return new class extends Migration
         Schema::create('system_reports', function (Blueprint $table): void {
             $table->id();
 
-            $table->float('cpu_usage', 2);
-            $table->float('ram_usage', 2);
-            $table->float('ram_total', 2);
-            $table->float('network_incoming', 2);
-            $table->float('network_outgoing', 2);
             $table->boolean('is_database_up');
             $table->boolean('is_cache_up');
             $table->string('uptime', 8);
