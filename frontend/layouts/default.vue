@@ -2,7 +2,12 @@
     <div class="page-transition layout-transition">
         <admin-panel v-if="authStore.isAuthenticated && authStore.isAdmin" />
 
+        <div v-if="templateStore.isLoading" class="flex justify-center">
+            <u-icon name="svg-spinners:6-dots-rotate" size="104" />
+        </div>
+
         <div
+            v-else
             :class="{
                 'm-2 border-8 border-gray-300 rounded-md':
                     editModeStore.enabled,
@@ -63,6 +68,7 @@ const config = useRuntimeConfig();
 
 const banner = ref<Banner | null>();
 onMounted(async () => {
+    await templateStore.fetch();
     await settingsStore.fetch();
 
     const { data } = await apiFetch<{ data: Banner }>(`v1/banners`);

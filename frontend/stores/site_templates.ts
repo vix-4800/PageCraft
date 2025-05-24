@@ -4,14 +4,23 @@ import type { SiteTemplate, TemplateBlock } from '~/types/template';
 export const useSiteTemplatesStore = defineStore('templates', {
     state: () => ({
         templates: [] as SiteTemplate[],
+        isLoading: false,
     }),
     actions: {
         async fetch() {
-            const { data } = await apiFetch<{ data: SiteTemplate[] }>(
-                `v1/templates`
-            );
+            this.isLoading = true;
 
-            this.setTemplates(data);
+            try {
+                const { data } = await apiFetch<{ data: SiteTemplate[] }>(
+                    `v1/templates`
+                );
+
+                this.setTemplates(data);
+            } catch (error) {
+                console.error('Template fetch error:', error);
+            } finally {
+                this.isLoading = false;
+            }
         },
         async save() {
             withPasswordConfirmation(
@@ -45,13 +54,14 @@ export const useSiteTemplatesStore = defineStore('templates', {
             this.templates = templates;
         },
         getTemplate(name: TemplateBlock) {
-            return this.templates.find((template) => template.name === name)
-                ?.template;
+            return (
+                this.templates.find((template) => template.name === name)
+                    ?.template || 'default'
+            );
         },
         isBlockVisible(name: TemplateBlock) {
             return this.templates.find((template) => template.name === name)
                 ?.is_visible;
         },
     },
-    persist: true,
 });
