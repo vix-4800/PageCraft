@@ -17,12 +17,11 @@
         </div>
 
         <div class="space-y-4">
-            <iframe
-                v-for="id in grafanaDashboardIds"
+            <grafana-widget
+                v-for="id in [77, 78, 74]"
                 :key="id"
-                :src="grafanaUrl + '&panelId=' + id"
-                class="w-full h-[400px] border rounded-xl border-slate-200 dark:border-0"
-            ></iframe>
+                :panel-id="id"
+            />
         </div>
     </div>
 </template>
@@ -50,19 +49,4 @@ const fetchMetrics = async () => {
     isCacheHealthy.value = data.is_cache_up;
     uptime.value = data.uptime;
 };
-
-const grafanaDashboardIds = [77, 78, 74];
-const grafanaUrl = new URL(
-    'http://localhost:3000/d-solo/rYdddlPWk/node-exporter'
-);
-grafanaUrl.searchParams.set('orgId', '1');
-grafanaUrl.searchParams.set('timezone', 'browser');
-grafanaUrl.searchParams.set('var-datasource', 'default');
-grafanaUrl.searchParams.set('var-job', 'node_exporter');
-grafanaUrl.searchParams.set('var-node', 'node-exporter:9100');
-grafanaUrl.searchParams.set('refresh', '30s');
-grafanaUrl.searchParams.set('kiosk', 'tv');
-grafanaUrl.searchParams.set('theme', useDark().value ? 'dark' : 'light');
-grafanaUrl.searchParams.set('from', 'now-1h');
-grafanaUrl.searchParams.set('to', 'now');
 </script>
