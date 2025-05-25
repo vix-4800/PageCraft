@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section id="new">
+        <section v-if="newProducts.length" id="new">
             <page-title
                 title="New Arrivals"
                 subtitle="New products from our store"
@@ -14,11 +14,11 @@
                     :loading="newProductsLoading"
                 />
             </editable-block>
+
+            <u-divider class="my-10" />
         </section>
 
-        <u-divider class="my-10" />
-
-        <section id="popular">
+        <section v-if="popularProducts.length" id="popular">
             <page-title
                 title="Popular Products"
                 subtitle="Products that are currently popular"
@@ -32,11 +32,11 @@
                     :loading="popularProductsLoading"
                 />
             </editable-block>
+
+            <u-divider class="my-10" />
         </section>
 
-        <u-divider class="my-10" />
-
-        <section id="articles">
+        <section v-if="articles.length" id="articles">
             <page-title title="Articles" subtitle="Articles from our blog" />
 
             <editable-block :name="TemplateBlock.ArticleList">
