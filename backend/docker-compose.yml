@@ -8,8 +8,8 @@ services:
         volumes:
             - ./:/var/www/html
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-            - certbot_etc_volume:/etc/letsencrypt
-            - certbot_var_volume:/var/lib/letsencrypt
+            # - certbot_etc_volume:/etc/letsencrypt
+            # - certbot_var_volume:/var/lib/letsencrypt
         networks:
             - backend_network
         restart: unless-stopped
@@ -20,15 +20,16 @@ services:
             - mysql
             - redis
 
-    certbot:
-        image: certbot/certbot
-        volumes:
-            - certbot_etc_volume:/etc/letsencrypt
-            - certbot_var_volume:/var/lib/letsencrypt
-            - ./:/var/www/html
-        command: certonly --webroot --webroot-path=/var/www/html/public --email ${DOMAIN_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
-        depends_on:
-            - nginx
+    # certbot:
+    #     image: certbot/certbot
+    #     container_name: certbot
+    #     volumes:
+    #         - certbot_etc_volume:/etc/letsencrypt
+    #         - certbot_var_volume:/var/lib/letsencrypt
+    #         - ./:/var/www/html
+    #     command: certonly --webroot --webroot-path=/var/www/html/public --email ${DOMAIN_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}
+    #     depends_on:
+    #         - nginx
 
     php-fpm:
         build:
@@ -173,9 +174,9 @@ volumes:
     meilisearch_volume:
         driver: local
         name: meilisearch_volume
-    certbot_etc_volume:
-        driver: local
-        name: certbot_etc_volume
-    certbot_var_volume:
-        driver: local
-        name: certbot_var_volume
+    # certbot_etc_volume:
+    #     driver: local
+    #     name: certbot_etc_volume
+    # certbot_var_volume:
+    #     driver: local
+    #     name: certbot_var_volume
