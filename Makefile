@@ -9,9 +9,9 @@
 
 FRONTEND_DOCKER_FILE=frontend/docker-compose.yml
 BACKEND_DOCKER_FILE=backend/docker-compose.yml
-MONITORING_DOCKER_FILE=extra/docker-compose.monitoring.yml
-ANALYTICS_DOCKER_FILE=extra/docker-compose.analytics.yml
-DEVELOPMENT_DOCKER_FILE=extra/docker-compose.dev.yml
+MONITORING_DOCKER_FILE=infrastructure/docker-compose.monitoring.yml
+ANALYTICS_DOCKER_FILE=infrastructure/docker-compose.analytics.yml
+DEVELOPMENT_DOCKER_FILE=infrastructure/docker-compose.dev.yml
 
 # General
 start: start_frontend start_backend
