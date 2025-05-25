@@ -92,5 +92,4 @@ export const useSiteSettingsStore = defineStore('site_settings', {
             )?.value;
         },
     },
-    persist: true,
 });
