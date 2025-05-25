@@ -33,6 +33,7 @@
             v-else
             :src="url.toString()"
             class="w-full rounded-xl h-[400px] border border-slate-200 dark:border-0"
+            loading="lazy"
         ></iframe>
     </div>
 </template>
