@@ -44,7 +44,7 @@
             <div class="px-6 pt-6">
                 <span class="text-2xl font-bold">Visits</span>
 
-                <matomo-widget
+                <widget-matomo
                     container-id="EcommerceOverview"
                     module-to-widgetize="CoreHome"
                     action-to-widgetize="renderWidgetContainer"

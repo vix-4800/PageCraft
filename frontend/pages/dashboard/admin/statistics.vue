@@ -3,25 +3,25 @@
         <dashboard-page-name title="Application Statistics" />
 
         <div class="space-y-4">
-            <matomo-widget
+            <widget-matomo
                 module-to-widgetize="DevicesDetection"
                 action-to-widgetize="getType"
                 :height="250"
             />
 
-            <matomo-widget
+            <widget-matomo
                 module-to-widgetize="DevicesDetection"
                 action-to-widgetize="getBrowsers"
                 :height="215"
             />
 
-            <matomo-widget
+            <widget-matomo
                 module-to-widgetize="Actions"
                 action-to-widgetize="getPageUrls"
                 :height="350"
             />
 
-            <matomo-widget
+            <widget-matomo
                 container-id="EcommerceOverview"
                 module-to-widgetize="CoreHome"
                 action-to-widgetize="renderWidgetContainer"

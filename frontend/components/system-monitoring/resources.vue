@@ -17,7 +17,7 @@
         </div>
 
         <div class="space-y-4">
-            <grafana-widget
+            <widget-grafana
                 v-for="id in [77, 78, 74]"
                 :key="id"
                 :panel-id="id"
