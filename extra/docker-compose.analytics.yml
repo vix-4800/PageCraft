@@ -14,7 +14,7 @@ services:
         ports:
             - ${MATOMO_PORT:-8082}:80
         networks:
-            - analytics_network
+            - frontend_network
         depends_on:
             - matomo_db
 
@@ -26,28 +26,32 @@ services:
         environment:
             MYSQL_ROOT_HOST: "%"
             MYSQL_ROOT_PASSWORD: RootPass123
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
             MYSQL_DATABASE: matomo
             MYSQL_USER: matomo
             MYSQL_PASSWORD: SecurePass123
         volumes:
             - matomo_db_data:/var/lib/mysql
         networks:
-            - analytics_network
+            - frontend_network
         healthcheck:
             test:
                 - CMD
                 - mysqladmin
                 - ping
+                - "-u${MYSQL_USER}"
                 - "-p${MYSQL_PASSWORD}"
-            retries: 3
+            interval: 5s
             timeout: 5s
+            retries: 5
 
 volumes:
     matomo_data:
+        name: matomo_data
+        driver: local
     matomo_db_data:
+        name: matomo_db_data
+        driver: local
 
 networks:
-    analytics_network:
-        name: analytics_network
-        driver: bridge
+    frontend_network:
+        external: true

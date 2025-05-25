@@ -1,0 +1,47 @@
+services:
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        networks:
+            - frontend_network
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - prometheus-data:/prometheus
+        restart: unless-stopped
+
+    node-exporter:
+        image: quay.io/prometheus/node-exporter:latest
+        container_name: node-exporter
+        networks:
+            - frontend_network
+        volumes:
+            - "/:/host:ro,rslave"
+        command: --path.rootfs=/host
+        restart: unless-stopped
+
+    grafana:
+        image: grafana/grafana-enterprise
+        container_name: grafana
+        networks:
+            - frontend_network
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        environment:
+            - GF_SECURITY_ALLOW_EMBEDDING=true
+        volumes:
+            - grafana-data:/var/lib/grafana
+
+networks:
+    frontend_network:
+        external: true
+
+volumes:
+    prometheus-data:
+        name: prometheus-data
+        driver: local
+    grafana-data:
+        name: grafana-data
+        driver: local
