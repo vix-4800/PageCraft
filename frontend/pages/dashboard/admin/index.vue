@@ -1,9 +1,21 @@
 <template>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-12 md:gap-6">
-        <card-mini label="Registered today" :value="statistics.users.today" />
-        <card-mini label="Registered total" :value="statistics.users.total" />
-        <card-mini label="Sales today" :value="statistics.sales.today" />
-        <card-mini label="Sales total" :value="statistics.sales.total" />
+        <card-mini
+            label="Registered today"
+            :value="statistics.users.today.toString()"
+        />
+        <card-mini
+            label="Registered total"
+            :value="statistics.users.total.toString()"
+        />
+        <card-mini
+            label="Sales today"
+            :value="statistics.sales.today.toString()"
+        />
+        <card-mini
+            label="Sales total"
+            :value="statistics.sales.total.toString()"
+        />
 
         <div
             class="col-span-12 overflow-hidden bg-white border dark:bg-slate-700 dark:border-0 rounded-xl border-slate-200"
@@ -32,14 +44,12 @@
             <div class="px-6 pt-6">
                 <span class="text-2xl font-bold">Visits</span>
 
-                <iframe
-                    width="100%"
-                    height="500"
-                    src="http://localhost:8082/index.php?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=1&widget=1&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&idSite=1&period=day&date=yesterday"
-                    scrolling="yes"
-                    marginheight="0"
-                    marginwidth="0"
-                ></iframe>
+                <matomo-widget
+                    container-id="EcommerceOverview"
+                    module-to-widgetize="CoreHome"
+                    action-to-widgetize="renderWidgetContainer"
+                    :height="500"
+                />
             </div>
         </div>
 
