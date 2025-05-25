@@ -18,6 +18,11 @@ export const useSiteTemplatesStore = defineStore('templates', {
                 this.setTemplates(data);
             } catch (error) {
                 console.error('Template fetch error:', error);
+
+                showError({
+                    statusCode: 500,
+                    statusMessage: 'Template fetch failed',
+                });
             } finally {
                 this.isLoading = false;
             }
