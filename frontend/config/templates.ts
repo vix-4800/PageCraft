@@ -21,6 +21,11 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
             label: 'Luvu',
             img: '',
         },
+        {
+            value: 'photograph',
+            label: 'Photograph',
+            img: '',
+        },
     ],
     footer: [
         {
@@ -46,6 +51,11 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
         {
             value: 'luvu',
             label: 'Luvu',
+            img: '',
+        },
+        {
+            value: 'photograph',
+            label: 'Photograph',
             img: '',
         },
     ],
