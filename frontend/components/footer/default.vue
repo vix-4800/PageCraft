@@ -92,7 +92,6 @@
 
 <script lang="ts" setup>
 const settingsStore = useSiteSettingsStore();
-
 const appName: string = useRuntimeConfig().public.appName;
 
 defineProps({
