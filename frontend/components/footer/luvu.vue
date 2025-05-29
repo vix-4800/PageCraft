@@ -29,25 +29,6 @@
                 <a href="#" class="hover:underline">Способ оплаты</a>
             </div>
         </div>
-        <div
-            class="flex items-center justify-center gap-2 mt-8 text-lg font-medium text-center text-gray-700"
-        >
-            <svg width="24" height="24" fill="none">
-                <path
-                    d="M12 20s-7-4.35-7-9.5A4.5 4.5 0 0112 6.5a4.5 4.5 0 017 4.5c0 5.15-7 9.5-7 9.5z"
-                    stroke="#888"
-                    stroke-width="1.5"
-                />
-            </svg>
-            THE MOMENT YOU ACCEPT YOURSELF, YOU BECOME BEAUTIFUL
-            <svg width="24" height="24" fill="none">
-                <path
-                    d="M12 20s-7-4.35-7-9.5A4.5 4.5 0 0112 6.5a4.5 4.5 0 017 4.5c0 5.15-7 9.5-7 9.5z"
-                    stroke="#888"
-                    stroke-width="1.5"
-                />
-            </svg>
-        </div>
     </div>
 </template>
 
