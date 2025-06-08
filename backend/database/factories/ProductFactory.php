@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use Str;
 
 /**
@@ -19,17 +20,14 @@ final class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->name;
+        $name = $this->faker->words(3, true);
+        $availableImages = Storage::disk('public')->allFiles('products');
 
         return [
             'name' => $name,
             'slug' => Str::slug($name),
             'description' => $this->faker->text,
-            'product_images' => [
-                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
-                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
-                "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$name}",
-            ],
+            'product_images' => $this->faker->randomElements($availableImages, 3),
         ];
     }
 }
