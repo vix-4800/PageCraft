@@ -21,7 +21,12 @@ final class ProductFactory extends Factory
     public function definition(): array
     {
         $name = $this->faker->words(3, true);
-        $availableImages = Storage::disk('public')->allFiles('products');
+
+        $allFiles = Storage::disk('public')->allFiles('products');
+        $availableImages = array_filter(
+            $allFiles,
+            fn (string $file): bool|int => preg_match('/\.(jpe?g|png|webp|gif)$/i', $file)
+        );
 
         return [
             'name' => $name,

@@ -21,7 +21,11 @@ final class ProductVariationFactory extends Factory
      */
     public function definition(): array
     {
-        $availableImages = Storage::disk('public')->allFiles('products');
+        $allFiles = Storage::disk('public')->allFiles('products');
+        $availableImages = array_filter(
+            $allFiles,
+            fn (string $file): bool|int => preg_match('/\.(jpe?g|png|webp|gif)$/i', $file)
+        );
 
         return [
             'sku' => Str::sku(ProductVariation::class),

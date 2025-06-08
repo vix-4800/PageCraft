@@ -22,7 +22,12 @@ final class ArticleFactory extends Factory
     public function definition(): array
     {
         $title = $this->faker->sentence(3);
-        $availableImages = Storage::disk('public')->allFiles('articles');
+
+        $allFiles = Storage::disk('public')->allFiles('articles');
+        $availableImages = array_filter(
+            $allFiles,
+            fn (string $file): bool|int => preg_match('/\.(jpe?g|png|webp|gif)$/i', $file)
+        );
 
         return [
             'slug' => Str::slug($title),
