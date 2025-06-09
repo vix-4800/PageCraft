@@ -8,6 +8,7 @@ use App\Exceptions\ApiException;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
+use App\Models\ProductCategory;
 use App\Models\ProductVariation;
 use App\Models\ProductVariationAttribute;
 use Illuminate\Support\Collection;
@@ -43,8 +44,11 @@ final class ProductService
                 }
             }
 
+            /** @var ProductCategory $category */
+            $category = ProductCategory::findOrFail($productData['product_category_id']);
+
             /** @var Product $product */
-            $product = Product::create([
+            $product = $category->products()->create([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['slug']),
                 'description' => $productData['description'],

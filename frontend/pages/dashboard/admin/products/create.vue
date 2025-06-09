@@ -361,6 +361,8 @@ const submitForm = async (event: FormSubmitEvent<Schema>) => {
         });
     });
 
+    formData.append(`product_category_id`, 1);
+
     await apiFetch(`v1/products`, {
         method: 'POST',
         body: formData,
