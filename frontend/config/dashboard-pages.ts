@@ -28,11 +28,11 @@ export const SharedPages: Record<string, Page[]> = {
             icon: 'mdi:telegram',
             href: '/dashboard/my-telegram',
         },
-        {
-            label: 'Discord',
-            icon: 'mdi:discord',
-            href: '/dashboard/my-discord',
-        },
+        // {
+        //     label: 'Discord',
+        //     icon: 'mdi:discord',
+        //     href: '/dashboard/my-discord',
+        // },
     ],
 };
 
