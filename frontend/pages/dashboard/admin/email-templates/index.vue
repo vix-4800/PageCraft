@@ -1,6 +1,8 @@
 <template>
     <div>
         <dashboard-page-name title="Email Templates" />
+
+        <page-in-progress />
     </div>
 </template>
 

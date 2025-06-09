@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dashboard-page-name title="My Addresses" />
+        <dashboard-page-name title="FAQ" />
 
         <page-in-progress />
     </div>
@@ -9,6 +9,6 @@
 <script lang="ts" setup>
 definePageMeta({
     layout: 'dashboard',
-    middleware: ['auth', 'verified'],
+    middleware: ['auth', 'dashboard', 'verified'],
 });
 </script>
