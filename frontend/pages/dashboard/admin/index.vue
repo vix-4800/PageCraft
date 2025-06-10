@@ -71,7 +71,7 @@
                 <div class="min-w-full overflow-x-auto rounded-sm">
                     <u-table
                         :columns="salesColumns"
-                        :rows="sales"
+                        :data="sales"
                         :loading="latestSalesLoading"
                         :loading-state="{
                             icon: 'i-heroicons-arrow-path-20-solid',
@@ -89,6 +89,10 @@
 
 <script lang="ts" setup>
 import { OrderStatus, type Order } from '~/types/order';
+import type { TableColumn } from '@nuxt/ui';
+import { h, resolveComponent } from 'vue';
+
+const UBadge = resolveComponent('UBadge');
 
 definePageMeta({
     layout: 'dashboard',
@@ -170,30 +174,71 @@ async function getWeekSales() {
     earningsLoading.value = false;
 }
 
-const salesColumns = [
+const salesColumns: TableColumn<Order>[] = [
     {
-        key: 'id',
-        label: 'ID',
-        sortable: true,
+        accessorKey: 'id',
+        header: 'ID',
     },
     {
-        key: 'user.email',
-        label: 'Email',
+        accessorKey: 'user.email',
+        header: 'Email',
     },
     {
-        key: 'status',
-        label: 'Status',
-        sortable: true,
+        accessorKey: 'status',
+        header: 'Status',
+        cell: ({ row }) => {
+            const status = row.getValue('status') as OrderStatus;
+
+            const colorMap: Record<
+                OrderStatus,
+                'success' | 'error' | 'neutral' | 'info'
+            > = {
+                [OrderStatus.DELIVERED]: 'success',
+                [OrderStatus.CANCELLED]: 'error',
+                [OrderStatus.CREATED]: 'neutral',
+                [OrderStatus.PROCESSING]: 'info',
+            };
+
+            return h(
+                UBadge,
+                {
+                    class: 'capitalize',
+                    variant: 'subtle',
+                    color: colorMap[status],
+                },
+                () => row.getValue('status')
+            );
+        },
     },
     {
-        key: 'total',
-        label: 'Total',
-        sortable: true,
+        accessorKey: 'total',
+        header: 'Total',
+        cell: ({ row }) => {
+            const amount = Number.parseFloat(row.getValue('total'));
+
+            const formatted = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            }).format(amount);
+
+            return h('div', { class: 'text-right font-medium' }, formatted);
+        },
     },
     {
-        key: 'created_at',
-        label: 'Date',
-        sortable: true,
+        accessorKey: 'created_at',
+        header: 'Date',
+        cell: ({ row }) => {
+            return new Date(row.getValue('created_at')).toLocaleString(
+                'en-US',
+                {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                }
+            );
+        },
     },
 ];
 const sales = ref<Order[]>([]);
