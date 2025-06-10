@@ -5,7 +5,7 @@
             color="white"
             size="lg"
             icon="material-symbols:search"
-            placeholder="Search Something..."
+            :placeholder="$t('search')"
             class="w-full border-0 outline-none ring-0"
             :ui="{
                 icon: { trailing: { pointer: '' } },

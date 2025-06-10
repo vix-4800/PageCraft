@@ -4,26 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Facades\Server;
 use App\Helpers\ApiResponse;
-use App\Http\Resources\SystemReportResource;
-use App\Models\SystemReport;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\JsonResponse;
 
 final class SystemReportController extends Controller
 {
-    public function index(): JsonResource
+    public function index(): JsonResponse
     {
-        $orders = SystemReport::orderBy('collected_at', 'desc')->take(50)->get();
-
-        return SystemReportResource::collection($orders->reverse());
-    }
-
-    public function refresh(): Response
-    {
-        Artisan::call('metrics:collect');
-
-        return ApiResponse::empty();
+        return ApiResponse::create([
+            'is_database_up' => Server::isDatabaseUp(),
+            'is_cache_up' => Server::isCacheUp(),
+            'is_config_cached' => Server::isConfigCached(),
+            'uptime' => Server::getUptime(),
+        ]);
     }
 }

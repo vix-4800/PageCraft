@@ -7,7 +7,7 @@
             :key="member.id"
             class="overflow-hidden border rounded-lg"
         >
-            <nuxt-img :src="member.image" class="object-cover w-full h-56" />
+            <img :src="member.image" class="object-cover w-full h-56" />
 
             <div class="p-4">
                 <h4 class="text-base font-bold text-gray-800">

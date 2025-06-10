@@ -17,7 +17,9 @@ final class SettingController extends Controller
      */
     public function show(): JsonResource
     {
-        return SettingResource::collection(Setting::all());
+        return SettingResource::collection(
+            Setting::with('settingCategory')->get()
+        );
     }
 
     /**

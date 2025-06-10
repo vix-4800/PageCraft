@@ -16,6 +16,16 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
             label: 'Minimalistic',
             img: 'images/templates/header_minimalistic.png',
         },
+        {
+            value: 'luvu',
+            label: 'Luvu',
+            img: '',
+        },
+        {
+            value: 'photograph',
+            label: 'Photograph',
+            img: '',
+        },
     ],
     footer: [
         {
@@ -37,6 +47,16 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
             value: 'contact',
             label: 'Contact Details',
             img: 'images/templates/footer_contact.png',
+        },
+        {
+            value: 'luvu',
+            label: 'Luvu',
+            img: '',
+        },
+        {
+            value: 'photograph',
+            label: 'Photograph',
+            img: '',
         },
     ],
     product_list: [

@@ -10,7 +10,7 @@
             </h1>
         </div>
 
-        <nuxt-img
+        <img
             :src="article.image"
             :alt="article.title"
             class="container w-full mt-8 bg-white bg-cover rounded"
@@ -18,7 +18,7 @@
 
         <div
             v-html="article.content"
-            class="w-full max-w-full p-8 px-16 -mt-32 text-xl leading-normal prose text-gray-800 bg-white md:text-2xl"
+            class="w-full max-w-full p-8 px-16 text-xl leading-normal prose text-gray-800 bg-white md:text-2xl"
         ></div>
     </div>
 </template>

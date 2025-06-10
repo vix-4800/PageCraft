@@ -144,13 +144,6 @@ class Installer
         $nginxDockerConf = str_replace('server_name localhost;', "server_name {$appUrl};", $nginxDockerConf);
         file_put_contents("{$this->installPath}/backend/docker/nginx/default.conf", $nginxDockerConf);
 
-        $mySqlDockerConf = file_get_contents("{$this->installPath}/backend/docker/mysql/init.sql");
-        $mySqlDockerConf = str_replace('IF NOT EXISTS pagecraft', "IF NOT EXISTS {$databaseName}", $mySqlDockerConf);
-        $mySqlDockerConf = str_replace('CREATE USER \'pagecraft_user\'', "CREATE USER '{$databaseUser}'", $mySqlDockerConf);
-        $mySqlDockerConf = str_replace('IDENTIFIED BY \'pagecraft\'', "IDENTIFIED BY '{$databasePassword}'", $mySqlDockerConf);
-        $mySqlDockerConf = str_replace('ON pagecraft.* TO \'pagecraft_user\'', "ON {$databaseName}.* TO '{$databaseUser}'", $mySqlDockerConf);
-        file_put_contents("{$this->installPath}/backend/docker/mysql/init.sql", $mySqlDockerConf);
-
         // Frontend
         $this->frontendEnvHelper->createFromExample();
         $this->frontendEnvHelper->set('APP_NAME', $appName);

@@ -20,6 +20,7 @@ final class StoreProductRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'slug' => ['required', 'string', 'min:3', 'max:255', 'unique:products,slug'],
             'description' => ['required', 'string', 'min:3'],
+            'product_category_id' => ['required', 'integer', 'exists:product_categories,id'],
             'product_images' => ['nullable', 'array'],
             'product_images.*' => ['image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
 

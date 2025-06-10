@@ -7,11 +7,20 @@ export const useSiteSettingsStore = defineStore('site_settings', {
     }),
     actions: {
         async fetch() {
-            const { data } = await apiFetch<{ data: SiteSetting[] }>(
-                `v1/settings`
-            );
+            try {
+                const { data } = await apiFetch<{ data: SiteSetting[] }>(
+                    `v1/settings`
+                );
 
-            this.setSettings(data);
+                this.setSettings(data);
+            } catch (error) {
+                console.error('Settings fetch error:', error);
+
+                showError({
+                    statusCode: 500,
+                    statusMessage: 'Settings fetch failed',
+                });
+            }
         },
         async save(settings: SiteSetting[]) {
             withPasswordConfirmation(
@@ -83,5 +92,4 @@ export const useSiteSettingsStore = defineStore('site_settings', {
             )?.value;
         },
     },
-    persist: true,
 });

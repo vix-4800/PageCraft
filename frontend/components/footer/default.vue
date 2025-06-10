@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:flex lg:items-center">
                 <nuxt-link to="/" class="flex items-center gap-4 group">
-                    <nuxt-img
+                    <img
                         src="/logo.png"
                         :alt="appName"
                         width="40px"
@@ -92,7 +92,6 @@
 
 <script lang="ts" setup>
 const settingsStore = useSiteSettingsStore();
-
 const appName: string = useRuntimeConfig().public.appName;
 
 defineProps({

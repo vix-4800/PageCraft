@@ -12,6 +12,8 @@
                 />
             </template>
         </dashboard-page-name>
+
+        <page-in-progress />
     </div>
 </template>
 

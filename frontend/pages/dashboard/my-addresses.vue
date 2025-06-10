@@ -1,6 +1,8 @@
 <template>
     <div>
         <dashboard-page-name title="My Addresses" />
+
+        <page-in-progress />
     </div>
 </template>
 

@@ -26,7 +26,10 @@ final class ProductVariationController extends Controller
         }
 
         return ProductVariationResource::collection(
-            $productVariationsQuery->with(['product', 'productVariationAttributes'])->get()
+            $productVariationsQuery->with([
+                'product',
+                'productVariationAttributes.productAttributeValue.productAttribute',
+            ])->get()
         );
     }
 }

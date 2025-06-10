@@ -18,6 +18,14 @@
                     label="Create Product"
                     @click="navigateTo('/dashboard/admin/products/create')"
                 />
+
+                <u-button
+                    color="blue"
+                    size="md"
+                    icon="material-symbols:refresh"
+                    label="Sync"
+                    @click="navigateTo('/dashboard/admin/products/sync')"
+                />
             </template>
         </dashboard-page-name>
 

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services\Marketplaces;
 
-use App\Exceptions\MethodNotAllowed;
+use App\Contracts\MarketplaceOrdersContract;
+use App\Contracts\MarketplaceProductsContract;
 use App\Models\MarketplaceAccount;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
+use InvalidArgumentException;
 
-abstract class MarketplaceService
+abstract class MarketplaceService implements MarketplaceOrdersContract, MarketplaceProductsContract
 {
     public function __construct(
         protected readonly MarketplaceAccount $marketplaceAccount
@@ -29,17 +31,21 @@ abstract class MarketplaceService
      */
     protected function makeRequest(string $method, string $url, array $data = []): array
     {
-        throw_unless(in_array($method, ['GET', 'POST', 'PATCH', 'DELETE']), new MethodNotAllowed);
+        throw_unless(
+            in_array($method, ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']),
+            new InvalidArgumentException('Method not allowed: '.$method)
+        );
 
         $request = $this->createRequest();
 
-        $request = match ($method) {
+        $response = match ($method) {
             'GET' => $request->withQueryParameters($data)->get($url),
             'POST' => $request->post($url, $data),
             'PATCH' => $request->patch($url, $data),
-            'DELETE' => $request->delete($url),
+            'PUT' => $request->put($url, $data),
+            'DELETE' => $request->delete($url, $data),
         };
 
-        return $request->throw()->json();
+        return $response->throw()->json();
     }
 }

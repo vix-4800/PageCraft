@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use Str;
 
 /**
@@ -22,13 +23,19 @@ final class ArticleFactory extends Factory
     {
         $title = $this->faker->sentence(3);
 
+        $allFiles = Storage::disk('public')->allFiles('articles');
+        $availableImages = array_filter(
+            $allFiles,
+            fn (string $file): bool|int => preg_match('/\.(jpe?g|png|webp|gif)$/i', $file)
+        );
+
         return [
             'slug' => Str::slug($title),
             'title' => $title,
             'content' => $this->faker->text,
             'description' => $this->faker->text,
             'author' => $this->faker->name,
-            'image' => "https://dummyimage.com/600x400/{$this->faker->hexColor()}/{$this->faker->hexColor()}.png&text={$title}",
+            'image' => $this->faker->randomElement($availableImages),
         ];
     }
 

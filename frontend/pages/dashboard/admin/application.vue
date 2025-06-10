@@ -3,15 +3,6 @@
         <dashboard-page-name title="Application">
             <template #actions>
                 <u-button
-                    v-if="selected === 'system-monitoring'"
-                    color="blue"
-                    size="md"
-                    icon="material-symbols:refresh"
-                    label="Refresh"
-                    @click="refreshStats"
-                />
-
-                <u-button
                     v-if="selected === 'backups'"
                     color="blue"
                     size="md"
@@ -104,12 +95,8 @@ const items = [
     },
 ];
 
-const onChange = (index) => {
+const onChange = (index: number) => {
     selected.value = items[index].key;
-};
-
-const refreshStats = () => {
-    window.dispatchEvent(new CustomEvent('stats:refresh'));
 };
 
 const createBackup = () => {

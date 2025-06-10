@@ -60,19 +60,9 @@ final class Product extends Model
         'product_category_id',
     ];
 
-    public function variations(): HasMany
+    public function getRouteKeyName(): string
     {
-        return $this->hasMany(ProductVariation::class);
-    }
-
-    public function scopeActive(Builder $builder): Builder
-    {
-        return $builder->where('is_archived', false);
-    }
-
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(ProductReview::class);
+        return 'slug';
     }
 
     /**
@@ -95,6 +85,21 @@ final class Product extends Model
     public function shouldBeSearchable(): bool
     {
         return ! $this->is_archived;
+    }
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('is_archived', false);
+    }
+
+    public function variations(): HasMany
+    {
+        return $this->hasMany(ProductVariation::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
     }
 
     public function orderItems(): HasManyThrough

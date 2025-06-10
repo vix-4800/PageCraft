@@ -7,6 +7,7 @@ namespace App\Http\Resources\Product;
 use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @mixin ProductVariation
@@ -24,7 +25,7 @@ final class ProductVariationResource extends JsonResource
             'sku' => $this->sku,
             'price' => $this->price,
             'stock' => $this->stock,
-            'image' => $this->image,
+            'image' => Storage::disk('public')->url($this->image),
             'attributes' => ProductVariationAttributeResource::collection($this->whenLoaded('productVariationAttributes')),
             'product' => ProductResource::make($this->whenLoaded('product')),
         ];

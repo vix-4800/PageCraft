@@ -13,6 +13,7 @@ use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class OrderController extends Controller
@@ -31,7 +32,7 @@ final class OrderController extends Controller
         $limit = $request->input('limit', 10);
 
         return OrderResource::collection(
-            Order::with('user')->orderBy('created_at', 'desc')->paginate($limit)
+            Order::with('user.role')->orderBy('created_at', 'desc')->paginate($limit)
         );
     }
 
@@ -43,7 +44,10 @@ final class OrderController extends Controller
         $limit = $request->input('limit', 10);
 
         return OrderResource::collection(
-            Order::with('user')->orderBy('created_at', 'desc')->take($limit)->get()
+            Order::with('user.role')
+                ->orderBy('created_at', 'desc')
+                ->take($limit)
+                ->get()
         );
     }
 
@@ -80,8 +84,17 @@ final class OrderController extends Controller
      */
     public function show(Order $order): JsonResource
     {
+        abort_unless(
+            Auth::user()->is($order->user) || Auth::user()->isAdmin(),
+            404
+        );
+
         return new OrderResource(
-            $order->load(['items.productVariation.product', 'items.productVariation.productVariationAttributes', 'user'])
+            $order->load([
+                'items.productVariation.product',
+                'items.productVariation.productVariationAttributes.productAttributeValue.productAttribute',
+                'user',
+            ])
         );
     }
 

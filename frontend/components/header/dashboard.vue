@@ -9,7 +9,7 @@
                         to="/"
                         class="inline-flex items-center gap-1 font-bold tracking-wide group text-md text-slate-700 hover:text-indigo-600 active:text-slate-700 sm:text-lg"
                     >
-                        <nuxt-img
+                        <img
                             src="/logo.png"
                             :alt="appName"
                             width="40px"

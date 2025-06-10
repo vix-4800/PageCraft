@@ -13,10 +13,7 @@
                 @update:model-value="emit('update:modelValue', $event)"
             >
                 <template #option="{ option }">
-                    <nuxt-img
-                        :src="option.img"
-                        class="object-cover w-56 h-32"
-                    />
+                    <img :src="option.img" class="object-cover w-56 h-32" />
                     <span class="ml-2">{{ option.label }}</span>
                 </template>
             </u-select-menu>
@@ -31,7 +28,7 @@
                     :class="{ 'border-blue-500': modelValue === option.value }"
                     @click="emit('update:modelValue', option.value)"
                 >
-                    <nuxt-img
+                    <img
                         :src="option.img"
                         class="object-cover w-full h-32 mb-2"
                     />

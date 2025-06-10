@@ -19,7 +19,9 @@ final class MarketplaceAccountController extends Controller
      */
     public function index(): JsonResource
     {
-        return MarketplaceAccountResource::collection(MarketplaceAccount::all());
+        return MarketplaceAccountResource::collection(
+            MarketplaceAccount::with(['settings', 'marketplace'])->get()
+        );
     }
 
     /**
@@ -43,9 +45,9 @@ final class MarketplaceAccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MarketplaceAccount $marketplaceAccount): JsonResource
+    public function show(MarketplaceAccount $account): JsonResource
     {
-        return new MarketplaceAccountResource($marketplaceAccount);
+        return new MarketplaceAccountResource($account);
     }
 
     /**

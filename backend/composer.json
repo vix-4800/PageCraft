@@ -25,7 +25,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",
-        "captainhook/captainhook": "^5.25",
         "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^2.9",
@@ -70,6 +69,7 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -W",
+            "@composer rector",
             "@composer pint"
         ],
         "rector": "./vendor/bin/rector"

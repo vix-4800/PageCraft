@@ -18,7 +18,7 @@ final class ReviewController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $query = ProductReview::query()->with('user', 'product');
+        $query = ProductReview::query()->with(['user', 'product.productCategory']);
         $limit = $request->input('limit', 10);
 
         if ($request->has('status') && in_array($request->get('status'), ReviewStatus::values())) {

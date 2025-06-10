@@ -4,7 +4,7 @@
     >
         <div class="flex flex-wrap items-center justify-between w-full gap-5">
             <nuxt-link to="/" class="items-center hidden gap-4 sm:flex group">
-                <nuxt-img
+                <img
                     src="/logo.png"
                     :alt="appName"
                     width="40px"
@@ -18,7 +18,7 @@
                 </span>
             </nuxt-link>
             <nuxt-link to="/" class="hidden max-sm:block">
-                <nuxt-img
+                <img
                     src="/logo.png"
                     :alt="appName"
                     width="40px"
@@ -38,7 +38,7 @@
                 >
                     <li class="hidden mb-6 max-lg:block">
                         <nuxt-link to="/">
-                            <nuxt-img
+                            <img
                                 src="/logo.png"
                                 :alt="appName"
                                 width="40px"
