@@ -91,7 +91,7 @@ final class OrderController extends Controller
 
         return new OrderResource(
             $order->load([
-                'items.productVariation.product',
+                'items.productVariation.product.productCategory',
                 'items.productVariation.productVariationAttributes.productAttributeValue.productAttribute',
                 'user',
             ])
