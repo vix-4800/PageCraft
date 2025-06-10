@@ -1,8 +1,8 @@
 <template>
     <div>
         <page-title
-            title="Frequently asked questions"
-            subtitle="Find answers to common queries"
+            title="Часто задаваемые вопросы"
+            subtitle="Ответы на самые частые запросы"
         />
 
         <u-accordion

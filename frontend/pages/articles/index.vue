@@ -1,12 +1,12 @@
 <template>
     <div>
-        <page-title title="Articles" subtitle="Our latest news and updates" />
+        <page-title title="Статьи" subtitle="Статьи из нашего блога" />
 
         <editable-block :name="TemplateBlock.ArticleList">
             <component
                 :is="articleListComponent"
                 :articles="articles"
-                title="Articles"
+                title="Статьи"
                 :loading="articlesLoading"
             />
         </editable-block>

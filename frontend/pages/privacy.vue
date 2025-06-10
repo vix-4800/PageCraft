@@ -1,64 +1,64 @@
 <template>
     <div>
         <page-title
-            title="Privacy Policy"
-            subtitle="Your privacy is our priority"
+            title="Политика конфиденциальности"
+            subtitle="Ваша конфиденциальность — наш приоритет"
         />
 
         <ol class="space-y-4 list-decimal">
             <li>
-                <h2 class="text-2xl font-bold">Data Collection</h2>
+                <h2 class="text-2xl font-bold">Сбор данных</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        We collect: name, email, phone, delivery address,
-                        payment data (via secure gateways).
+                        Мы собираем: имя, e-mail, телефон, адрес доставки,
+                        платёжные данные (через защищённые платёжные системы).
                     </li>
                     <li class="text-lg">
-                        Automatically: IP address, device type, cookies for the
-                        shopping cart and authorization.
+                        Автоматически: IP-адрес, тип устройства, cookie для
+                        корзины и авторизации.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Data Usage</h2>
+                <h2 class="text-2xl font-bold">Использование данных</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        Order processing, communication with customers,
-                        improving store functionality.
+                        Оформление заказов, связь с клиентами, улучшение
+                        функциональности магазина.
                     </li>
                     <li class="text-lg">
-                        The administrator has access to their users' data to
-                        manage orders.
+                        Администратор имеет доступ к данным пользователей для
+                        управления заказами.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Data Protection</h2>
+                <h2 class="text-2xl font-bold">Защита данных</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        All data is encrypted (SSL, AES-256).
+                        Все данные шифруются (SSL, AES-256).
                     </li>
                     <li class="text-lg">
-                        Only payment gateways (Stripe, PayPal, etc.) have access
-                        to payment details.
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <h2 class="text-2xl font-bold">User Rights</h2>
-                <ul class="list-disc">
-                    <li class="text-lg">
-                        Users can request access, correction or deletion of
-                        their data through the store administrator.
+                        Доступ к платёжным данным есть только у платёжных систем
+                        (Stripe, PayPal и др.).
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Third Parties</h2>
+                <h2 class="text-2xl font-bold">Права пользователей</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        Data is transferred only to delivery services (e.g.
-                        SDEK) and payment systems.
+                        Пользователь может запросить доступ, изменение или
+                        удаление своих данных через администратора магазина.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h2 class="text-2xl font-bold">Третьи лица</h2>
+                <ul class="list-disc">
+                    <li class="text-lg">
+                        Данные передаются только службам доставки (например,
+                        СДЭК) и платёжным системам.
                     </li>
                 </ul>
             </li>

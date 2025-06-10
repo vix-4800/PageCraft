@@ -68,36 +68,16 @@
                                 size="md"
                                 class="font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                                 icon="material-symbols:account-circle"
-                                :label="$t('dashboard')"
+                                label="Кабинет"
                             />
 
                             <u-button
                                 v-else
                                 to="/login"
-                                label="Sign In"
+                                label="Войти"
                                 size="md"
                                 class="font-semibold bg-transparent hover:bg-yellow-500 hover:text-gray-900"
                             />
-                        </li>
-
-                        <li class="max-lg:py-1">
-                            <u-select-menu
-                                v-model="locale"
-                                :options="availableLocales"
-                                color="yellow"
-                                size="md"
-                                :value-attribute="'code'"
-                            >
-                                <template #label>
-                                    <span class="font-semibold text-gray-200">
-                                        {{ selectedLocaleLabel }}
-                                    </span>
-                                </template>
-
-                                <template #option="{ option: localeOption }">
-                                    {{ localeOption.name }}
-                                </template>
-                            </u-select-menu>
                         </li>
 
                         <li class="lg:hidden">
@@ -187,13 +167,4 @@ const isCollapseMenuVisible = ref(false);
 const toggleMenu = () => {
     isCollapseMenuVisible.value = !isCollapseMenuVisible.value;
 };
-
-const { locale, locales } = useI18n();
-
-const availableLocales = computed(() => {
-    return locales.value.filter((i) => i.code !== locale.value);
-});
-const selectedLocaleLabel = computed(() => {
-    return locales.value.find((i) => i.code === locale.value)?.name;
-});
 </script>

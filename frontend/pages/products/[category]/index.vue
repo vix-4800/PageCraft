@@ -1,15 +1,12 @@
 <template>
     <div>
-        <page-title
-            title="Products"
-            subtitle="Explore our wide range of products"
-        />
+        <page-title title="Товары" subtitle="Популярные товары" />
 
         <editable-block :name="TemplateBlock.ProductList">
             <component
                 :is="productListComponent"
                 :products="products"
-                title="Our Products"
+                title="Наши товары"
                 :with-pagination="true"
                 :page-count="pageCount"
                 :current-page="currentPage"

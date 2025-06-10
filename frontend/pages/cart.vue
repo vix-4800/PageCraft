@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title title="Shopping Cart" />
+        <page-title title="Корзина" />
 
         <editable-block :name="TemplateBlock.Cart">
             <component :is="cartComponent" />

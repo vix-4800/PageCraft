@@ -1,9 +1,6 @@
 <template>
     <div>
-        <page-title
-            title="Contact Us"
-            subtitle="Have some big idea or brand to develop and need help?"
-        />
+        <page-title title="Свяжитесь с нами" subtitle="Нужна помощь?" />
 
         <editable-block :name="TemplateBlock.Contact">
             <component :is="contactComponent" />

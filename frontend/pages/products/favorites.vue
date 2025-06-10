@@ -1,12 +1,12 @@
 <template>
     <div>
-        <page-title title="Your Favorites" />
+        <page-title title="Избранное" />
 
         <editable-block :name="TemplateBlock.ProductList">
             <component
                 :is="productListComponent"
                 :products="products"
-                title="Favorite Products"
+                title="Избранные товары"
             />
         </editable-block>
     </div>

@@ -5,24 +5,24 @@ export interface Page {
 }
 
 export const SharedPages: Record<string, Page[]> = {
-    'My Account': [
+    'Мой аккаунт': [
         {
-            label: 'My Orders',
+            label: 'Мои заказы',
             icon: 'material-symbols:shopping-cart',
             href: '/dashboard/my-orders',
         },
         {
-            label: 'My Reviews',
+            label: 'Мои отзывы',
             icon: 'material-symbols:rate-review',
             href: '/dashboard/my-reviews',
         },
         {
-            label: 'Saved Addresses',
+            label: 'Сохранённые адреса',
             icon: 'material-symbols:location-on',
             href: '/dashboard/my-addresses',
         },
     ],
-    'My Socials': [
+    'Мои соцсети': [
         {
             label: 'Telegram',
             icon: 'mdi:telegram',
@@ -37,57 +37,57 @@ export const SharedPages: Record<string, Page[]> = {
 };
 
 export const AdminPages: Record<string, Page[]> = {
-    Store: [
+    Магазин: [
         {
-            label: 'Orders',
+            label: 'Заказы',
             icon: 'material-symbols:shopping-cart',
             href: '/dashboard/admin/orders',
         },
         {
-            label: 'Products',
+            label: 'Товары',
             icon: 'material-symbols:storefront',
             href: '/dashboard/admin/products',
         },
         {
-            label: 'Coupons',
+            label: 'Купоны',
             icon: 'mdi:tag',
             href: '/dashboard/admin/coupons',
         },
     ],
-    Content: [
+    Контент: [
         {
-            label: 'Articles',
+            label: 'Статьи',
             icon: 'material-symbols:article',
             href: '/dashboard/admin/articles',
         },
     ],
-    Marketplaces: [
+    Маркетплейсы: [
         {
-            label: 'Accounts',
+            label: 'Аккаунты',
             icon: 'material-symbols:storefront',
             href: '/dashboard/admin/marketplaces',
         },
     ],
-    Management: [
+    Управление: [
         {
-            label: 'Users',
+            label: 'Пользователи',
             icon: 'material-symbols:groups',
             href: '/dashboard/admin/users',
         },
         {
-            label: 'Statistics',
+            label: 'Статистика',
             icon: 'material-symbols:analytics',
             href: '/dashboard/admin/statistics',
         },
     ],
-    Feedback: [
+    'Обратная связь': [
         {
-            label: 'Reviews',
+            label: 'Отзывы',
             icon: 'material-symbols:rate-review',
             href: '/dashboard/admin/reviews',
         },
         {
-            label: 'User Questions',
+            label: 'Вопросы пользователей',
             icon: 'material-symbols:feedback',
             href: '/dashboard/admin/questions',
         },
@@ -97,36 +97,36 @@ export const AdminPages: Record<string, Page[]> = {
             href: '/dashboard/admin/faq',
         },
     ],
-    Customization: [
+    Кастомизация: [
         {
-            label: 'Templates',
+            label: 'Шаблоны',
             icon: 'material-symbols:design-services',
             href: '/dashboard/admin/templates',
         },
         {
-            label: 'Email Templates',
+            label: 'Шаблоны писем',
             icon: 'material-symbols:mail',
             href: '/dashboard/admin/email-templates',
         },
         {
-            label: 'Banner',
+            label: 'Баннер',
             icon: 'material-symbols:brand-awareness-rounded',
             href: '/dashboard/admin/banner',
         },
     ],
-    System: [
+    Система: [
         {
-            label: 'Settings',
+            label: 'Настройки',
             icon: 'material-symbols:settings-outline',
             href: '/dashboard/admin/settings',
         },
         {
-            label: 'Application',
+            label: 'Приложение',
             icon: 'material-symbols:extension',
             href: '/dashboard/admin/application',
         },
         {
-            label: 'Terminal',
+            label: 'Терминал',
             icon: 'material-symbols:terminal',
             href: '/dashboard/admin/terminal',
         },

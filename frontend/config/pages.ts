@@ -1,18 +1,18 @@
 export const HeaderPages = [
-    { name: 'Home', href: '/', icon: 'material-symbols:home' },
+    { name: 'Главная', href: '/', icon: 'material-symbols:home' },
     {
-        name: 'Products',
+        name: 'Товары',
         href: '/products',
         icon: 'material-symbols:storefront',
     },
     {
-        name: 'Articles',
+        name: 'Статьи',
         href: '/articles',
         icon: 'material-symbols:article',
     },
-    { name: 'About', href: '/about', icon: 'material-symbols:info' },
+    { name: 'О нас', href: '/about', icon: 'material-symbols:info' },
     {
-        name: 'Contact',
+        name: 'Контакты',
         href: '/contact',
         icon: 'material-symbols:contact-page',
     },
@@ -20,8 +20,8 @@ export const HeaderPages = [
 ];
 
 export const FooterPages = [
-    { name: 'Contact', href: '/contact' },
-    { name: 'About', href: '/about' },
-    { name: 'Terms & Conditions', href: '/terms' },
-    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Контакты', href: '/contact' },
+    { name: 'О нас', href: '/about' },
+    { name: 'Правила и условия', href: '/terms' },
+    { name: 'Политика конфиденциальности', href: '/privacy' },
 ];

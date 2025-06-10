@@ -61,7 +61,7 @@
                         size="lg"
                         color="orange"
                         class="font-semibold"
-                        label="View"
+                        label="Подробнее"
                     />
                 </div>
             </div>

@@ -13,7 +13,7 @@
                         <main class="lg:col-span-9">
                             <div v-if="showWelcomeMessage" class="p-6">
                                 <p class="text-2xl font-semibold">
-                                    Welcome back,
+                                    С возвращением,
                                     <span
                                         class="text-indigo-600 dark:text-indigo-400"
                                     >
@@ -50,7 +50,7 @@ const showWelcomeMessage = computed(() =>
 const categories = {
     Dashboard: [
         {
-            label: 'Dashboard',
+            label: 'Главная',
             icon: 'material-symbols:dashboard',
             href: authStore.isAdmin ? '/dashboard/admin' : '/dashboard/user',
         },

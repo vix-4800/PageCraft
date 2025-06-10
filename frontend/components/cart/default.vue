@@ -38,7 +38,7 @@
                         <div>
                             <u-button
                                 class="font-semibold"
-                                label="REMOVE"
+                                label="УДАЛИТЬ"
                                 icon="material-symbols:delete-outline"
                                 color="red"
                                 @click="cartStore.removeProduct(item)"
@@ -88,13 +88,13 @@
             <h3
                 class="pb-2 text-lg font-bold text-gray-800 border-b border-gray-300 max-sm:text-base"
             >
-                Order Summary
+                Итог заказа
             </h3>
 
             <div class="mt-6">
                 <div>
                     <h3 class="mb-4 text-base font-semibold text-gray-800">
-                        Details
+                        Детали
                     </h3>
                     <div class="space-y-3">
                         <div
@@ -104,12 +104,12 @@
                             <u-form-group
                                 size="lg"
                                 name="name"
-                                label="Name"
+                                label="Имя"
                                 required
                             >
                                 <u-input
                                     v-model="cartDetails.name"
-                                    placeholder="Full Name"
+                                    placeholder="Полное имя"
                                     icon="material-symbols:person"
                                     trailing
                                     color="orange"
@@ -121,12 +121,12 @@
                             <u-form-group
                                 size="lg"
                                 name="email"
-                                label="Email"
+                                label="Почта"
                                 required
                             >
                                 <u-input
                                     v-model="cartDetails.email"
-                                    placeholder="Email"
+                                    placeholder="Почта"
                                     type="email"
                                     icon="material-symbols:mail"
                                     trailing
@@ -139,12 +139,12 @@
                             <u-form-group
                                 size="lg"
                                 name="phone"
-                                label="Phone"
+                                label="Телефон"
                                 required
                             >
                                 <u-input
                                     v-model="cartDetails.phone"
-                                    placeholder="Phone No."
+                                    placeholder="Телефон"
                                     icon="material-symbols:phone-enabled"
                                     trailing
                                     color="orange"
@@ -154,11 +154,11 @@
                             </u-form-group>
                         </div>
 
-                        <u-form-group size="lg" name="note" label="Note">
+                        <u-form-group size="lg" name="note" label="Заметка">
                             <u-textarea
                                 v-model="cartDetails.note"
                                 autoresize
-                                placeholder="Note"
+                                placeholder="Заметка"
                                 icon="material-symbols:note-add"
                                 trailing
                                 color="orange"
@@ -172,21 +172,21 @@
 
             <ul class="mt-6 space-y-3 text-gray-800">
                 <li class="flex flex-wrap gap-4 text-sm">
-                    Subtotal
+                    Предварительно
                     <span class="ml-auto font-bold">
                         ${{ cartStore.cost.sub_total }}
                     </span>
                 </li>
 
                 <li class="flex flex-wrap gap-4 text-sm">
-                    Shipping
+                    Доставка
                     <span class="ml-auto font-bold">
                         ${{ cartStore.cost.shipping }}
                     </span>
                 </li>
 
                 <li class="flex flex-wrap gap-4 text-sm">
-                    Tax
+                    Налог
                     <span class="ml-auto font-bold">
                         ${{ cartStore.cost.tax }}
                     </span>
@@ -195,7 +195,7 @@
                 <hr class="border-gray-300" />
 
                 <li class="flex flex-wrap gap-4 text-sm font-bold">
-                    Total
+                    Всего
                     <span class="ml-auto">${{ cartStore.cost.total }}</span>
                 </li>
             </ul>
@@ -205,7 +205,7 @@
                     color="orange"
                     :disabled="cartStore.totalItems === 0"
                     class="justify-center font-semibold text-gray-800 disabled:opacity-75"
-                    label="Checkout"
+                    label="Подтвердить"
                     block
                     size="lg"
                     icon="material-symbols:shopping-cart"
@@ -214,7 +214,7 @@
 
                 <u-button
                     to="/products"
-                    label="Continue Shopping"
+                    label="Продолжить покупки"
                     icon="ic:round-keyboard-arrow-left"
                     variant="outline"
                     color="blue"

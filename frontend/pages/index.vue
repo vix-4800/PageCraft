@@ -2,15 +2,15 @@
     <div>
         <section v-if="newProducts.length" id="new">
             <page-title
-                title="New Arrivals"
-                subtitle="New products from our store"
+                title="Новинки"
+                subtitle="Новые товары нашего магазина"
             />
 
             <editable-block :name="TemplateBlock.ProductList">
                 <component
                     :is="productListComponent"
                     :products="newProducts"
-                    title="New Arrivals"
+                    title="Новинки"
                     :loading="newProductsLoading"
                 />
             </editable-block>
@@ -20,15 +20,15 @@
 
         <section v-if="popularProducts.length" id="popular">
             <page-title
-                title="Popular Products"
-                subtitle="Products that are currently popular"
+                title="Популярные товары"
+                subtitle="Товары, которые сейчас в тренде"
             />
 
             <editable-block :name="TemplateBlock.ProductList">
                 <component
                     :is="productListComponent"
                     :products="popularProducts"
-                    title="Popular Products"
+                    title="Популярные товары"
                     :loading="popularProductsLoading"
                 />
             </editable-block>
@@ -37,13 +37,13 @@
         </section>
 
         <section v-if="articles.length" id="articles">
-            <page-title title="Articles" subtitle="Articles from our blog" />
+            <page-title title="Статьи" subtitle="Статьи из нашего блога" />
 
             <editable-block :name="TemplateBlock.ArticleList">
                 <component
                     :is="articleListComponent"
                     :articles="articles"
-                    title="Articles"
+                    title="Статьи"
                     :loading="articlesLoading"
                 />
             </editable-block>

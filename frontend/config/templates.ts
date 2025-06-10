@@ -8,44 +8,44 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
     header: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/header_default.png',
         },
         {
             value: 'minimalistic',
-            label: 'Minimalistic',
+            label: 'Минималистичный',
             img: 'images/templates/header_minimalistic.png',
         },
         {
             value: 'luvu',
-            label: 'Luvu',
+            label: 'Luvu', // Если это название шаблона/бренда — не переводится.
             img: '',
         },
         {
             value: 'photograph',
-            label: 'Photograph',
+            label: 'Фотография',
             img: '',
         },
     ],
     footer: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/footer_default.png',
         },
         {
             value: 'minimalistic',
-            label: 'Minimalistic',
+            label: 'Минималистичный',
             img: 'images/templates/footer_minimalistic.png',
         },
         {
             value: 'simple',
-            label: 'Simple',
+            label: 'Простой',
             img: 'images/templates/footer_simple.png',
         },
         {
             value: 'contact',
-            label: 'Contact Details',
+            label: 'Контактные данные',
             img: 'images/templates/footer_contact.png',
         },
         {
@@ -55,76 +55,76 @@ export const TemplateConfig: Record<string, TemplateOption[]> = {
         },
         {
             value: 'photograph',
-            label: 'Photograph',
+            label: 'Фотография',
             img: '',
         },
     ],
     product_list: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/product_list_default.png',
         },
         {
             value: 'modern',
-            label: 'Modern',
+            label: 'Современный',
             img: 'images/templates/product_list_modern.png',
         },
         {
             value: 'compact',
-            label: 'Compact',
+            label: 'Компактный',
             img: 'images/templates/product_list_compact.png',
         },
     ],
     product_detail: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/product_detail_default.png',
         },
         {
             value: 'modern',
-            label: 'Modern',
+            label: 'Современный',
             img: 'images/templates/product_detail_modern.png',
         },
     ],
     cart: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/cart_default.png',
         },
         {
             value: 'modern',
-            label: 'Modern',
+            label: 'Современный',
             img: 'images/templates/cart_modern.png',
         },
     ],
     contact: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/contact_default.png',
         },
     ],
     about: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/about_default.png',
         },
     ],
     article_list: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/article_list_default.png',
         },
     ],
     article_detail: [
         {
             value: 'default',
-            label: 'Default',
+            label: 'По умолчанию',
             img: 'images/templates/article_detail_default.png',
         },
     ],

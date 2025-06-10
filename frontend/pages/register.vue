@@ -15,7 +15,7 @@
                     v-model="credentials.name"
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
                     variant="none"
-                    placeholder="Name"
+                    placeholder="Имя"
                     icon="material-symbols:person"
                 />
             </u-form-group>
@@ -25,7 +25,7 @@
                     v-model="credentials.email"
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
                     variant="none"
-                    placeholder="Email"
+                    placeholder="Почта"
                     type="email"
                     icon="material-symbols:mail"
                 />
@@ -36,7 +36,7 @@
                     v-model="credentials.phone"
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
                     variant="none"
-                    placeholder="Phone"
+                    placeholder="Телефон"
                     icon="material-symbols:phone-enabled"
                 />
             </u-form-group>
@@ -47,7 +47,7 @@
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
                     type="password"
                     variant="none"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     icon="material-symbols:lock"
                 />
             </u-form-group>
@@ -58,7 +58,7 @@
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
                     type="password"
                     variant="none"
-                    placeholder="Password confirmation"
+                    placeholder="Подтверждение пароля"
                     icon="material-symbols:lock"
                 />
             </u-form-group>
@@ -68,7 +68,7 @@
                     class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                     size="lg"
                     block
-                    label="Register"
+                    label="Зарегистрироваться"
                     type="submit"
                     icon="material-symbols:person-add"
                     :loading="loading"
@@ -79,7 +79,7 @@
                     class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                     size="lg"
                     block
-                    label="Login"
+                    label="Войти"
                     to="/login"
                     icon="material-symbols:login-rounded"
                 />

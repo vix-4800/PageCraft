@@ -1,79 +1,83 @@
 <template>
     <div>
-        <page-title title="Terms of Service" />
+        <page-title title="Пользовательское соглашение" />
 
         <ol class="space-y-4 list-decimal">
             <li>
-                <h2 class="text-2xl font-bold">Acceptance</h2>
+                <h2 class="text-2xl font-bold">Принятие условий</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        By using the system, you agree to the terms and
-                        conditions and responsibility for the content of the
-                        store.
+                        Используя систему, вы соглашаетесь с условиями и несёте
+                        ответственность за контент магазина.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Account Registration</h2>
+                <h2 class="text-2xl font-bold">Регистрация аккаунта</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        The administrator is obliged to ensure the accuracy of
-                        the data and the security of the account.
+                        Администратор обязан обеспечивать достоверность данных и
+                        безопасность аккаунта.
                     </li>
                     <li class="text-lg">
-                        Users cannot create fake accounts for fraud.
+                        Пользователям запрещено создавать фейковые аккаунты с
+                        целью мошенничества.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Content Ownership</h2>
+                <h2 class="text-2xl font-bold">
+                    Право собственности на контент
+                </h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        The administrator retains the rights to product images
-                        and descriptions.
+                        Администратор сохраняет права на изображения и описания
+                        товаров.
                     </li>
                     <li class="text-lg">
-                        The [{{ appName }}] system does not claim user content.
+                        Система [{{ appName }}] не претендует на
+                        пользовательский контент.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Limitations</h2>
+                <h2 class="text-2xl font-bold">Ограничения</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        It is prohibited to use the system to sell prohibited
-                        goods.
+                        Запрещено использовать систему для продажи запрещённых
+                        товаров.
                     </li>
                     <li class="text-lg">
-                        We are not responsible for failures in the operation of
-                        payment gateways or delivery.
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <h2 class="text-2xl font-bold">Termination</h2>
-                <ul class="list-disc">
-                    <li class="text-lg">
-                        The administrator can delete their instance of the
-                        system at any time.
+                        Мы не несем ответственности за сбои в работе платёжных
+                        систем или служб доставки.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Changes</h2>
+                <h2 class="text-2xl font-bold">Удаление</h2>
                 <ul class="list-disc">
-                    <li class="text-lg">The terms may be updated.</li>
                     <li class="text-lg">
-                        Users will be notified via email or control panel.
+                        Администратор может удалить свою инстанцию системы в
+                        любое время.
                     </li>
                 </ul>
             </li>
             <li>
-                <h2 class="text-2xl font-bold">Governing Law</h2>
+                <h2 class="text-2xl font-bold">Изменения</h2>
+                <ul class="list-disc">
+                    <li class="text-lg">Условия могут обновляться.</li>
+                    <li class="text-lg">
+                        Пользователи будут уведомлены по электронной почте или в
+                        личном кабинете.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h2 class="text-2xl font-bold">Применимое право</h2>
                 <ul class="list-disc">
                     <li class="text-lg">
-                        Subject to the laws of the country where the instance of
-                        the system is located.
+                        Применяется законодательство страны, в которой размещена
+                        инстанция системы.
                     </li>
                 </ul>
             </li>
