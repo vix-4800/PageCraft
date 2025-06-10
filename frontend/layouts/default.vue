@@ -69,7 +69,11 @@ const config = useRuntimeConfig();
 const banner = ref<Banner | null>();
 onMounted(async () => {
     await templateStore.fetch();
-    await settingsStore.fetch();
+    await settingsStore.fetch().then(() => {
+        if (settingsStore.isMaintenance) {
+            // navigateTo('/maintenance');
+        }
+    });
 
     const { data } = await apiFetch<{ data: Banner }>(`v1/banners`);
     banner.value = data;
