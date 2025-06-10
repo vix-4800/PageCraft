@@ -6,13 +6,13 @@
             size="lg"
             icon="material-symbols:search"
             :placeholder="$t('search')"
-            class="w-full border-0 outline-none ring-0"
+            class="w-full border-0 outline-hidden ring-0"
             :ui="{
                 icon: { trailing: { pointer: '' } },
                 color: {
                     white: {
                         outline:
-                            'shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-yellow-400',
+                            'shadow-xs bg-white dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-yellow-400',
                     },
                 },
             }"
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <u-divider v-if="results[category].length" class="my-4" />
+                    <u-separator v-if="results[category].length" class="my-4" />
                 </li>
             </ul>
 

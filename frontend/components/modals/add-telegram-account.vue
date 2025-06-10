@@ -26,11 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-const modal = useModal();
 const { $notify } = useNuxtApp();
 
 const save = () => {
-    modal.close();
     $notify('Telegram account added successfully', 'success');
 };
 </script>

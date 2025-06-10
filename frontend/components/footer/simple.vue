@@ -1,8 +1,8 @@
 <template>
     <div
-        class="px-10 py-10 font-sans tracking-wide bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900"
+        class="px-10 py-10 font-sans tracking-wide bg-linear-to-r from-gray-900 via-gray-700 to-gray-900"
     >
-        <div class="max-w-screen-xl mx-auto">
+        <div class="max-w-(--breakpoint-xl) mx-auto">
             <div
                 class="flex flex-wrap items-center gap-6 md:justify-between max-md:flex-col"
             >

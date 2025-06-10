@@ -25,7 +25,7 @@
         >
             <u-pagination
                 v-model="page"
-                :active-button="{ variant: 'outline', color: 'blue' }"
+                :active-button="{ variant: 'outline-solid', color: 'blue' }"
                 :inactive-button="{ color: 'gray' }"
                 :total="total"
             />

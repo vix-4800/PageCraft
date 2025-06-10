@@ -39,7 +39,6 @@
 <script lang="ts" setup>
 import type { TemplateBlock } from '~/types/template';
 
-const modal = useModal();
 const templateStore = useSiteTemplatesStore();
 const editModeStore = useEditModeStore();
 
@@ -60,7 +59,7 @@ onMounted(() => {
 
 const save = () => {
     templateStore.setTemplateForBlock(name, selectedTemplate.value).then(() => {
-        modal.close();
+        //
     });
 
     editModeStore.addToHistory({

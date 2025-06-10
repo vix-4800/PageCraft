@@ -56,7 +56,7 @@
         <div class="p-4 lg:col-span-2">
             <u-form :state="state" :schema="schema" @submit="submitForm">
                 <div class="grid gap-4 sm:grid-cols-2">
-                    <u-form-group label="Email" name="email">
+                    <u-form-field label="Email" name="email">
                         <u-input
                             v-model="state.email"
                             icon="material-symbols:mail"
@@ -66,9 +66,9 @@
                             size="lg"
                             :disabled="loading"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Phone Number" name="phone">
+                    <u-form-field label="Phone Number" name="phone">
                         <u-input
                             v-model="state.phone"
                             icon="material-symbols:phone-enabled"
@@ -78,9 +78,9 @@
                             size="lg"
                             :disabled="loading"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group
+                    <u-form-field
                         label="Message"
                         name="message"
                         class="w-full col-span-full"
@@ -93,17 +93,17 @@
                             autoresize
                             :disabled="loading"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group name="subject" class="col-span-full">
+                    <u-form-field name="subject" class="col-span-full">
                         <u-radio-group
                             v-model="state.subject"
                             legend="Select Subject"
-                            :options="subjects"
+                            :items="subjects"
                             color="blue"
                             :disabled="loading"
                         />
-                    </u-form-group>
+                    </u-form-field>
                 </div>
 
                 <u-button

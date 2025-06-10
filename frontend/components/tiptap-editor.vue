@@ -486,7 +486,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'border max-w-full p-4 prose border-blue-500 h-[36rem] rounded-lg overflow-y-auto',
+            class: 'border max-w-full p-4 prose border-blue-500 h-144 rounded-lg overflow-y-auto',
         },
     },
     onUpdate: () => {

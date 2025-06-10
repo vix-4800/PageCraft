@@ -10,62 +10,62 @@
             class="space-y-4"
             @submit="submitForm"
         >
-            <u-form-group size="lg" name="name">
+            <u-form-field size="lg" name="name">
                 <u-input
                     v-model="credentials.name"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     variant="none"
                     placeholder="Name"
                     icon="material-symbols:person"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group size="lg" name="email">
+            <u-form-field size="lg" name="email">
                 <u-input
                     v-model="credentials.email"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     variant="none"
                     placeholder="Email"
                     type="email"
                     icon="material-symbols:mail"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group size="lg" name="phone">
+            <u-form-field size="lg" name="phone">
                 <u-input
                     v-model="credentials.phone"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     variant="none"
                     placeholder="Phone"
                     icon="material-symbols:phone-enabled"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group size="lg" name="password">
+            <u-form-field size="lg" name="password">
                 <u-input
                     v-model="credentials.password"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     type="password"
                     variant="none"
                     placeholder="Password"
                     icon="material-symbols:lock"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group size="lg" name="password_confirmation">
+            <u-form-field size="lg" name="password_confirmation">
                 <u-input
                     v-model="credentials.password_confirmation"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     type="password"
                     variant="none"
                     placeholder="Password confirmation"
                     icon="material-symbols:lock"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <div class="flex justify-center gap-4">
                 <u-button
-                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
+                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                     size="lg"
                     block
                     label="Register"
@@ -76,7 +76,7 @@
                 />
 
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                     size="lg"
                     block
                     label="Login"

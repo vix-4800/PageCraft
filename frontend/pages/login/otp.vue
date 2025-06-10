@@ -15,14 +15,14 @@
             class="space-y-6"
             @submit="verifyCode"
         >
-            <u-form-group size="lg" name="code" required>
+            <u-form-field size="lg" name="code" required>
                 <div class="flex justify-center gap-4">
                     <u-input
                         v-for="(digit, index) in verifyState"
                         :id="'code_input_' + index"
                         :key="index"
                         v-model="verifyState[index]"
-                        class="content-center w-12 h-16 text-lg font-bold border border-gray-600 rounded-lg shadow-xl bg-gray-80 hover:ring-1 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        class="content-center w-12 h-16 text-lg font-bold border border-gray-600 rounded-lg shadow-xl bg-gray-80 hover:ring-1 focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                         variant="none"
                         block
                         required
@@ -33,11 +33,11 @@
                         @keydown="handleKeydown(index, $event)"
                     />
                 </div>
-            </u-form-group>
+            </u-form-field>
 
             <div class="flex justify-center gap-4">
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                     size="lg"
                     label="Confirm"
                     block
@@ -46,7 +46,7 @@
                 />
 
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                     size="lg"
                     label="Back"
                     block
@@ -64,20 +64,20 @@
             class="space-y-4"
             @submit="sendOtp"
         >
-            <u-form-group size="lg" name="email">
+            <u-form-field size="lg" name="email">
                 <u-input
                     v-model="requestState.email"
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500"
                     variant="none"
                     placeholder="Email"
                     type="email"
                     icon="material-symbols:mail"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <div class="flex justify-center gap-4">
                 <u-button
-                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
+                    class="text-gray-100 bg-gray-800 border border-gray-600 rounded-lg shadow-xl disabled:bg-gray-800 ring-0 w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-indigo-800 hover:ring-indigo-600 hover:bg-gray-700"
                     size="lg"
                     label="Send Email"
                     block
@@ -88,7 +88,7 @@
                 />
 
                 <u-button
-                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
+                    class="bg-gray-800 border border-gray-600 rounded-lg shadow-xl w-36 hover:ring-1 te focus:outline-hidden focus:ring-2 focus:ring-gray-500 hover:bg-gray-700"
                     size="lg"
                     label="Back"
                     block

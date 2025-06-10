@@ -14,7 +14,7 @@
                 v-html="qrCode"
             ></div>
 
-            <u-divider class="my-4" />
+            <u-separator class="my-4" />
 
             <p class="mb-4 text-sm font-semibold text-gray-600">
                 If you lost your device, you can recover your account using a

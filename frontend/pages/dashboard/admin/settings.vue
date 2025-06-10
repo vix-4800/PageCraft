@@ -8,10 +8,10 @@
                 :key="category"
                 class="space-y-2"
             >
-                <u-divider :label="capitalize(category.replace('_', ' '))" />
+                <u-separator :label="capitalize(category.replace('_', ' '))" />
 
                 <div v-for="(setting, index) in settings" :key="index">
-                    <u-form-group
+                    <u-form-field
                         v-if="setting.type === SettingType.TEXT"
                         :label="capitalize(setting.key.replace('_', ' '))"
                         required
@@ -24,20 +24,20 @@
                                 capitalize(setting.key.replace('_', ' '))
                             "
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group
+                    <u-form-field
                         v-if="setting.type === SettingType.BOOLEAN"
                         :label="capitalize(setting.key.replace('_', ' '))"
                     >
-                        <u-toggle
+                        <u-switch
                             v-model="setting.value"
                             color="blue"
                             size="lg"
                             on-icon="material-symbols:check"
                             off-icon="material-symbols:close"
                         />
-                    </u-form-group>
+                    </u-form-field>
                 </div>
             </div>
 

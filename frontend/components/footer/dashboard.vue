@@ -1,6 +1,6 @@
 <template>
     <footer
-        class="flex items-center grow-0 bg-gradient-to-br from-gray-900 to-gray-700"
+        class="flex items-center grow-0 bg-linear-to-br from-gray-900 to-gray-700"
     >
         <div class="container px-4 mx-auto lg:px-8 xl:max-w-7xl">
             <div

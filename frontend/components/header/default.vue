@@ -1,7 +1,7 @@
 <template>
     <div class="relative z-50 tracking-wide shadow-md">
         <section
-            class="md:flex lg:items-center md:gap-6 relative py-3 lg:px-10 px-4 bg-gradient-to-br from-gray-900 to-gray-700 lg:min-h-[80px] max-lg:min-h-[60px]"
+            class="md:flex lg:items-center md:gap-6 relative py-3 lg:px-10 px-4 bg-linear-to-br from-gray-900 to-gray-700 lg:min-h-[80px] max-lg:min-h-[60px]"
         >
             <nuxt-link
                 to="/"
@@ -83,7 +83,7 @@
                         <li class="max-lg:py-1">
                             <u-select-menu
                                 v-model="locale"
-                                :options="availableLocales"
+                                :items="availableLocales"
                                 color="yellow"
                                 size="md"
                                 :value-attribute="'code'"
@@ -116,16 +116,16 @@
         <div
             v-show="isCollapseMenuVisible"
             :class="{ isCollapseMenuVisible: 'max-lg:hidden' }"
-            class="lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50"
+            class="lg:block! max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50"
         >
             <u-button
-                class="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3 text-gray-800 hover:bg-yellow-500 hover:text-gray-900"
+                class="fixed p-3 text-gray-800 bg-white rounded-full lg:hidden top-2 right-4 z-100 hover:bg-yellow-500 hover:text-gray-900"
                 icon="material-symbols:close"
                 @click="toggleMenu"
             />
 
             <ul
-                class="lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-gradient-to-br from-gray-900 to-gray-700 min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50"
+                class="lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-linear-to-br from-gray-900 to-gray-700 min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50"
             >
                 <li class="hidden mb-6 max-lg:block">
                     <nuxt-link

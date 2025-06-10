@@ -9,7 +9,7 @@
 
         <u-context-menu
             v-model="isOpen"
-            class="z-[100]"
+            class="z-100"
             :virtual-element="virtualElement"
             :popper="{ placement: 'right' }"
         >

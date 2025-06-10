@@ -1,6 +1,6 @@
 <template>
     <div
-        class="px-10 py-10 font-sans tracking-wide bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900"
+        class="px-10 py-10 font-sans tracking-wide bg-linear-to-r from-slate-900 via-slate-700 to-slate-900"
     >
         <div class="max-w-2xl mx-auto text-center">
             <nuxt-link to="/" class="inline-block">

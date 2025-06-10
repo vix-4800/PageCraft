@@ -30,7 +30,7 @@
             <div
                 :class="{
                     isCollapseMenuVisible:
-                        'max-lg:hidden lg:!block max-lg:before:bg-black max-lg:before:z-50 max-lg:before:inset-0 max-lg:before:fixed max-lg:before:opacity-50',
+                        'max-lg:hidden lg:block! max-lg:before:bg-black max-lg:before:z-50 max-lg:before:inset-0 max-lg:before:fixed max-lg:before:opacity-50',
                 }"
             >
                 <ul

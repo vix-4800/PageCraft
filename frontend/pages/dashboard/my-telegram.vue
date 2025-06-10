@@ -30,8 +30,8 @@ onMounted(() => {
     // Check if account already exists
 });
 
-const modal = useModal();
+const overlay = useOverlay();
 const add = () => {
-    modal.open(AddTelegramAccount);
+    overlay.create(AddTelegramAccount);
 };
 </script>

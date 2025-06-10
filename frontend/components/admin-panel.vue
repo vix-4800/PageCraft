@@ -1,7 +1,7 @@
 <template>
     <div
         id="edit-panel"
-        class="top-0 z-[100] flex flex-col sm:flex-row justify-between items-center h-auto sm:h-12 px-4 backdrop-blur-lg bg-gray-800/80 border-b border-gray-700 shadow-xl transition-all duration-300"
+        class="top-0 flex flex-col items-center justify-between h-auto px-4 transition-all duration-300 border-b border-gray-700 shadow-xl z-100 sm:flex-row sm:h-12 backdrop-blur-lg bg-gray-800/80"
         :class="{
             'sticky sm:h-16': editModeStore.enabled,
         }"
@@ -51,7 +51,7 @@
                 @click="editModeStore.resetChanges()"
             />
 
-            <u-dropdown
+            <u-dropdown-menu
                 v-if="editModeStore.enabled && editModeStore.hasChanges"
                 :popper="{ placement: 'bottom-end' }"
                 :items="[
@@ -76,7 +76,7 @@
                         {{ item.newTemplate }}
                     </span>
                 </template>
-            </u-dropdown>
+            </u-dropdown-menu>
 
             <u-button
                 :label="editModeStore.enabled ? 'Disable' : 'Edit mode'"

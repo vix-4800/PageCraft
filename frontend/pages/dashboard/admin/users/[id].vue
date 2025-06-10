@@ -39,26 +39,26 @@
                     class="space-y-4"
                     @submit="submitForm"
                 >
-                    <u-form-group label="Name" name="name">
+                    <u-form-field label="Name" name="name">
                         <u-input v-model="user.name" color="blue" size="lg" />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Email" name="email">
+                    <u-form-field label="Email" name="email">
                         <u-input v-model="user.email" color="blue" size="lg" />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Phone" name="phone">
+                    <u-form-field label="Phone" name="phone">
                         <u-input v-model="user.phone" color="blue" size="lg" />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Role" name="role">
+                    <u-form-field label="Role" name="role">
                         <u-select
                             v-model="user.role"
                             color="blue"
-                            :options="roles"
+                            :items="roles"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
                     <u-button
                         color="blue"

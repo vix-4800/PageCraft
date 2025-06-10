@@ -13,18 +13,18 @@
             @submit="save"
         >
             <div class="flex w-full gap-4">
-                <u-form-group label="Title" name="title" class="w-1/2">
+                <u-form-field label="Title" name="title" class="w-1/2">
                     <u-input v-model="article.title" color="blue" />
-                </u-form-group>
+                </u-form-field>
 
-                <u-form-group label="Author" name="author" class="w-1/2">
+                <u-form-field label="Author" name="author" class="w-1/2">
                     <u-input v-model="article.author" color="blue" />
-                </u-form-group>
+                </u-form-field>
             </div>
 
-            <u-form-group label="Description" name="description">
+            <u-form-field label="Description" name="description">
                 <u-textarea v-model="article.description" color="blue" />
-            </u-form-group>
+            </u-form-field>
 
             <tiptap-editor v-model="article.content" />
 

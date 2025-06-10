@@ -27,7 +27,7 @@
             <div class="lg:col-span-2">
                 <u-breadcrumb
                     :ui="{ active: 'text-orange-500' }"
-                    :links="breadcrumbLinks"
+                    :items="breadcrumbLinks"
                     divider="/"
                     class="mb-4"
                 />
@@ -333,7 +333,7 @@
                                 size="20"
                                 class="bg-gray-400"
                             />
-                            <p class="text-xs !ml-2 font-semibold">
+                            <p class="text-xs ml-2! font-semibold">
                                 {{
                                     new Date(review.created_at).toLocaleString()
                                 }}
@@ -360,26 +360,26 @@
                     :schema="schema"
                     @submit="submitReview"
                 >
-                    <u-form-group label="Text" name="text">
+                    <u-form-field label="Text" name="text">
                         <u-textarea
                             v-model="reviewForm.text"
                             color="orange"
                             placeholder="Write your review here..."
                             autoresize
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group
+                    <u-form-field
                         :label="'Rating' + ' (' + reviewForm.rating + ')'"
                         name="rating"
                     >
-                        <u-range
+                        <u-slider
                             v-model="reviewForm.rating"
                             color="orange"
                             :min="1"
                             :max="5"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
                     <div class="flex mt-4">
                         <u-button

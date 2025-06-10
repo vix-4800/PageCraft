@@ -72,7 +72,7 @@
                 v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
-                :active-button="{ variant: 'outline', color: 'orange' }"
+                :active-button="{ variant: 'outline-solid', color: 'orange' }"
                 :inactive-button="{ color: 'gray' }"
                 :page-count="pageCount"
                 :total="products.length"

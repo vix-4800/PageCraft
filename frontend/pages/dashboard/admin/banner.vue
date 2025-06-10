@@ -10,33 +10,33 @@
             class="space-y-4"
             @submit="save"
         >
-            <u-form-group label="Text" name="text">
+            <u-form-field label="Text" name="text">
                 <u-input
                     v-model="banner.text"
                     placeholder="Banner text"
                     color="blue"
                     size="md"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group label="Link" name="link">
+            <u-form-field label="Link" name="link">
                 <u-input
                     v-model="banner.link"
                     placeholder="Banner link"
                     color="blue"
                     size="md"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group label="Is Banner Active" name="is_active">
-                <u-toggle
+            <u-form-field label="Is Banner Active" name="is_active">
+                <u-switch
                     v-model="banner.is_active"
                     color="blue"
                     size="lg"
                     on-icon="material-symbols:check"
                     off-icon="material-symbols:close"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <u-button
                 type="submit"

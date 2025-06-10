@@ -27,7 +27,7 @@
             >
                 <u-pagination
                     v-model="pendingReviewsPage"
-                    :active-button="{ variant: 'outline', color: 'blue' }"
+                    :active-button="{ variant: 'outline-solid', color: 'blue' }"
                     :inactive-button="{ color: 'gray' }"
                     :total="pendingReviewsTotal"
                 />
@@ -59,7 +59,7 @@
             >
                 <u-pagination
                     v-model="allReviewsPage"
-                    :active-button="{ variant: 'outline', color: 'blue' }"
+                    :active-button="{ variant: 'outline-solid', color: 'blue' }"
                     :inactive-button="{ color: 'gray' }"
                     :total="allReviewsTotal"
                 />

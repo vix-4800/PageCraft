@@ -68,7 +68,7 @@
                 </h3>
             </div>
             <div class="p-6">
-                <div class="min-w-full overflow-x-auto rounded">
+                <div class="min-w-full overflow-x-auto rounded-sm">
                     <u-table
                         :columns="salesColumns"
                         :rows="sales"

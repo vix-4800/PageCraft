@@ -3,39 +3,39 @@
         <dashboard-page-name title="Create Marketplace Account" />
 
         <u-form :state="account" class="space-y-4">
-            <u-form-group label="Name" name="name">
+            <u-form-field label="Name" name="name">
                 <u-input
                     v-model="account.name"
                     color="blue"
                     size="md"
                     placeholder="Name"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group label="Marketplace" name="marketplace">
+            <u-form-field label="Marketplace" name="marketplace">
                 <u-select-menu
                     v-model="account.marketplace"
                     color="blue"
-                    :options="marketplaceOptions"
+                    :items="marketplaceOptions"
                     size="md"
                     placeholder="Account Marketplace"
                     value-attribute="value"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <div v-if="account.marketplace" v-auto-animate class="space-y-4">
                 <div
                     v-for="setting in marketplaceSettings[account.marketplace]"
                     :key="setting.key"
                 >
-                    <u-form-group name="key" :label="setting.label">
+                    <u-form-field name="key" :label="setting.label">
                         <u-input
                             v-model="setting.value"
                             color="blue"
                             size="md"
                             :placeholder="setting.label"
                         />
-                    </u-form-group>
+                    </u-form-field>
                 </div>
             </div>
 

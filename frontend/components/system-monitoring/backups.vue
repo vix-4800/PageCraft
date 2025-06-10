@@ -14,13 +14,13 @@
         }"
     >
         <template #actions-data="{ row }">
-            <u-dropdown :items="actions(row)">
+            <u-dropdown-menu :items="actions(row)">
                 <u-button
                     color="gray"
                     variant="ghost"
                     icon="i-heroicons-ellipsis-horizontal-20-solid"
                 />
-            </u-dropdown>
+            </u-dropdown-menu>
         </template>
     </u-table>
 </template>

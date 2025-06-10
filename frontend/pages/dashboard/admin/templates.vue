@@ -3,7 +3,7 @@
         <dashboard-page-name title="Page Templates" />
 
         <u-form :state="siteTemplatesState" class="space-y-2" @submit="save">
-            <u-form-group
+            <u-form-field
                 v-for="(template, index) in siteTemplatesState"
                 :key="index"
                 :label="template.title"
@@ -14,7 +14,7 @@
                     mode="select"
                     :name="template.name"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <u-button
                 icon="material-symbols:save"

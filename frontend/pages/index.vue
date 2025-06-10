@@ -15,7 +15,7 @@
                 />
             </editable-block>
 
-            <u-divider class="my-10" />
+            <u-separator class="my-10" />
         </section>
 
         <section v-if="popularProducts.length" id="popular">
@@ -33,7 +33,7 @@
                 />
             </editable-block>
 
-            <u-divider class="my-10" />
+            <u-separator class="my-10" />
         </section>
 
         <section v-if="articles.length" id="articles">

@@ -18,7 +18,7 @@
                 :schema="schema"
                 @submit="confirm"
             >
-                <u-form-group label="Password" name="password" required>
+                <u-form-field label="Password" name="password" required>
                     <u-input
                         v-model="state.password"
                         color="blue"
@@ -26,7 +26,7 @@
                         type="password"
                         label="Password"
                     />
-                </u-form-group>
+                </u-form-field>
 
                 <div class="flex justify-end gap-2 mt-4">
                     <u-button
@@ -81,7 +81,6 @@ const state = reactive({
     password: '' as string,
 });
 
-const modal = useModal();
 const { $notify } = useNuxtApp();
 const authStore = useAuthStore();
 
@@ -93,8 +92,6 @@ const confirm = async (event: FormSubmitEvent<Schema>) => {
 
     try {
         await authStore.confirmPassword(event.data.password);
-
-        modal.close();
 
         await successFunction();
 

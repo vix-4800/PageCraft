@@ -14,7 +14,7 @@
                     class="space-y-4"
                     @submit="updateProfile"
                 >
-                    <u-form-group label="Name" name="name">
+                    <u-form-field label="Name" name="name">
                         <u-input
                             v-model="profileState.name"
                             icon="material-symbols:person"
@@ -22,9 +22,9 @@
                             color="blue"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Email" name="email">
+                    <u-form-field label="Email" name="email">
                         <u-input
                             v-model="profileState.email"
                             icon="material-symbols:mail"
@@ -33,9 +33,9 @@
                             type="email"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Phone" name="phone">
+                    <u-form-field label="Phone" name="phone">
                         <u-input
                             v-model="profileState.phone"
                             icon="material-symbols:phone-enabled"
@@ -43,7 +43,7 @@
                             placeholder="Phone"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
                     <u-button
                         color="blue"
@@ -68,7 +68,7 @@
                     class="space-y-4"
                     @submit="updatePassword"
                 >
-                    <u-form-group
+                    <u-form-field
                         label="Current Password"
                         name="current_password"
                     >
@@ -80,9 +80,9 @@
                             color="blue"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="New Password" name="password">
+                    <u-form-field label="New Password" name="password">
                         <u-input
                             v-model="passwordState.password"
                             icon="material-symbols:lock"
@@ -91,9 +91,9 @@
                             color="blue"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group
+                    <u-form-field
                         label="Confirm New Password"
                         name="password_confirmation"
                     >
@@ -105,7 +105,7 @@
                             color="blue"
                             size="lg"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
                     <u-button
                         color="blue"
@@ -273,15 +273,12 @@ const validatePassword = (passwordState: Schema): FormError[] => {
     return errors;
 };
 
-const modal = useModal();
+const overlay = useOverlay();
 async function showQrCode() {
     const qrCode = await authStore.fetchTwoFactorQrCode();
     const recoveryCodes = await authStore.fetchTwoFactorRecoveryCodes();
 
-    modal.open(TwoFactor, {
-        qrCode,
-        recoveryCodes,
-    });
+    overlay.create(TwoFactor, { props: { qrCode, recoveryCodes } });
 }
 
 async function toggleTwoFactor() {

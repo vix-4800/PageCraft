@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="show"
-        class="flex items-center max-md:flex-col gap-6 bg-gradient-to-tr from-yellow-700 to-yellow-400 text-white px-6 py-3.5 font-[sans-serif]"
+        class="flex items-center max-md:flex-col gap-6 bg-linear-to-tr from-yellow-700 to-yellow-400 text-white px-6 py-3.5 font-[sans-serif]"
     >
         <p class="flex-1 text-base max-md:text-center">
             {{ text }}

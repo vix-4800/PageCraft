@@ -1,6 +1,6 @@
 <template>
     <main
-        class="w-full h-screen bg-gradient-to-br from-gray-900 to-gray-700 page-transition layout-transition"
+        class="w-full h-screen bg-linear-to-br from-gray-900 to-gray-700 page-transition layout-transition"
     >
         <div class="flex flex-col justify-center h-screen max-w-2xl mx-auto">
             <div

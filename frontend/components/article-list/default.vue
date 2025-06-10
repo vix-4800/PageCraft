@@ -11,7 +11,7 @@
                 v-for="article in articles"
                 :key="article.id"
                 :to="`/articles/${article.slug}`"
-                class="bg-white cursor-pointer rounded overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative top-0 hover:-top-2 transition-all duration-300"
+                class="bg-white cursor-pointer rounded-sm overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative top-0 hover:-top-2 transition-all duration-300"
             >
                 <img
                     :src="article.image"

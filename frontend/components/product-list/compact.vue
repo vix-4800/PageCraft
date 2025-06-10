@@ -7,13 +7,13 @@
                 <div
                     v-for="product in products"
                     :key="product.slug"
-                    class="bg-white flex flex-col rounded overflow-hidden shadow-md hover:scale-[1.01] transition-all"
+                    class="bg-white flex flex-col rounded-sm overflow-hidden shadow-md hover:scale-[1.01] transition-all"
                 >
                     <div class="w-full">
                         <img
                             :src="product.product_images[0]"
                             :alt="product.name"
-                            class="w-full object-cover object-top aspect-[230/307]"
+                            class="w-full object-cover object-top aspect-230/307"
                             placeholder="/placeholder.png"
                         />
                     </div>
@@ -65,7 +65,7 @@
                 v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
-                :active-button="{ variant: 'outline', color: 'orange' }"
+                :active-button="{ variant: 'outline-solid', color: 'orange' }"
                 :inactive-button="{ color: 'gray' }"
                 :page-count="pageCount"
                 :total="products.length"

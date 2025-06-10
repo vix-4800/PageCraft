@@ -6,7 +6,7 @@
                 :key="category"
                 class="mb-4"
             >
-                <u-divider :label="category" />
+                <u-separator :label="category" />
 
                 <div class="space-y-1">
                     <div v-for="link in links" :key="link.label">

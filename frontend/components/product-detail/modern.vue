@@ -19,7 +19,7 @@
                                 <img
                                     :src="image"
                                     :alt="product.name"
-                                    class="aspect-[64/85] w-full cursor-pointer border-b-2 border-black"
+                                    class="w-full border-b-2 border-black cursor-pointer aspect-64/85"
                                 />
                             </u-button>
                         </div>
@@ -27,7 +27,7 @@
                             <img
                                 :src="selectedImage"
                                 :alt="product.name"
-                                class="w-full aspect-[548/712] object-cover"
+                                class="object-cover w-full aspect-548/712"
                             />
                         </div>
                     </div>
@@ -312,7 +312,7 @@
                                             d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
                                         />
                                     </svg>
-                                    <p class="text-xs text-gray-500 !ml-2">
+                                    <p class="text-xs text-gray-500 ml-2!">
                                         {{
                                             new Date(
                                                 review.created_at

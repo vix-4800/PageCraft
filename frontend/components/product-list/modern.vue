@@ -55,7 +55,7 @@
                         <u-button
                             :to="`/products/${product.category.slug}/${product.slug}`"
                             label="Order now"
-                            class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider bg-blue-600 hover:bg-blue-700 outline-none"
+                            class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider bg-blue-600 hover:bg-blue-700 outline-hidden"
                         />
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 v-if="withPagination && pageCount > 1"
                 v-model="page"
                 size="lg"
-                :active-button="{ variant: 'outline', color: 'orange' }"
+                :active-button="{ variant: 'outline-solid', color: 'orange' }"
                 :inactive-button="{ color: 'gray' }"
                 :page-count="pageCount"
                 :total="products.length"

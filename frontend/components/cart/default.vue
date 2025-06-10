@@ -55,7 +55,7 @@
                     </h4>
 
                     <div
-                        class="flex items-center gap-2 mt-6 text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-none"
+                        class="flex items-center gap-2 mt-6 text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-hidden"
                     >
                         <u-button
                             size="xs"
@@ -101,7 +101,7 @@
                             v-if="!authStore.isAuthenticated"
                             class="space-y-3"
                         >
-                            <u-form-group
+                            <u-form-field
                                 size="lg"
                                 name="name"
                                 label="Name"
@@ -116,9 +116,9 @@
                                     size="lg"
                                     :disabled="cartStore.totalItems === 0"
                                 />
-                            </u-form-group>
+                            </u-form-field>
 
-                            <u-form-group
+                            <u-form-field
                                 size="lg"
                                 name="email"
                                 label="Email"
@@ -134,9 +134,9 @@
                                     size="lg"
                                     :disabled="cartStore.totalItems === 0"
                                 />
-                            </u-form-group>
+                            </u-form-field>
 
-                            <u-form-group
+                            <u-form-field
                                 size="lg"
                                 name="phone"
                                 label="Phone"
@@ -151,10 +151,10 @@
                                     size="lg"
                                     :disabled="cartStore.totalItems === 0"
                                 />
-                            </u-form-group>
+                            </u-form-field>
                         </div>
 
-                        <u-form-group size="lg" name="note" label="Note">
+                        <u-form-field size="lg" name="note" label="Note">
                             <u-textarea
                                 v-model="cartDetails.note"
                                 autoresize
@@ -165,7 +165,7 @@
                                 size="lg"
                                 :disabled="cartStore.totalItems === 0"
                             />
-                        </u-form-group>
+                        </u-form-field>
                     </div>
                 </div>
             </div>

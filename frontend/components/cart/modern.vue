@@ -35,7 +35,7 @@
                                 <div
                                     v-for="attribute in item.attributes"
                                     :key="attribute.name"
-                                    class="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                                    class="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-hidden bg-transparent rounded-md"
                                 >
                                     {{ capitalize(attribute.name) }}:
                                     {{ capitalize(attribute.value) }}
@@ -43,7 +43,7 @@
                             </div>
 
                             <div
-                                class="flex items-center text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-none w-max"
+                                class="flex items-center text-xs text-gray-800 bg-transparent border border-gray-300 rounded-md outline-hidden w-max"
                             >
                                 <u-button
                                     size="xs"
@@ -86,7 +86,7 @@
         >
             <div class="space-y-4">
                 <div v-if="!authStore.isAuthenticated" class="space-y-3">
-                    <u-form-group size="lg" name="name" label="Name" required>
+                    <u-form-field size="lg" name="name" label="Name" required>
                         <u-input
                             v-model="cartDetails.name"
                             placeholder="Full Name"
@@ -96,9 +96,9 @@
                             size="lg"
                             :disabled="cartStore.totalItems === 0"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group size="lg" name="email" label="Email" required>
+                    <u-form-field size="lg" name="email" label="Email" required>
                         <u-input
                             v-model="cartDetails.email"
                             placeholder="Email"
@@ -109,9 +109,9 @@
                             size="lg"
                             :disabled="cartStore.totalItems === 0"
                         />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group size="lg" name="phone" label="Phone" required>
+                    <u-form-field size="lg" name="phone" label="Phone" required>
                         <u-input
                             v-model="cartDetails.phone"
                             placeholder="Phone No."
@@ -121,10 +121,10 @@
                             size="lg"
                             :disabled="cartStore.totalItems === 0"
                         />
-                    </u-form-group>
+                    </u-form-field>
                 </div>
 
-                <u-form-group size="lg" name="note" label="Note">
+                <u-form-field size="lg" name="note" label="Note">
                     <u-textarea
                         v-model="cartDetails.note"
                         autoresize
@@ -135,7 +135,7 @@
                         size="lg"
                         :disabled="cartStore.totalItems === 0"
                     />
-                </u-form-group>
+                </u-form-field>
             </div>
 
             <ul class="mt-8 space-y-4 text-gray-800">

@@ -1,7 +1,7 @@
 <template>
     <u-input-menu
         v-model="selected"
-        :options="pages"
+        :items="pages"
         placeholder="Search Pages"
         size="lg"
         class="hidden md:block lg:w-96 md:w-64"

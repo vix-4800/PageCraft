@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex items-center flex-none z-1 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-gray-800"
+        class="flex items-center flex-none z-1 bg-linear-to-br from-gray-900 to-gray-700 dark:from-gray-800"
     >
         <div class="container px-4 mx-auto lg:px-8 xl:max-w-7xl">
             <div class="flex justify-between py-6">
@@ -39,7 +39,7 @@
                             class="font-semibold bg-transparent hover:bg-indigo-100 dark:text-white dark:bg-transparent dark:hover:bg-indigo-100 hover:text-indigo-600 dark:hover:hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                             size="md"
                             icon="material-symbols:notifications"
-                            @click="slideover.open(Notifications)"
+                            @click="overlay.create(Notifications)"
                         />
 
                         <u-button
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="relative inline-block">
-                        <u-dropdown
+                        <u-dropdown-menu
                             :items="userDropdownItems"
                             :popper="{ placement: 'bottom-start' }"
                         >
@@ -65,7 +65,7 @@
                                 class="font-semibold bg-transparent hover:bg-indigo-100 dark:text-white dark:bg-transparent dark:hover:bg-indigo-100 hover:text-indigo-600 dark:hover:hover:text-indigo-600 active:border-indigo-200 active:bg-indigo-100"
                                 trailing-icon="i-heroicons-chevron-down-20-solid"
                             />
-                        </u-dropdown>
+                        </u-dropdown-menu>
                     </div>
 
                     <div class="lg:hidden">
@@ -130,7 +130,7 @@ const settingStore = useSiteSettingsStore();
 const userName = computed(() => authStore.user?.name || 'User');
 const appName: string = config.public.appName;
 
-const slideover = useSlideover();
+const overlay = useOverlay();
 
 const userDropdownItems = [
     [

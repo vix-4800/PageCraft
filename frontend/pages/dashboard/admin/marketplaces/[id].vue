@@ -17,16 +17,16 @@
         </dashboard-page-name>
 
         <u-form v-if="account" :state="account" class="space-y-4">
-            <u-form-group label="Name" name="name">
+            <u-form-field label="Name" name="name">
                 <u-input
                     v-model="account.name"
                     color="blue"
                     size="md"
                     placeholder="Name"
                 />
-            </u-form-group>
+            </u-form-field>
 
-            <u-form-group
+            <u-form-field
                 v-for="setting in account.settings"
                 :key="setting.key"
                 name="value"
@@ -38,7 +38,7 @@
                     size="md"
                     placeholder="Value"
                 />
-            </u-form-group>
+            </u-form-field>
 
             <u-button
                 icon="material-symbols:save"

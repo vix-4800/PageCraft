@@ -3,7 +3,7 @@ import TemplateChange from '~/components/modals/template-change.vue';
 
 export const useContextMenu = () => {
     const editModeStore = useEditModeStore();
-    const modal = useModal();
+    const overlay = useOverlay();
 
     const isOpen = ref(false);
     const virtualElement = ref({ getBoundingClientRect: () => ({}) });
@@ -29,9 +29,7 @@ export const useContextMenu = () => {
     const changeTemplate = (name: TemplateBlock) => {
         isOpen.value = false;
 
-        modal.open(TemplateChange, {
-            name,
-        });
+        overlay.create(TemplateChange, { props: { name } });
     };
 
     return {

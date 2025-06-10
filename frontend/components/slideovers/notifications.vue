@@ -2,7 +2,7 @@
     <u-slideover>
         <div class="flex-1 p-4 overflow-y-auto bg-slate-400">
             <u-card
-                class="flex flex-col flex-1 shadow-sm bg-slate-200"
+                class="flex flex-col flex-1 shadow-xs bg-slate-200"
                 :ui="{
                     body: { base: 'flex-1' },
                     ring: '',
@@ -18,7 +18,6 @@
                         class="absolute z-10 flex sm:hidden end-5 top-5"
                         square
                         padded
-                        @click="slideover.close()"
                     />
 
                     <div class="flex items-center justify-between">
@@ -63,7 +62,7 @@
                     <u-button
                         v-for="notification in notifications"
                         :key="notification.id"
-                        class="flex items-center w-full gap-2 p-3 border rounded-lg shadow-sm border-slate-200 hover:bg-slate-100"
+                        class="flex items-center w-full gap-2 p-3 border rounded-lg shadow-xs border-slate-200 hover:bg-slate-100"
                         :label="notification.data.message"
                         icon="heroicons-outline:check-circle"
                         color="gray"
@@ -77,8 +76,6 @@
 
 <script lang="ts" setup>
 import type { Notification } from '~/types/notification';
-
-const slideover = useSlideover();
 
 onMounted(async () => {
     const { data } = await apiFetch<{ data: Notification[] }>(
@@ -117,8 +114,6 @@ const readNotification = async (notification: Notification) => {
         default:
             break;
     }
-
-    slideover.close();
 };
 
 const readAll = async () => {

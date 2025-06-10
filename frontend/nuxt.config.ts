@@ -102,7 +102,6 @@ export default defineNuxtConfig({
 
     postcss: {
         plugins: {
-            tailwindcss: {},
             autoprefixer: {},
         },
     },
@@ -114,13 +113,15 @@ export default defineNuxtConfig({
         ],
         defaultLocale: 'en',
         strategy: 'prefix_except_default',
-        langDir: './i18n/locales/',
         lazy: true,
         detectBrowserLanguage: {
             useCookie: true,
             cookieKey: 'i18n_redirected',
             alwaysRedirect: false,
             fallbackLocale: 'en',
+        },
+        bundle: {
+            optimizeTranslationDirective: false,
         },
     },
 });

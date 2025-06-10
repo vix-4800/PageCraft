@@ -13,7 +13,7 @@
         <img
             :src="article.image"
             :alt="article.title"
-            class="container w-full mt-8 bg-white bg-cover rounded"
+            class="container w-full mt-8 bg-white bg-cover rounded-sm"
         />
 
         <div

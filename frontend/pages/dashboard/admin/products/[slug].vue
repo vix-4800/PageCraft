@@ -4,25 +4,25 @@
 
         <u-form
             :state="product"
-            class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded"
+            class="flex flex-col min-w-full gap-6 space-y-4 overflow-x-auto rounded-sm"
             @submit="save"
         >
             <div class="px-1 space-y-2">
                 <h3 class="text-xl font-bold text-gray-800">Details</h3>
 
                 <div class="flex w-full gap-2">
-                    <u-form-group label="Name" class="w-1/2" name="name">
+                    <u-form-field label="Name" class="w-1/2" name="name">
                         <u-input v-model="product.name" color="blue" />
-                    </u-form-group>
+                    </u-form-field>
 
-                    <u-form-group label="Slug" class="w-1/2" name="slug">
+                    <u-form-field label="Slug" class="w-1/2" name="slug">
                         <u-input v-model="product.slug" color="blue" />
-                    </u-form-group>
+                    </u-form-field>
                 </div>
 
-                <u-form-group label="Description" name="description">
+                <u-form-field label="Description" name="description">
                     <u-textarea v-model="product.description" color="blue" />
-                </u-form-group>
+                </u-form-field>
             </div>
 
             <div class="grid grid-cols-2 grid-rows-3 gap-4">
@@ -75,32 +75,32 @@
                             class="space-y-3"
                         >
                             <div class="flex gap-2">
-                                <u-form-group label="Sku" class="w-1/3">
+                                <u-form-field label="Sku" class="w-1/3">
                                     <u-input
                                         v-model="variation.sku"
                                         color="blue"
                                         required
                                     />
-                                </u-form-group>
+                                </u-form-field>
 
-                                <u-form-group label="Price" class="w-1/3">
+                                <u-form-field label="Price" class="w-1/3">
                                     <u-input
                                         v-model="variation.price"
                                         color="blue"
                                         required
                                     />
-                                </u-form-group>
+                                </u-form-field>
 
-                                <u-form-group label="Quantity" class="w-1/3">
+                                <u-form-field label="Quantity" class="w-1/3">
                                     <u-input
                                         v-model="variation.stock"
                                         color="blue"
                                         required
                                     />
-                                </u-form-group>
+                                </u-form-field>
                             </div>
 
-                            <u-form-group label="Image">
+                            <u-form-field label="Image">
                                 <u-input
                                     color="blue"
                                     type="file"
@@ -122,7 +122,7 @@
                                         />
                                     </template>
                                 </u-input>
-                            </u-form-group>
+                            </u-form-field>
 
                             <div v-auto-animate class="flex flex-col gap-2">
                                 <h3 class="text-lg font-bold">
@@ -135,7 +135,7 @@
                                     :key="attribute.name"
                                     class="flex gap-2"
                                 >
-                                    <u-form-group
+                                    <u-form-field
                                         label="Name"
                                         class="w-1/2"
                                         name="attribute.name"
@@ -145,9 +145,9 @@
                                             color="blue"
                                             required
                                         />
-                                    </u-form-group>
+                                    </u-form-field>
 
-                                    <u-form-group
+                                    <u-form-field
                                         label="Value"
                                         class="w-1/2"
                                         name="attribute.value"
@@ -157,7 +157,7 @@
                                             color="blue"
                                             required
                                         />
-                                    </u-form-group>
+                                    </u-form-field>
                                 </div>
 
                                 <div class="flex gap-2">

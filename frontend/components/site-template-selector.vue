@@ -3,7 +3,7 @@
         <template v-if="mode === 'select'">
             <u-select-menu
                 :model-value="modelValue"
-                :options="options"
+                :items="options"
                 color="blue"
                 :disabled="options.length < 2"
                 value-attribute="value"
